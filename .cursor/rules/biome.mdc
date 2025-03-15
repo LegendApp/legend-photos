@@ -1,0 +1,9 @@
+# Use Biome for formatting and linting
+
+This project uses [Biome](https://biomejs.dev) for code formatting and linting.
+
+## Commands
+
+- Format code: `bun run format`
+- Lint code: `bun run lint`
+- Check and fix code: `bun run check`

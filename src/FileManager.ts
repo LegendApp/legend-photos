@@ -17,9 +17,7 @@ const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
  * @returns boolean indicating if the string is a photo file
  */
 function isPhotoFile(str: string): boolean {
-  return PHOTO_EXTENSIONS.some(ext =>
-    str.toLowerCase().endsWith(ext.toLowerCase()),
-  );
+  return PHOTO_EXTENSIONS.some((ext) => str.toLowerCase().endsWith(ext.toLowerCase()));
 }
 
 /**
@@ -27,15 +25,13 @@ function isPhotoFile(str: string): boolean {
  * @param folderPath - Path to the folder (defaults to DocumentDirectoryPath/photos)
  * @returns Promise with an array of file names (without full path)
  */
-export async function listPhotosInFolder(
-  folderPath: string = BASE_PATH,
-): Promise<string[]> {
+export async function listPhotosInFolder(folderPath: string = BASE_PATH): Promise<string[]> {
   try {
     // Read the directory contents
     const files = await readDir(folderPath);
 
     // Filter to only include photo files and extract just the filename
-    return files.filter(file => isPhotoFile(file.name)).map(file => file.name);
+    return files.filter((file) => isPhotoFile(file.name)).map((file) => file.name);
   } catch (error) {
     console.error('Error listing photos:', error);
     return [];
@@ -47,9 +43,7 @@ export async function listPhotosInFolder(
  * @param folderPath - Path to the folder (defaults to DocumentDirectoryPath/photos)
  * @returns Promise with an array of file paths (relative to the base folder)
  */
-export async function listPhotosRecursive(
-  folderPath: string = BASE_PATH,
-): Promise<string[]> {
+export async function listPhotosRecursive(folderPath: string = BASE_PATH): Promise<string[]> {
   try {
     const results: string[] = [];
     const items = await readDir(folderPath);
@@ -64,7 +58,7 @@ export async function listPhotosRecursive(
         const subResults = await listPhotosRecursive(itemPath);
         // Add the subfolder path to each result
         const relativePath = itemPath.replace(`${BASE_PATH}/`, '');
-        results.push(...subResults.map(file => `${relativePath}/${file}`));
+        results.push(...subResults.map((file) => `${relativePath}/${file}`));
       } else if (isPhotoFile(item.name)) {
         // If it's a photo file, add it to results
         results.push(item.name);

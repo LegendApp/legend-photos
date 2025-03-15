@@ -6,7 +6,9 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "mac": "react-native run-macos",
-    "lint": "eslint .",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
     "start": "react-native start",
     "test": "jest",
     "build": "cd macos && rm -fr build/Build/Products/Release/LegendAura.app && xcodebuild -workspace LegendAura.xcworkspace -scheme LegendAura-macOS -configuration Release -derivedDataPath ./build"
@@ -24,6 +26,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
+    "@biomejs/biome": "^1.9.4",
     "@react-native-community/cli": "15.0.0-alpha.2",
     "@react-native-community/cli-platform-android": "15.0.0-alpha.2",
     "@react-native-community/cli-platform-ios": "15.0.0-alpha.2",

@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View, useWindowDimensions} from 'react-native';
-import {LegendList} from './src/LegendList';
-import {listPhotosInFolder} from './FileManager';
-import {DocumentDirectoryPath} from '@dr.pogodin/react-native-fs';
-import {observable} from '@legendapp/state';
-import {useSelector} from '@legendapp/state/react';
+import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
+import { observable } from '@legendapp/state';
+import { useSelector } from '@legendapp/state/react';
+import React, { useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { listPhotosInFolder } from './FileManager';
+import { LegendList } from './src/LegendList';
 
 interface PhotosProps {
   selectedFolder: string;
@@ -15,7 +15,7 @@ const photos$ = observable<string[]>([]);
 
 // Calculate the number of columns based on screen width
 const useGridColumns = () => {
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
   // Adjust these values based on desired photo size
   const PHOTO_MAX_SIZE = 200;
 
@@ -24,7 +24,7 @@ const useGridColumns = () => {
   return columns;
 };
 
-function PhotosApp({selectedFolder}: PhotosProps) {
+function PhotosApp({ selectedFolder }: PhotosProps) {
   const numColumns = useGridColumns();
   const photos = useSelector(photos$);
   const [loading, setLoading] = useState(false);
@@ -55,17 +55,13 @@ function PhotosApp({selectedFolder}: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
-  const renderPhoto = ({item}: {item: string; index: number}) => {
+  const renderPhoto = ({ item }: { item: string; index: number }) => {
     const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
     const photoUri = `file://${folderPath}/${item}`;
 
     return (
       <View style={styles.photoContainer}>
-        <Image
-          source={{uri: photoUri}}
-          style={styles.photo}
-          resizeMode="cover"
-        />
+        <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
       </View>
     );
   };
@@ -109,7 +105,7 @@ function PhotosApp({selectedFolder}: PhotosProps) {
         renderItem={renderPhoto}
         numColumns={numColumns}
         estimatedItemSize={200}
-        keyExtractor={item => item}
+        keyExtractor={(item) => item}
         contentContainerStyle={styles.listContent}
       />
     </View>

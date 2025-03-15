@@ -1,15 +1,8 @@
-import {observable} from '@legendapp/state';
-import {useSelector, useMount} from '@legendapp/state/react';
+import { observable } from '@legendapp/state';
+import { useMount, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import {
-  PlatformColor,
-  Pressable,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {listFilesInFolder} from './FileManager';
+import { PlatformColor, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { listFilesInFolder } from './FileManager';
 
 interface SidebarProps {
   onFileSelect: (fileName: string) => void;
@@ -29,26 +22,19 @@ function File({
 }) {
   return (
     <Pressable
-      style={[
-        styles.fileItem,
-        selectedFile === file && styles.selectedFileItem,
-      ]}
-      onPress={() => onFileSelect(file)}>
+      style={[styles.fileItem, selectedFile === file && styles.selectedFileItem]}
+      onPress={() => onFileSelect(file)}
+    >
       <Text
         style={[
           styles.fileText,
           {
             color:
-              selectedFile === file
-                ? isDarkMode
-                  ? '#fff'
-                  : '#333'
-                : isDarkMode
-                ? '#bbb'
-                : '#333',
+              selectedFile === file ? (isDarkMode ? '#fff' : '#333') : isDarkMode ? '#bbb' : '#333',
           },
           selectedFile === file && styles.selectedFileText,
-        ]}>
+        ]}
+      >
         {file}
       </Text>
     </Pressable>
@@ -57,7 +43,7 @@ function File({
 
 const files$ = observable(listFilesInFolder);
 
-function Sidebar({onFileSelect, selectedFile}: SidebarProps) {
+function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
   const isDarkMode = useColorScheme() === 'dark';
   const files = useSelector(files$);
 

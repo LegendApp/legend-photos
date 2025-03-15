@@ -1,9 +1,9 @@
-import {observable} from '@legendapp/state';
-import {useSelector} from '@legendapp/state/react';
-import React from 'react';
-import {PlatformColor, SafeAreaView, StyleSheet, View} from 'react-native';
-import Sidebar from './Sidebar';
+import { observable } from '@legendapp/state';
+import { useSelector } from '@legendapp/state/react';
+import type React from 'react';
+import { PlatformColor, SafeAreaView, StyleSheet, View } from 'react-native';
 import PhotosApp from './Photos';
+import Sidebar from './Sidebar';
 
 const selectedFolder$ = observable<string>('');
 
@@ -17,10 +17,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <Sidebar
-          onFileSelect={handleFileSelect}
-          selectedFile={selectedFolder || undefined}
-        />
+        <Sidebar onFileSelect={handleFileSelect} selectedFile={selectedFolder || undefined} />
 
         <View style={styles.mainContent}>
           <PhotosApp selectedFolder={selectedFolder} />

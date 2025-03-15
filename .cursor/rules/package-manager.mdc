@@ -1,0 +1,29 @@
+# Use Bun for package management
+
+Always use Bun instead of npm or yarn for package management in this project.
+
+## Rules
+
+- Use `bun install` instead of `npm install` or `yarn install`
+- Use `bun add` instead of `npm i`, `npm add`, or `yarn add`
+- Use `bun remove` instead of `npm uninstall`, `npm remove`, or `yarn remove`
+- Use `bun run` instead of `npm run` or `yarn run`
+
+## Examples
+
+```bash
+# Installing dependencies
+bun install
+
+# Adding a package
+bun add react-native-reanimated
+
+# Adding a dev dependency
+bun add -d @types/react
+
+# Removing a package
+bun remove unused-package
+
+# Running scripts
+bun run mac
+```
