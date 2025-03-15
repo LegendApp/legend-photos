@@ -57,6 +57,13 @@ export function usePhotosKeyboardManager() {
           }
           break;
 
+        case KeyCodes.KEY_ESCAPE:
+          // Exit fullscreen
+          if (state$.fullscreenPhoto.get()) {
+            state$.fullscreenPhoto.set(null);
+          }
+          break;
+
         // case KeyCodes.KEY_DELETE:
         // case KeyCodes.KEY_BACKSPACE:
         //   // Delete current photo

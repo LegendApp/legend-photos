@@ -1,5 +1,5 @@
 import { useSelector } from '@legendapp/state/react';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { state$ } from './State';
 
@@ -14,9 +14,23 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
   const photoRef = useRef<View>(null);
   const selectedIndex = useSelector(state$.selectedPhotoIndex);
   const isSelected = selectedIndex === index;
+  const [lastTap, setLastTap] = useState<number>(0);
 
   const handlePress = () => {
     state$.selectedPhotoIndex.set(index);
+
+    const now = Date.now();
+    const DOUBLE_PRESS_DELAY = 300;
+
+    if (now - lastTap < DOUBLE_PRESS_DELAY) {
+      // Double tap detected
+      openFullscreen();
+    }
+
+    setLastTap(now);
+  };
+
+  const openFullscreen = () => {
     if (photoRef.current && !state$.fullscreenPhoto.get()) {
       photoRef.current.measureInWindow((x, y, width, height) => {
         state$.fullscreenPhoto.set({

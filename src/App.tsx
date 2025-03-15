@@ -1,7 +1,7 @@
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { PlatformColor, SafeAreaView, StyleSheet, View } from 'react-native';
+import { PlatformColor, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
 import { PhotosView } from './PhotosView';
@@ -18,6 +18,7 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar />
       <View style={styles.contentContainer}>
         <Sidebar onFileSelect={handleFileSelect} selectedFile={selectedFolder || undefined} />
 

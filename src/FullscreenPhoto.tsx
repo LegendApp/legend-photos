@@ -4,7 +4,7 @@ import { Animated, Dimensions, Image, Pressable, StatusBar, StyleSheet } from 'r
 import { state$ } from './State';
 
 const SpringOpen = {
-  bounciness: 4,
+  bounciness: 3,
   speed: 24,
 };
 
