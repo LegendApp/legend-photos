@@ -2,7 +2,6 @@ import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import { useEffect, useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
-
 // Observable to store window dimensions
 export const windowDimensions$ = observable({
   width: 0,

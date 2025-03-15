@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
+import { usePhotosKeyboardManager } from './PhotosKeyboardManager';
 import { photos$, selectedPhotoIndex$ } from './State';
 import { LegendList } from './src/LegendList';
 
@@ -36,6 +37,10 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   const photos = useSelector(photos$);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Set up keyboard shortcuts
+  usePhotosKeyboardManager(isFullscreen, setIsFullscreen, handleDeletePhoto);
 
   useEffect(() => {
     const loadPhotos = async () => {
@@ -62,6 +67,23 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
+  // Function to handle photo deletion
+  function handleDeletePhoto(index: number) {
+    // Implement photo deletion logic here
+    console.log(`Delete photo at index ${index}`);
+
+    // For now, just remove it from the array
+    const newPhotos = [...photos];
+    newPhotos.splice(index, 1);
+    photos$.set(newPhotos);
+
+    // Adjust selected index if needed
+    const currentIndex = selectedPhotoIndex$.get() ?? 0;
+    if (currentIndex >= newPhotos.length) {
+      selectedPhotoIndex$.set(Math.max(0, newPhotos.length - 1));
+    }
+  }
+
   const renderPhoto = ({ item, index }: { item: string; index: number }) => {
     const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
     return (
@@ -70,6 +92,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
         folderPath={folderPath}
         index={index}
         selectedPhotoIndex$={selectedPhotoIndex$}
+        isFullscreen={isFullscreen}
       />
     );
   };
@@ -107,12 +130,12 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, isFullscreen && styles.fullscreen]}>
       <LegendList
         data={photos}
         renderItem={renderPhoto}
-        numColumns={numColumns}
-        estimatedItemSize={200}
+        numColumns={isFullscreen ? 1 : numColumns}
+        estimatedItemSize={isFullscreen ? 500 : 200}
         keyExtractor={(item) => item}
         contentContainerStyle={styles.listContent}
       />
@@ -123,6 +146,15 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  fullscreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'black',
+    zIndex: 1000,
   },
   centerContainer: {
     flex: 1,

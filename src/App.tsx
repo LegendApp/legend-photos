@@ -26,7 +26,6 @@ function App(): React.JSX.Element {
         </View>
       </View>
       <FullscreenPhoto />
-
       <HookWindowDimensions />
     </SafeAreaView>
   );
@@ -35,17 +34,14 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    // Use PlatformColor for system-specific colors that adapt to theme changes
-    // backgroundColor: PlatformColor('SystemBackgroundColor'),
+    backgroundColor: PlatformColor('windowBackgroundColor'),
   },
   contentContainer: {
-    flexDirection: 'row',
     flex: 1,
+    flexDirection: 'row',
   },
   mainContent: {
     flex: 1,
-    flexDirection: 'column',
   },
   webview: {
     flex: 1,
@@ -93,6 +89,18 @@ const styles = StyleSheet.create({
     color: PlatformColor('SystemSecondaryLabelColor'),
     textAlign: 'center',
     maxWidth: 300,
+  },
+  keyboardDebug: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: 5,
+    borderRadius: 5,
+  },
+  keyboardText: {
+    color: 'white',
+    fontSize: 12,
   },
 });
 

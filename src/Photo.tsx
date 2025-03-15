@@ -2,16 +2,23 @@ import type { ObservablePrimitive } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { showFullscreenPhoto, togglePhotoSelection } from './State';
+import { showFullscreenPhoto } from './State';
 
 interface PhotoProps {
   photoName: string;
   folderPath: string;
   index: number;
   selectedPhotoIndex$: ObservablePrimitive<number | null>;
+  isFullscreen?: boolean;
 }
 
-export const Photo = ({ photoName, folderPath, index, selectedPhotoIndex$ }: PhotoProps) => {
+export const Photo = ({
+  photoName,
+  folderPath,
+  index,
+  selectedPhotoIndex$,
+  isFullscreen = false,
+}: PhotoProps) => {
   const photoUri = `file://${folderPath}/${photoName}`;
   const photoRef = useRef<View>(null);
   const selectedIndex = useSelector(selectedPhotoIndex$);
@@ -19,7 +26,7 @@ export const Photo = ({ photoName, folderPath, index, selectedPhotoIndex$ }: Pho
 
   const handlePress = () => {
     selectedPhotoIndex$.set(index);
-    if (photoRef.current) {
+    if (photoRef.current && !isFullscreen) {
       photoRef.current.measureInWindow((x, y, width, height) => {
         showFullscreenPhoto({
           uri: photoUri,
@@ -35,9 +42,16 @@ export const Photo = ({ photoName, folderPath, index, selectedPhotoIndex$ }: Pho
   };
 
   return (
-    <View ref={photoRef} style={styles.photoContainer}>
+    <View
+      ref={photoRef}
+      style={[styles.photoContainer, isFullscreen && styles.fullscreenContainer]}
+    >
       <Pressable onPress={handlePress} style={styles.pressable}>
-        <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
+        <Image
+          source={{ uri: photoUri }}
+          style={styles.photo}
+          resizeMode={isFullscreen ? 'contain' : 'cover'}
+        />
         {isSelected && <View style={styles.selectionBorder} />}
       </Pressable>
     </View>
@@ -51,6 +65,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  fullscreenContainer: {
+    margin: 0,
+    aspectRatio: undefined,
+    borderRadius: 0,
+    flex: 1,
+    backgroundColor: 'black',
   },
   selectionBorder: {
     position: 'absolute',

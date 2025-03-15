@@ -13,6 +13,10 @@
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
 		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendAura-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */; };
+		699BFD862D8592E2000F2A33 /* KeyboardManagerModules.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD812D8592E2000F2A33 /* KeyboardManagerModules.m */; };
+		699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */; };
+		699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */; };
+		699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */; };
 		D1C61F20F5A021D6CCF2371F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4F8EEDA247044CE1FAE37B40 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +33,10 @@
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* LegendAura.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendAura.entitlements; sourceTree = "<group>"; };
 		6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerBridge.m; sourceTree = "<group>"; };
+		699BFD812D8592E2000F2A33 /* KeyboardManagerModules.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerModules.m; sourceTree = "<group>"; };
+		699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNKeyboardManager.swift; sourceTree = "<group>"; };
 		6E3A4903C70CA590711C8752 /* Pods-LegendAura-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -64,6 +72,7 @@
 		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				699BFD832D8592E2000F2A33 /* KeyboardManager */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
@@ -73,6 +82,17 @@
 				514201592437B4B40078DB4F /* LegendAura.entitlements */,
 			);
 			path = "LegendAura-macOS";
+			sourceTree = "<group>";
+		};
+		699BFD832D8592E2000F2A33 /* KeyboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */,
+				699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */,
+				699BFD812D8592E2000F2A33 /* KeyboardManagerModules.m */,
+				699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */,
+			);
+			path = KeyboardManager;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -329,6 +349,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				699BFD862D8592E2000F2A33 /* KeyboardManagerModules.m in Sources */,
+				699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */,
+				699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */,
+				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
 			);
@@ -492,10 +516,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -551,10 +572,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
