@@ -1,4 +1,7 @@
-import { observable } from '@legendapp/state';
+import { observable, observe } from '@legendapp/state';
+import { NativeModules } from 'react-native';
+
+const WindowControls = NativeModules.WindowControls;
 
 // Define the interface for the fullscreen photo data
 export interface FullscreenPhotoData {
@@ -19,4 +22,17 @@ export const state$ = observable({
   sidebarWidth: 160 as number,
   isSidebarOpen: true,
   numColumns: 1 as number,
+  isPhotoFullscreenCoveringControls: false,
+});
+
+observe(() => {
+  const isPhotoFullscreenCoveringControls = state$.isPhotoFullscreenCoveringControls.get();
+  const isSidebarOpen = state$.isSidebarOpen.get();
+
+  const hide = isPhotoFullscreenCoveringControls || !isSidebarOpen;
+  if (hide) {
+    WindowControls.hideWindowControls();
+  } else {
+    WindowControls.showWindowControls();
+  }
 });

@@ -7,7 +7,6 @@ import {
   NativeModules,
   Platform,
   Pressable,
-  StatusBar,
   StyleSheet,
 } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
@@ -48,15 +47,10 @@ export const FullscreenPhoto = () => {
       animatedWidth.setValue(fullscreenData.initialPosition.width);
       animatedHeight.setValue(fullscreenData.initialPosition.height);
 
-      // Hide status bar
-      StatusBar.setHidden(true);
-
       // Hide window controls (stoplight buttons) if on macOS
-      if (WindowControls?.hideWindowControls) {
-        setTimeout(() => {
-          WindowControls.hideWindowControls();
-        }, 150);
-      }
+      setTimeout(() => {
+        state$.isPhotoFullscreenCoveringControls.set(true);
+      }, 150);
 
       // Animate to fullscreen
       Animated.sequence([
@@ -102,34 +96,35 @@ export const FullscreenPhoto = () => {
   ]);
 
   const closeFullscreen = () => {
-    if (!fullscreenData) {
+    const fullscreenPhoto = state$.fullscreenPhoto.get();
+    if (!fullscreenPhoto) {
       return;
     }
 
-    // Show window controls (stoplight buttons) if on macOS
     if (WindowControls?.showWindowControls) {
-      WindowControls.showWindowControls();
+      // Show window controls (stoplight buttons) if on macOS
+      state$.isPhotoFullscreenCoveringControls.set(false);
     }
 
     // Animate back to original position and size
     Animated.parallel([
       Animated.spring(animatedPositionX, {
-        toValue: fullscreenData.initialPosition.x,
+        toValue: fullscreenPhoto.initialPosition.x,
         useNativeDriver: false,
         ...SpringClose,
       }),
       Animated.spring(animatedPositionY, {
-        toValue: fullscreenData.initialPosition.y,
+        toValue: fullscreenPhoto.initialPosition.y,
         useNativeDriver: false,
         ...SpringClose,
       }),
       Animated.spring(animatedWidth, {
-        toValue: fullscreenData.initialPosition.width,
+        toValue: fullscreenPhoto.initialPosition.width,
         useNativeDriver: false,
         ...SpringClose,
       }),
       Animated.spring(animatedHeight, {
-        toValue: fullscreenData.initialPosition.height,
+        toValue: fullscreenPhoto.initialPosition.height,
         useNativeDriver: false,
         ...SpringClose,
       }),
