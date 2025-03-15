@@ -14,8 +14,7 @@ class RNKeyboardManager: RCTEventEmitter {
     @objc override func supportedEvents() -> [String] {
         return [
             "onKeyDown",
-            "onKeyUp",
-            "onGlobalKeyPress"
+            "onKeyUp"
         ]
     }
 
