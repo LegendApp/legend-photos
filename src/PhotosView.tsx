@@ -2,8 +2,9 @@ import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
+import { useBreakpoints } from './HookWindowDimensions';
 import { LegendList } from './src/LegendList';
 
 interface PhotosProps {
@@ -13,18 +14,26 @@ interface PhotosProps {
 // Observable state for photos
 const photos$ = observable<string[]>([]);
 
+const breakpoints = {
+  640: 'sm',
+  768: 'md',
+  1024: 'lg',
+  1280: 'xl',
+} as const;
+
 // Calculate the number of columns based on screen width
 const useGridColumns = () => {
-  const { width } = useWindowDimensions();
+  const { breakpointWidth } = useBreakpoints(breakpoints);
   // Adjust these values based on desired photo size
   const PHOTO_MAX_SIZE = 200;
 
   // Calculate columns based on available width
-  const columns = Math.max(1, Math.floor(width / PHOTO_MAX_SIZE));
+  const columns = Math.max(1, Math.floor(breakpointWidth / PHOTO_MAX_SIZE));
+
   return columns;
 };
 
-function PhotosApp({ selectedFolder }: PhotosProps) {
+export function PhotosView({ selectedFolder }: PhotosProps) {
   const numColumns = useGridColumns();
   const photos = useSelector(photos$);
   const [loading, setLoading] = useState(false);
@@ -125,7 +134,6 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   photoContainer: {
-    flex: 1,
     margin: 4,
     aspectRatio: 1,
     borderRadius: 8,
@@ -140,5 +148,3 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 });
-
-export default PhotosApp;

@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# General app structure
+
+- Prefer named exports rather than default exports
+- Prefer Legend State useObservable and use$ rather than useState
+- If I ask to make a component, put it in its own file unless I specify otherwise

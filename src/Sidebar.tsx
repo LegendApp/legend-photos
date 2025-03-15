@@ -1,8 +1,12 @@
 import { observable } from '@legendapp/state';
-import { useMount, useSelector } from '@legendapp/state/react';
+import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { PlatformColor, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
-import { listFilesInFolder } from './FileManager';
+import {
+  listFoldersWithPhotosRecursive,
+  listPhotosInFolder,
+  listPhotosRecursive,
+} from './FileManager';
 
 interface SidebarProps {
   onFileSelect: (fileName: string) => void;
@@ -41,7 +45,7 @@ function File({
   );
 }
 
-const files$ = observable(listFilesInFolder);
+const files$ = observable(listFoldersWithPhotosRecursive);
 
 function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,7 +56,7 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
       <View style={styles.fileList}>
         {files?.map((file, index) => (
           <File
-            key={index}
+            key={file}
             file={file}
             isDarkMode={isDarkMode}
             selectedFile={selectedFile}

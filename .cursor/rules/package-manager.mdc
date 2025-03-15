@@ -1,3 +1,8 @@
+---
+description: Installing packages
+globs: 
+alwaysApply: false
+---
 # Use Bun for package management
 
 Always use Bun instead of npm or yarn for package management in this project.

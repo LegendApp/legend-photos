@@ -1,10 +1,4 @@
-import {
-  DocumentDirectoryPath,
-  exists,
-  readDir,
-  readFile,
-  stat,
-} from '@dr.pogodin/react-native-fs';
+import { DocumentDirectoryPath, readDir, stat } from '@dr.pogodin/react-native-fs';
 
 const BASE_PATH = `${DocumentDirectoryPath}/photos`;
 
@@ -68,6 +62,50 @@ export async function listPhotosRecursive(folderPath: string = BASE_PATH): Promi
     return results;
   } catch (error) {
     console.error('Error listing photos recursively:', error);
+    return [];
+  }
+}
+
+/**
+ * Lists all folders that contain photo files in a specified folder and its subfolders
+ * @param folderPath - Path to the folder (defaults to DocumentDirectoryPath/photos)
+ * @returns Promise with an array of folder paths (relative to the base folder)
+ */
+export async function listFoldersWithPhotosRecursive(
+  folderPath: string = BASE_PATH
+): Promise<string[]> {
+  try {
+    const folders: string[] = [];
+    const items = await readDir(folderPath);
+
+    let hasPhotos = false;
+
+    // Process each item in the directory
+    for (const item of items) {
+      const itemPath = `${folderPath}/${item.name}`;
+      const itemStat = await stat(itemPath);
+
+      if (itemStat.isDirectory()) {
+        // If it's a directory, recursively scan it
+        const subFolders = await listFoldersWithPhotosRecursive(itemPath);
+        // Add the subfolder paths to results
+        folders.push(...subFolders);
+      } else if (!hasPhotos && isPhotoFile(item.name)) {
+        // If this folder has at least one photo, mark it
+        hasPhotos = true;
+      }
+    }
+
+    // If this folder has photos, add it to the results
+    if (hasPhotos) {
+      // Get the relative path from the base
+      const relativePath = folderPath === BASE_PATH ? '' : folderPath.replace(`${BASE_PATH}/`, '');
+      folders.push(relativePath);
+    }
+
+    return folders;
+  } catch (error) {
+    console.error('Error listing folders with photos:', error);
     return [];
   }
 }
