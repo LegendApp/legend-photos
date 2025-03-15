@@ -1,14 +1,9 @@
 import {observable} from '@legendapp/state';
 import {useSelector} from '@legendapp/state/react';
 import React from 'react';
-import {
-  PlatformColor,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {PlatformColor, SafeAreaView, StyleSheet, View} from 'react-native';
 import Sidebar from './Sidebar';
+import PhotosApp from './Photos';
 
 const selectedFolder$ = observable<string>('');
 
@@ -28,7 +23,7 @@ function App(): React.JSX.Element {
         />
 
         <View style={styles.mainContent}>
-          <Text>Main</Text>
+          <PhotosApp selectedFolder={selectedFolder} />
         </View>
       </View>
     </SafeAreaView>
