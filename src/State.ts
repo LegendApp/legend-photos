@@ -12,9 +12,11 @@ export interface FullscreenPhotoData {
 }
 
 export const state$ = observable({
-  photos: observable<string[]>([]),
-  selectedPhotoIndex: observable<number | null>(null),
-  fullscreenPhoto: observable<FullscreenPhotoData | null>(null),
-  sidebarWidth: observable<number>(160),
-  numColumns: observable<number>(1),
+  photos: [] as string[],
+  selectedFolder: '',
+  selectedPhotoIndex: null as number | null,
+  fullscreenPhoto: null as FullscreenPhotoData | null,
+  sidebarWidth: 160 as number,
+  isSidebarOpen: true,
+  numColumns: 1 as number,
 });

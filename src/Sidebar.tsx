@@ -1,7 +1,15 @@
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { PlatformColor, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import {
+  Animated,
+  PlatformColor,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
 import { listFoldersWithPhotosRecursive } from './FileManager';
 import { state$ } from './State';
 
@@ -49,10 +57,8 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
   const files = useSelector(files$);
   const sidebarWidth = useSelector(state$.sidebarWidth);
 
-  console.log('sidebarWidth', sidebarWidth);
-
   return (
-    <View style={[styles.container, { width: sidebarWidth }]}>
+    <Animated.View style={[styles.container, { width: sidebarWidth }]}>
       <View style={styles.fileList}>
         {files?.map((file) => (
           <File
@@ -64,7 +70,7 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
           />
         ))}
       </View>
-    </View>
+    </Animated.View>
   );
 }
 

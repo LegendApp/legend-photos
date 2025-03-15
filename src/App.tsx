@@ -1,32 +1,27 @@
-import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { PlatformColor, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { PlatformColor, SafeAreaView, StyleSheet, View } from 'react-native';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
 import { useHookKeyboard } from './Keyboard';
-import { PhotosView } from './PhotosView';
+import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
-
-const selectedFolder$ = observable<string>('');
+import { state$ } from './State';
 
 function App(): React.JSX.Element {
   useHookKeyboard();
-  const selectedFolder = useSelector(selectedFolder$);
+
+  const selectedFolder = useSelector(state$.selectedFolder);
 
   const handleFileSelect = (file: string) => {
-    selectedFolder$.set(file);
+    state$.selectedFolder.set(file);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
       <View style={styles.contentContainer}>
         <Sidebar onFileSelect={handleFileSelect} selectedFile={selectedFolder || undefined} />
-
-        <View style={styles.mainContent}>
-          <PhotosView selectedFolder={selectedFolder} />
-        </View>
+        <PhotosViewContainer />
       </View>
       <FullscreenPhoto />
       <HookWindowDimensions />
@@ -44,6 +39,10 @@ const styles = StyleSheet.create({
   },
   mainContent: {
     flex: 1,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
   },
   webview: {
     flex: 1,
