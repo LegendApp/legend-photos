@@ -3,10 +3,9 @@ import { useSelector } from '@legendapp/state/react';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
-import { FullscreenPhoto } from './FullscreenPhoto';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
-import { photos$ } from './State';
+import { photos$, selectedPhotoIndex$ } from './State';
 import { LegendList } from './src/LegendList';
 
 interface PhotosProps {
@@ -63,9 +62,16 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
-  const renderPhoto = ({ item }: { item: string; index: number }) => {
+  const renderPhoto = ({ item, index }: { item: string; index: number }) => {
     const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-    return <Photo photoName={item} folderPath={folderPath} />;
+    return (
+      <Photo
+        photoName={item}
+        folderPath={folderPath}
+        index={index}
+        selectedPhotoIndex$={selectedPhotoIndex$}
+      />
+    );
   };
 
   if (loading) {

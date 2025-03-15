@@ -34,3 +34,12 @@ export const sidebarWidth$ = observable<number>(220);
 export const setSidebarWidth = (width: number) => {
   sidebarWidth$.set(width);
 };
+
+// Selected photo index state
+export const selectedPhotoIndex$ = observable<number | null>(null);
+
+// Helper function to toggle photo selection
+export const togglePhotoSelection = (index: number) => {
+  const currentIndex = selectedPhotoIndex$.get();
+  selectedPhotoIndex$.set(currentIndex === index ? null : index);
+};

@@ -1,17 +1,24 @@
+import type { ObservablePrimitive } from '@legendapp/state';
+import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { showFullscreenPhoto, sidebarWidth$ } from './State';
+import { showFullscreenPhoto, togglePhotoSelection } from './State';
 
 interface PhotoProps {
   photoName: string;
   folderPath: string;
+  index: number;
+  selectedPhotoIndex$: ObservablePrimitive<number | null>;
 }
 
-export const Photo = ({ photoName, folderPath }: PhotoProps) => {
+export const Photo = ({ photoName, folderPath, index, selectedPhotoIndex$ }: PhotoProps) => {
   const photoUri = `file://${folderPath}/${photoName}`;
   const photoRef = useRef<View>(null);
+  const selectedIndex = useSelector(selectedPhotoIndex$);
+  const isSelected = selectedIndex === index;
 
   const handlePress = () => {
+    selectedPhotoIndex$.set(index);
     if (photoRef.current) {
       photoRef.current.measureInWindow((x, y, width, height) => {
         showFullscreenPhoto({
@@ -29,12 +36,9 @@ export const Photo = ({ photoName, folderPath }: PhotoProps) => {
 
   return (
     <View ref={photoRef} style={styles.photoContainer}>
-      <Pressable
-        onPress={handlePress}
-        android_ripple={{ color: 'rgba(0,0,0,0.1)' }}
-        style={styles.pressable}
-      >
+      <Pressable onPress={handlePress} style={styles.pressable}>
         <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
+        {isSelected && <View style={styles.selectionBorder} />}
       </Pressable>
     </View>
   );
@@ -47,6 +51,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  selectionBorder: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderWidth: 3,
+    borderColor: 'yellow',
+    borderRadius: 8,
+    pointerEvents: 'none',
   },
   pressable: {
     width: '100%',
