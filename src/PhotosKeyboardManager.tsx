@@ -1,5 +1,5 @@
 import { KeyCodes } from './KeyboardManager';
-import { photos$, selectedPhotoIndex$ } from './State';
+import { state$ } from './State';
 import { useKeyboard } from './useKeyboard';
 
 /**
@@ -12,14 +12,9 @@ import { useKeyboard } from './useKeyboard';
  * - F: Toggle fullscreen
  * - Escape: Exit fullscreen
  */
-export function usePhotosKeyboardManager(
-  isFullscreen: boolean,
-  setIsFullscreen: (value: boolean) => void,
-  deletePhoto?: (index: number) => void
-) {
+export function usePhotosKeyboardManager() {
   // Get the current state
-  const selectedPhotoIndex = selectedPhotoIndex$.get() ?? 0;
-  const photos = photos$.get();
+  const photos = state$.photos.get();
 
   console.log('usePhotosKeyboardManager');
 
@@ -27,6 +22,11 @@ export function usePhotosKeyboardManager(
   useKeyboard({
     onKeyDown: (event) => {
       console.log('key down', event.keyCode);
+
+      const selectedPhotoIndex = state$.selectedPhotoIndex.get() ?? 0;
+      const numColumns = state$.numColumns.get();
+      const selectedPhotoIndex$ = state$.selectedPhotoIndex;
+
       // Handle navigation keys
       switch (event.keyCode) {
         case KeyCodes.KEY_LEFT:
@@ -43,25 +43,39 @@ export function usePhotosKeyboardManager(
           }
           break;
 
-        case KeyCodes.KEY_DELETE:
-        case KeyCodes.KEY_BACKSPACE:
-          // Delete current photo
-          if (deletePhoto && selectedPhotoIndex >= 0 && selectedPhotoIndex < photos.length) {
-            deletePhoto(selectedPhotoIndex);
+        case KeyCodes.KEY_UP:
+          // Previous row
+          if (selectedPhotoIndex >= numColumns) {
+            selectedPhotoIndex$.set(selectedPhotoIndex - numColumns);
           }
           break;
 
-        case KeyCodes.KEY_F:
-          // Toggle fullscreen
-          setIsFullscreen(!isFullscreen);
-          break;
-
-        case KeyCodes.KEY_ESCAPE:
-          // Exit fullscreen
-          if (isFullscreen) {
-            setIsFullscreen(false);
+        case KeyCodes.KEY_DOWN:
+          // Next row
+          if (selectedPhotoIndex < photos.length - numColumns) {
+            selectedPhotoIndex$.set(selectedPhotoIndex + numColumns);
           }
           break;
+
+        // case KeyCodes.KEY_DELETE:
+        // case KeyCodes.KEY_BACKSPACE:
+        //   // Delete current photo
+        //   if (deletePhoto && selectedPhotoIndex >= 0 && selectedPhotoIndex < photos.length) {
+        //     deletePhoto(selectedPhotoIndex);
+        //   }
+        //   break;
+
+        // case KeyCodes.KEY_F:
+        //   // Toggle fullscreen
+        //   isFullscreen$.set(!isFullscreen);
+        //   break;
+
+        // case KeyCodes.KEY_ESCAPE:
+        //   // Exit fullscreen
+        //   if (isFullscreen) {
+        //     isFullscreen$.set(false);
+        //   }
+        //   break;
       }
     },
   });

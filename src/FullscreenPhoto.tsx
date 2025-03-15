@@ -1,7 +1,7 @@
 import { use$ } from '@legendapp/state/react';
 import React, { useEffect } from 'react';
 import { Animated, Dimensions, Image, Pressable, StatusBar, StyleSheet } from 'react-native';
-import { fullscreenPhoto$, hideFullscreenPhoto } from './State';
+import { state$ } from './State';
 
 const SpringOpen = {
   bounciness: 4,
@@ -15,7 +15,7 @@ const SpringClose = {
 
 export const FullscreenPhoto = () => {
   // Use the global observable
-  const fullscreenData = use$(fullscreenPhoto$);
+  const fullscreenData = use$(state$.fullscreenPhoto);
   const dimensions = Dimensions.get('window');
 
   // Animation values
@@ -120,7 +120,7 @@ export const FullscreenPhoto = () => {
     }).start(() => {
       console.log(performance.now(), 'opacity animated');
 
-      hideFullscreenPhoto();
+      state$.fullscreenPhoto.set(null);
     });
   };
 

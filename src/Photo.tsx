@@ -1,34 +1,25 @@
-import type { ObservablePrimitive } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
-import { showFullscreenPhoto } from './State';
+import { state$ } from './State';
 
 interface PhotoProps {
   photoName: string;
   folderPath: string;
   index: number;
-  selectedPhotoIndex$: ObservablePrimitive<number | null>;
-  isFullscreen?: boolean;
 }
 
-export const Photo = ({
-  photoName,
-  folderPath,
-  index,
-  selectedPhotoIndex$,
-  isFullscreen = false,
-}: PhotoProps) => {
+export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
   const photoUri = `file://${folderPath}/${photoName}`;
   const photoRef = useRef<View>(null);
-  const selectedIndex = useSelector(selectedPhotoIndex$);
+  const selectedIndex = useSelector(state$.selectedPhotoIndex);
   const isSelected = selectedIndex === index;
 
   const handlePress = () => {
-    selectedPhotoIndex$.set(index);
-    if (photoRef.current && !isFullscreen) {
+    state$.selectedPhotoIndex.set(index);
+    if (photoRef.current && !state$.fullscreenPhoto.get()) {
       photoRef.current.measureInWindow((x, y, width, height) => {
-        showFullscreenPhoto({
+        state$.fullscreenPhoto.set({
           uri: photoUri,
           initialPosition: {
             x,
@@ -42,16 +33,9 @@ export const Photo = ({
   };
 
   return (
-    <View
-      ref={photoRef}
-      style={[styles.photoContainer, isFullscreen && styles.fullscreenContainer]}
-    >
+    <View ref={photoRef} style={[styles.photoContainer]}>
       <Pressable onPress={handlePress} style={styles.pressable}>
-        <Image
-          source={{ uri: photoUri }}
-          style={styles.photo}
-          resizeMode={isFullscreen ? 'contain' : 'cover'}
-        />
+        <Image source={{ uri: photoUri }} style={styles.photo} resizeMode={'cover'} />
         {isSelected && <View style={styles.selectionBorder} />}
       </Pressable>
     </View>

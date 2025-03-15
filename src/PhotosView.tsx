@@ -6,7 +6,7 @@ import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { usePhotosKeyboardManager } from './PhotosKeyboardManager';
-import { photos$, selectedPhotoIndex$ } from './State';
+import { state$ } from './State';
 import { LegendList } from './src/LegendList';
 
 interface PhotosProps {
@@ -29,23 +29,26 @@ const useGridColumns = () => {
   // Calculate columns based on available width
   const columns = Math.max(1, Math.floor(breakpointWidth / PHOTO_MAX_SIZE));
 
+  useEffect(() => {
+    state$.numColumns.set(columns);
+  }, [columns]);
+
   return columns;
 };
 
 export function PhotosView({ selectedFolder }: PhotosProps) {
   const numColumns = useGridColumns();
-  const photos = useSelector(photos$);
+  const photos = useSelector(state$.photos);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Set up keyboard shortcuts
-  usePhotosKeyboardManager(isFullscreen, setIsFullscreen, handleDeletePhoto);
+  usePhotosKeyboardManager();
 
   useEffect(() => {
     const loadPhotos = async () => {
       if (!selectedFolder) {
-        photos$.set([]);
+        state$.photos.set([]);
         return;
       }
 
@@ -55,7 +58,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
       try {
         const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
         const photosList = await listPhotosInFolder(folderPath);
-        photos$.set(photosList);
+        state$.photos.set(photosList);
       } catch (err) {
         console.error('Error loading photos:', err);
         setError('Failed to load photos');
@@ -67,34 +70,9 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
-  // Function to handle photo deletion
-  function handleDeletePhoto(index: number) {
-    // Implement photo deletion logic here
-    console.log(`Delete photo at index ${index}`);
-
-    // For now, just remove it from the array
-    const newPhotos = [...photos];
-    newPhotos.splice(index, 1);
-    photos$.set(newPhotos);
-
-    // Adjust selected index if needed
-    const currentIndex = selectedPhotoIndex$.get() ?? 0;
-    if (currentIndex >= newPhotos.length) {
-      selectedPhotoIndex$.set(Math.max(0, newPhotos.length - 1));
-    }
-  }
-
   const renderPhoto = ({ item, index }: { item: string; index: number }) => {
     const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-    return (
-      <Photo
-        photoName={item}
-        folderPath={folderPath}
-        index={index}
-        selectedPhotoIndex$={selectedPhotoIndex$}
-        isFullscreen={isFullscreen}
-      />
-    );
+    return <Photo photoName={item} folderPath={folderPath} index={index} />;
   };
 
   if (loading) {
@@ -130,12 +108,12 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   }
 
   return (
-    <View style={[styles.container, isFullscreen && styles.fullscreen]}>
+    <View style={[styles.container]}>
       <LegendList
         data={photos}
         renderItem={renderPhoto}
-        numColumns={isFullscreen ? 1 : numColumns}
-        estimatedItemSize={isFullscreen ? 500 : 200}
+        numColumns={numColumns}
+        estimatedItemSize={200}
         keyExtractor={(item) => item}
         contentContainerStyle={styles.listContent}
       />
