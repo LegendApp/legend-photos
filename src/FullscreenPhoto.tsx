@@ -3,6 +3,16 @@ import React, { useEffect } from 'react';
 import { Animated, Dimensions, Image, Pressable, StatusBar, StyleSheet } from 'react-native';
 import { fullscreenPhoto$, hideFullscreenPhoto } from './State';
 
+const SpringOpen = {
+  bounciness: 4,
+  speed: 24,
+};
+
+const SpringClose = {
+  bounciness: 2,
+  speed: 24,
+};
+
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(fullscreenPhoto$);
@@ -30,31 +40,31 @@ export const FullscreenPhoto = () => {
       // Animate to fullscreen
       Animated.sequence([
         Animated.timing(animatedOpacity, {
-          delay: 100,
+          delay: 30,
           toValue: 1,
           duration: 0,
           useNativeDriver: false,
         }),
         Animated.parallel([
-          Animated.timing(animatedPositionX, {
+          Animated.spring(animatedPositionX, {
             toValue: 0,
-            duration: 300,
             useNativeDriver: false,
+            ...SpringOpen,
           }),
-          Animated.timing(animatedPositionY, {
+          Animated.spring(animatedPositionY, {
             toValue: 0,
-            duration: 300,
             useNativeDriver: false,
+            ...SpringOpen,
           }),
-          Animated.timing(animatedWidth, {
+          Animated.spring(animatedWidth, {
             toValue: dimensions.width,
-            duration: 300,
             useNativeDriver: false,
+            ...SpringOpen,
           }),
-          Animated.timing(animatedHeight, {
+          Animated.spring(animatedHeight, {
             toValue: dimensions.height,
-            duration: 300,
             useNativeDriver: false,
+            ...SpringOpen,
           }),
         ]),
       ]).start();
@@ -75,30 +85,41 @@ export const FullscreenPhoto = () => {
 
     // Animate back to original position and size
     Animated.parallel([
-      Animated.timing(animatedPositionX, {
+      Animated.spring(animatedPositionX, {
         toValue: fullscreenData.initialPosition.x,
-        duration: 300,
         useNativeDriver: false,
+        ...SpringClose,
       }),
-      Animated.timing(animatedPositionY, {
+      Animated.spring(animatedPositionY, {
         toValue: fullscreenData.initialPosition.y,
-        duration: 300,
         useNativeDriver: false,
+        ...SpringClose,
       }),
-      Animated.timing(animatedWidth, {
+      Animated.spring(animatedWidth, {
         toValue: fullscreenData.initialPosition.width,
-        duration: 300,
         useNativeDriver: false,
+        ...SpringClose,
       }),
-      Animated.timing(animatedHeight, {
+      Animated.spring(animatedHeight, {
         toValue: fullscreenData.initialPosition.height,
-        duration: 300,
         useNativeDriver: false,
+        ...SpringClose,
       }),
     ]).start(() => {
+      console.log(performance.now(), 'parallel animated');
       // Show status bar again
-      StatusBar.setHidden(false);
+      //   StatusBar.setHidden(false);
       // Clear the fullscreen data
+    });
+
+    Animated.timing(animatedOpacity, {
+      delay: 300,
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: false,
+    }).start(() => {
+      console.log(performance.now(), 'opacity animated');
+
       hideFullscreenPhoto();
     });
   };
@@ -131,9 +152,10 @@ export const FullscreenPhoto = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.95)',
     zIndex: 9999,
-    elevation: 10,
+    // elevation: 10,
+    borderRadius: 8,
   },
   pressable: {
     width: '100%',
