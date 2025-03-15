@@ -1,9 +1,10 @@
 import { useSelector } from '@legendapp/state/react';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
+import { useOnDoubleClick } from './useOnDoubleClick';
 
 interface PhotoProps {
   photoName: string;
@@ -16,29 +17,6 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
   const photoRef = useRef<View>(null);
   const selectedIndex = useSelector(state$.selectedPhotoIndex);
   const isSelected = selectedIndex === index;
-  const [lastTap, setLastTap] = useState<number>(0);
-
-  const handlePress = () => {
-    state$.selectedPhotoIndex.set(index);
-
-    const now = Date.now();
-    const DOUBLE_PRESS_DELAY = 300;
-
-    if (now - lastTap < DOUBLE_PRESS_DELAY) {
-      // Double tap detected
-      openFullscreen();
-    }
-
-    setLastTap(now);
-  };
-
-  useOnHotkeys({
-    [KeyCodes.KEY_RETURN]: () => {
-      if (state$.selectedPhotoIndex.get() === index) {
-        openFullscreen();
-      }
-    },
-  });
 
   const openFullscreen = () => {
     if (photoRef.current && !state$.fullscreenPhoto.get()) {
@@ -56,9 +34,22 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
     }
   };
 
+  const onPress = useOnDoubleClick({
+    onClick: () => state$.selectedPhotoIndex.set(index),
+    onDoubleClick: openFullscreen,
+  });
+
+  useOnHotkeys({
+    [KeyCodes.KEY_RETURN]: () => {
+      if (state$.selectedPhotoIndex.get() === index) {
+        openFullscreen();
+      }
+    },
+  });
+
   return (
     <View ref={photoRef} style={[styles.photoContainer]}>
-      <Pressable onPress={handlePress} style={styles.pressable}>
+      <Pressable onPress={onPress} style={styles.pressable}>
         <Image source={{ uri: photoUri }} style={styles.photo} resizeMode={'cover'} />
         {isSelected && <View style={styles.selectionBorder} />}
       </Pressable>
