@@ -1,10 +1,11 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
-import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
+import { Photo } from './Photo';
 import { LegendList } from './src/LegendList';
 
 interface PhotosProps {
@@ -64,16 +65,13 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
-  const renderPhoto = ({ item }: { item: string; index: number }) => {
-    const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-    const photoUri = `file://${folderPath}/${item}`;
-
-    return (
-      <View style={styles.photoContainer}>
-        <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
-      </View>
-    );
-  };
+  const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
+  const renderPhoto = useCallback(
+    ({ item }: { item: string; index: number }) => {
+      return <Photo photoName={item} folderPath={folderPath} />;
+    },
+    [folderPath]
+  );
 
   if (loading) {
     return (
