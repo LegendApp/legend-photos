@@ -14,7 +14,7 @@ import { state$ } from './State';
  */
 export function usePhotosViewKeyboard() {
   // Get the current state
-  const photos = state$.photos.get();
+  const photos$ = state$.photos;
   const selectedPhotoIndex$ = state$.selectedPhotoIndex;
 
   useOnHotkeys({
@@ -25,6 +25,7 @@ export function usePhotosViewKeyboard() {
       }
     },
     [KeyCodes.KEY_RIGHT]: () => {
+      const photos = photos$.get();
       const idx = selectedPhotoIndex$.get();
       if (idx! < photos.length - 1) {
         selectedPhotoIndex$.set((v) => v! + 1);
@@ -38,6 +39,7 @@ export function usePhotosViewKeyboard() {
       }
     },
     [KeyCodes.KEY_DOWN]: () => {
+      const photos = photos$.get();
       const numColumns = state$.numColumns.get();
       const idx = selectedPhotoIndex$.get();
       if (idx! < photos.length - numColumns) {

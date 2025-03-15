@@ -101,10 +101,7 @@ export const FullscreenPhoto = () => {
       return;
     }
 
-    if (WindowControls?.showWindowControls) {
-      // Show window controls (stoplight buttons) if on macOS
-      state$.isPhotoFullscreenCoveringControls.set(false);
-    }
+    state$.isPhotoFullscreenCoveringControls.set(false);
 
     // Animate back to original position and size
     Animated.parallel([
@@ -141,9 +138,9 @@ export const FullscreenPhoto = () => {
   };
 
   useOnHotkeys({
-    [KeyCodes.KEY_ESCAPE]: () => {
-      closeFullscreen();
-    },
+    [KeyCodes.KEY_ESCAPE]: closeFullscreen,
+    // TODO: How to capture this and not let it run in Photo?
+    [KeyCodes.KEY_RETURN]: closeFullscreen,
   });
 
   // If no fullscreen data, don't render anything

@@ -34,7 +34,6 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
 
   useOnHotkeys({
     [KeyCodes.KEY_RETURN]: () => {
-      console.log('hotkey', state$.selectedPhotoIndex.get(), index);
       if (state$.selectedPhotoIndex.get() === index) {
         openFullscreen();
       }
