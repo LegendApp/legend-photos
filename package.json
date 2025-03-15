@@ -10,6 +10,7 @@
     "format": "biome format --write .",
     "check": "biome check --write .",
     "start": "react-native start",
+    "startclear": "react-native start --reset-cache",
     "test": "jest",
     "build": "cd macos && rm -fr build/Build/Products/Release/LegendAura.app && xcodebuild -workspace LegendAura.xcworkspace -scheme LegendAura-macOS -configuration Release -derivedDataPath ./build"
   },

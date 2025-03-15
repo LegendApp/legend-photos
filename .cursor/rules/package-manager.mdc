@@ -3,6 +3,10 @@ description: Installing packages
 globs: 
 alwaysApply: false
 ---
+# This is a macOS project
+
+If you install pods, do it as `cd macos && pod install`
+
 # Use Bun for package management
 
 Always use Bun instead of npm or yarn for package management in this project.
