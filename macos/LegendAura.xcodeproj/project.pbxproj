@@ -13,6 +13,8 @@
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
 		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendAura-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */; };
+		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
+		693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E292D85B9F800C3751E /* WindowControls.swift */; };
 		699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */; };
 		699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */; };
 		699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */; };
@@ -32,6 +34,8 @@
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* LegendAura.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendAura.entitlements; sourceTree = "<group>"; };
 		6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		693B2E292D85B9F800C3751E /* WindowControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControls.swift; sourceTree = "<group>"; };
+		693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowControlsBridge.m; sourceTree = "<group>"; };
 		699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerBridge.m; sourceTree = "<group>"; };
 		699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNKeyboardManager.swift; sourceTree = "<group>"; };
@@ -70,6 +74,7 @@
 		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				693B2E2B2D85B9F800C3751E /* WindowControls */,
 				699BFD832D8592E2000F2A33 /* KeyboardManager */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
@@ -80,6 +85,15 @@
 				514201592437B4B40078DB4F /* LegendAura.entitlements */,
 			);
 			path = "LegendAura-macOS";
+			sourceTree = "<group>";
+		};
+		693B2E2B2D85B9F800C3751E /* WindowControls */ = {
+			isa = PBXGroup;
+			children = (
+				693B2E292D85B9F800C3751E /* WindowControls.swift */,
+				693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */,
+			);
+			path = WindowControls;
 			sourceTree = "<group>";
 		};
 		699BFD832D8592E2000F2A33 /* KeyboardManager */ = {
@@ -351,6 +365,8 @@
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
+				693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */,
+				693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

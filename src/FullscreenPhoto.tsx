@@ -1,6 +1,15 @@
 import { use$ } from '@legendapp/state/react';
 import React, { useEffect } from 'react';
-import { Animated, Dimensions, Image, Pressable, StatusBar, StyleSheet } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Image,
+  NativeModules,
+  Platform,
+  Pressable,
+  StatusBar,
+  StyleSheet,
+} from 'react-native';
 import { state$ } from './State';
 
 const SpringOpen = {
@@ -12,6 +21,9 @@ const SpringClose = {
   bounciness: 2,
   speed: 24,
 };
+
+// Get the native module if available
+const WindowControls = Platform.OS === 'macos' ? NativeModules.WindowControls : null;
 
 export const FullscreenPhoto = () => {
   // Use the global observable
@@ -36,6 +48,13 @@ export const FullscreenPhoto = () => {
 
       // Hide status bar
       StatusBar.setHidden(true);
+
+      // Hide window controls (stoplight buttons) if on macOS
+      if (WindowControls?.hideWindowControls) {
+        setTimeout(() => {
+          WindowControls.hideWindowControls();
+        }, 150);
+      }
 
       // Animate to fullscreen
       Animated.sequence([
@@ -81,7 +100,14 @@ export const FullscreenPhoto = () => {
   ]);
 
   const closeFullscreen = () => {
-    if (!fullscreenData) return;
+    if (!fullscreenData) {
+      return;
+    }
+
+    // Show window controls (stoplight buttons) if on macOS
+    if (WindowControls?.showWindowControls) {
+      WindowControls.showWindowControls();
+    }
 
     // Animate back to original position and size
     Animated.parallel([
@@ -105,12 +131,7 @@ export const FullscreenPhoto = () => {
         useNativeDriver: false,
         ...SpringClose,
       }),
-    ]).start(() => {
-      console.log(performance.now(), 'parallel animated');
-      // Show status bar again
-      //   StatusBar.setHidden(false);
-      // Clear the fullscreen data
-    });
+    ]).start();
 
     Animated.timing(animatedOpacity, {
       delay: 300,
@@ -118,8 +139,6 @@ export const FullscreenPhoto = () => {
       duration: 100,
       useNativeDriver: false,
     }).start(() => {
-      console.log(performance.now(), 'opacity animated');
-
       state$.fullscreenPhoto.set(null);
     });
   };
