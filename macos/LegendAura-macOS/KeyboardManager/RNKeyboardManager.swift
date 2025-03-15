@@ -64,44 +64,6 @@ class RNKeyboardManager: RCTEventEmitter {
         resolve(true)
     }
 
-    // Register for global keyboard events
-    @objc func registerForGlobalKeyboardEvents(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
-        KeyboardManager.shared.registerForGlobalEvents { [weak self] keyCode, modifiers in
-            guard let self = self, self.hasListeners else { return }
-
-            // Send global key event to JavaScript
-            self.sendEvent(withName: "onGlobalKeyPress", body: [
-                "keyCode": keyCode,
-                "modifiers": modifiers
-            ])
-        }
-
-        resolve(true)
-    }
-
-    // Register a specific global shortcut
-    @objc func registerGlobalShortcut(_ keyCode: NSInteger, modifiers: NSInteger, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
-        let success = KeyboardManager.shared.registerGlobalShortcut(keyCode: Int(keyCode), modifiers: Int(modifiers))
-
-        if success {
-            resolve(true)
-        } else {
-            reject("registration_failed", "Failed to register global keyboard shortcut", nil)
-        }
-    }
-
-    // Unregister a specific global shortcut
-    @objc func unregisterGlobalShortcut(_ keyCode: NSInteger, modifiers: NSInteger, resolver resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
-        KeyboardManager.shared.unregisterGlobalShortcut(keyCode: Int(keyCode), modifiers: Int(modifiers))
-        resolve(true)
-    }
-
-    // Unregister all global shortcuts
-    @objc func unregisterAllGlobalShortcuts(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
-        KeyboardManager.shared.unregisterAllGlobalShortcuts()
-        resolve(true)
-    }
-
     // Required for RCTBridgeModule
     @objc override static func requiresMainQueueSetup() -> Bool {
         return true

@@ -2,11 +2,9 @@ import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
 
 // Get the native modules with fallbacks for when they're not available
 const RNKeyboardManager = NativeModules.RNKeyboardManager || {};
-console.log('RNKeyboardManager native module:', RNKeyboardManager);
 
 // Create event emitter for keyboard events only if the module exists
 const keyboardEventEmitter = RNKeyboardManager ? new NativeEventEmitter(RNKeyboardManager) : null;
-console.log('keyboardEventEmitter:', keyboardEventEmitter);
 
 // Define event types
 export type KeyboardEvent = {
@@ -136,14 +134,9 @@ class KeyboardManager {
    * Set up native event listeners
    */
   private setupEventListeners() {
-    console.log(
-      'KeyboardManager.setupEventListeners called, keyboardEventEmitter:',
-      !!keyboardEventEmitter
-    );
     if (!keyboardEventEmitter) return;
 
     // Local key down events
-    console.log('Adding onKeyDown listener');
     keyboardEventEmitter.addListener('onKeyDown', (event: KeyboardEvent) => {
       console.log('Received onKeyDown event:', event);
       for (const listener of this.keyDownListeners) {
@@ -152,7 +145,6 @@ class KeyboardManager {
     });
 
     // Local key up events
-    console.log('Adding onKeyUp listener');
     keyboardEventEmitter.addListener('onKeyUp', (event: KeyboardEvent) => {
       console.log('Received onKeyUp event:', event);
       for (const listener of this.keyUpListeners) {
@@ -168,9 +160,7 @@ class KeyboardManager {
     if (!this.isNativeModuleAvailable || this.isMonitoring) return false;
 
     try {
-      console.log('Calling RNKeyboardManager.startMonitoringKeyboard');
       await RNKeyboardManager.startMonitoringKeyboard();
-      console.log('RNKeyboardManager.startMonitoringKeyboard succeeded');
       this.isMonitoring = true;
       return true;
     } catch (error) {
@@ -199,18 +189,15 @@ class KeyboardManager {
    * Add a listener for key down events
    */
   addKeyDownListener(listener: KeyboardEventListener): () => void {
-    console.log('KeyboardManager.addKeyDownListener called');
     this.keyDownListeners.push(listener);
 
     // Start monitoring if this is the first listener
     if (this.keyDownListeners.length === 1 && !this.isMonitoring) {
-      console.log('Starting monitoring from addKeyDownListener');
       this.startMonitoring();
     }
 
     // Return a function to remove the listener
     return () => {
-      console.log('KeyboardManager: Removing key down listener');
       this.keyDownListeners = this.keyDownListeners.filter((l) => l !== listener);
 
       // Stop monitoring if there are no more listeners
@@ -219,7 +206,6 @@ class KeyboardManager {
         this.keyUpListeners.length === 0 &&
         this.isMonitoring
       ) {
-        console.log('Stopping monitoring from key down listener cleanup');
         this.stopMonitoring();
       }
     };
