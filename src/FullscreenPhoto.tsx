@@ -10,6 +10,8 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
+import { useOnHotkeys } from './Keyboard';
+import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
 
 const SpringOpen = {
@@ -142,6 +144,12 @@ export const FullscreenPhoto = () => {
       state$.fullscreenPhoto.set(null);
     });
   };
+
+  useOnHotkeys({
+    [KeyCodes.KEY_ESCAPE]: () => {
+      closeFullscreen();
+    },
+  });
 
   // If no fullscreen data, don't render anything
   if (!fullscreenData) {

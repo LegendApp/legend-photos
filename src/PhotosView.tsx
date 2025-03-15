@@ -5,9 +5,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
-import { usePhotosKeyboardManager } from './PhotosKeyboardManager';
 import { state$ } from './State';
 import { LegendList } from './src/LegendList';
+import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
 interface PhotosProps {
   selectedFolder: string;
@@ -43,7 +43,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Set up keyboard shortcuts
-  usePhotosKeyboardManager();
+  usePhotosViewKeyboard();
 
   useEffect(() => {
     const loadPhotos = async () => {

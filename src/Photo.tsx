@@ -1,6 +1,8 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { useOnHotkeys } from './Keyboard';
+import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
 
 interface PhotoProps {
@@ -29,6 +31,15 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
 
     setLastTap(now);
   };
+
+  useOnHotkeys({
+    [KeyCodes.KEY_RETURN]: () => {
+      console.log('hotkey', state$.selectedPhotoIndex.get(), index);
+      if (state$.selectedPhotoIndex.get() === index) {
+        openFullscreen();
+      }
+    },
+  });
 
   const openFullscreen = () => {
     if (photoRef.current && !state$.fullscreenPhoto.get()) {

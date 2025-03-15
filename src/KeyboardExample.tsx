@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
+import { useGlobalShortcut, useKeyboard } from './Keyboard';
 import KeyboardManager, { KeyCodes } from './KeyboardManager';
-import { useGlobalShortcut, useKeyboard } from './useKeyboard';
 
 export function KeyboardExample() {
   const [lastKeyDown, setLastKeyDown] = useState<string>('None');

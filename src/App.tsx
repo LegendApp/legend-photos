@@ -4,12 +4,14 @@ import type React from 'react';
 import { PlatformColor, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
+import { useHookKeyboard } from './Keyboard';
 import { PhotosView } from './PhotosView';
 import Sidebar from './Sidebar';
 
 const selectedFolder$ = observable<string>('');
 
 function App(): React.JSX.Element {
+  useHookKeyboard();
   const selectedFolder = useSelector(selectedFolder$);
 
   const handleFileSelect = (file: string) => {
