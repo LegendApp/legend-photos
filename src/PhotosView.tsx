@@ -116,6 +116,8 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
         estimatedItemSize={200}
         keyExtractor={(item) => item}
         contentContainerStyle={styles.listContent}
+        columnWrapperStyle={styles.columnWrapper}
+        style={styles.list}
       />
     </View>
   );
@@ -124,15 +126,10 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  fullscreen: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'black',
-    zIndex: 1000,
+  list: {
+    marginTop: -28,
   },
   centerContainer: {
     flex: 1,
@@ -140,15 +137,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listContent: {
-    padding: 4,
+    padding: 12,
+    margin: 0,
   },
-  photoContainer: {
-    margin: 4,
-    aspectRatio: 1,
-    borderRadius: 8,
-    overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.05)',
+  columnWrapper: {
+    gap: 12,
   },
+
   photo: {
     width: '100%',
     height: '100%',

@@ -34,7 +34,6 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: PlatformColor('windowBackgroundColor'),
   },
   contentContainer: {
     flex: 1,

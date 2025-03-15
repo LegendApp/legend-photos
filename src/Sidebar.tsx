@@ -3,7 +3,7 @@ import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { PlatformColor, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
 import { listFoldersWithPhotosRecursive } from './FileManager';
-import { sidebarWidth$ } from './State';
+import { state$ } from './State';
 
 interface SidebarProps {
   onFileSelect: (fileName: string) => void;
@@ -47,7 +47,9 @@ const files$ = observable(listFoldersWithPhotosRecursive);
 function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
   const isDarkMode = useColorScheme() === 'dark';
   const files = useSelector(files$);
-  const sidebarWidth = useSelector(sidebarWidth$);
+  const sidebarWidth = useSelector(state$.sidebarWidth);
+
+  console.log('sidebarWidth', sidebarWidth);
 
   return (
     <View style={[styles.container, { width: sidebarWidth }]}>
@@ -68,7 +70,6 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
 
 const styles = StyleSheet.create({
   container: {
-    // width is now controlled by sidebarWidth$ observable
     // borderRightWidth: 1,
     // borderRightColor: 'rgba(0,0,0,0.1)',
     height: '100%',

@@ -44,7 +44,7 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
 
 const styles = StyleSheet.create({
   photoContainer: {
-    margin: 4,
+    // margin: 4,
     aspectRatio: 1,
     borderRadius: 8,
     overflow: 'hidden',
@@ -63,10 +63,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    borderWidth: 3,
-    borderColor: 'yellow',
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 8,
     pointerEvents: 'none',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   pressable: {
     width: '100%',
