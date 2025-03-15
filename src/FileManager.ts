@@ -103,6 +103,8 @@ export async function listFoldersWithPhotosRecursive(
       folders.push(relativePath);
     }
 
+    folders.sort();
+
     return folders;
   } catch (error) {
     console.error('Error listing folders with photos:', error);

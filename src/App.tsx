@@ -2,6 +2,7 @@ import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { PlatformColor, SafeAreaView, StyleSheet, View } from 'react-native';
+import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
 import { PhotosView } from './PhotosView';
 import Sidebar from './Sidebar';
@@ -24,6 +25,8 @@ function App(): React.JSX.Element {
           <PhotosView selectedFolder={selectedFolder} />
         </View>
       </View>
+      <FullscreenPhoto />
+
       <HookWindowDimensions />
     </SafeAreaView>
   );
