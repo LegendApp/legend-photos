@@ -11,7 +11,6 @@ export const windowDimensions$ = observable({
 
 export function HookWindowDimensions() {
   const dimensions = useWindowDimensions();
-  console.log('dimensions', dimensions);
 
   useEffect(() => {
     if (!state$.showSettings.get()) {

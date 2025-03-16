@@ -18,7 +18,7 @@ export const SettingsWindow = () => {
         try {
           const options: WindowOptions = {
             title: 'Settings',
-            width: 800,
+            width: 600,
             height: 600,
           };
 
