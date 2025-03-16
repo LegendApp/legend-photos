@@ -7,9 +7,10 @@ import type { PluginLocation } from './PluginTypes';
 interface PluginRendererProps {
   location: PluginLocation;
   className?: string;
+  props?: Record<string, any>;
 }
 
-export function PluginRenderer({ location, className = '' }: PluginRendererProps) {
+export function PluginRenderer({ location, className = '', props = {} }: PluginRendererProps) {
   const allPlugins = useSelector(plugins$);
 
   // Filter plugins for this location
@@ -25,7 +26,9 @@ export function PluginRenderer({ location, className = '' }: PluginRendererProps
   return (
     <View className={className}>
       {locationPlugins.map((plugin) => (
-        <React.Fragment key={plugin.id}>{plugin.render ? plugin.render() : null}</React.Fragment>
+        <React.Fragment key={plugin.id}>
+          {plugin.render ? plugin.render(props) : null}
+        </React.Fragment>
       ))}
     </View>
   );

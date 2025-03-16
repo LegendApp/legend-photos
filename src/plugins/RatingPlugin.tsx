@@ -1,16 +1,55 @@
+import { use$ } from '@legendapp/state/react';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
-import { updateMetadata } from '../PhotoMetadata';
+import type { PhotoProps } from '../Photo';
+import { metadata$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import type { Plugin } from './PluginTypes';
 
+interface RatingPluginProps {
+  photo: PhotoProps;
+}
+
 // Rating component that will be rendered
-function RatingComponent() {
-  // Simplified component without unused variables
+function RatingComponent({ photo }: RatingPluginProps) {
+  console.log('photo', photo);
+  const photoName = photo.photoName;
+  const selectedFolder = use$(state$.selectedFolder);
+  const photoId = `${selectedFolder}/${photoName}`;
+  const photoMetadata$ = metadata$[photoId];
+  const photoMetadata = use$(photoMetadata$);
+
+  // If no valid selection, show minimal UI
+  if (!photoMetadata) {
+    return null;
+  }
+
+  const handleRatingChange = async (rating: number) => {
+    await updateMetadata(photoId, { rating });
+  };
+
+  // Render star ratings (1-5)
+  const stars = [];
+  const currentRating = photoMetadata$.rating.get() || 0;
+
+  for (let i = 1; i <= 5; i++) {
+    stars.push(
+      <Pressable
+        key={i}
+        onPress={() => handleRatingChange(i)}
+        className="items-center justify-center"
+      >
+        <Text className={`text-xl ${i <= currentRating ? 'text-yellow-400' : 'text-white/30'}`}>
+          ★
+        </Text>
+      </Pressable>
+    );
+  }
+
   return (
-    <View className="flex-row items-center">
-      <Text className="text-white mr-2">Rating: Use keys 1-5 to rate</Text>
+    <View className="absolute bottom-0 right-0 flex-row items-center justify-end pr-1 gap-x-1">
+      {stars}
     </View>
   );
 }
@@ -40,8 +79,8 @@ export const RatingPlugin: Plugin = {
   name: 'Photo Rating',
   description: 'Rate photos using hotkeys 1-5',
   enabled: true,
-  childOf: 'metadata',
-  render: () => <RatingComponent />,
+  childOf: 'photo',
+  render: (props: { photo: PhotoProps }) => <RatingComponent photo={props.photo} />,
   hotkeys: {
     // Use number keys 1-5 to set rating
     [KeyCodes.KEY_1.toString()]: () => rateCurrentPhoto(1),

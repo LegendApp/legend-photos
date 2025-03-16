@@ -7,13 +7,14 @@ import { state$ } from './State';
 import { PluginRenderer } from './plugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
 
-interface PhotoProps {
+export interface PhotoProps {
   photoName: string;
   folderPath: string;
   index: number;
 }
 
-export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
+export const Photo = (photo: PhotoProps) => {
+  const { photoName, folderPath, index } = photo;
   const photoUri = `file://${folderPath}/${photoName}`;
   const photoRef = useRef<View>(null);
   const selectedIndex = useSelector(state$.selectedPhotoIndex);
@@ -56,11 +57,11 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
           <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
         )}
 
-        {isSelected && (
-          <View className="absolute bottom-0 left-0 right-0">
-            <PluginRenderer location="photo" className="p-2" />
-          </View>
-        )}
+        <PluginRenderer
+          location="photo"
+          className="bg-black/40 absolute bottom-0 left-0 right-0 h-7"
+          props={{ photo }}
+        />
       </Pressable>
     </View>
   );

@@ -16,7 +16,7 @@ export interface Plugin {
   description?: string;
   version?: string;
   enabled?: boolean;
-  render?: () => ReactNode;
+  render?: (props?: Record<string, any>) => ReactNode;
   childOf?: PluginLocation;
   hotkeys?: Record<KeyboardEventCodeHotkey, () => void>;
   settings?: PluginSettings;

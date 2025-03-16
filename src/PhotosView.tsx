@@ -134,11 +134,6 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
           }
         />
       </View>
-
-      {/* Photo Metadata Controls */}
-      <View className="p-4">
-        <PhotoMetadataControls />
-      </View>
     </View>
   );
 }
