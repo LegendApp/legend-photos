@@ -14,3 +14,4 @@ alwaysApply: true
 - This is a macOS app. Do not do anything Android, iOS, or web specific.
 - ONLY do what I ask you, nothing else. Do not do anything extra that I did not ask for.
 - If I made changes after you, respect my changes and do not undo them.
+- Don't try to run the app yourself.
