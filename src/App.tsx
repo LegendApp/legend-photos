@@ -7,6 +7,7 @@ import { useHookKeyboard } from './Keyboard';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { state$ } from './State';
+import { StoplightEnforcer } from './StoplightEnforcer';
 
 function App(): React.JSX.Element {
   useHookKeyboard();
@@ -25,6 +26,7 @@ function App(): React.JSX.Element {
       </View>
       <FullscreenPhoto />
       <HookWindowDimensions />
+      <StoplightEnforcer />
     </SafeAreaView>
   );
 }

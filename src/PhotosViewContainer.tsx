@@ -23,16 +23,18 @@ export function PhotosViewContainer() {
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: () => {
-      state$.isSidebarOpen.toggle();
+      if (state$.selectedFolder.get()) {
+        state$.isSidebarOpen.toggle();
 
-      const isOpen = state$.isSidebarOpen.get();
-      const width = state$.sidebarWidth.get();
+        const isOpen = state$.isSidebarOpen.get();
+        const width = state$.sidebarWidth.get();
 
-      Animated.spring(animatedWidth, {
-        toValue: isOpen ? width : 0,
-        useNativeDriver: false,
-        ...(isOpen ? SpringOpen : SpringClose),
-      }).start();
+        Animated.spring(animatedWidth, {
+          toValue: isOpen ? width : 0,
+          useNativeDriver: false,
+          ...(isOpen ? SpringOpen : SpringClose),
+        }).start();
+      }
     },
   });
 

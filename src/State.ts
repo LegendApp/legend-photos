@@ -23,13 +23,15 @@ export const state$ = observable({
   isSidebarOpen: true,
   numColumns: 1 as number,
   isPhotoFullscreenCoveringControls: false,
+  stoplightEnforcerHovered: false,
 });
 
 observe(() => {
   const isPhotoFullscreenCoveringControls = state$.isPhotoFullscreenCoveringControls.get();
   const isSidebarOpen = state$.isSidebarOpen.get();
 
-  const hide = isPhotoFullscreenCoveringControls || !isSidebarOpen;
+  const hide =
+    !state$.stoplightEnforcerHovered.get() && (isPhotoFullscreenCoveringControls || !isSidebarOpen);
   if (hide) {
     WindowControls.hideWindowControls();
   } else {
