@@ -19,9 +19,12 @@
     "@legendapp/list": "^1.0.0-beta.15",
     "@legendapp/motion": "^2.4.0",
     "@legendapp/state": "^3.0.0-beta.30",
+    "nativewind": "^4.1.23",
     "react": "18.3.1",
     "react-native": "0.76.0",
-    "react-native-macos": "^0.76.6"
+    "react-native-macos": "^0.76.6",
+    "react-native-safe-area-context": "^5.3.0",
+    "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

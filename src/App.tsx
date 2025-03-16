@@ -1,3 +1,4 @@
+import '../global.css';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { PlatformColor, SafeAreaView, StyleSheet, View } from 'react-native';

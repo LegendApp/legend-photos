@@ -108,7 +108,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   }
 
   return (
-    <View style={[styles.container]}>
+    <View className="flex-1 bg-[#111]">
       <LegendList
         data={photos}
         renderItem={renderPhoto}
@@ -131,7 +131,6 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111',
   },
   list: {
     marginTop: -28,
