@@ -1,14 +1,6 @@
 import { use$ } from '@legendapp/state/react';
 import React, { useEffect } from 'react';
-import {
-  Animated,
-  Dimensions,
-  Image,
-  NativeModules,
-  Platform,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { Animated, Dimensions, Image, Pressable, StyleSheet } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
@@ -23,9 +15,6 @@ const SpringClose = {
   speed: 24,
 };
 
-// Get the native module if available
-const WindowControls = Platform.OS === 'macos' ? NativeModules.WindowControls : null;
-
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
@@ -35,8 +24,8 @@ export const FullscreenPhoto = () => {
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
   const animatedPositionX = React.useRef(new Animated.Value(0)).current;
   const animatedPositionY = React.useRef(new Animated.Value(0)).current;
-  const animatedWidth = React.useRef(new Animated.Value(0)).current;
-  const animatedHeight = React.useRef(new Animated.Value(0)).current;
+  const animatedRight = React.useRef(new Animated.Value(0)).current;
+  const animatedBottom = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (fullscreenData) {
@@ -44,8 +33,16 @@ export const FullscreenPhoto = () => {
       animatedOpacity.setValue(0);
       animatedPositionX.setValue(fullscreenData.initialPosition.x);
       animatedPositionY.setValue(fullscreenData.initialPosition.y);
-      animatedWidth.setValue(fullscreenData.initialPosition.width);
-      animatedHeight.setValue(fullscreenData.initialPosition.height);
+      const right =
+        dimensions.width - fullscreenData.initialPosition.width - fullscreenData.initialPosition.x;
+      const bottom =
+        dimensions.height -
+        fullscreenData.initialPosition.height -
+        fullscreenData.initialPosition.y;
+      animatedRight.setValue(right);
+      animatedBottom.setValue(bottom);
+
+      console.log('right', right, bottom);
 
       // Hide window controls (stoplight buttons) if on macOS
       setTimeout(() => {
@@ -71,13 +68,13 @@ export const FullscreenPhoto = () => {
             useNativeDriver: false,
             ...SpringOpen,
           }),
-          Animated.spring(animatedWidth, {
-            toValue: dimensions.width,
+          Animated.spring(animatedRight, {
+            toValue: 0,
             useNativeDriver: false,
             ...SpringOpen,
           }),
-          Animated.spring(animatedHeight, {
-            toValue: dimensions.height,
+          Animated.spring(animatedBottom, {
+            toValue: 0,
             useNativeDriver: false,
             ...SpringOpen,
           }),
@@ -89,8 +86,8 @@ export const FullscreenPhoto = () => {
     animatedOpacity,
     animatedPositionX,
     animatedPositionY,
-    animatedWidth,
-    animatedHeight,
+    animatedRight,
+    animatedBottom,
     dimensions.width,
     dimensions.height,
   ]);
@@ -100,6 +97,13 @@ export const FullscreenPhoto = () => {
     if (!fullscreenPhoto) {
       return;
     }
+
+    const right =
+      dimensions.width - fullscreenPhoto.initialPosition.width - fullscreenPhoto.initialPosition.x;
+    const bottom =
+      dimensions.height -
+      fullscreenPhoto.initialPosition.height -
+      fullscreenPhoto.initialPosition.y;
 
     state$.isPhotoFullscreenCoveringControls.set(false);
 
@@ -115,13 +119,13 @@ export const FullscreenPhoto = () => {
         useNativeDriver: false,
         ...SpringClose,
       }),
-      Animated.spring(animatedWidth, {
-        toValue: fullscreenPhoto.initialPosition.width,
+      Animated.spring(animatedRight, {
+        toValue: right,
         useNativeDriver: false,
         ...SpringClose,
       }),
-      Animated.spring(animatedHeight, {
-        toValue: fullscreenPhoto.initialPosition.height,
+      Animated.spring(animatedBottom, {
+        toValue: bottom,
         useNativeDriver: false,
         ...SpringClose,
       }),
@@ -156,8 +160,8 @@ export const FullscreenPhoto = () => {
           opacity: animatedOpacity,
           left: animatedPositionX,
           top: animatedPositionY,
-          width: animatedWidth,
-          height: animatedHeight,
+          right: animatedRight,
+          bottom: animatedBottom,
         },
       ]}
     >

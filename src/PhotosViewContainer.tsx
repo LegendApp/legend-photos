@@ -23,7 +23,7 @@ export function PhotosViewContainer() {
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: () => {
-      if (state$.selectedFolder.get()) {
+      if (state$.selectedFolder.get() && !state$.fullscreenPhoto.get()) {
         state$.isSidebarOpen.toggle();
 
         const isOpen = state$.isSidebarOpen.get();
