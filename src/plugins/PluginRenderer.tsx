@@ -1,5 +1,5 @@
 import { useSelector } from '@legendapp/state/react';
-import React from 'react';
+import React, { createElement } from 'react';
 import { View } from 'react-native';
 import { plugins$ } from './PluginManager';
 import type { PluginLocation } from './PluginTypes';
@@ -15,7 +15,11 @@ export function PluginRenderer({ location, className = '', props = {} }: PluginR
 
   // Filter plugins for this location
   const locationPlugins = Object.values(allPlugins).filter(
-    (plugin) => plugin.childOf === location && plugin.enabled !== false
+    (plugin) =>
+      plugin.childOf === location &&
+      plugin.enabled !== false &&
+      plugin.component &&
+      (!plugin.shouldRender || plugin.shouldRender(props))
   );
 
   // If no plugins, return null
@@ -25,11 +29,9 @@ export function PluginRenderer({ location, className = '', props = {} }: PluginR
 
   return (
     <View className={className}>
-      {locationPlugins.map((plugin) => (
-        <React.Fragment key={plugin.id}>
-          {plugin.render ? plugin.render(props) : null}
-        </React.Fragment>
-      ))}
+      {locationPlugins.map((plugin) =>
+        createElement(plugin.component!, { ...props, key: plugin.id })
+      )}
     </View>
   );
 }

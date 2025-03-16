@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
-import { metadata$, updateMetadata } from '../PhotoMetadata';
+import { getMetadata, metadata$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import type { Plugin } from './PluginTypes';
 
@@ -13,17 +13,10 @@ interface RatingPluginProps {
 
 // Rating component that will be rendered
 function RatingComponent({ photo }: RatingPluginProps) {
-  console.log('photo', photo);
   const photoName = photo.photoName;
   const selectedFolder = use$(state$.selectedFolder);
   const photoId = `${selectedFolder}/${photoName}`;
   const photoMetadata$ = metadata$[photoId];
-  const photoMetadata = use$(photoMetadata$);
-
-  // If no valid selection, show minimal UI
-  if (!photoMetadata) {
-    return null;
-  }
 
   const handleRatingChange = async (rating: number) => {
     await updateMetadata(photoId, { rating });
@@ -53,7 +46,7 @@ function RatingComponent({ photo }: RatingPluginProps) {
 }
 
 // Helper function to rate the current photo
-const rateCurrentPhoto = (rating: number) => {
+const rateCurrentPhoto = (ratingProp: number) => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
   const folder = state$.selectedFolder.get();
@@ -67,6 +60,10 @@ const rateCurrentPhoto = (rating: number) => {
   const photoName = photosList[index];
   const photoId = `${folder}/${photoName}`;
 
+  const metadata = getMetadata(photoId);
+
+  const rating = ratingProp === metadata?.rating ? 0 : ratingProp;
+
   // Update the metadata
   updateMetadata(photoId, { rating });
 };
@@ -78,9 +75,18 @@ export const RatingPlugin: Plugin = {
   description: 'Rate photos using hotkeys 1-5',
   enabled: true,
   childOf: 'photo',
-  render: (props: { photo: PhotoProps }) => <RatingComponent photo={props.photo} />,
+  component: RatingComponent,
+  shouldRender: ({ photo }: { photo: PhotoProps }) => {
+    const photoName = photo.photoName;
+    const selectedFolder = use$(state$.selectedFolder);
+    const photoId = `${selectedFolder}/${photoName}`;
+    const photoMetadata$ = metadata$[photoId];
+    const photoMetadata = use$(photoMetadata$);
+    return !!photoMetadata && photoMetadata.rating! > 0;
+  },
   hotkeys: {
     // Use number keys 1-5 to set rating
+    [KeyCodes.KEY_0.toString()]: () => rateCurrentPhoto(0),
     [KeyCodes.KEY_1.toString()]: () => rateCurrentPhoto(1),
     [KeyCodes.KEY_2.toString()]: () => rateCurrentPhoto(2),
     [KeyCodes.KEY_3.toString()]: () => rateCurrentPhoto(3),

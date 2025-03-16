@@ -42,11 +42,6 @@ function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
   const photoMetadata$ = metadata$[photoId];
   const photoMetadata = use$(photoMetadata$);
 
-  if (!photoMetadata) {
-    // If no valid selection, show no
-    return null;
-  }
-
   return (
     <View className="absolute left-0 bottom-0 flex-row items-center gap-x-1 h-7 pl-1 opacity-80">
       {photoMetadata.flag && <Flag stroke="white" width={16} height={16} />}
@@ -96,7 +91,16 @@ export const FlagRejectPlugin: Plugin = {
   description: 'Flag photos with Space, reject with X',
   enabled: true,
   childOf: 'photo',
-  render: (props: { photo: PhotoProps }) => <FlagRejectComponent photo={props.photo} />,
+  component: FlagRejectComponent,
+  shouldRender: ({ photo }: { photo: PhotoProps }) => {
+    const photoName = photo.photoName;
+    const selectedFolder = use$(state$.selectedFolder);
+    const photoId = `${selectedFolder}/${photoName}`;
+    const photoMetadata$ = metadata$[photoId];
+    const photoMetadata = use$(photoMetadata$);
+
+    return !!(photoMetadata && (photoMetadata.flag || photoMetadata.reject));
+  },
   hotkeys: {
     // Use Space to toggle flag
     [KeyCodes.KEY_SPACE.toString()]: toggleFlagCurrentPhoto,
