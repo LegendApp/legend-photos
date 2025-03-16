@@ -1,9 +1,10 @@
 import { use$ } from '@legendapp/state/react';
 import React, { useEffect } from 'react';
-import { Animated, Dimensions, Image, Pressable } from 'react-native';
+import { Animated, Dimensions, Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
+import { PluginRenderer } from './plugins';
 
 const SpringOpen = {
   bounciness: 3,
@@ -154,22 +155,25 @@ export const FullscreenPhoto = () => {
 
   return (
     <Animated.View
-      className="absolute z-[9999] rounded-lg"
       style={{
-        opacity: animatedOpacity,
+        position: 'absolute',
         left: animatedPositionX,
         top: animatedPositionY,
         right: animatedRight,
         bottom: animatedBottom,
+        opacity: animatedOpacity,
+        backgroundColor: 'black',
+        zIndex: 100,
       }}
     >
-      <Pressable className="w-full h-full justify-center items-center" onPress={closeFullscreen}>
-        <Image
-          source={{ uri: fullscreenData.uri }}
-          className="w-full h-full"
-          resizeMode="contain"
-        />
+      <Pressable style={{ flex: 1 }} onPress={closeFullscreen}>
+        <Image source={{ uri: fullscreenData.uri }} style={{ flex: 1 }} resizeMode="contain" />
       </Pressable>
+
+      {/* Add plugin renderer for photoFullscreen location */}
+      <View className="absolute bottom-0 left-0 right-0">
+        <PluginRenderer location="photoFullscreen" className="p-4" />
+      </View>
     </Animated.View>
   );
 };

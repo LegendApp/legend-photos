@@ -1,9 +1,10 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
+import { PluginRenderer } from './plugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
 
 interface PhotoProps {
@@ -53,6 +54,12 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
         <Image source={{ uri: photoUri }} className="w-full h-full" resizeMode={'cover'} />
         {isSelected && (
           <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
+        )}
+
+        {isSelected && (
+          <View className="absolute bottom-0 left-0 right-0">
+            <PluginRenderer location="photo" className="p-2" />
+          </View>
         )}
       </Pressable>
     </View>
