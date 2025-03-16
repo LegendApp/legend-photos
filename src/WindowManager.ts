@@ -6,8 +6,14 @@ if (!WindowManager) {
   throw new Error('WindowManager native module is not available');
 }
 
+export type WindowOptions = {
+  title?: string;
+  width?: number;
+  height?: number;
+};
+
 type WindowManagerType = {
-  openWindow: () => Promise<{ success: boolean }>;
+  openWindow: (options?: WindowOptions) => Promise<{ success: boolean }>;
   closeWindow: () => Promise<{ success: boolean; message?: string }>;
 };
 
@@ -17,7 +23,7 @@ export const useWindowManager = (): WindowManagerType & {
   onWindowClosed: (callback: () => void) => { remove: () => void };
 } => {
   return {
-    openWindow: WindowManager.openWindow,
+    openWindow: (options = {}) => WindowManager.openWindow(options),
     closeWindow: WindowManager.closeWindow,
     onWindowClosed: (callback: () => void) => {
       const subscription = windowManagerEmitter.addListener('onWindowClosed', callback);

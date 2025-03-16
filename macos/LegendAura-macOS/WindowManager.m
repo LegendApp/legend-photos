@@ -20,7 +20,8 @@ RCT_EXPORT_MODULE();
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(openWindow:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(openWindow:(NSDictionary *)options
+                  resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
   if (self.secondWindow) {
     [self.secondWindow makeKeyAndOrderFront:nil];
@@ -28,8 +29,13 @@ RCT_EXPORT_METHOD(openWindow:(RCTPromiseResolveBlock)resolve
     return;
   }
 
-  // Create a window with specific dimensions
-  NSRect frame = NSMakeRect(0, 0, 400, 300);
+  // Get options with defaults
+  NSString *title = options[@"title"] ?: @"New Window";
+  CGFloat width = options[@"width"] ? [options[@"width"] floatValue] : 400;
+  CGFloat height = options[@"height"] ? [options[@"height"] floatValue] : 300;
+
+  // Create a window with specified dimensions
+  NSRect frame = NSMakeRect(0, 0, width, height);
   NSUInteger styleMask = NSWindowStyleMaskTitled |
                         NSWindowStyleMaskClosable |
                         NSWindowStyleMaskResizable |
@@ -43,7 +49,7 @@ RCT_EXPORT_METHOD(openWindow:(RCTPromiseResolveBlock)resolve
   // Set this property to prevent application exit when the window closes
   [self.secondWindow setReleasedWhenClosed:NO];
 
-  [self.secondWindow setTitle:@"New Window"];
+  [self.secondWindow setTitle:title];
   [self.secondWindow center];
 
   // Create a RCTRootView with the name of the component to render
