@@ -6,6 +6,7 @@ import { Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
+import { PhotoMetadataControls } from './PhotoMetadataControls';
 import { state$ } from './State';
 import { LegendList } from './src/LegendList';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
@@ -115,22 +116,29 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 
   return (
     <View className="flex-1 bg-[#111]">
-      <LegendList
-        data={photos}
-        renderItem={renderPhoto}
-        numColumns={numColumns}
-        estimatedItemSize={200}
-        keyExtractor={(item) => item}
-        contentContainerClassName="px-4 pb-4 m-0"
-        // eslint-disable-next-line react-native/no-inline-styles
-        columnWrapperStyle={{ gap: 12 }}
-        className="mt-[-28px]"
-        ListHeaderComponent={
-          <View className="py-4">
-            <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
-          </View>
-        }
-      />
+      <View className="flex-1">
+        <LegendList
+          data={photos}
+          renderItem={renderPhoto}
+          numColumns={numColumns}
+          estimatedItemSize={200}
+          keyExtractor={(item) => item}
+          contentContainerClassName="px-4 pb-4 m-0"
+          // eslint-disable-next-line react-native/no-inline-styles
+          columnWrapperStyle={{ gap: 12 }}
+          className="mt-[-28px]"
+          ListHeaderComponent={
+            <View className="py-4">
+              <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
+            </View>
+          }
+        />
+      </View>
+
+      {/* Photo Metadata Controls */}
+      <View className="p-4">
+        <PhotoMetadataControls />
+      </View>
     </View>
   );
 }
