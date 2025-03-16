@@ -10,6 +10,7 @@ import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { state$ } from './State';
 import { StoplightEnforcer } from './StoplightEnforcer';
+import WindowControls from './components/WindowControls';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
 
@@ -40,6 +41,7 @@ function App(): React.JSX.Element {
         <PhotosViewContainer />
         <PluginRenderer location="root" className="absolute bottom-4 right-4" />
       </View>
+      <WindowControls />
       <FullscreenPhoto />
       <HookWindowDimensions />
       <StoplightEnforcer />
