@@ -118,6 +118,11 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={styles.columnWrapper}
         style={styles.list}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{selectedFolder}</Text>
+          </View>
+        }
       />
     </View>
   );
@@ -126,7 +131,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: '#111',
   },
   list: {
     marginTop: -28,
@@ -137,18 +142,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listContent: {
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingBottom: 12,
     margin: 0,
   },
   columnWrapper: {
     gap: 12,
   },
-
   photo: {
     width: '100%',
     height: '100%',
   },
   errorText: {
     color: 'red',
+  },
+  header: {
+    paddingVertical: 16,
+  },
+  headerText: {
+    fontSize: 32,
+    fontWeight: 500,
+    color: 'white',
   },
 });
