@@ -1,6 +1,7 @@
 import { event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
 import KeyboardManager, { type KeyboardEvent } from './KeyboardManager';
+import { ax } from './ax';
 
 type KeyboardEventCode = number;
 type KeyboardEventCodeModifier = string;
@@ -70,14 +71,25 @@ export function useHookKeyboard() {
   });
 }
 
-export function onHotkeys(hotkeyCallbacks: Partial<Record<KeyboardEventCodeHotkey, () => void>>) {
-  const hotkeyMap = new Map<string[], () => void>();
+interface KeyboardHotkeyOptions {
+  repeat?: boolean;
+}
 
+type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, () => void>> & {
+  options: KeyboardHotkeyOptions;
+};
+
+export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
+  const hotkeyMap = new Map<string[], () => void>();
+  const { options } = hotkeyCallbacks;
   // Process each combination and its callback
   for (const [hotkey, callback] of Object.entries(hotkeyCallbacks)) {
-    const keys = hotkey.toLowerCase().split('+');
-    keysToPreventDefault.add(Number(keys[keys.length - 1]));
-    hotkeyMap.set(keys, callback!);
+    if (hotkey === 'options') {
+    } else {
+      const keys = hotkey.toLowerCase().split('+');
+      keysToPreventDefault.add(Number(keys[keys.length - 1]));
+      hotkeyMap.set(keys, callback as () => void);
+    }
   }
 
   const checkHotkeys = () => {
@@ -90,7 +102,10 @@ export function onHotkeys(hotkeyCallbacks: Partial<Record<KeyboardEventCodeHotke
     }
   };
 
-  const unsubs = [keysPressed$.onChange(checkHotkeys), keyRepeat$.on(checkHotkeys)];
+  const unsubs = ax(
+    keysPressed$.onChange(checkHotkeys),
+    options?.repeat && keyRepeat$.on(checkHotkeys)
+  );
 
   return () => {
     for (const unsub of unsubs) {
@@ -98,6 +113,6 @@ export function onHotkeys(hotkeyCallbacks: Partial<Record<KeyboardEventCodeHotke
     }
   };
 }
-export function useOnHotkeys(hotkeyCallbacks: Record<string, () => void>) {
+export function useOnHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   useEffectOnce(() => onHotkeys(hotkeyCallbacks), []);
 }

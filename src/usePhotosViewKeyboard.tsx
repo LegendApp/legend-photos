@@ -46,5 +46,8 @@ export function usePhotosViewKeyboard() {
         selectedPhotoIndex$.set((v) => v! + numColumns);
       }
     },
+    options: {
+      repeat: true,
+    },
   });
 }
