@@ -12,6 +12,8 @@ export type KeyboardEventCodeHotkey =
 
 export const keysPressed$ = observable<Record<string, boolean>>({});
 
+const keysToPreventDefault = new Set<KeyboardEventCode>();
+
 // Handle events to set current key states
 const onKeyDown = (e: KeyboardEvent) => {
   const { keyCode } = e;
@@ -19,6 +21,8 @@ const onKeyDown = (e: KeyboardEvent) => {
   // if (!e.altKey) {
   keysPressed$[keyCode].set(true);
   // }
+
+  return keysToPreventDefault.has(keyCode);
 };
 const onKeyUp = (e: KeyboardEvent) => {
   const { keyCode } = e;
@@ -28,6 +32,8 @@ const onKeyUp = (e: KeyboardEvent) => {
   //   // If releasing Meta or Alt then we need to release all keys or they might get stuck on
   //   resetKeys();
   // }
+
+  return keysToPreventDefault.has(keyCode);
 };
 
 export function useHookKeyboard() {
@@ -62,6 +68,7 @@ export function onHotkeys(hotkeyCallbacks: Partial<Record<KeyboardEventCodeHotke
   // Process each combination and its callback
   for (const [hotkey, callback] of Object.entries(hotkeyCallbacks)) {
     const keys = hotkey.toLowerCase().split('+');
+    keysToPreventDefault.add(Number(keys[keys.length - 1]));
     hotkeyMap.set(keys, callback!);
   }
 

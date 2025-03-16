@@ -10,10 +10,11 @@ const keyboardEventEmitter = RNKeyboardManager ? new NativeEventEmitter(RNKeyboa
 export type KeyboardEvent = {
   keyCode: number;
   modifiers: number;
+  eventId?: string; // Optional eventId for tracking responses
 };
 
 // Define listener types
-export type KeyboardEventListener = (event: KeyboardEvent) => void;
+export type KeyboardEventListener = (event: KeyboardEvent) => boolean;
 
 // Define key codes in JavaScript instead of getting them from native
 export const KeyCodes = {
@@ -135,18 +136,44 @@ class KeyboardManager {
 
     // Local key down events
     keyboardEventEmitter.addListener('onKeyDown', (event: KeyboardEvent) => {
-      console.log('Received onKeyDown event:', event);
+      //   console.log('Received onKeyDown event:', event);
+      // Process listeners and check if any of them handled the event
+      let handled = false;
       for (const listener of this.keyDownListeners) {
-        listener(event);
+        // If any listener returns true, consider the event handled
+        if (listener(event)) {
+          handled = true;
+          break;
+        }
       }
+
+      // Send the result back to native
+      if (RNKeyboardManager.respondToKeyEvent && event.eventId) {
+        RNKeyboardManager.respondToKeyEvent(event.eventId, handled);
+      }
+
+      return handled;
     });
 
     // Local key up events
     keyboardEventEmitter.addListener('onKeyUp', (event: KeyboardEvent) => {
-      console.log('Received onKeyUp event:', event);
+      //   console.log('Received onKeyUp event:', event);
+      // Process listeners and check if any of them handled the event
+      let handled = false;
       for (const listener of this.keyUpListeners) {
-        listener(event);
+        // If any listener returns true, consider the event handled
+        if (listener(event)) {
+          handled = true;
+          break;
+        }
       }
+
+      // Send the result back to native
+      if (RNKeyboardManager.respondToKeyEvent && event.eventId) {
+        RNKeyboardManager.respondToKeyEvent(event.eventId, handled);
+      }
+
+      return handled;
     });
   }
 

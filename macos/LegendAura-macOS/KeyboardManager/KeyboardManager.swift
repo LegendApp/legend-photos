@@ -7,7 +7,7 @@ import Carbon
 class KeyboardManager: NSObject {
 
     // Callback type for keyboard events
-    typealias KeyboardEventCallback = (_ keyCode: Int, _ modifiers: Int) -> Void
+    typealias KeyboardEventCallback = (_ keyCode: Int, _ modifiers: Int) -> Bool
 
     // Singleton instance
     @objc static let shared = KeyboardManager()
@@ -58,11 +58,17 @@ class KeyboardManager: NSObject {
             let keyCode = Int(event.keyCode)
             let modifiers = Int(event.modifierFlags.rawValue)
 
-            // Call the appropriate callback based on event type
+            // Call the appropriate callback based on event type and check if handled
             if event.type == .keyDown {
-                self.localKeyDownCallback?(keyCode, modifiers)
+                if let handled = self.localKeyDownCallback?(keyCode, modifiers), handled {
+                    // Return nil to indicate the event was handled and should not propagate
+                    return nil
+                }
             } else if event.type == .keyUp {
-                self.localKeyUpCallback?(keyCode, modifiers)
+                if let handled = self.localKeyUpCallback?(keyCode, modifiers), handled {
+                    // Return nil to indicate the event was handled and should not propagate
+                    return nil
+                }
             }
 
             // Return the event to continue its normal processing
