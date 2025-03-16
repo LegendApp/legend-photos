@@ -8,12 +8,12 @@ import { useHookKeyboard, useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { initializeMetadata } from './PhotoMetadata';
 import { PhotosViewContainer } from './PhotosViewContainer';
-import { SettingsWindow } from './SettingsWindow';
 import Sidebar from './Sidebar';
 import { state$ } from './State';
 import { StoplightEnforcer } from './StoplightEnforcer';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
+import { SettingsWindow } from './settings/SettingsWindow';
 
 function App(): React.JSX.Element {
   useHookKeyboard();

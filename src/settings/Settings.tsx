@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { PlatformColor, ScrollView, Text, View, useColorScheme } from 'react-native';
-import { SidebarButton } from './SidebarButton';
+import { PlatformColor, ScrollView, View, useColorScheme } from 'react-native';
+import { SidebarButton } from '../SidebarButton';
+import { GeneralSettings } from './GeneralSettings';
+import { HotkeySettings } from './HotkeySettings';
+import { LibrarySettings } from './LibrarySettings';
+import { PluginSettings } from './PluginSettings';
+import { ThemeSettings } from './ThemeSettings';
 
 // Define the categories for settings
 const SETTING_CATEGORIES = [
@@ -56,39 +61,3 @@ export const Settings = () => {
     </View>
   );
 };
-
-// Placeholder components for each settings section
-const GeneralSettings = () => (
-  <View>
-    <Text className="text-2xl font-bold text-white mb-5">General Settings</Text>
-    {/* Add your general settings controls here */}
-  </View>
-);
-
-const HotkeySettings = () => (
-  <View>
-    <Text className="text-2xl font-bold text-white mb-5">Hotkey Settings</Text>
-    {/* Add your hotkey settings controls here */}
-  </View>
-);
-
-const ThemeSettings = () => (
-  <View>
-    <Text className="text-2xl font-bold text-white mb-5">Theme Settings</Text>
-    {/* Add your theme settings controls here */}
-  </View>
-);
-
-const PluginSettings = () => (
-  <View>
-    <Text className="text-2xl font-bold text-white mb-5">Plugin Settings</Text>
-    {/* Add your plugin settings controls here */}
-  </View>
-);
-
-const LibrarySettings = () => (
-  <View>
-    <Text className="text-2xl font-bold text-white mb-5">Library Settings</Text>
-    {/* Add library path, preview settings, etc. */}
-  </View>
-);
