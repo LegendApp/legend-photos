@@ -1,7 +1,8 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { useSelector } from '@legendapp/state/react';
+import { remapProps } from 'nativewind';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
@@ -35,6 +36,11 @@ const useGridColumns = () => {
 
   return columns;
 };
+
+remapProps(LegendList, {
+  className: 'style',
+  contentContainerClassName: 'contentContainerStyle',
+});
 
 export function PhotosView({ selectedFolder }: PhotosProps) {
   const numColumns = useGridColumns();
@@ -77,7 +83,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 
   if (loading) {
     return (
-      <View style={styles.centerContainer}>
+      <View className="flex-1 justify-center items-center">
         <Text>Loading photos...</Text>
       </View>
     );
@@ -85,15 +91,15 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 
   if (error) {
     return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.errorText}>{error}</Text>
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500">{error}</Text>
       </View>
     );
   }
 
   if (!selectedFolder) {
     return (
-      <View style={styles.centerContainer}>
+      <View className="flex-1 justify-center items-center">
         <Text>Select a folder to view photos</Text>
       </View>
     );
@@ -101,7 +107,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
 
   if (photos.length === 0) {
     return (
-      <View style={styles.centerContainer}>
+      <View className="flex-1 justify-center items-center">
         <Text>No photos found in this folder</Text>
       </View>
     );
@@ -115,52 +121,16 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
         numColumns={numColumns}
         estimatedItemSize={200}
         keyExtractor={(item) => item}
-        contentContainerStyle={styles.listContent}
-        columnWrapperStyle={styles.columnWrapper}
-        style={styles.list}
+        contentContainerClassName="px-4 pb-4 m-0"
+        // eslint-disable-next-line react-native/no-inline-styles
+        columnWrapperStyle={{ gap: 12 }}
+        className="mt-[-28px]"
         ListHeaderComponent={
-          <View style={styles.header}>
-            <Text style={styles.headerText}>{selectedFolder}</Text>
+          <View className="py-4">
+            <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
           </View>
         }
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  list: {
-    marginTop: -28,
-  },
-  centerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  listContent: {
-    paddingHorizontal: 12,
-    paddingBottom: 12,
-    margin: 0,
-  },
-  columnWrapper: {
-    gap: 12,
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-  },
-  errorText: {
-    color: 'red',
-  },
-  header: {
-    paddingVertical: 16,
-  },
-  headerText: {
-    fontSize: 32,
-    fontWeight: 500,
-    color: 'white',
-  },
-});

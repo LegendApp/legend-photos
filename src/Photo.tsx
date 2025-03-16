@@ -48,51 +48,13 @@ export const Photo = ({ photoName, folderPath, index }: PhotoProps) => {
   });
 
   return (
-    <View ref={photoRef} style={[styles.photoContainer]}>
-      <Pressable onPress={onPress} style={styles.pressable}>
-        <Image source={{ uri: photoUri }} style={styles.photo} resizeMode={'cover'} />
-        {isSelected && <View style={styles.selectionBorder} />}
+    <View ref={photoRef} className="aspect-square rounded-lg overflow-hidden bg-black/5">
+      <Pressable onPress={onPress} className="w-full h-full">
+        <Image source={{ uri: photoUri }} className="w-full h-full" resizeMode={'cover'} />
+        {isSelected && (
+          <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
+        )}
       </Pressable>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  photoContainer: {
-    // margin: 4,
-    aspectRatio: 1,
-    borderRadius: 8,
-    overflow: 'hidden',
-    backgroundColor: 'rgba(0,0,0,0.05)',
-  },
-  fullscreenContainer: {
-    margin: 0,
-    aspectRatio: undefined,
-    borderRadius: 0,
-    flex: 1,
-    backgroundColor: 'black',
-  },
-  selectionBorder: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 8,
-    pointerEvents: 'none',
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4,
-  },
-  pressable: {
-    width: '100%',
-    height: '100%',
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-  },
-});

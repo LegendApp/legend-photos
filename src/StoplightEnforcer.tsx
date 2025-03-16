@@ -1,4 +1,4 @@
-import React, { Pressable, StyleSheet } from 'react-native';
+import React, { Pressable } from 'react-native';
 import { state$ } from './State';
 
 export function StoplightEnforcer() {
@@ -12,21 +12,10 @@ export function StoplightEnforcer() {
 
   return (
     <Pressable
-      style={styles.stoplight}
+      className="absolute top-0 left-0 right-0 h-[26px] z-[1000]"
       onPointerMove={onHover}
       onHoverIn={onHover}
       onHoverOut={onHoverLeave}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  stoplight: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 26,
-    zIndex: 1000,
-  },
-});

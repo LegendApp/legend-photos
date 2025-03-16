@@ -1,7 +1,7 @@
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { Animated } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { PhotosView } from './PhotosView';
@@ -39,17 +39,8 @@ export function PhotosViewContainer() {
   });
 
   return (
-    <Animated.View style={[styles.mainContent, { left: animatedWidth }]}>
+    <Animated.View className="absolute top-0 bottom-0 right-0" style={{ left: animatedWidth }}>
       <PhotosView selectedFolder={selectedFolder} />
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContent: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-  },
-});

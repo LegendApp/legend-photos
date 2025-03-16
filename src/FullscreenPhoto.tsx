@@ -1,6 +1,6 @@
 import { use$ } from '@legendapp/state/react';
 import React, { useEffect } from 'react';
-import { Animated, Dimensions, Image, Pressable, StyleSheet } from 'react-native';
+import { Animated, Dimensions, Image, Pressable } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { state$ } from './State';
@@ -154,40 +154,22 @@ export const FullscreenPhoto = () => {
 
   return (
     <Animated.View
-      style={[
-        styles.container,
-        {
-          opacity: animatedOpacity,
-          left: animatedPositionX,
-          top: animatedPositionY,
-          right: animatedRight,
-          bottom: animatedBottom,
-        },
-      ]}
+      className="absolute z-[9999] rounded-lg"
+      style={{
+        opacity: animatedOpacity,
+        left: animatedPositionX,
+        top: animatedPositionY,
+        right: animatedRight,
+        bottom: animatedBottom,
+      }}
     >
-      <Pressable style={styles.pressable} onPress={closeFullscreen}>
-        <Image source={{ uri: fullscreenData.uri }} style={styles.image} resizeMode="contain" />
+      <Pressable className="w-full h-full justify-center items-center" onPress={closeFullscreen}>
+        <Image
+          source={{ uri: fullscreenData.uri }}
+          className="w-full h-full"
+          resizeMode="contain"
+        />
       </Pressable>
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    // backgroundColor: 'rgba(0, 0, 0, 0.95)',
-    zIndex: 9999,
-    // elevation: 10,
-    borderRadius: 8,
-  },
-  pressable: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-});

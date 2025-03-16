@@ -1,15 +1,7 @@
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
-import {
-  Animated,
-  PlatformColor,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  useColorScheme,
-} from 'react-native';
+import { Animated, PlatformColor, Pressable, Text, View, useColorScheme } from 'react-native';
 import { listFoldersWithPhotosRecursive } from './FileManager';
 import { state$ } from './State';
 
@@ -29,23 +21,21 @@ function File({
   selectedFile: string | undefined;
   onFileSelect: (file: string) => void;
 }) {
+  const isSelected = selectedFile === file;
+  const textColor = isSelected
+    ? isDarkMode
+      ? 'text-white'
+      : 'text-[#333]'
+    : isDarkMode
+      ? 'text-[#bbb]'
+      : 'text-[#333]';
+
   return (
     <Pressable
-      style={[styles.fileItem, selectedFile === file && styles.selectedFileItem]}
+      className={`px-2 py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : ''}`}
       onPress={() => onFileSelect(file)}
     >
-      <Text
-        style={[
-          styles.fileText,
-          {
-            color:
-              selectedFile === file ? (isDarkMode ? '#fff' : '#333') : isDarkMode ? '#bbb' : '#333',
-          },
-          selectedFile === file && styles.selectedFileText,
-        ]}
-      >
-        {file}
-      </Text>
+      <Text className={`text-sm ${textColor}`}>{file}</Text>
     </Pressable>
   );
 }
@@ -58,8 +48,14 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
   const sidebarWidth = useSelector(state$.sidebarWidth);
 
   return (
-    <Animated.View style={[styles.container, { width: sidebarWidth }]}>
-      <View style={styles.fileList}>
+    <Animated.View
+      className="h-full pt-6"
+      style={{
+        width: sidebarWidth,
+        backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush'),
+      }}
+    >
+      <View className="flex-1 py-2">
         {files?.map((file) => (
           <File
             key={file}
@@ -73,48 +69,5 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
     </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    // borderRightWidth: 1,
-    // borderRightColor: 'rgba(0,0,0,0.1)',
-    height: '100%',
-    backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush'),
-    paddingTop: 24,
-  },
-  fileList: {
-    flex: 1,
-    paddingVertical: 8,
-  },
-  fileItem: {
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    borderRadius: 6,
-    marginHorizontal: 4,
-    // marginBottom: 4,
-  },
-  selectedFileItem: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  fileText: {
-    fontSize: 14,
-  },
-  selectedFileText: {
-    // fontWeight: 'bold',
-  },
-  loaderContainer: {
-    padding: 20,
-    alignItems: 'center',
-  },
-  message: {
-    marginTop: 8,
-    textAlign: 'center',
-    padding: 10,
-  },
-  errorMessage: {
-    textAlign: 'center',
-    padding: 10,
-  },
-});
 
 export default Sidebar;
