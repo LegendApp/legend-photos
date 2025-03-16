@@ -3,11 +3,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { state$ } from './State';
 
-export const SecondaryWindow = () => {
+export const Settings = () => {
   const selectedFolder = use$(state$.selectedFolder);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>New window</Text>
+      <Text style={styles.text}>Settings</Text>
       <Text style={styles.text}>{selectedFolder}</Text>
     </View>
   );
@@ -18,13 +18,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#111',
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
 });
-
-export default SecondaryWindow;

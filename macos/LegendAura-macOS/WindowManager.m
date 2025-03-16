@@ -60,7 +60,7 @@ RCT_EXPORT_METHOD(openWindow:(NSDictionary *)options
   }
 
   self.rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                          moduleName:@"SecondaryWindow"
+                                          moduleName:@"SettingsWindow"
                                    initialProperties:nil];
 
   [self.secondWindow setContentView:self.rootView];

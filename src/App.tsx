@@ -4,15 +4,16 @@ import { SafeAreaView, View } from 'react-native';
 import '../global.css';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
-import { useHookKeyboard } from './Keyboard';
+import { useHookKeyboard, useOnHotkeys } from './Keyboard';
+import { KeyCodes } from './KeyboardManager';
 import { initializeMetadata } from './PhotoMetadata';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { state$ } from './State';
 import { StoplightEnforcer } from './StoplightEnforcer';
-import WindowControls from './components/WindowControls';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
+import { SettingsWindow } from './src/SettingsWindow';
 
 function App(): React.JSX.Element {
   useHookKeyboard();
@@ -41,10 +42,10 @@ function App(): React.JSX.Element {
         <PhotosViewContainer />
         <PluginRenderer location="root" className="absolute bottom-4 right-4" />
       </View>
-      <WindowControls />
       <FullscreenPhoto />
       <HookWindowDimensions />
       <StoplightEnforcer />
+      <SettingsWindow />
     </SafeAreaView>
   );
 }

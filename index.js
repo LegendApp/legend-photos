@@ -5,7 +5,7 @@
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 import App from './src/App';
-import SecondaryWindow from './src/SecondaryWindow';
+import { Settings } from './src/Settings';
 
 AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerComponent('SecondaryWindow', () => SecondaryWindow);
+AppRegistry.registerComponent('SettingsWindow', () => Settings);
