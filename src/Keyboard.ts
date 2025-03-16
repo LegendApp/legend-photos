@@ -76,7 +76,7 @@ interface KeyboardHotkeyOptions {
 }
 
 type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, () => void>> & {
-  options: KeyboardHotkeyOptions;
+  options?: KeyboardHotkeyOptions;
 };
 
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
