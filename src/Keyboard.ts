@@ -1,4 +1,4 @@
-import { observable } from '@legendapp/state';
+import { event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
 import KeyboardManager, { type KeyboardEvent } from './KeyboardManager';
 
@@ -11,6 +11,7 @@ export type KeyboardEventCodeHotkey =
   | `${KeyboardEventCodeModifier}+${KeyboardEventCodeModifier}+${KeyboardEventCode}`;
 
 export const keysPressed$ = observable<Record<string, boolean>>({});
+const keyRepeat$ = event();
 
 const keysToPreventDefault = new Set<KeyboardEventCode>();
 
@@ -19,7 +20,14 @@ const onKeyDown = (e: KeyboardEvent) => {
   const { keyCode } = e;
   // Add the pressed key if not holding Alt
   // if (!e.altKey) {
+  const isAlreadyPressed = keysPressed$[keyCode].get();
   keysPressed$[keyCode].set(true);
+
+  if (isAlreadyPressed) {
+    keyRepeat$.fire();
+  }
+
+  console.log('keydown', keyCode, keysToPreventDefault.has(keyCode));
   // }
 
   return keysToPreventDefault.has(keyCode);
@@ -82,9 +90,14 @@ export function onHotkeys(hotkeyCallbacks: Partial<Record<KeyboardEventCodeHotke
     }
   };
 
-  return keysPressed$.onChange(checkHotkeys);
-}
+  const unsubs = [keysPressed$.onChange(checkHotkeys), keyRepeat$.on(checkHotkeys)];
 
+  return () => {
+    for (const unsub of unsubs) {
+      unsub();
+    }
+  };
+}
 export function useOnHotkeys(hotkeyCallbacks: Record<string, () => void>) {
   useEffectOnce(() => onHotkeys(hotkeyCallbacks), []);
 }
