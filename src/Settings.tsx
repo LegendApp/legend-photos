@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PlatformColor, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { PlatformColor, ScrollView, Text, View, useColorScheme } from 'react-native';
+import { SidebarButton } from './SidebarButton';
 
 // Define the categories for settings
 const SETTING_CATEGORIES = [
@@ -13,6 +14,7 @@ const SETTING_CATEGORIES = [
 
 export const Settings = () => {
   const [selectedCategory, setSelectedCategory] = useState('general');
+  const isDarkMode = useColorScheme() === 'dark';
 
   const renderContent = () => {
     switch (selectedCategory) {
@@ -39,19 +41,13 @@ export const Settings = () => {
       <View className="w-[200px] border-r border-r-[#333]">
         <ScrollView>
           {SETTING_CATEGORIES.map((category) => (
-            <Pressable
+            <SidebarButton
               key={category.id}
-              className={`p-3 pl-4 ${selectedCategory === category.id ? 'bg-[#333]' : ''}`}
+              label={category.label}
+              isSelected={selectedCategory === category.id}
+              isDarkMode={isDarkMode}
               onPress={() => setSelectedCategory(category.id)}
-            >
-              <Text
-                className={`text-sm ${
-                  selectedCategory === category.id ? 'text-white font-bold' : 'text-[#ccc]'
-                }`}
-              >
-                {category.label}
-              </Text>
-            </Pressable>
+            />
           ))}
         </ScrollView>
       </View>
