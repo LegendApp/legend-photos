@@ -52,6 +52,7 @@ RCT_EXPORT_METHOD(openWindow:(NSDictionary *)options
   [self.secondWindow setTitle:title];
   [self.secondWindow center];
 
+
   // Create a RCTRootView with the name of the component to render
   RCTBridge *bridge = self.bridge;
   if (!bridge) {
@@ -62,6 +63,17 @@ RCT_EXPORT_METHOD(openWindow:(NSDictionary *)options
   self.rootView = [[RCTRootView alloc] initWithBridge:bridge
                                           moduleName:@"SettingsWindow"
                                    initialProperties:nil];
+
+  NSVisualEffectView *blurView = [[NSVisualEffectView alloc] initWithFrame:self.secondWindow.contentView.bounds];
+  blurView.blendingMode = NSVisualEffectBlendingModeBehindWindow;
+  blurView.material = NSVisualEffectMaterialUnderWindowBackground;
+  blurView.state = NSVisualEffectStateActive;
+
+  // Ensure the blur view resizes with the window
+  blurView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
+  [self.rootView addSubview:blurView positioned:NSWindowBelow relativeTo:nil];
+
 
   [self.secondWindow setContentView:self.rootView];
 

@@ -10,8 +10,10 @@ alwaysApply: true
 
 # Rules for you
 
+- This is a React Native app, specifically a react-native-macOS app.
 - If I ask to make a component, put it in its own file unless I specify otherwise
 - This is a macOS app. Do not do anything Android, iOS, or web specific.
 - ONLY do what I ask you, nothing else. Do not do anything extra that I did not ask for.
 - If I made changes after you, respect my changes and do not undo them.
 - Don't try to run the app yourself.
+- Use tailwind/nativewind classes rather than stylesheets.

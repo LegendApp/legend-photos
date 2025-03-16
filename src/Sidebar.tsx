@@ -49,7 +49,7 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
 
   return (
     <Animated.View
-      className="h-full pt-6"
+      className="h-full pt-6 border-r border-r-[#333]"
       style={{
         width: sidebarWidth,
         backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush'),

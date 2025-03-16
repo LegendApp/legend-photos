@@ -1,28 +1,98 @@
-import { use$ } from '@legendapp/state/react';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { state$ } from './State';
+import React, { useState } from 'react';
+import { PlatformColor, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+
+// Define the categories for settings
+const SETTING_CATEGORIES = [
+  { id: 'general', label: 'General' },
+  { id: 'hotkeys', label: 'Hotkeys' },
+  { id: 'themes', label: 'Themes' },
+  { id: 'plugins', label: 'Plugins' },
+  { id: 'library', label: 'Library' },
+  // Add more categories as needed
+];
 
 export const Settings = () => {
-  const selectedFolder = use$(state$.selectedFolder);
+  const [selectedCategory, setSelectedCategory] = useState('general');
+
+  const renderContent = () => {
+    switch (selectedCategory) {
+      case 'general':
+        return <GeneralSettings />;
+      case 'hotkeys':
+        return <HotkeySettings />;
+      case 'themes':
+        return <ThemeSettings />;
+      case 'plugins':
+        return <PluginSettings />;
+      case 'library':
+        return <LibrarySettings />;
+      default:
+        return <GeneralSettings />;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Settings</Text>
-      <Text style={styles.text}>{selectedFolder}</Text>
+    <View
+      className="flex flex-1 flex-row bg-[#111]"
+      style={{ backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush') }}
+    >
+      <View className="w-[200px] border-r border-r-[#333]">
+        <ScrollView>
+          {SETTING_CATEGORIES.map((category) => (
+            <Pressable
+              key={category.id}
+              className={`p-3 pl-4 ${selectedCategory === category.id ? 'bg-[#333]' : ''}`}
+              onPress={() => setSelectedCategory(category.id)}
+            >
+              <Text
+                className={`text-sm ${
+                  selectedCategory === category.id ? 'text-white font-bold' : 'text-[#ccc]'
+                }`}
+              >
+                {category.label}
+              </Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+      </View>
+
+      <View className="flex-1 p-5 bg-[#1a1a1a]">{renderContent()}</View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#111',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-});
+// Placeholder components for each settings section
+const GeneralSettings = () => (
+  <View>
+    <Text className="text-2xl font-bold text-white mb-5">General Settings</Text>
+    {/* Add your general settings controls here */}
+  </View>
+);
+
+const HotkeySettings = () => (
+  <View>
+    <Text className="text-2xl font-bold text-white mb-5">Hotkey Settings</Text>
+    {/* Add your hotkey settings controls here */}
+  </View>
+);
+
+const ThemeSettings = () => (
+  <View>
+    <Text className="text-2xl font-bold text-white mb-5">Theme Settings</Text>
+    {/* Add your theme settings controls here */}
+  </View>
+);
+
+const PluginSettings = () => (
+  <View>
+    <Text className="text-2xl font-bold text-white mb-5">Plugin Settings</Text>
+    {/* Add your plugin settings controls here */}
+  </View>
+);
+
+const LibrarySettings = () => (
+  <View>
+    <Text className="text-2xl font-bold text-white mb-5">Library Settings</Text>
+    {/* Add library path, preview settings, etc. */}
+  </View>
+);
