@@ -19,7 +19,6 @@ const SpringClose = {
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
-  const dimensions = Dimensions.get('window');
 
   // Animation values
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
@@ -31,6 +30,7 @@ export const FullscreenPhoto = () => {
   useEffect(() => {
     if (fullscreenData) {
       // Set initial values
+      const dimensions = Dimensions.get('window');
       animatedOpacity.setValue(0);
       animatedPositionX.setValue(fullscreenData.initialPosition.x);
       animatedPositionY.setValue(fullscreenData.initialPosition.y);
@@ -89,8 +89,6 @@ export const FullscreenPhoto = () => {
     animatedPositionY,
     animatedRight,
     animatedBottom,
-    dimensions.width,
-    dimensions.height,
   ]);
 
   const closeFullscreen = () => {
@@ -98,6 +96,8 @@ export const FullscreenPhoto = () => {
     if (!fullscreenPhoto) {
       return;
     }
+
+    const dimensions = Dimensions.get('window');
 
     const right =
       dimensions.width - fullscreenPhoto.initialPosition.width - fullscreenPhoto.initialPosition.x;
