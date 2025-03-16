@@ -1,6 +1,8 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { useState } from 'react';
-import { Button, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TextInput, View } from 'react-native';
+import { Button } from '../components/Button';
+import { SegmentedControl } from '../components/SegmentedControl';
 import {
   addLibraryPath,
   removeLibraryPath,
@@ -40,113 +42,96 @@ export const LibrarySettings = () => {
   };
 
   return (
-    <View>
-      <Text className="text-2xl font-bold text-white mb-5">Library Settings</Text>
+    <View className="space-y-8">
+      <Text className="text-2xl font-bold text-white mb-2">Library Settings</Text>
 
       {/* Library Paths */}
-      <View className="mb-6">
-        <Text className="text-lg text-white mb-2">Library Paths</Text>
-        <View className="flex-row mb-2">
+      <View className="pb-8">
+        <Text className="text-base font-medium text-white mb-3">Library Paths</Text>
+        <View className="flex-row mb-3">
           <TextInput
-            className="flex-1 bg-[#333] text-white px-3 py-2 rounded-md mr-2"
+            className="flex-1 bg-[#333] text-white px-3 py-2 rounded-md mr-2 border border-[#555]"
             value={newPath}
             onChangeText={setNewPath}
             placeholder="Add a new library path..."
             placeholderTextColor="#999"
           />
-          <Button title="Add" onPress={handleAddPath} />
+          <Button
+            title="Add"
+            onPress={handleAddPath}
+            disabled={!newPath.trim()}
+            variant={newPath.trim() ? 'primary' : 'secondary'}
+          />
         </View>
 
         <FlatList
           data={librarySettings.paths}
           keyExtractor={(item) => item}
           renderItem={({ item }) => (
-            <View className="flex-row items-center justify-between bg-[#222] p-2 rounded-md mb-1">
+            <View className="flex-row items-center justify-between bg-[#222] p-2 rounded-md mb-1 border border-[#444]">
               <Text className="text-white">{item}</Text>
-              <TouchableOpacity onPress={() => handleRemovePath(item)}>
-                <Text className="text-red-500">Remove</Text>
-              </TouchableOpacity>
+              <Button
+                title="Remove"
+                variant="danger"
+                size="small"
+                onPress={() => handleRemovePath(item)}
+              />
             </View>
           )}
           ListEmptyComponent={
-            <Text className="text-gray-400 italic">No library paths added yet</Text>
+            <View className="py-3 px-4 bg-[#222] rounded-md border border-[#444]">
+              <Text className="text-gray-400 text-center">No library paths added yet</Text>
+            </View>
           }
           className="max-h-40"
         />
       </View>
 
       {/* Preview Size */}
-      <View className="mb-4">
-        <Text className="text-lg text-white mb-2">Preview Size</Text>
-        <View className="flex-row">
-          {(['small', 'medium', 'large'] as const).map((size) => (
-            <TouchableOpacity
-              key={size}
-              className={`px-4 py-2 rounded-md mr-2 ${
-                librarySettings.previewSize === size ? 'bg-blue-600' : 'bg-[#333]'
-              }`}
-              onPress={() => handlePreviewSizeChange(size)}
-            >
-              <Text className="text-white capitalize">{size}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <View className="pb-8">
+        <Text className="text-base font-medium text-white mb-3">Preview Size</Text>
+        <SegmentedControl
+          options={['small', 'medium', 'large'] as const}
+          selectedValue={librarySettings.previewSize}
+          onValueChange={handlePreviewSizeChange}
+          labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
+          className="w-64"
+        />
       </View>
 
       {/* Show Filenames */}
-      <View className="mb-4">
-        <Text className="text-lg text-white mb-2">Show Filenames</Text>
-        <View className="flex-row">
-          {[true, false].map((show) => (
-            <TouchableOpacity
-              key={String(show)}
-              className={`px-4 py-2 rounded-md mr-2 ${
-                librarySettings.showFilenames === show ? 'bg-blue-600' : 'bg-[#333]'
-              }`}
-              onPress={() => handleShowFilenamesChange(show)}
-            >
-              <Text className="text-white">{show ? 'Yes' : 'No'}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <View className="pb-8">
+        <Text className="text-base font-medium text-white mb-3">Show Filenames</Text>
+        <SegmentedControl
+          options={['yes', 'no'] as const}
+          selectedValue={librarySettings.showFilenames ? 'yes' : 'no'}
+          onValueChange={(value) => handleShowFilenamesChange(value === 'yes')}
+          className="w-32"
+        />
       </View>
 
       {/* Sort Options */}
-      <View className="mb-4">
-        <Text className="text-lg text-white mb-2">Sort By</Text>
-        <View className="flex-row flex-wrap">
-          {(['name', 'date', 'size', 'type'] as const).map((sort) => (
-            <TouchableOpacity
-              key={sort}
-              className={`px-4 py-2 rounded-md mr-2 mb-2 ${
-                librarySettings.sortBy === sort ? 'bg-blue-600' : 'bg-[#333]'
-              }`}
-              onPress={() => handleSortChange(sort)}
-            >
-              <Text className="text-white capitalize">{sort}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+      <View className="pb-8">
+        <Text className="text-base font-medium text-white mb-3">Sort By</Text>
+        <SegmentedControl
+          options={['name', 'date', 'size', 'type'] as const}
+          selectedValue={librarySettings.sortBy}
+          onValueChange={handleSortChange}
+          labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
+          className="w-64"
+        />
       </View>
 
       {/* Sort Direction */}
       <View>
-        <Text className="text-lg text-white mb-2">Sort Direction</Text>
-        <View className="flex-row">
-          {(['asc', 'desc'] as const).map((direction) => (
-            <TouchableOpacity
-              key={direction}
-              className={`px-4 py-2 rounded-md mr-2 ${
-                librarySettings.sortDirection === direction ? 'bg-blue-600' : 'bg-[#333]'
-              }`}
-              onPress={() => handleSortDirectionChange(direction)}
-            >
-              <Text className="text-white capitalize">
-                {direction === 'asc' ? 'Ascending' : 'Descending'}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Text className="text-base font-medium text-white mb-3">Sort Direction</Text>
+        <SegmentedControl
+          options={['asc', 'desc'] as const}
+          selectedValue={librarySettings.sortDirection}
+          onValueChange={handleSortDirectionChange}
+          labelExtractor={(value) => (value === 'asc' ? 'Ascending' : 'Descending')}
+          className="w-64"
+        />
       </View>
     </View>
   );
