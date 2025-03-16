@@ -1,8 +1,9 @@
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { Animated, PlatformColor, Pressable, Text, View, useColorScheme } from 'react-native';
+import { Animated, PlatformColor, View, useColorScheme } from 'react-native';
 import { listFoldersWithPhotosRecursive } from './FileManager';
+import { SidebarButton } from './SidebarButton';
 import { state$ } from './State';
 
 interface SidebarProps {
@@ -22,21 +23,14 @@ function File({
   onFileSelect: (file: string) => void;
 }) {
   const isSelected = selectedFile === file;
-  const textColor = isSelected
-    ? isDarkMode
-      ? 'text-white'
-      : 'text-[#333]'
-    : isDarkMode
-      ? 'text-[#bbb]'
-      : 'text-[#333]';
 
   return (
-    <Pressable
-      className={`px-2 py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : ''}`}
+    <SidebarButton
+      label={file}
+      isSelected={isSelected}
+      isDarkMode={isDarkMode}
       onPress={() => onFileSelect(file)}
-    >
-      <Text className={`text-sm ${textColor}`}>{file}</Text>
-    </Pressable>
+    />
   );
 }
 
@@ -49,7 +43,7 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
 
   return (
     <Animated.View
-      className="h-full pt-6"
+      className="h-full pt-6 border-r border-r-[#333]"
       style={{
         width: sidebarWidth,
         backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush'),

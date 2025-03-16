@@ -97,6 +97,11 @@ export const KeyCodes = {
   KEY_DOWN: 125,
   KEY_UP: 126,
 
+  // Punctuation Keys
+  KEY_COMMA: 43,
+  KEY_PERIOD: 47,
+  KEY_SLASH: 44,
+
   // Modifiers
   MODIFIER_COMMAND: 1 << 20,
   MODIFIER_SHIFT: 1 << 17,

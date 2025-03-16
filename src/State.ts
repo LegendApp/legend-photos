@@ -24,6 +24,7 @@ export const state$ = observable({
   numColumns: 1 as number,
   isPhotoFullscreenCoveringControls: false,
   stoplightEnforcerHovered: false,
+  showSettings: false,
 });
 
 observe(() => {

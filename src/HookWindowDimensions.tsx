@@ -2,6 +2,7 @@ import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import { useEffect, useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
+import { state$ } from './State';
 // Observable to store window dimensions
 export const windowDimensions$ = observable({
   width: 0,
@@ -10,13 +11,16 @@ export const windowDimensions$ = observable({
 
 export function HookWindowDimensions() {
   const dimensions = useWindowDimensions();
+  console.log('dimensions', dimensions);
 
   useEffect(() => {
-    // Update the observable whenever dimensions change
-    windowDimensions$.set({
-      width: dimensions.width,
-      height: dimensions.height,
-    });
+    if (!state$.showSettings.get()) {
+      // Update the observable whenever dimensions change
+      windowDimensions$.set({
+        width: dimensions.width,
+        height: dimensions.height,
+      });
+    }
   }, [dimensions.width, dimensions.height]);
 
   // This component doesn't render anything
