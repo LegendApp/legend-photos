@@ -33,16 +33,14 @@ function RatingComponent({ photo }: RatingPluginProps) {
   const stars = [];
   const currentRating = photoMetadata$.rating.get() || 0;
 
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= currentRating; i++) {
     stars.push(
       <Pressable
         key={i}
         onPress={() => handleRatingChange(i)}
         className="items-center justify-center"
       >
-        <Text className={`text-xl ${i <= currentRating ? 'text-yellow-400' : 'text-white/30'}`}>
-          ★
-        </Text>
+        <Text className="text-lg text-yellow-400/80">★</Text>
       </Pressable>
     );
   }
