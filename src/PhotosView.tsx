@@ -3,11 +3,11 @@ import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { listPhotosInFolder } from './FileManager';
+import { type PhotoInfo, listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
-import { PhotoMetadataControls } from './PhotoMetadataControls';
 import { state$ } from './State';
+import { ax } from './ax';
 import { LegendList } from './src/LegendList';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
@@ -49,6 +49,26 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  let minDate: Date | undefined;
+  let maxDate: Date | undefined;
+  for (let i = 0; i < photos.length; i++) {
+    const ctime = photos[i].ctime;
+    if (ctime && (!minDate || ctime < minDate)) {
+      minDate = ctime;
+    }
+    if (ctime && (!maxDate || ctime > maxDate)) {
+      maxDate = ctime;
+    }
+  }
+  let dateRange: string | undefined;
+  if (minDate && maxDate) {
+    if (minDate.getDate() === maxDate.getDate()) {
+      dateRange = minDate.toLocaleDateString();
+    } else {
+      dateRange = `${minDate.toLocaleDateString()} - ${maxDate.toDateString()}`;
+    }
+  }
+
   // Set up keyboard shortcuts
   usePhotosViewKeyboard();
 
@@ -77,9 +97,9 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     loadPhotos();
   }, [selectedFolder]);
 
-  const renderPhoto = ({ item, index }: { item: string; index: number }) => {
+  const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
     const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-    return <Photo photoName={item} folderPath={folderPath} index={index} />;
+    return <Photo photoName={item.name} folderPath={folderPath} index={index} />;
   };
 
   if (loading) {
@@ -114,6 +134,8 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     );
   }
 
+  const subtitle = ax(dateRange, `${photos.length} photos`);
+
   return (
     <View className="flex-1 bg-[#111]">
       <View className="flex-1">
@@ -122,14 +144,21 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
           renderItem={renderPhoto}
           numColumns={numColumns}
           estimatedItemSize={200}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item.name}
           contentContainerClassName="px-4 pb-4 m-0"
           // eslint-disable-next-line react-native/no-inline-styles
           columnWrapperStyle={{ gap: 12 }}
           className="mt-[-28px]"
           ListHeaderComponent={
-            <View className="py-4">
+            <View className="py-3">
               <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
+              <View className="gap-x-3 flex-row">
+                {subtitle.map((t) => (
+                  <Text key={t} className="text-xs font-medium text-white/60 pt-2">
+                    {t}
+                  </Text>
+                ))}
+              </View>
             </View>
           }
         />

@@ -155,19 +155,17 @@ export const FullscreenPhoto = () => {
 
   return (
     <Animated.View
+      className="bg-black z-[100] absolute"
       style={{
-        position: 'absolute',
         left: animatedPositionX,
         top: animatedPositionY,
         right: animatedRight,
         bottom: animatedBottom,
         opacity: animatedOpacity,
-        backgroundColor: 'black',
-        zIndex: 100,
       }}
     >
-      <Pressable style={{ flex: 1 }} onPress={closeFullscreen}>
-        <Image source={{ uri: fullscreenData.uri }} style={{ flex: 1 }} resizeMode="contain" />
+      <Pressable className="flex-1" onPress={closeFullscreen}>
+        <Image source={{ uri: fullscreenData.uri }} className="flex-1" resizeMode="contain" />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}

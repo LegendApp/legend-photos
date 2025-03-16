@@ -1,5 +1,6 @@
 import { observable, observe } from '@legendapp/state';
 import { NativeModules } from 'react-native';
+import type { PhotoInfo } from './FileManager';
 
 const WindowControls = NativeModules.WindowControls;
 
@@ -15,7 +16,7 @@ export interface FullscreenPhotoData {
 }
 
 export const state$ = observable({
-  photos: [] as string[],
+  photos: [] as PhotoInfo[],
   selectedFolder: 'photos 1',
   selectedPhotoIndex: -1,
   fullscreenPhoto: null as FullscreenPhotoData | null,
