@@ -23,6 +23,8 @@
 		699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */; };
 		69A6CFA92D884B9C00B29080 /* NativeButtonBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A6CFA72D884B9C00B29080 /* NativeButtonBridge.m */; };
 		69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A6CFA62D884B9C00B29080 /* NativeButton.swift */; };
+		69B089872D88646500529066 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B089842D88646500529066 /* SFSymbol.swift */; };
+		69B089882D88646500529066 /* SFSymbolBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B089852D88646500529066 /* SFSymbolBridge.m */; };
 		D1C61F20F5A021D6CCF2371F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4F8EEDA247044CE1FAE37B40 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +52,8 @@
 		699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNKeyboardManager.swift; sourceTree = "<group>"; };
 		69A6CFA62D884B9C00B29080 /* NativeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeButton.swift; sourceTree = "<group>"; };
 		69A6CFA72D884B9C00B29080 /* NativeButtonBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeButtonBridge.m; sourceTree = "<group>"; };
+		69B089842D88646500529066 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
+		69B089852D88646500529066 /* SFSymbolBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSymbolBridge.m; sourceTree = "<group>"; };
 		6E3A4903C70CA590711C8752 /* Pods-LegendAura-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -85,6 +89,7 @@
 		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				69B089862D88646500529066 /* SFSymbol */,
 				69A6CFA82D884B9C00B29080 /* NativeButton */,
 				691ECB362D881B49001CE76E /* SegmentedControl */,
 				693B545B2D86D8E000E4580A /* WindowManager.h */,
@@ -137,6 +142,15 @@
 				69A6CFA72D884B9C00B29080 /* NativeButtonBridge.m */,
 			);
 			path = NativeButton;
+			sourceTree = "<group>";
+		};
+		69B089862D88646500529066 /* SFSymbol */ = {
+			isa = PBXGroup;
+			children = (
+				69B089842D88646500529066 /* SFSymbol.swift */,
+				69B089852D88646500529066 /* SFSymbolBridge.m */,
+			);
+			path = SFSymbol;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -401,6 +415,8 @@
 				69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */,
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
+				69B089872D88646500529066 /* SFSymbol.swift in Sources */,
+				69B089882D88646500529066 /* SFSymbolBridge.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
 				691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */,
 				691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */,
@@ -568,7 +584,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -624,7 +643,10 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
