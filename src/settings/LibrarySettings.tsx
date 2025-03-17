@@ -89,18 +89,19 @@ export const LibrarySettings = () => {
 
       {/* Preview Size */}
       <View className="pb-8 w-64">
-        <Text className="text-base font-medium text-white mb-2">Preview Size</Text>
+        <Text className="text-base font-medium text-white mb-6">Preview Size</Text>
         <SegmentedControl
           options={['small', 'medium', 'large'] as const}
           selectedValue={librarySettings.previewSize}
           onValueChange={handlePreviewSizeChange}
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
+          size="large"
         />
       </View>
 
       {/* Show Filenames */}
       <View className="pb-8 w-32">
-        <Text className="text-base font-medium text-white mb-2">Show Filenames</Text>
+        <Text className="text-base font-medium text-white mb-6">Show Filenames</Text>
         <SegmentedControl
           options={['yes', 'no'] as const}
           selectedValue={librarySettings.showFilenames ? 'yes' : 'no'}
@@ -108,28 +109,31 @@ export const LibrarySettings = () => {
             console.log('value');
             handleShowFilenamesChange(value === 'yes');
           }}
+          size="large"
         />
       </View>
 
       {/* Sort Options */}
       <View className="pb-8 w-64">
-        <Text className="text-base font-medium text-white mb-2">Sort By</Text>
+        <Text className="text-base font-medium text-white mb-6">Sort By</Text>
         <SegmentedControl
           options={['name', 'date', 'size', 'type'] as const}
           selectedValue={librarySettings.sortBy}
           onValueChange={handleSortChange}
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
+          size="large"
         />
       </View>
 
       {/* Sort Direction */}
       <View className="w-56">
-        <Text className="text-base font-medium text-white mb-2">Sort Direction</Text>
+        <Text className="text-base font-medium text-white mb-6">Sort Direction</Text>
         <SegmentedControl
           options={['asc', 'desc'] as const}
           selectedValue={librarySettings.sortDirection}
           onValueChange={handleSortDirectionChange}
           labelExtractor={(value) => (value === 'asc' ? 'Ascending' : 'Descending')}
+          size="large"
         />
       </View>
     </View>

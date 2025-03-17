@@ -1,15 +1,11 @@
 import React from 'react';
 import { Platform, Text, TouchableOpacity, View } from 'react-native';
-import { NativeSegmentedControl } from './NativeSegmentedControl';
+import {
+  NativeSegmentedControl,
+  type SegmentedControlProps as NativeSegmentedControlProps,
+} from './NativeSegmentedControl';
 
-interface SegmentedControlProps<T extends string> {
-  options: readonly T[];
-  selectedValue: T;
-  onValueChange: (value: T) => void;
-  labelExtractor?: (value: T) => string;
-  className?: string;
-  size?: 'regular' | 'small' | 'mini';
-}
+type SegmentedControlProps<T extends string> = NativeSegmentedControlProps<T>;
 
 export function SegmentedControl<T extends string>(props: SegmentedControlProps<T>) {
   // Use the native segmented control on macOS
@@ -23,12 +19,11 @@ export function SegmentedControl<T extends string>(props: SegmentedControlProps<
     selectedValue,
     onValueChange,
     labelExtractor,
-    className = '',
     // size prop is ignored in JS implementation
   } = props;
 
   return (
-    <View className={`flex-row rounded-md overflow-hidden border border-[#555] ${className}`}>
+    <View className="flex-row rounded-md overflow-hidden border border-[#555]">
       {options.map((option, index) => {
         const isSelected = option === selectedValue;
         const isFirst = index === 0;

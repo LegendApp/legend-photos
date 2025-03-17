@@ -94,6 +94,8 @@ class SegmentedControlView: NSView {
             segmentedControl.controlSize = .mini
         case "small":
             segmentedControl.controlSize = .small
+        case "large":
+            segmentedControl.controlSize = .large
         default:
             segmentedControl.controlSize = .regular
         }

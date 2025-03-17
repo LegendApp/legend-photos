@@ -5,18 +5,18 @@ interface NativeSegmentedControlProps extends ViewProps {
   segments: string[];
   selectedSegmentIndex: number;
   onChange?: (event: NativeSyntheticEvent<{ selectedSegmentIndex: number }>) => void;
-  size?: 'regular' | 'small' | 'mini';
+  size?: 'regular' | 'small' | 'mini' | 'large';
 }
 
 const RNSegmentedControl =
   requireNativeComponent<NativeSegmentedControlProps>('RNSegmentedControl');
 
-interface SegmentedControlProps<T extends string> {
+export interface SegmentedControlProps<T extends string> {
   options: readonly T[];
   selectedValue: T;
   onValueChange: (value: T) => void;
   labelExtractor?: (value: T) => string;
-  size?: 'regular' | 'small' | 'mini';
+  size?: NativeSegmentedControlProps['size'];
 }
 
 export function NativeSegmentedControl<T extends string>({
@@ -49,7 +49,7 @@ export function NativeSegmentedControl<T extends string>({
       selectedSegmentIndex={selectedSegmentIndex}
       onChange={handleChange}
       size={size}
-      style={{ height: size === 'mini' ? 16 : size === 'small' ? 20 : 24 }}
+      style={{ height: size === 'mini' ? 16 : size === 'small' ? 20 : size === 'large' ? 28 : 24 }}
     />
   );
 }
