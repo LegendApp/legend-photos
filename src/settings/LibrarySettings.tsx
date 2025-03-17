@@ -15,6 +15,7 @@ export const LibrarySettings = () => {
   const librarySettings = useSelector(settings$.library);
 
   const handleAddPath = async () => {
+    console.log('on button');
     if (newPath.trim()) {
       await addLibraryPath(newPath.trim());
       setNewPath('');
@@ -60,7 +61,8 @@ export const LibrarySettings = () => {
             title="Add"
             onPress={handleAddPath}
             disabled={!newPath.trim()}
-            variant={newPath.trim() ? 'primary' : 'secondary'}
+            variant={'primary'}
+            size="large"
           />
         </View>
 
