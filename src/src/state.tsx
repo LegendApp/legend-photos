@@ -28,6 +28,7 @@ export type ListenerType =
     | "numColumns"
     | "lastItemKeys"
     | "totalSize"
+    | "totalSizeWithScrollAdjust"
     | "paddingTop"
     | "stylePaddingTop"
     | "scrollAdjust"
@@ -108,4 +109,13 @@ export function set$(ctx: StateContext, signalName: ListenerType, value: any) {
             }
         }
     }
+}
+
+export function getContentSize(ctx: StateContext) {
+    const { values } = ctx;
+    const stylePaddingTop = values.get("stylePaddingTop") || 0;
+    const headerSize = values.get("headerSize") || 0;
+    const footerSize = values.get("footerSize") || 0;
+    const totalSize = values.get("totalSize") || 0;
+    return headerSize + footerSize + totalSize + stylePaddingTop;
 }

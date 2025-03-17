@@ -2,11 +2,13 @@
 import * as React from "react";
 import { memo, useEffect, useReducer } from "react";
 import { Text, View } from "react-native";
-import { use$ } from "./state";
+import { getContentSize, use$, useStateContext } from "./state";
 import type { InternalState } from "./types";
 
 export const DebugView = memo(function DebugView({ state }: { state: InternalState }) {
-    const paddingTop = use$<number>("paddingTop");
+    const ctx = useStateContext();
+    const totalSize = use$<number>("totalSize");
+    const contentSize = getContentSize(ctx);
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
     useInterval(() => {
@@ -25,7 +27,8 @@ export const DebugView = memo(function DebugView({ state }: { state: InternalSta
                 backgroundColor: "#FFFFFFCC",
             }}
         >
-            <Text>PaddingTop: {paddingTop}</Text>
+            <Text>TotalSize: {totalSize}</Text>
+            <Text>ContentSize: {contentSize}</Text>
             <Text>At end: {String(state.isAtBottom)}</Text>
         </View>
     );

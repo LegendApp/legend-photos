@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, forwardRef } from "react";
+import { type ComponentProps, type ReactNode, forwardRef, memo } from "react";
 import type { ScrollResponderMixin, ScrollViewComponent, ScrollViewProps } from "react-native";
 import type { ScrollView, StyleProp, ViewStyle } from "react-native";
 import type Animated from "react-native-reanimated";
@@ -38,7 +38,7 @@ export type LegendListPropsBase<
     ListFooterComponent?: React.ComponentType<any> | React.ReactElement | null | undefined;
     ListFooterComponentStyle?: StyleProp<ViewStyle> | undefined;
     ListEmptyComponent?: React.ComponentType<any> | React.ReactElement | null | undefined;
-    ItemSeparatorComponent?: React.ComponentType<any>;
+    ItemSeparatorComponent?: React.ComponentType<{ leadingItem: ItemT }>;
     viewabilityConfigCallbackPairs?: ViewabilityConfigCallbackPairs | undefined;
     viewabilityConfig?: ViewabilityConfig;
     onViewableItemsChanged?: OnViewableItemsChanged | undefined;
@@ -115,6 +115,7 @@ export interface InternalState {
     scrollHistory: Array<{ scroll: number; time: number }>;
     scrollTimer: Timer | undefined;
     startReachedBlockedByTimer: boolean;
+    endReachedBlockedByTimer: boolean;
     scrollForNextCalculateItemsInView: { top: number; bottom: number } | undefined;
     enableScrollForNextCalculateItemsInView: boolean;
     minIndexSizeChanged: number | undefined;
@@ -244,3 +245,10 @@ export type TypedForwardRef = <T, P = {}>(
 ) => (props: P & React.RefAttributes<T>) => React.ReactNode;
 
 export const typedForwardRef = forwardRef as TypedForwardRef;
+
+export type TypedMemo = <T extends React.ComponentType<any>>(
+    Component: T,
+    propsAreEqual?: (prevProps: Readonly<ComponentProps<T>>, nextProps: Readonly<ComponentProps<T>>) => boolean,
+) => T & { displayName?: string };
+
+export const typedMemo = memo as TypedMemo;

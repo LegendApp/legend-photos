@@ -16,7 +16,7 @@ import type { AnchoredPosition } from "./types";
 // @ts-expect-error nativeFabricUIManager is not defined in the global object types
 const isNewArchitecture = global.nativeFabricUIManager != null;
 
-export const Container = ({
+export const Container = <ItemT,>({
     id,
     recycleItems,
     horizontal,
@@ -27,9 +27,9 @@ export const Container = ({
     id: number;
     recycleItems?: boolean;
     horizontal: boolean;
-    getRenderedItem: (key: string) => { index: number; renderedItem: React.ReactNode } | null;
+    getRenderedItem: (key: string) => { index: number; item: ItemT; renderedItem: React.ReactNode } | null;
     updateItemSize: (containerId: number, itemKey: string, size: number) => void;
-    ItemSeparatorComponent?: React.ReactNode;
+    ItemSeparatorComponent?: React.ComponentType<{ leadingItem: ItemT }>;
 }) => {
     const ctx = useStateContext();
     const columnWrapperStyle = ctx.columnWrapperStyle;
@@ -78,7 +78,7 @@ export const Container = ({
           };
 
     const renderedItemInfo = useMemo(
-        () => itemKey !== undefined && getRenderedItem(itemKey),
+        () => (itemKey !== undefined ? getRenderedItem(itemKey) : null),
         [itemKey, data, extraData],
     );
     const { index, renderedItem } = renderedItemInfo || {};
@@ -131,7 +131,9 @@ export const Container = ({
         <React.Fragment key={recycleItems ? undefined : itemKey}>
             <ContextContainer.Provider value={contextValue}>
                 {renderedItem}
-                {renderedItem && ItemSeparatorComponent && !lastItemKeys.has(itemKey) && ItemSeparatorComponent}
+                {renderedItemInfo && ItemSeparatorComponent && !lastItemKeys.has(itemKey) && (
+                    <ItemSeparatorComponent leadingItem={renderedItemInfo.item} />
+                )}
             </ContextContainer.Provider>
         </React.Fragment>
     );
