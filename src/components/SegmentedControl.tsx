@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
+import { NativeSegmentedControl } from './NativeSegmentedControl';
 
 interface SegmentedControlProps<T extends string> {
   options: readonly T[];
@@ -7,15 +8,25 @@ interface SegmentedControlProps<T extends string> {
   onValueChange: (value: T) => void;
   labelExtractor?: (value: T) => string;
   className?: string;
+  size?: 'regular' | 'small' | 'mini';
 }
 
-export function SegmentedControl<T extends string>({
-  options,
-  selectedValue,
-  onValueChange,
-  labelExtractor,
-  className = '',
-}: SegmentedControlProps<T>) {
+export function SegmentedControl<T extends string>(props: SegmentedControlProps<T>) {
+  // Use the native segmented control on macOS
+  if (Platform.OS === 'macos') {
+    return <NativeSegmentedControl {...props} />;
+  }
+
+  // Fallback to the existing JS implementation on other platforms
+  const {
+    options,
+    selectedValue,
+    onValueChange,
+    labelExtractor,
+    className = '',
+    // size prop is ignored in JS implementation
+  } = props;
+
   return (
     <View className={`flex-row rounded-md overflow-hidden border border-[#555] ${className}`}>
       {options.map((option, index) => {
