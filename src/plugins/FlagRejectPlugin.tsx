@@ -1,12 +1,12 @@
 import type { Observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { Flag, X } from 'react-native-feather';
+import { View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
-import { type PhotoMetadataItem, getMetadata, metadata$, updateMetadata } from '../PhotoMetadata';
+import { type PhotoMetadataItem, metadata$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
+import { SFSymbol } from '../components/SFSymbol';
 import type { Plugin } from './PluginTypes';
 
 interface FlagRejectPluginProps {
@@ -44,8 +44,8 @@ function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
 
   return (
     <View className="absolute left-0 bottom-0 flex-row items-center gap-x-1 h-7 pl-1 opacity-80">
-      {photoMetadata.flag && <Flag stroke="white" width={16} height={16} />}
-      {photoMetadata.reject && <Flag stroke="#f00" width={16} height={16} />}
+      {photoMetadata.flag && <SFSymbol name="flag.fill" size={16} color="white" />}
+      {photoMetadata.reject && <SFSymbol name="flag.fill" size={16} color="#f00" />}
     </View>
   );
 }
