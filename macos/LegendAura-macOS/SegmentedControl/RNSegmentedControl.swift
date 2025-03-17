@@ -55,6 +55,13 @@ class SegmentedControlView: NSView {
         segmentedControl.segmentStyle = .rounded
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
 
+        // Set appearance to match system style
+        if #available(macOS 10.14, *) {
+            // Use the system's appearance settings
+            segmentedControl.appearance = NSAppearance.current
+            segmentedControl.selectedSegmentBezelColor = NSColor.controlAccentColor
+        }
+
         addSubview(segmentedControl)
 
         NSLayoutConstraint.activate([
