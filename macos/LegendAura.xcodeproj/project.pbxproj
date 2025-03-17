@@ -13,6 +13,8 @@
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
 		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendAura-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */; };
+		691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB342D881B49001CE76E /* RNSegmentedControl.swift */; };
+		691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB352D881B49001CE76E /* SegmentedControlBridge.m */; };
 		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
 		693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E292D85B9F800C3751E /* WindowControls.swift */; };
 		693B545D2D86D8E000E4580A /* WindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B545C2D86D8E000E4580A /* WindowManager.m */; };
@@ -35,6 +37,8 @@
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* LegendAura.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendAura.entitlements; sourceTree = "<group>"; };
 		6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		691ECB342D881B49001CE76E /* RNSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNSegmentedControl.swift; sourceTree = "<group>"; };
+		691ECB352D881B49001CE76E /* SegmentedControlBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlBridge.m; sourceTree = "<group>"; };
 		693B2E292D85B9F800C3751E /* WindowControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControls.swift; sourceTree = "<group>"; };
 		693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowControlsBridge.m; sourceTree = "<group>"; };
 		693B545B2D86D8E000E4580A /* WindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowManager.h; sourceTree = "<group>"; };
@@ -77,6 +81,7 @@
 		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				691ECB362D881B49001CE76E /* SegmentedControl */,
 				693B545B2D86D8E000E4580A /* WindowManager.h */,
 				693B545C2D86D8E000E4580A /* WindowManager.m */,
 				693B2E2B2D85B9F800C3751E /* WindowControls */,
@@ -90,6 +95,15 @@
 				514201592437B4B40078DB4F /* LegendAura.entitlements */,
 			);
 			path = "LegendAura-macOS";
+			sourceTree = "<group>";
+		};
+		691ECB362D881B49001CE76E /* SegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				691ECB342D881B49001CE76E /* RNSegmentedControl.swift */,
+				691ECB352D881B49001CE76E /* SegmentedControlBridge.m */,
+			);
+			path = SegmentedControl;
 			sourceTree = "<group>";
 		};
 		693B2E2B2D85B9F800C3751E /* WindowControls */ = {
@@ -372,6 +386,8 @@
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
+				691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */,
+				691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */,
 				693B545D2D86D8E000E4580A /* WindowManager.m in Sources */,
 				693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */,
 				693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */,

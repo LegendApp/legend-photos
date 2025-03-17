@@ -88,49 +88,48 @@ export const LibrarySettings = () => {
       </View>
 
       {/* Preview Size */}
-      <View className="pb-8">
-        <Text className="text-base font-medium text-white mb-3">Preview Size</Text>
+      <View className="pb-8 w-64">
+        <Text className="text-base font-medium text-white mb-2">Preview Size</Text>
         <SegmentedControl
           options={['small', 'medium', 'large'] as const}
           selectedValue={librarySettings.previewSize}
           onValueChange={handlePreviewSizeChange}
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
-          className="w-64"
         />
       </View>
 
       {/* Show Filenames */}
-      <View className="pb-8">
-        <Text className="text-base font-medium text-white mb-3">Show Filenames</Text>
+      <View className="pb-8 w-32">
+        <Text className="text-base font-medium text-white mb-2">Show Filenames</Text>
         <SegmentedControl
           options={['yes', 'no'] as const}
           selectedValue={librarySettings.showFilenames ? 'yes' : 'no'}
-          onValueChange={(value) => handleShowFilenamesChange(value === 'yes')}
-          className="w-32"
+          onValueChange={(value) => {
+            console.log('value');
+            handleShowFilenamesChange(value === 'yes');
+          }}
         />
       </View>
 
       {/* Sort Options */}
-      <View className="pb-8">
-        <Text className="text-base font-medium text-white mb-3">Sort By</Text>
+      <View className="pb-8 w-64">
+        <Text className="text-base font-medium text-white mb-2">Sort By</Text>
         <SegmentedControl
           options={['name', 'date', 'size', 'type'] as const}
           selectedValue={librarySettings.sortBy}
           onValueChange={handleSortChange}
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
-          className="w-64"
         />
       </View>
 
       {/* Sort Direction */}
-      <View>
-        <Text className="text-base font-medium text-white mb-3">Sort Direction</Text>
+      <View className="w-56">
+        <Text className="text-base font-medium text-white mb-2">Sort Direction</Text>
         <SegmentedControl
           options={['asc', 'desc'] as const}
           selectedValue={librarySettings.sortDirection}
           onValueChange={handleSortDirectionChange}
           labelExtractor={(value) => (value === 'asc' ? 'Ascending' : 'Descending')}
-          className="w-64"
         />
       </View>
     </View>
