@@ -15,6 +15,7 @@ export const LibrarySettings = () => {
   const librarySettings = useSelector(settings$.library);
 
   const handleAddPath = async () => {
+    console.log('on button');
     if (newPath.trim()) {
       await addLibraryPath(newPath.trim());
       setNewPath('');
