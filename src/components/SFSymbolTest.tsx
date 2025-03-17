@@ -24,24 +24,6 @@ export function SFSymbolTest() {
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Different Weights</Text>
-      <View style={styles.row}>
-        <View style={styles.symbolContainer}>
-          <SFSymbol name="star" weight="light" size={24} color="#007AFF" />
-          <Text style={styles.label}>light</Text>
-        </View>
-
-        <View style={styles.symbolContainer}>
-          <SFSymbol name="star" weight="regular" size={24} color="#007AFF" />
-          <Text style={styles.label}>regular</Text>
-        </View>
-
-        <View style={styles.symbolContainer}>
-          <SFSymbol name="star" weight="bold" size={24} color="#007AFF" />
-          <Text style={styles.label}>bold</Text>
-        </View>
-      </View>
-
       <Text style={styles.sectionTitle}>Different Scales</Text>
       <View style={styles.row}>
         <View style={styles.symbolContainer}>
@@ -60,16 +42,21 @@ export function SFSymbolTest() {
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Multicolor</Text>
+      <Text style={styles.sectionTitle}>Different Sizes</Text>
       <View style={styles.row}>
         <View style={styles.symbolContainer}>
-          <SFSymbol name="gamecontroller.fill" size={24} color="#007AFF" />
-          <Text style={styles.label}>Single Color</Text>
+          <SFSymbol name="star.fill" size={16} color="#007AFF" />
+          <Text style={styles.label}>16pt</Text>
         </View>
 
         <View style={styles.symbolContainer}>
-          <SFSymbol name="gamecontroller.fill" size={24} multicolor={true} />
-          <Text style={styles.label}>Multicolor</Text>
+          <SFSymbol name="star.fill" size={24} color="#007AFF" />
+          <Text style={styles.label}>24pt</Text>
+        </View>
+
+        <View style={styles.symbolContainer}>
+          <SFSymbol name="star.fill" size={32} color="#007AFF" />
+          <Text style={styles.label}>32pt</Text>
         </View>
       </View>
     </View>

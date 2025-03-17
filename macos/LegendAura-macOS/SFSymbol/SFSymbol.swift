@@ -28,12 +28,6 @@ class SFSymbolView: NSView {
         }
     }
 
-    @objc var weight: String = "regular" {
-        didSet {
-            updateSymbol()
-        }
-    }
-
     @objc var scale: String = "medium" {
         didSet {
             updateSymbol()
@@ -41,12 +35,6 @@ class SFSymbolView: NSView {
     }
 
     @objc var size: NSNumber? = nil {
-        didSet {
-            updateSymbol()
-        }
-    }
-
-    @objc var multicolor: Bool = false {
         didSet {
             updateSymbol()
         }
@@ -82,27 +70,6 @@ class SFSymbolView: NSView {
             return
         }
 
-        // Get the font weight
-        let fontWeight: NSFont.Weight
-        switch weight {
-        case "ultralight":
-            fontWeight = .ultraLight
-        case "light":
-            fontWeight = .light
-        case "thin":
-            fontWeight = .thin
-        case "medium":
-            fontWeight = .medium
-        case "semibold":
-            fontWeight = .semibold
-        case "bold":
-            fontWeight = .bold
-        case "heavy":
-            fontWeight = .heavy
-        default:
-            fontWeight = .regular
-        }
-
         // Get the symbol scale
         let symbolScale: NSImage.SymbolScale
         switch scale {
@@ -115,7 +82,6 @@ class SFSymbolView: NSView {
         }
 
         // Create the configuration with just the scale
-        // This is the simplest approach that works reliably on macOS
         let configuration = NSImage.SymbolConfiguration(scale: symbolScale)
 
         // Try to create the symbol image
@@ -123,18 +89,28 @@ class SFSymbolView: NSView {
             // Apply the configuration
             let configuredImage = symbolImage.withSymbolConfiguration(configuration)
 
-            // Apply color if provided and not multicolor
-            if let color = color, !multicolor {
+            // Apply color if provided
+            if let color = color {
                 imageView.contentTintColor = color
-            } else if multicolor {
-                imageView.contentTintColor = nil
             }
 
             imageView.image = configuredImage
 
             // Set the size if provided
             if let size = size?.doubleValue, size > 0 {
-                imageView.frame.size = NSSize(width: size, height: size)
+                // For scale to work properly, we need to adjust the image size based on the scale
+                var scaleFactor: CGFloat = 1.0
+                switch scale {
+                case "small":
+                    scaleFactor = 0.75
+                case "large":
+                    scaleFactor = 1.5
+                default:
+                    scaleFactor = 1.0
+                }
+
+                let adjustedSize = CGFloat(size) * scaleFactor
+                imageView.frame.size = NSSize(width: adjustedSize, height: adjustedSize)
             }
         } else {
             // Symbol not found - try to log this for debugging

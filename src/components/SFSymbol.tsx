@@ -5,10 +5,8 @@ import { Platform, StyleSheet, View, type ViewStyle, requireNativeComponent } fr
 interface SFSymbolProps {
   name: string;
   color?: string;
-  weight?: 'ultralight' | 'light' | 'thin' | 'regular' | 'medium' | 'semibold' | 'bold' | 'heavy';
   scale?: 'small' | 'medium' | 'large';
   size?: number;
-  multicolor?: boolean;
   style?: ViewStyle;
   testID?: string;
 }
@@ -18,16 +16,7 @@ const RNSFSymbol =
   Platform.OS === 'macos' ? requireNativeComponent<SFSymbolProps>('RNSFSymbol') : null;
 
 // SFSymbol component
-export function SFSymbol({
-  name,
-  color,
-  weight = 'regular',
-  scale = 'medium',
-  size,
-  multicolor = false,
-  style,
-  ...props
-}: SFSymbolProps) {
+export function SFSymbol({ name, color, scale = 'medium', size, style, ...props }: SFSymbolProps) {
   // For macOS, use the native component
   if (Platform.OS === 'macos' && RNSFSymbol) {
     // Create a base style with default height and width
@@ -40,10 +29,8 @@ export function SFSymbol({
       <RNSFSymbol
         name={name}
         color={color}
-        weight={weight}
         scale={scale}
         size={size}
-        multicolor={multicolor}
         style={mergedStyle}
         {...props}
       />
