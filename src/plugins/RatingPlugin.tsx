@@ -39,7 +39,7 @@ function RatingComponent({ photo }: RatingPluginProps) {
   }
 
   return (
-    <View className="absolute bottom-0 right-0 flex-row items-center justify-end pr-1 gap-x-1">
+    <View className="absolute bottom-0 right-0 flex-row items-center justify-end pr-2 gap-x-1 h-7">
       {stars}
     </View>
   );
@@ -57,7 +57,7 @@ const rateCurrentPhoto = (ratingProp: number) => {
   }
 
   // Get the photo details
-  const photoName = photosList[index];
+  const photoName = photosList[index].name;
   const photoId = `${folder}/${photoName}`;
 
   const metadata = getMetadata(photoId);

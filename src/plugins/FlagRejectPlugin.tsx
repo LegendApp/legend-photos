@@ -43,9 +43,9 @@ function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
   const photoMetadata = use$(photoMetadata$);
 
   return (
-    <View className="absolute left-0 bottom-0 flex-row items-center gap-x-1 h-7 pl-1 opacity-80">
+    <View className="absolute left-0 bottom-0 flex-row items-center gap-x-1 h-8 pl-2">
       {photoMetadata.flag && <SFSymbol name="flag.fill" size={16} color="white" />}
-      {photoMetadata.reject && <SFSymbol name="flag.fill" size={16} color="#f00" />}
+      {photoMetadata.reject && <SFSymbol name="flag.fill" size={16} color="#d00" />}
     </View>
   );
 }
@@ -61,7 +61,7 @@ const getCurrentPhoto = () => {
   }
 
   // Get the photo details
-  const photoName = photosList[index];
+  const photoName = photosList[index].name;
   const photoId = `${folder}/${photoName}`;
 
   const photoMetadata$ = metadata$[photoId];
