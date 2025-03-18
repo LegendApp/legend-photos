@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
-import { state$ } from './State';
+import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
 
@@ -21,8 +21,10 @@ export const Photo = (photo: PhotoProps) => {
   const isSelected = selectedIndex === index;
 
   const openFullscreen = () => {
-    if (photoRef.current && !state$.fullscreenPhoto.get()) {
-      photoRef.current.measureInWindow((x, y, width, height) => {
+    const view = photoRef.current;
+    if (view && !state$.fullscreenPhoto.get()) {
+      view.measureInWindow((x, y, width, height) => {
+        fullscreenView.current = view;
         state$.fullscreenPhoto.set({
           uri: photoUri,
           initialPosition: {

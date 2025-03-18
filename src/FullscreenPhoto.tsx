@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Animated, Dimensions, Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
-import { state$ } from './State';
+import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
 
 const SpringOpen = {
@@ -135,37 +135,38 @@ export const FullscreenPhoto = () => {
 
     const dimensions = Dimensions.get('window');
 
-    const left = fullscreenPhoto.initialPosition.x;
-    const top = fullscreenPhoto.initialPosition.y;
-    const right =
-      dimensions.width - fullscreenPhoto.initialPosition.width - fullscreenPhoto.initialPosition.x;
-    const bottom =
-      dimensions.height -
-      fullscreenPhoto.initialPosition.height -
-      fullscreenPhoto.initialPosition.y;
+    const view = fullscreenView.current;
 
-    state$.isPhotoFullscreenCoveringControls.set(false);
+    view!.measureInWindow((x, y, width, height) => {
+      const left = x;
+      const top = y;
+      const right = dimensions.width - width - x;
+      const bottom = dimensions.height - height - y;
 
-    // Animate back to original position and size
-    springPositions(
-      refAnimatedPositions.current!,
-      {
-        left,
-        top,
-        right,
-        bottom,
-      },
-      SpringClose
-    ).start();
+      state$.isPhotoFullscreenCoveringControls.set(false);
 
-    Animated.timing(animatedOpacity, {
-      delay: 300,
-      toValue: 0,
-      duration: 100,
-      useNativeDriver: false,
-    }).start(() => {
-      state$.fullscreenPhoto.set(null);
-      isOpen$.set(false);
+      // Animate back to original position and size
+      springPositions(
+        refAnimatedPositions.current!,
+        {
+          left,
+          top,
+          right,
+          bottom,
+        },
+        SpringClose
+      ).start();
+
+      Animated.timing(animatedOpacity, {
+        delay: 300,
+        toValue: 0,
+        duration: 100,
+        useNativeDriver: false,
+      }).start(() => {
+        fullscreenView.current = null;
+        state$.fullscreenPhoto.set(null);
+        isOpen$.set(false);
+      });
     });
   };
 
