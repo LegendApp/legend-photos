@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PlatformColor, ScrollView, View, useColorScheme } from 'react-native';
 import { SidebarButton } from '../SidebarButton';
 import { GeneralSettings } from './GeneralSettings';
 import { HotkeySettings } from './HotkeySettings';
 import { LibrarySettings } from './LibrarySettings';
 import { PluginSettings } from './PluginSettings';
-import { initializeSettings } from './SettingsFile';
 import { ThemeSettings } from './ThemeSettings';
 
 // Define the categories for settings
@@ -21,11 +20,6 @@ const SETTING_CATEGORIES = [
 export const Settings = () => {
   const [selectedCategory, setSelectedCategory] = useState('library');
   const isDarkMode = useColorScheme() === 'dark';
-
-  // Initialize settings when component mounts
-  useEffect(() => {
-    initializeSettings();
-  }, []);
 
   const renderContent = () => {
     switch (selectedCategory) {

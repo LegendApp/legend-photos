@@ -2,6 +2,7 @@ import { useSelector } from '@legendapp/state/react';
 import React, { useState } from 'react';
 import { FlatList, Switch, Text, TextInput, View } from 'react-native';
 import { Button } from '../components/Button';
+import { FilePicker } from '../components/FilePicker';
 import { SegmentedControl } from '../components/SegmentedControl';
 import { settings$ } from './SettingsFile';
 
@@ -17,8 +18,18 @@ export const LibrarySettings = () => {
     }
   };
 
+  const handleAddFolderPath = (path: string) => {
+    // Update library paths with the selected folder
+    const currentPaths = settings$.library.paths.get();
+    if (!currentPaths.includes(path)) {
+      settings$.library.paths.set([...currentPaths, path]);
+    }
+  };
+
   const handleRemovePath = async (path: string) => {
     // await removeLibraryPath(path);
+    const currentPaths = settings$.library.paths.get();
+    settings$.library.paths.set(currentPaths.filter((p) => p !== path));
   };
 
   const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {
@@ -53,13 +64,22 @@ export const LibrarySettings = () => {
             placeholder="Add a new library path..."
             placeholderTextColor="#999"
           />
-          <Button
+          {/* <Button
             title="Add"
             onPress={handleAddPath}
             disabled={!newPath.trim()}
             variant={'primary'}
             size="large"
-          />
+          /> */}
+          <View className="ml-2">
+            <FilePicker
+              title="Browse..."
+              onFileSelected={handleAddFolderPath}
+              pickFolder={true}
+              variant="secondary"
+              size="large"
+            />
+          </View>
         </View>
 
         <FlatList
