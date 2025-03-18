@@ -17,6 +17,13 @@ const keyRepeat$ = event();
 
 const keysToPreventDefault = new Set<KeyboardEventCode>();
 
+// Global registry for hotkeys with their descriptions
+export interface HotkeyInfo {
+  keys: string;
+  description: string;
+}
+export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
+
 // Handle events to set current key states
 const onKeyDown = (e: KeyboardEvent) => {
   const { keyCode } = e;
@@ -74,6 +81,7 @@ export function useHookKeyboard() {
 
 interface KeyboardHotkeyOptions {
   repeat?: boolean;
+  description?: string;
 }
 
 type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, () => void>> & {
@@ -90,6 +98,15 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
       const keys = hotkey.toLowerCase().split('+');
       keysToPreventDefault.add(Number(keys[keys.length - 1]));
       hotkeyMap.set(keys, callback as () => void);
+
+      // Register the hotkey with its description if provided
+      if (options?.description) {
+        const hotkeyId = `hotkey-${Object.keys(hotkeyRegistry$.peek()).length}`;
+        hotkeyRegistry$[hotkeyId].set({
+          keys: hotkey,
+          description: options.description,
+        });
+      }
     }
   }
 

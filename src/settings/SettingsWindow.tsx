@@ -11,6 +11,9 @@ export const SettingsWindow = () => {
     [KeyCodes.KEY_COMMA]: () => {
       state$.showSettings.set(true);
     },
+    options: {
+      description: 'Open settings',
+    },
   });
   useMountOnce(() => {
     state$.showSettings.onChange(async ({ value }) => {

@@ -6,6 +6,7 @@ import '../global.css';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookKeyboard } from './HookKeyboard';
 import { HookWindowDimensions } from './HookWindowDimensions';
+import { HotkeyHelp } from './HotkeyHelp';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { StoplightEnforcer } from './StoplightEnforcer';
@@ -35,6 +36,7 @@ function App(): React.JSX.Element {
       <HookKeyboard />
       <StoplightEnforcer />
       <SettingsWindow />
+      <HotkeyHelp />
     </SafeAreaView>
   );
 }

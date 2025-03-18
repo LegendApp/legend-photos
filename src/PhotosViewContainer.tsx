@@ -35,6 +35,9 @@ export function PhotosViewContainer() {
         settings$.state.isSidebarOpen.toggle();
       }
     },
+    options: {
+      description: 'Toggle sidebar visibility',
+    },
   });
 
   return (

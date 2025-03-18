@@ -63,7 +63,7 @@ export const LibrarySettings = () => {
                 <Button
                   title="Remove"
                   variant="danger"
-                  size="small"
+                  size="large"
                   onPress={() => handleRemovePath(path)}
                 />
               </View>

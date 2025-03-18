@@ -146,6 +146,9 @@ export const FullscreenPhoto = () => {
     [KeyCodes.KEY_ESCAPE]: closeFullscreen,
     // TODO: How to capture this and not let it run in Photo?
     [KeyCodes.KEY_RETURN]: closeFullscreen,
+    options: {
+      description: 'Close fullscreen photo view',
+    },
   });
 
   // If no fullscreen data, don't render anything
