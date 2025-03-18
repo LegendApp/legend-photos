@@ -1,4 +1,3 @@
-import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { LegendList } from '@legendapp/list';
 import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
@@ -83,8 +82,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
       setError(null);
 
       try {
-        const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-        const photosList = await listPhotosInFolder(folderPath);
+        const photosList = await listPhotosInFolder(selectedFolder);
         state$.photos.set(photosList);
       } catch (err) {
         console.error('Error loading photos:', err);
@@ -98,8 +96,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   }, [selectedFolder]);
 
   const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
-    const folderPath = `${DocumentDirectoryPath}/photos/${selectedFolder}`;
-    return <Photo photoName={item.name} folderPath={folderPath} index={index} />;
+    return <Photo photoName={item.name} folderPath={selectedFolder} index={index} />;
   };
 
   if (loading) {

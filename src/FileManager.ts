@@ -1,11 +1,5 @@
-import {
-  DocumentDirectoryPath,
-  type ReadDirResItemT,
-  readDir,
-  stat,
-} from '@dr.pogodin/react-native-fs';
-
-const BASE_PATH = `${DocumentDirectoryPath}/photos`;
+import { type ReadDirResItemT, readDir, stat } from '@dr.pogodin/react-native-fs';
+import { settings$ } from './settings/SettingsFile';
 
 // Supported photo file extensions
 const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
@@ -23,10 +17,10 @@ function isPhotoFile(str: string): boolean {
 
 /**
  * Lists all photo files in a specified folder (non-recursive)
- * @param folderPath - Path to the folder (defaults to DocumentDirectoryPath/photos)
+ * @param folderPath - Path to the folder
  * @returns Promise with an array of file names (without full path)
  */
-export async function listPhotosInFolder(folderPath: string = BASE_PATH): Promise<PhotoInfo[]> {
+export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[]> {
   try {
     // Read the directory contents
     const files = await readDir(folderPath);
@@ -40,13 +34,29 @@ export async function listPhotosInFolder(folderPath: string = BASE_PATH): Promis
 }
 
 /**
- * Lists all folders that contain photo files in a specified folder and its subfolders
- * @param folderPath - Path to the folder (defaults to DocumentDirectoryPath/photos)
- * @returns Promise with an array of folder paths (relative to the base folder)
+ * Lists all folders that contain photo files in the configured library paths and their subfolders
+ * @returns Promise with an array of absolute folder paths
  */
-export async function listFoldersWithPhotosRecursive(
-  folderPath: string = BASE_PATH
-): Promise<string[]> {
+export async function listFoldersWithPhotosRecursive(): Promise<string[]> {
+  try {
+    const libraryPaths = settings$.library.paths.get();
+
+    // Process each configured library path
+    const allFolders = await Promise.all(libraryPaths.map(scanFolderRecursive));
+
+    return allFolders.flat().sort();
+  } catch (error) {
+    console.error('Error listing folders with photos:', error);
+    return [];
+  }
+}
+
+/**
+ * Helper function to scan a folder recursively for photos
+ * @param folderPath - Path to scan
+ * @returns Promise with an array of absolute folder paths that contain photos
+ */
+async function scanFolderRecursive(folderPath: string): Promise<string[]> {
   try {
     const folders: string[] = [];
     const items = await readDir(folderPath);
@@ -60,7 +70,7 @@ export async function listFoldersWithPhotosRecursive(
 
       if (itemStat.isDirectory()) {
         // If it's a directory, recursively scan it
-        const subFolders = await listFoldersWithPhotosRecursive(itemPath);
+        const subFolders = await scanFolderRecursive(itemPath);
         // Add the subfolder paths to results
         folders.push(...subFolders);
       } else if (!hasPhotos && isPhotoFile(item.name)) {
@@ -71,16 +81,12 @@ export async function listFoldersWithPhotosRecursive(
 
     // If this folder has photos, add it to the results
     if (hasPhotos) {
-      // Get the relative path from the base
-      const relativePath = folderPath === BASE_PATH ? '' : folderPath.replace(`${BASE_PATH}/`, '');
-      folders.push(relativePath);
+      folders.push(folderPath);
     }
-
-    folders.sort();
 
     return folders;
   } catch (error) {
-    console.error('Error listing folders with photos:', error);
+    console.error(`Error scanning folder ${folderPath}:`, error);
     return [];
   }
 }
