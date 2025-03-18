@@ -5,7 +5,6 @@ import '../global.css';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookWindowDimensions } from './HookWindowDimensions';
 import { useHookKeyboard } from './Keyboard';
-import { initializeMetadata } from './PhotoMetadata';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { state$ } from './State';
@@ -21,11 +20,6 @@ function App(): React.JSX.Element {
 
   // Initialize metadata system and plugins on app start
   useMount(() => {
-    // Initialize metadata
-    initializeMetadata().catch((error) => {
-      console.error('Failed to initialize metadata:', error);
-    });
-
     // Initialize plugin system
     initializePluginSystem();
   });

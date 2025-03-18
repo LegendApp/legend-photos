@@ -3,7 +3,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
-import { getMetadata, metadata$, updateMetadata } from '../PhotoMetadata';
+import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import type { Plugin } from './PluginTypes';
 
@@ -16,7 +16,7 @@ function RatingComponent({ photo }: RatingPluginProps) {
   const photoName = photo.photoName;
   const selectedFolder = use$(state$.selectedFolder);
   const photoId = `${selectedFolder}/${photoName}`;
-  const photoMetadata$ = metadata$[photoId];
+  const photoMetadata$ = photoMetadatas$[photoId];
 
   const handleRatingChange = async (rating: number) => {
     await updateMetadata(photoId, { rating });
@@ -80,7 +80,7 @@ export const RatingPlugin: Plugin = {
     const photoName = photo.photoName;
     const selectedFolder = use$(state$.selectedFolder);
     const photoId = `${selectedFolder}/${photoName}`;
-    const photoMetadata$ = metadata$[photoId];
+    const photoMetadata$ = photoMetadatas$[photoId];
     const photoMetadata = use$(photoMetadata$);
     return !!photoMetadata && photoMetadata.rating! > 0;
   },

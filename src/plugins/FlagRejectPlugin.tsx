@@ -4,7 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
-import { type PhotoMetadataItem, metadata$, updateMetadata } from '../PhotoMetadata';
+import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import { SFSymbol } from '../components/SFSymbol';
 import type { Plugin } from './PluginTypes';
@@ -22,16 +22,13 @@ const handleFlagToggle = async (photoId: string, photoMetadata$: Observable<Phot
   await updateMetadata(photoId, newValue);
 };
 
-const handleRejectToggle = async (
-  photoId: string,
-  photoMetadata$: Observable<PhotoMetadataItem>
-) => {
+const handleRejectToggle = (photoId: string, photoMetadata$: Observable<PhotoMetadataItem>) => {
   const metadata = photoMetadata$.get();
   const newValue: PhotoMetadataItem = { reject: !metadata?.reject };
   if (newValue.reject && metadata?.flag) {
     newValue.flag = false;
   }
-  await updateMetadata(photoId, newValue);
+  updateMetadata(photoId, newValue);
 };
 
 // Flag/Reject component
@@ -39,7 +36,7 @@ function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
   const photoName = photo.photoName;
   const selectedFolder = use$(state$.selectedFolder);
   const photoId = `${selectedFolder}/${photoName}`;
-  const photoMetadata$ = metadata$[photoId];
+  const photoMetadata$ = photoMetadatas$[photoId];
   const photoMetadata = use$(photoMetadata$);
 
   return (
@@ -64,7 +61,7 @@ const getCurrentPhoto = () => {
   const photoName = photosList[index].name;
   const photoId = `${folder}/${photoName}`;
 
-  const photoMetadata$ = metadata$[photoId];
+  const photoMetadata$ = photoMetadatas$[photoId];
   return { photoId, photoMetadata$ };
 };
 
@@ -96,7 +93,7 @@ export const FlagRejectPlugin: Plugin = {
     const photoName = photo.photoName;
     const selectedFolder = use$(state$.selectedFolder);
     const photoId = `${selectedFolder}/${photoName}`;
-    const photoMetadata$ = metadata$[photoId];
+    const photoMetadata$ = photoMetadatas$[photoId];
     const photoMetadata = use$(photoMetadata$);
 
     return !!(photoMetadata && (photoMetadata.flag || photoMetadata.reject));

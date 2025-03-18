@@ -3,12 +3,7 @@ import React, { useState } from 'react';
 import { FlatList, Switch, Text, TextInput, View } from 'react-native';
 import { Button } from '../components/Button';
 import { SegmentedControl } from '../components/SegmentedControl';
-import {
-  addLibraryPath,
-  removeLibraryPath,
-  settings$,
-  updateLibrarySettings,
-} from './SettingsFile';
+import { settings$ } from './SettingsFile';
 
 export const LibrarySettings = () => {
   const [newPath, setNewPath] = useState('');
@@ -17,29 +12,30 @@ export const LibrarySettings = () => {
   const handleAddPath = async () => {
     console.log('on button');
     if (newPath.trim()) {
-      await addLibraryPath(newPath.trim());
+      //   await addLibraryPath(newPath.trim());
       setNewPath('');
     }
   };
 
   const handleRemovePath = async (path: string) => {
-    await removeLibraryPath(path);
+    // await removeLibraryPath(path);
   };
 
   const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {
-    await updateLibrarySettings({ previewSize: size });
+    // await updateLibrarySettings({ previewSize: size });
+    settings$.library.previewSize.set(size);
   };
 
   const handleShowFilenamesChange = async (show: boolean) => {
-    await updateLibrarySettings({ showFilenames: show });
+    settings$.library.showFilenames.set(show);
   };
 
   const handleSortChange = async (sortBy: 'name' | 'date' | 'size' | 'type') => {
-    await updateLibrarySettings({ sortBy });
+    settings$.library.sortBy.set(sortBy);
   };
 
   const handleSortDirectionChange = async (sortDirection: 'asc' | 'desc') => {
-    await updateLibrarySettings({ sortDirection });
+    settings$.library.sortDirection.set(sortDirection);
   };
 
   return (
