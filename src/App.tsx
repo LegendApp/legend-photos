@@ -1,11 +1,11 @@
+import { syncState } from '@legendapp/state';
 import { useMount, useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import '../global.css';
-import { syncState } from '@legendapp/state';
 import { FullscreenPhoto } from './FullscreenPhoto';
+import { HookKeyboard } from './HookKeyboard';
 import { HookWindowDimensions } from './HookWindowDimensions';
-import { useHookKeyboard } from './Keyboard';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import Sidebar from './Sidebar';
 import { StoplightEnforcer } from './StoplightEnforcer';
@@ -15,7 +15,6 @@ import { settings$ } from './settings/SettingsFile';
 import { SettingsWindow } from './settings/SettingsWindow';
 
 function App(): React.JSX.Element {
-  useHookKeyboard();
   const settingsLoaded = useSelector(() => !!syncState(settings$).isPersistLoaded.get());
 
   // Initialize metadata system and plugins on app start
@@ -33,6 +32,7 @@ function App(): React.JSX.Element {
       </View>
       <FullscreenPhoto />
       <HookWindowDimensions />
+      <HookKeyboard />
       <StoplightEnforcer />
       <SettingsWindow />
     </SafeAreaView>
