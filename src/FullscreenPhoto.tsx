@@ -1,5 +1,5 @@
-import { use$ } from '@legendapp/state/react';
-import React, { useEffect } from 'react';
+import { use$, useObservable } from '@legendapp/state/react';
+import React from 'react';
 import { Animated, Dimensions, Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
@@ -19,6 +19,7 @@ const SpringClose = {
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
+  const isOpen$ = useObservable(false);
 
   // Animation values
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
@@ -27,67 +28,65 @@ export const FullscreenPhoto = () => {
   const animatedRight = React.useRef(new Animated.Value(0)).current;
   const animatedBottom = React.useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    if (fullscreenData) {
-      // Set initial values
-      const dimensions = Dimensions.get('window');
-      animatedOpacity.setValue(0);
-      animatedPositionX.setValue(fullscreenData.initialPosition.x);
-      animatedPositionY.setValue(fullscreenData.initialPosition.y);
-      const right =
-        dimensions.width - fullscreenData.initialPosition.width - fullscreenData.initialPosition.x;
-      const bottom =
-        dimensions.height -
-        fullscreenData.initialPosition.height -
-        fullscreenData.initialPosition.y;
-      animatedRight.setValue(right);
-      animatedBottom.setValue(bottom);
+  const onLoad = () => {
+    if (!isOpen$.get()) {
+      isOpen$.set(true);
+      if (fullscreenData) {
+        // Set initial values
+        const dimensions = Dimensions.get('window');
+        animatedOpacity.setValue(0);
+        animatedPositionX.setValue(fullscreenData.initialPosition.x);
+        animatedPositionY.setValue(fullscreenData.initialPosition.y);
+        const right =
+          dimensions.width -
+          fullscreenData.initialPosition.width -
+          fullscreenData.initialPosition.x;
+        const bottom =
+          dimensions.height -
+          fullscreenData.initialPosition.height -
+          fullscreenData.initialPosition.y;
+        animatedRight.setValue(right);
+        animatedBottom.setValue(bottom);
 
-      // Hide window controls (stoplight buttons) if on macOS
-      setTimeout(() => {
-        state$.isPhotoFullscreenCoveringControls.set(true);
-      }, 150);
+        // Hide window controls (stoplight buttons) if on macOS
+        setTimeout(() => {
+          state$.isPhotoFullscreenCoveringControls.set(true);
+        }, 150);
 
-      // Animate to fullscreen
-      Animated.sequence([
-        Animated.timing(animatedOpacity, {
-          delay: 30,
-          toValue: 1,
-          duration: 0,
-          useNativeDriver: false,
-        }),
-        Animated.parallel([
-          Animated.spring(animatedPositionX, {
-            toValue: 0,
+        // Animate to fullscreen
+        Animated.sequence([
+          Animated.timing(animatedOpacity, {
+            delay: 30,
+            toValue: 1,
+            duration: 0,
             useNativeDriver: false,
-            ...SpringOpen,
           }),
-          Animated.spring(animatedPositionY, {
-            toValue: 0,
-            useNativeDriver: false,
-            ...SpringOpen,
-          }),
-          Animated.spring(animatedRight, {
-            toValue: 0,
-            useNativeDriver: false,
-            ...SpringOpen,
-          }),
-          Animated.spring(animatedBottom, {
-            toValue: 0,
-            useNativeDriver: false,
-            ...SpringOpen,
-          }),
-        ]),
-      ]).start();
+          Animated.parallel([
+            Animated.spring(animatedPositionX, {
+              toValue: 0,
+              useNativeDriver: false,
+              ...SpringOpen,
+            }),
+            Animated.spring(animatedPositionY, {
+              toValue: 0,
+              useNativeDriver: false,
+              ...SpringOpen,
+            }),
+            Animated.spring(animatedRight, {
+              toValue: 0,
+              useNativeDriver: false,
+              ...SpringOpen,
+            }),
+            Animated.spring(animatedBottom, {
+              toValue: 0,
+              useNativeDriver: false,
+              ...SpringOpen,
+            }),
+          ]),
+        ]).start();
+      }
     }
-  }, [
-    fullscreenData,
-    animatedOpacity,
-    animatedPositionX,
-    animatedPositionY,
-    animatedRight,
-    animatedBottom,
-  ]);
+  };
 
   const closeFullscreen = () => {
     const fullscreenPhoto = state$.fullscreenPhoto.get();
@@ -137,6 +136,7 @@ export const FullscreenPhoto = () => {
       useNativeDriver: false,
     }).start(() => {
       state$.fullscreenPhoto.set(null);
+      isOpen$.set(false);
     });
   };
 
@@ -173,7 +173,12 @@ export const FullscreenPhoto = () => {
       }}
     >
       <Pressable className="flex-1" onPress={closeFullscreen}>
-        <Image source={{ uri: fullscreenData.uri }} className="flex-1" resizeMode="contain" />
+        <Image
+          source={{ uri: fullscreenData.uri }}
+          className="flex-1"
+          resizeMode="contain"
+          onLoad={onLoad}
+        />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}
