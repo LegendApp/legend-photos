@@ -5,6 +5,7 @@ import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
 import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
+import { settings$ } from '../settings/SettingsFile';
 import type { Plugin } from './PluginTypes';
 
 interface RatingPluginProps {
@@ -14,7 +15,7 @@ interface RatingPluginProps {
 // Rating component that will be rendered
 function RatingComponent({ photo }: RatingPluginProps) {
   const photoName = photo.photoName;
-  const selectedFolder = use$(state$.selectedFolder);
+  const selectedFolder = use$(settings$.state.openFolder);
   const photoId = `${selectedFolder}/${photoName}`;
   const photoMetadata$ = photoMetadatas$[photoId];
 
@@ -49,7 +50,7 @@ function RatingComponent({ photo }: RatingPluginProps) {
 const rateCurrentPhoto = (ratingProp: number) => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = state$.selectedFolder.get();
+  const folder = settings$.state.openFolder.get();
 
   // Check if we have a valid selection
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {
@@ -78,7 +79,7 @@ export const RatingPlugin: Plugin = {
   component: RatingComponent,
   shouldRender: ({ photo }: { photo: PhotoProps }) => {
     const photoName = photo.photoName;
-    const selectedFolder = use$(state$.selectedFolder);
+    const selectedFolder = use$(settings$.state.openFolder);
     const photoId = `${selectedFolder}/${photoName}`;
     const photoMetadata$ = photoMetadatas$[photoId];
     const photoMetadata = use$(photoMetadata$);

@@ -7,6 +7,7 @@ import { KeyCodes } from './KeyboardManager';
 import { PhotosView } from './PhotosView';
 import { state$ } from './State';
 import { PluginRenderer } from './plugins';
+import { settings$ } from './settings/SettingsFile';
 
 const SpringOpen = {
   bounciness: 3,
@@ -19,12 +20,12 @@ const SpringClose = {
 };
 
 export function PhotosViewContainer() {
-  const selectedFolder = useSelector(state$.selectedFolder);
+  const selectedFolder = useSelector(settings$.state.openFolder);
   const animatedWidth = useRef(new Animated.Value(160)).current;
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: () => {
-      if (state$.selectedFolder.get() && !state$.fullscreenPhoto.get()) {
+      if (selectedFolder && !state$.fullscreenPhoto.get()) {
         state$.isSidebarOpen.toggle();
 
         const isOpen = state$.isSidebarOpen.get();

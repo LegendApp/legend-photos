@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Text, View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import { state$ } from '../State';
+import { settings$ } from '../settings/SettingsFile';
 import type { Plugin } from './PluginTypes';
 
 // Delete component
@@ -17,7 +18,7 @@ function DeleteComponent() {
 const deleteCurrentPhoto = () => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = state$.selectedFolder.get();
+  const folder = settings$.state.openFolder.get();
 
   // Check if we have a valid selection
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {

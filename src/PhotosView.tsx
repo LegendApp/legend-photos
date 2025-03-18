@@ -11,7 +11,7 @@ import { ax } from './ax';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
 interface PhotosProps {
-  selectedFolder: string;
+  selectedFolder: string | null;
 }
 
 const breakpoints = {
@@ -47,7 +47,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   const photos = useSelector(state$.photos);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const folderDisplayName = getFolderName(selectedFolder);
+  const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
 
   let minDate: Date | undefined;
   let maxDate: Date | undefined;
@@ -97,7 +97,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   }, [selectedFolder]);
 
   const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
-    return <Photo photoName={item.name} folderPath={selectedFolder} index={index} />;
+    return <Photo photoName={item.name} folderPath={selectedFolder!} index={index} />;
   };
 
   if (loading) {

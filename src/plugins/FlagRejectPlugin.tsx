@@ -7,6 +7,7 @@ import type { PhotoProps } from '../Photo';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import { SFSymbol } from '../components/SFSymbol';
+import { settings$ } from '../settings/SettingsFile';
 import type { Plugin } from './PluginTypes';
 
 interface FlagRejectPluginProps {
@@ -34,7 +35,7 @@ const handleRejectToggle = (photoId: string, photoMetadata$: Observable<PhotoMet
 // Flag/Reject component
 function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
   const photoName = photo.photoName;
-  const selectedFolder = use$(state$.selectedFolder);
+  const selectedFolder = use$(settings$.state.openFolder);
   const photoId = `${selectedFolder}/${photoName}`;
   const photoMetadata$ = photoMetadatas$[photoId];
   const photoMetadata = use$(photoMetadata$);
@@ -50,7 +51,7 @@ function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
 const getCurrentPhoto = () => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = state$.selectedFolder.get();
+  const folder = settings$.state.openFolder.get();
 
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {
     // Check if we have a valid selection
@@ -91,7 +92,7 @@ export const FlagRejectPlugin: Plugin = {
   component: FlagRejectComponent,
   shouldRender: ({ photo }: { photo: PhotoProps }) => {
     const photoName = photo.photoName;
-    const selectedFolder = use$(state$.selectedFolder);
+    const selectedFolder = use$(settings$.state.openFolder);
     const photoId = `${selectedFolder}/${photoName}`;
     const photoMetadata$ = photoMetadatas$[photoId];
     const photoMetadata = use$(photoMetadata$);

@@ -1,28 +1,24 @@
 import { observable } from '@legendapp/state';
-import { useSelector } from '@legendapp/state/react';
+import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { Animated, PlatformColor, View, useColorScheme } from 'react-native';
+import { Animated, PlatformColor, Text, View, useColorScheme } from 'react-native';
 import { getFolderName, listFoldersWithPhotosRecursive } from './FileManager';
 import { SidebarButton } from './SidebarButton';
 import { state$ } from './State';
+import { settings$ } from './settings/SettingsFile';
 
-interface SidebarProps {
-  onFileSelect: (fileName: string) => void;
-  selectedFile: string | undefined;
-}
-
-function File({
+function Folder({
   file,
   isDarkMode,
-  selectedFile,
-  onFileSelect,
+  selectedFolder,
+  onSelectFolder,
 }: {
   file: string;
   isDarkMode: boolean;
-  selectedFile: string | undefined;
-  onFileSelect: (file: string) => void;
+  selectedFolder: string | undefined | null;
+  onSelectFolder: (file: string) => void;
 }) {
-  const isSelected = selectedFile === file;
+  const isSelected = selectedFolder === file;
   const displayName = getFolderName(file);
 
   return (
@@ -30,17 +26,62 @@ function File({
       label={displayName}
       isSelected={isSelected}
       isDarkMode={isDarkMode}
-      onPress={() => onFileSelect(file)}
+      onPress={() => onSelectFolder(file)}
     />
   );
 }
 
-const files$ = observable(listFoldersWithPhotosRecursive);
+// Helper function to get parent directory path
+function getParentPath(filePath: string): string {
+  // Handle trailing slash
+  const normalizedPath = filePath.endsWith('/') ? filePath.slice(0, -1) : filePath;
+  const lastSlashIndex = normalizedPath.lastIndexOf('/');
+  return lastSlashIndex !== -1 ? normalizedPath.substring(0, lastSlashIndex) : '';
+}
 
-function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
+// Helper function to group folders by parent path
+function groupFoldersByParent(folders: string[]): Record<string, string[]> {
+  const grouped: Record<string, string[]> = {};
+
+  for (const folder of folders) {
+    const parentPath = getParentPath(folder);
+    if (!grouped[parentPath]) {
+      grouped[parentPath] = [];
+    }
+    grouped[parentPath].push(folder);
+  }
+
+  return grouped;
+}
+
+const folders$ = observable(listFoldersWithPhotosRecursive);
+
+function Sidebar() {
   const isDarkMode = useColorScheme() === 'dark';
-  const files = useSelector(files$);
+  const selectedFolder = useSelector(settings$.state.openFolder);
+  const folders = useSelector(folders$) || [];
   const sidebarWidth = useSelector(state$.sidebarWidth);
+
+  const onSelectFolder = (folder: string) => {
+    settings$.state.openFolder.set(folder);
+  };
+
+  useObserveEffect((e) => {
+    if (!selectedFolder) {
+      const openFolder = settings$.state.openFolder.get();
+      if (openFolder) {
+        onSelectFolder(openFolder);
+        e.cancel = true;
+      } else if (folders$.get()?.length) {
+        console.log('selecting first folder');
+        onSelectFolder(folders$.get()[0]);
+        e.cancel = true;
+      }
+    }
+  });
+
+  // Group folders by parent path
+  const groupedFolders = groupFoldersByParent(folders);
 
   return (
     <Animated.View
@@ -51,14 +92,23 @@ function Sidebar({ onFileSelect, selectedFile }: SidebarProps) {
       }}
     >
       <View className="flex-1 py-2">
-        {files?.map((file) => (
-          <File
-            key={file}
-            file={file}
-            isDarkMode={isDarkMode}
-            selectedFile={selectedFile}
-            onFileSelect={onFileSelect}
-          />
+        {Object.entries(groupedFolders).map(([parentPath, folderGroup]) => (
+          <View key={parentPath} className="mb-2">
+            <Text
+              className={`px-3 py-1 text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
+            >
+              {getFolderName(parentPath)}
+            </Text>
+            {folderGroup.map((file) => (
+              <Folder
+                key={file}
+                file={file}
+                isDarkMode={isDarkMode}
+                selectedFolder={selectedFolder}
+                onSelectFolder={onSelectFolder}
+              />
+            ))}
+          </View>
         ))}
       </View>
     </Animated.View>

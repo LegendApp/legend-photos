@@ -38,6 +38,10 @@ export interface AppSettings {
     sortBy: 'name' | 'date' | 'size' | 'type';
     sortDirection: 'asc' | 'desc';
   };
+  // State
+  state: {
+    openFolder: string | null;
+  };
 }
 
 // Default settings
@@ -70,6 +74,9 @@ const DEFAULT_SETTINGS: AppSettings = {
     showFilenames: true,
     sortBy: 'date',
     sortDirection: 'desc',
+  },
+  state: {
+    openFolder: null,
   },
 };
 
