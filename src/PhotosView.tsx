@@ -12,10 +12,15 @@ import { settings$ } from './settings/SettingsFile';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
 const breakpoints = {
-  640: 'sm',
-  768: 'md',
-  1024: 'lg',
-  1280: 'xl',
+  400: 'xs',
+  600: 'sm',
+  800: 'md',
+  1000: 'lg',
+  1200: 'xl',
+  1400: '2xl',
+  1600: '3xl',
+  1800: '4xl',
+  2000: '5xl',
 } as const;
 
 // Calculate the number of columns based on screen width
