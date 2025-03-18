@@ -1,6 +1,7 @@
 import { event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
 import KeyboardManager, { type KeyboardEvent } from './KeyboardManager';
+import { state$ } from './State';
 import { ax } from './ax';
 
 type KeyboardEventCode = number;
@@ -93,6 +94,10 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   }
 
   const checkHotkeys = () => {
+    if (state$.showSettings.get()) {
+      // Disable hotkeys when settings is open
+      return;
+    }
     for (const [keys, callback] of hotkeyMap) {
       // If every key in the hotkey is pressed, call the callback
       const allKeysPressed = keys.every((key) => keysPressed$[key].get());
