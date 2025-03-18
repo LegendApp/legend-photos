@@ -1,5 +1,5 @@
 import { use$, useObservable } from '@legendapp/state/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Animated, Dimensions, Image, Pressable, View } from 'react-native';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
@@ -16,6 +16,58 @@ const SpringClose = {
   speed: 24,
 };
 
+interface AnimatedPositions {
+  left: Animated.Value;
+  top: Animated.Value;
+  right: Animated.Value;
+  bottom: Animated.Value;
+}
+
+interface Position {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
+function springPositions(
+  animatedPositions: AnimatedPositions,
+  to: Position,
+  transition: Pick<Animated.SpringAnimationConfig, 'bounciness' | 'speed'>,
+  from?: Position
+) {
+  const rest = {
+    useNativeDriver: false,
+    ...transition,
+  };
+
+  if (from) {
+    animatedPositions.left.setValue(from.left);
+    animatedPositions.top.setValue(from.top);
+    animatedPositions.right.setValue(from.right);
+    animatedPositions.bottom.setValue(from.bottom);
+  }
+
+  return Animated.parallel([
+    Animated.spring(animatedPositions.left, {
+      toValue: to.left,
+      ...rest,
+    }),
+    Animated.spring(animatedPositions.top, {
+      toValue: to.top,
+      ...rest,
+    }),
+    Animated.spring(animatedPositions.right, {
+      toValue: to.right,
+      ...rest,
+    }),
+    Animated.spring(animatedPositions.bottom, {
+      toValue: to.bottom,
+      ...rest,
+    }),
+  ]);
+}
+
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
@@ -23,10 +75,15 @@ export const FullscreenPhoto = () => {
 
   // Animation values
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
-  const animatedPositionX = React.useRef(new Animated.Value(0)).current;
-  const animatedPositionY = React.useRef(new Animated.Value(0)).current;
-  const animatedRight = React.useRef(new Animated.Value(0)).current;
-  const animatedBottom = React.useRef(new Animated.Value(0)).current;
+  const refAnimatedPositions = useRef<AnimatedPositions>();
+  if (!refAnimatedPositions.current) {
+    refAnimatedPositions.current = {
+      left: new Animated.Value(0),
+      top: new Animated.Value(0),
+      right: new Animated.Value(0),
+      bottom: new Animated.Value(0),
+    };
+  }
 
   const onLoad = () => {
     if (!isOpen$.get()) {
@@ -35,8 +92,8 @@ export const FullscreenPhoto = () => {
         // Set initial values
         const dimensions = Dimensions.get('window');
         animatedOpacity.setValue(0);
-        animatedPositionX.setValue(fullscreenData.initialPosition.x);
-        animatedPositionY.setValue(fullscreenData.initialPosition.y);
+        const left = fullscreenData.initialPosition.x;
+        const top = fullscreenData.initialPosition.y;
         const right =
           dimensions.width -
           fullscreenData.initialPosition.width -
@@ -45,8 +102,6 @@ export const FullscreenPhoto = () => {
           dimensions.height -
           fullscreenData.initialPosition.height -
           fullscreenData.initialPosition.y;
-        animatedRight.setValue(right);
-        animatedBottom.setValue(bottom);
 
         // Hide window controls (stoplight buttons) if on macOS
         setTimeout(() => {
@@ -61,28 +116,12 @@ export const FullscreenPhoto = () => {
             duration: 0,
             useNativeDriver: false,
           }),
-          Animated.parallel([
-            Animated.spring(animatedPositionX, {
-              toValue: 0,
-              useNativeDriver: false,
-              ...SpringOpen,
-            }),
-            Animated.spring(animatedPositionY, {
-              toValue: 0,
-              useNativeDriver: false,
-              ...SpringOpen,
-            }),
-            Animated.spring(animatedRight, {
-              toValue: 0,
-              useNativeDriver: false,
-              ...SpringOpen,
-            }),
-            Animated.spring(animatedBottom, {
-              toValue: 0,
-              useNativeDriver: false,
-              ...SpringOpen,
-            }),
-          ]),
+          springPositions(
+            refAnimatedPositions.current!,
+            { left: 0, top: 0, right: 0, bottom: 0 },
+            SpringOpen,
+            { left, top, right, bottom }
+          ),
         ]).start();
       }
     }
@@ -96,6 +135,8 @@ export const FullscreenPhoto = () => {
 
     const dimensions = Dimensions.get('window');
 
+    const left = fullscreenPhoto.initialPosition.x;
+    const top = fullscreenPhoto.initialPosition.y;
     const right =
       dimensions.width - fullscreenPhoto.initialPosition.width - fullscreenPhoto.initialPosition.x;
     const bottom =
@@ -106,28 +147,16 @@ export const FullscreenPhoto = () => {
     state$.isPhotoFullscreenCoveringControls.set(false);
 
     // Animate back to original position and size
-    Animated.parallel([
-      Animated.spring(animatedPositionX, {
-        toValue: fullscreenPhoto.initialPosition.x,
-        useNativeDriver: false,
-        ...SpringClose,
-      }),
-      Animated.spring(animatedPositionY, {
-        toValue: fullscreenPhoto.initialPosition.y,
-        useNativeDriver: false,
-        ...SpringClose,
-      }),
-      Animated.spring(animatedRight, {
-        toValue: right,
-        useNativeDriver: false,
-        ...SpringClose,
-      }),
-      Animated.spring(animatedBottom, {
-        toValue: bottom,
-        useNativeDriver: false,
-        ...SpringClose,
-      }),
-    ]).start();
+    springPositions(
+      refAnimatedPositions.current!,
+      {
+        left,
+        top,
+        right,
+        bottom,
+      },
+      SpringClose
+    ).start();
 
     Animated.timing(animatedOpacity, {
       delay: 300,
@@ -164,13 +193,7 @@ export const FullscreenPhoto = () => {
   return (
     <Animated.View
       className="bg-black z-[100] absolute"
-      style={{
-        left: animatedPositionX,
-        top: animatedPositionY,
-        right: animatedRight,
-        bottom: animatedBottom,
-        opacity: animatedOpacity,
-      }}
+      style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={closeFullscreen}>
         <Image
