@@ -48,7 +48,7 @@ export const Photo = (photo: PhotoProps) => {
           openFullscreen();
         }
       },
-      name: 'Photo',
+      name: 'Open Photo',
       description: 'Open selected photo in fullscreen',
       keyText: 'Return',
     },

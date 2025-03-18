@@ -152,9 +152,9 @@ export const FullscreenPhoto = () => {
     // TODO: How to capture this and not let it run in Photo?
     [KeyCodes.KEY_RETURN]: {
       action: closeFullscreen,
-      name: 'Photo View',
+      name: 'Close Photo',
       description: 'Close fullscreen photo view',
-      keyText: 'Return',
+      // Note: no keyText because we don't want it to show in hotkeys
     },
   });
 

@@ -1,50 +1,76 @@
+import { LegendList } from '@legendapp/list';
 import { useObservable, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import { hotkeyRegistry$, useOnHotkeys } from './Keyboard';
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { type HotkeyInfo, type KeyInfo, hotkeyRegistry$, useOnHotkeys } from './Keyboard';
+import { KeyCodes } from './KeyboardManager';
+import { SFSymbol } from './components/SFSymbol';
 
-const KEY_SLASH = 191; // The keycode for the '/' key
+const sorter = (a: KeyInfo, b: KeyInfo) => {
+  return a.name.localeCompare(b.name);
+};
 
 export function HotkeyHelp() {
-  const hotkeyHelpVisible$ = useObservable(() => true); //keysPressed$[KeyCodes.KEY_SLASH].get());
+  const dims = useWindowDimensions();
+  const hotkeyHelpVisible$ = useObservable(false);
   const isVisible = useSelector(hotkeyHelpVisible$);
-  const hotkeys = useSelector(() => Object.values(hotkeyRegistry$.get()));
+  const hotkeys = useSelector(() => Object.values(hotkeyRegistry$.get()).sort(sorter));
+
+  const toggle = () => hotkeyHelpVisible$.toggle();
 
   // Toggle visibility when / is pressed
   useOnHotkeys({
-    [KEY_SLASH]: {
-      action: () => {
-        // No-op, it's handled by the hotkeyHelpVisible$ obsrvable
-        // Just want this registered in the list so it shows in the popup and settings
-      },
-      name: 'Keyboard Shortcuts',
+    [KeyCodes.KEY_SLASH]: {
+      action: toggle,
+      name: 'Help',
       description: 'Toggle shortcut help',
       keyText: '/',
     },
   });
 
   return isVisible ? (
-    <View className="absolute bottom-4 right-4 bg-gray-800/80 rounded-lg p-4 shadow-lg max-w-md max-h-96 border border-gray-700">
-      <Text className="text-white text-lg font-bold mb-2">Keyboard Shortcuts</Text>
-      <ScrollView className="max-h-80">
-        {hotkeys.length > 0 ? (
-          hotkeys.map((hotkey, index) => (
-            <View
-              key={`hotkey-${hotkey.keys}-${index}`}
-              className="py-1.5 border-b border-gray-700"
-            >
-              <View className="flex-row justify-between mb-1">
-                <Text className="text-white font-medium">{hotkey.name}</Text>
-                <Text className="text-white font-mono bg-gray-700 px-2 rounded ml-4">
-                  {hotkey.keyText}
-                </Text>
-              </View>
-            </View>
-          ))
-        ) : (
-          <Text className="text-gray-400 italic">No hotkeys registered</Text>
-        )}
-      </ScrollView>
+    <View className="absolute bottom-0 right-0 py-2 pr-2" style={{ maxHeight: dims.height }}>
+      <View className="flex-1 overflow-hidden bg-zinc-800/85 rounded-lg p-4 w-64 shadow-lg border border-zinc-700">
+        <View className="flex-row justify-between items-center mb-4">
+          <Text className="text-white text-lg font-bold">Hotkeys</Text>
+          {/* TODO: Make this an icon button */}
+          <Pressable onPress={toggle}>
+            <SFSymbol name="xmark" size={18} color="#fff" />
+          </Pressable>
+        </View>
+        <LegendList
+          className="max-h-[800px]"
+          data={hotkeys}
+          renderItem={HotkeyHelpItem}
+          estimatedItemSize={36}
+          //   waitForInitialLayout
+        />
+      </View>
     </View>
-  ) : null;
+  ) : (
+    // TODO: Make this an icon button
+    <Pressable
+      className="absolute bottom-3 right-3 bg-zinc-800 rounded-full size-9 border border-white/10"
+      onPress={toggle}
+    >
+      <SFSymbol name="questionmark" size={20} color="#ddd" style={styles.questionSymbol} />
+    </Pressable>
+  );
 }
+
+const HotkeyHelpItem = ({ item }: { item: HotkeyInfo }) => {
+  return (
+    <View className="h-9 justify-center">
+      <View className="flex-row justify-between items-center">
+        <Text className="text-white font-medium">{item.name}</Text>
+        <View className="bg-zinc-700 px-3 py-1 rounded ml-8">
+          <Text className="text-white font-mono text-xs">{item.keyText}</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  questionSymbol: { position: 'absolute', top: 3, left: 7 },
+});

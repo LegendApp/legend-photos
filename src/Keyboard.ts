@@ -22,7 +22,7 @@ export interface KeyInfo {
   name: string;
   description: string;
   repeat?: boolean;
-  keyText: string;
+  keyText?: string;
 }
 
 // Global registry for hotkeys with their name and action description
@@ -88,10 +88,6 @@ export function useHookKeyboard() {
 
 type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, KeyInfo>>;
 
-setTimeout(() => {
-  console.log(hotkeyRegistry$.get());
-}, 1000);
-
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   const hotkeyMap = new Map<string[], () => void>();
   const repeatActions = new Set<string[]>();
@@ -107,11 +103,13 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
         repeatActions.add(keys);
       }
 
-      // Register the hotkey with its name and action
-      hotkeyRegistry$[keyInfo.name].set({
-        keys: hotkey,
-        ...keyInfo,
-      });
+      if (keyInfo.keyText) {
+        // Register the hotkey with its name and action
+        hotkeyRegistry$[keyInfo.name].set({
+          keys: hotkey,
+          ...keyInfo,
+        });
+      }
     }
   }
 
