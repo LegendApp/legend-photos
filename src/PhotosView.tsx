@@ -3,7 +3,7 @@ import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { type PhotoInfo, listPhotosInFolder } from './FileManager';
+import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { state$ } from './State';
@@ -47,6 +47,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
   const photos = useSelector(state$.photos);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const folderDisplayName = getFolderName(selectedFolder);
 
   let minDate: Date | undefined;
   let maxDate: Date | undefined;
@@ -147,7 +148,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
           style={styles.legendListStyle}
           ListHeaderComponent={
             <View className="py-3">
-              <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
+              <Text className="text-3xl font-medium text-white">{folderDisplayName}</Text>
               <View className="gap-x-3 flex-row">
                 {subtitle.map((t) => (
                   <Text key={t} className="text-xs font-medium text-white/60 pt-2">

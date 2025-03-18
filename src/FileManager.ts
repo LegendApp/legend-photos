@@ -7,6 +7,19 @@ const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
 export type PhotoInfo = ReadDirResItemT;
 
 /**
+ * Extracts the folder name from a full path
+ * @param path - The full path
+ * @returns The folder name (last segment of the path)
+ */
+export function getFolderName(path: string): string {
+  // Handle trailing slash
+  const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+  // Get the last segment after splitting by forward slash
+  const segments = normalizedPath.split('/');
+  return segments[segments.length - 1] || path;
+}
+
+/**
  * Checks if a string ends with any of the supported photo extensions
  * @param str - The string to check
  * @returns boolean indicating if the string is a photo file

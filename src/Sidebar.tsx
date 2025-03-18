@@ -2,7 +2,7 @@ import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Animated, PlatformColor, View, useColorScheme } from 'react-native';
-import { listFoldersWithPhotosRecursive } from './FileManager';
+import { getFolderName, listFoldersWithPhotosRecursive } from './FileManager';
 import { SidebarButton } from './SidebarButton';
 import { state$ } from './State';
 
@@ -23,10 +23,11 @@ function File({
   onFileSelect: (file: string) => void;
 }) {
   const isSelected = selectedFile === file;
+  const displayName = getFolderName(file);
 
   return (
     <SidebarButton
-      label={file}
+      label={displayName}
       isSelected={isSelected}
       isDarkMode={isDarkMode}
       onPress={() => onFileSelect(file)}
