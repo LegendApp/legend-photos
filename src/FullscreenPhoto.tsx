@@ -143,11 +143,18 @@ export const FullscreenPhoto = () => {
   };
 
   useOnHotkeys({
-    [KeyCodes.KEY_ESCAPE]: closeFullscreen,
-    // TODO: How to capture this and not let it run in Photo?
-    [KeyCodes.KEY_RETURN]: closeFullscreen,
-    options: {
+    [KeyCodes.KEY_ESCAPE]: {
+      action: closeFullscreen,
+      name: 'Close Photo',
       description: 'Close fullscreen photo view',
+      keyText: 'Escape',
+    },
+    // TODO: How to capture this and not let it run in Photo?
+    [KeyCodes.KEY_RETURN]: {
+      action: closeFullscreen,
+      name: 'Photo View',
+      description: 'Close fullscreen photo view',
+      keyText: 'Return',
     },
   });
 

@@ -17,10 +17,17 @@ const keyRepeat$ = event();
 
 const keysToPreventDefault = new Set<KeyboardEventCode>();
 
-// Global registry for hotkeys with their descriptions
-export interface HotkeyInfo {
-  keys: string;
+export interface KeyInfo {
+  action: () => void;
+  name: string;
   description: string;
+  repeat?: boolean;
+  keyText: string;
+}
+
+// Global registry for hotkeys with their name and action description
+export interface HotkeyInfo extends Exclude<KeyInfo, 'action'> {
+  keys: string;
 }
 export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
 
@@ -79,34 +86,32 @@ export function useHookKeyboard() {
   });
 }
 
-interface KeyboardHotkeyOptions {
-  repeat?: boolean;
-  description?: string;
-}
+type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, KeyInfo>>;
 
-type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, () => void>> & {
-  options?: KeyboardHotkeyOptions;
-};
+setTimeout(() => {
+  console.log(hotkeyRegistry$.get());
+}, 1000);
 
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   const hotkeyMap = new Map<string[], () => void>();
-  const { options } = hotkeyCallbacks;
+  const repeatActions = new Set<string[]>();
+
   // Process each combination and its callback
-  for (const [hotkey, callback] of Object.entries(hotkeyCallbacks)) {
-    if (hotkey === 'options') {
-    } else {
+  for (const [hotkey, keyInfo] of Object.entries(hotkeyCallbacks)) {
+    if (keyInfo) {
       const keys = hotkey.toLowerCase().split('+');
       keysToPreventDefault.add(Number(keys[keys.length - 1]));
-      hotkeyMap.set(keys, callback as () => void);
+      hotkeyMap.set(keys, keyInfo.action);
 
-      // Register the hotkey with its description if provided
-      if (options?.description) {
-        const hotkeyId = `hotkey-${Object.keys(hotkeyRegistry$.peek()).length}`;
-        hotkeyRegistry$[hotkeyId].set({
-          keys: hotkey,
-          description: options.description,
-        });
+      if (keyInfo.repeat) {
+        repeatActions.add(keys);
       }
+
+      // Register the hotkey with its name and action
+      hotkeyRegistry$[keyInfo.name].set({
+        keys: hotkey,
+        ...keyInfo,
+      });
     }
   }
 
@@ -124,9 +129,26 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
     }
   };
 
+  const checkRepeatHotkeys = () => {
+    if (state$.showSettings.get()) {
+      // Disable hotkeys when settings is open
+      return;
+    }
+    for (const keys of repeatActions) {
+      const callback = hotkeyMap.get(keys);
+      if (callback) {
+        // If every key in the hotkey is pressed, call the callback
+        const allKeysPressed = keys.every((key) => keysPressed$[key].get());
+        if (allKeysPressed) {
+          callback();
+        }
+      }
+    }
+  };
+
   const unsubs = ax(
     keysPressed$.onChange(checkHotkeys),
-    options?.repeat && keyRepeat$.on(checkHotkeys)
+    repeatActions.size > 0 ? keyRepeat$.on(checkRepeatHotkeys) : undefined
   );
 
   return () => {
@@ -135,6 +157,7 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
     }
   };
 }
+
 export function useOnHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   useEffectOnce(() => onHotkeys(hotkeyCallbacks), []);
 }

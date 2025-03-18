@@ -72,9 +72,14 @@ export const DeletePlugin: Plugin = {
   description: 'Delete the selected photo with Delete key',
   enabled: true,
   childOf: 'metadata',
-  render: () => <DeleteComponent />,
+  component: DeleteComponent,
   hotkeys: {
     // Use Delete key to delete the current photo
-    [KeyCodes.KEY_DELETE.toString()]: deleteCurrentPhoto,
+    [KeyCodes.KEY_DELETE.toString()]: {
+      action: deleteCurrentPhoto,
+      name: 'Delete Photo',
+      description: 'Delete the selected photo with Delete key',
+      keyText: 'Delete',
+    },
   },
 };

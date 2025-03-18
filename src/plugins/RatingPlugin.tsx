@@ -87,11 +87,41 @@ export const RatingPlugin: Plugin = {
   },
   hotkeys: {
     // Use number keys 1-5 to set rating
-    [KeyCodes.KEY_0.toString()]: () => rateCurrentPhoto(0),
-    [KeyCodes.KEY_1.toString()]: () => rateCurrentPhoto(1),
-    [KeyCodes.KEY_2.toString()]: () => rateCurrentPhoto(2),
-    [KeyCodes.KEY_3.toString()]: () => rateCurrentPhoto(3),
-    [KeyCodes.KEY_4.toString()]: () => rateCurrentPhoto(4),
-    [KeyCodes.KEY_5.toString()]: () => rateCurrentPhoto(5),
+    [KeyCodes.KEY_0.toString()]: {
+      action: () => rateCurrentPhoto(0),
+      name: 'Rate 0',
+      description: 'Rate photo 0',
+      keyText: '0',
+    },
+    [KeyCodes.KEY_1.toString()]: {
+      action: () => rateCurrentPhoto(1),
+      name: 'Rate 1',
+      description: 'Rate photo 1',
+      keyText: '1',
+    },
+    [KeyCodes.KEY_2.toString()]: {
+      action: () => rateCurrentPhoto(2),
+      name: 'Rate 2',
+      description: 'Rate photo 2',
+      keyText: '2',
+    },
+    [KeyCodes.KEY_3.toString()]: {
+      action: () => rateCurrentPhoto(3),
+      name: 'Rate 3',
+      description: 'Rate photo 3',
+      keyText: '3',
+    },
+    [KeyCodes.KEY_4.toString()]: {
+      action: () => rateCurrentPhoto(4),
+      name: 'Rate 4',
+      description: 'Rate photo 4',
+      keyText: '4',
+    },
+    [KeyCodes.KEY_5.toString()]: {
+      action: () => rateCurrentPhoto(5),
+      name: 'Rate 5',
+      description: 'Rate photo 5',
+      keyText: '5',
+    },
   },
 };

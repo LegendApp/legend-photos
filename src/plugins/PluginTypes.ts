@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { KeyboardEventCodeHotkey } from '../Keyboard';
+import type { KeyInfo, KeyboardEventCodeHotkey } from '../Keyboard';
 
 // Define where plugins can be rendered
 export type PluginLocation = 'root' | 'photosGrid' | 'photo' | 'photoFullscreen' | 'metadata';
@@ -19,7 +19,7 @@ export interface Plugin {
   shouldRender?: (props: any) => boolean;
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;
-  hotkeys?: Record<KeyboardEventCodeHotkey, () => void>;
+  hotkeys?: Record<KeyboardEventCodeHotkey, KeyInfo>;
   settings?: PluginSettings;
 }
 

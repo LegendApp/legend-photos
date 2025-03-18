@@ -28,15 +28,17 @@ export function PhotosViewContainer() {
   const hasLibrary = useSelector(() => settings$.library.paths.length > 0);
 
   useOnHotkeys({
-    [KeyCodes.KEY_S]: () => {
-      const selectedFolder = settings$.state.openFolder.get();
+    [KeyCodes.KEY_S]: {
+      action: () => {
+        const selectedFolder = settings$.state.openFolder.get();
 
-      if (selectedFolder && !state$.fullscreenPhoto.get()) {
-        settings$.state.isSidebarOpen.toggle();
-      }
-    },
-    options: {
+        if (selectedFolder && !state$.fullscreenPhoto.get()) {
+          settings$.state.isSidebarOpen.toggle();
+        }
+      },
+      name: 'Sidebar',
       description: 'Toggle sidebar visibility',
+      keyText: 'S',
     },
   });
 

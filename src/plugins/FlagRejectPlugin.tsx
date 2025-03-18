@@ -101,9 +101,24 @@ export const FlagRejectPlugin: Plugin = {
   },
   hotkeys: {
     // Use Space to toggle flag
-    [KeyCodes.KEY_SPACE.toString()]: toggleFlagCurrentPhoto,
-    [KeyCodes.KEY_P.toString()]: toggleFlagCurrentPhoto,
+    [KeyCodes.KEY_SPACE.toString()]: {
+      action: toggleFlagCurrentPhoto,
+      name: 'Toggle Flag',
+      description: 'Toggle flag on the current photo',
+      keyText: 'Space',
+    },
+    [KeyCodes.KEY_P.toString()]: {
+      action: toggleFlagCurrentPhoto,
+      name: 'Toggle Flag',
+      description: 'Toggle flag on the current photo',
+      keyText: 'P',
+    },
     // Use X to toggle reject
-    [KeyCodes.KEY_X.toString()]: toggleRejectCurrentPhoto,
+    [KeyCodes.KEY_X.toString()]: {
+      action: toggleRejectCurrentPhoto,
+      name: 'Toggle Reject',
+      description: 'Toggle reject on the current photo',
+      keyText: 'X',
+    },
   },
 };

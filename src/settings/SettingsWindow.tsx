@@ -8,11 +8,13 @@ export const SettingsWindow = () => {
   const windowManager = useWindowManager();
 
   useOnHotkeys({
-    [KeyCodes.KEY_COMMA]: () => {
-      state$.showSettings.set(true);
-    },
-    options: {
+    [KeyCodes.KEY_COMMA]: {
+      action: () => {
+        state$.showSettings.set(true);
+      },
+      name: 'Settings',
       description: 'Open settings',
+      keyText: ',',
     },
   });
   useMountOnce(() => {

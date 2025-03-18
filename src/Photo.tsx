@@ -42,10 +42,15 @@ export const Photo = (photo: PhotoProps) => {
   });
 
   useOnHotkeys({
-    [KeyCodes.KEY_RETURN]: () => {
-      if (state$.selectedPhotoIndex.get() === index) {
-        openFullscreen();
-      }
+    [KeyCodes.KEY_RETURN]: {
+      action: () => {
+        if (state$.selectedPhotoIndex.get() === index) {
+          openFullscreen();
+        }
+      },
+      name: 'Photo',
+      description: 'Open selected photo in fullscreen',
+      keyText: 'Return',
     },
   });
 
