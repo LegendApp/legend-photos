@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@dr.pogodin/react-native-fs": "^2.32.0",
-    "@legendapp/list": "^1.0.0-beta.15",
+    "@legendapp/list": "^1.0.0-beta.24",
     "@legendapp/motion": "^2.4.0",
     "@legendapp/state": "^3.0.0-beta.30",
     "nativewind": "^4.1.23",

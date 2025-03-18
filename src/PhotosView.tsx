@@ -1,14 +1,14 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
+import { LegendList } from '@legendapp/list';
 import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { state$ } from './State';
 import { ax } from './ax';
-import { LegendList } from './src/LegendList';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
 interface PhotosProps {
@@ -145,10 +145,9 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
           numColumns={numColumns}
           estimatedItemSize={200}
           keyExtractor={(item) => item.name}
-          contentContainerClassName="px-4 pb-4 m-0"
-          // eslint-disable-next-line react-native/no-inline-styles
-          columnWrapperStyle={{ gap: 12 }}
-          className="mt-[-28px]"
+          contentContainerStyle={styles.contentContainerStyle}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          style={styles.legendListStyle}
           ListHeaderComponent={
             <View className="py-3">
               <Text className="text-3xl font-medium text-white">{selectedFolder}</Text>
@@ -166,3 +165,17 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainerStyle: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    margin: 0,
+  },
+  legendListStyle: {
+    marginTop: -28,
+  },
+  columnWrapperStyle: {
+    gap: 12,
+  },
+});
