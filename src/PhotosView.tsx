@@ -1,5 +1,5 @@
 import { LegendList } from '@legendapp/list';
-import { useSelector } from '@legendapp/state/react';
+import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { memo, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -70,29 +70,26 @@ export const PhotosView = memo(function PhotosView() {
   // Set up keyboard shortcuts
   usePhotosViewKeyboard();
 
-  useEffect(() => {
-    const loadPhotos = async () => {
-      if (!selectedFolder) {
-        state$.photos.set([]);
-        return;
-      }
+  useObserveEffect(async () => {
+    const folder = settings$.state.openFolder.get();
+    if (!folder) {
+      state$.photos.set([]);
+      return;
+    }
 
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
 
-      try {
-        const photosList = await listPhotosInFolder(selectedFolder);
-        state$.photos.set(photosList);
-      } catch (err) {
-        console.error('Error loading photos:', err);
-        setError('Failed to load photos');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPhotos();
-  }, [selectedFolder]);
+    try {
+      const photosList = await listPhotosInFolder(folder);
+      state$.photos.set(photosList);
+    } catch (err) {
+      console.error('Error loading photos:', err);
+      setError('Failed to load photos');
+    } finally {
+      setLoading(false);
+    }
+  });
 
   const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
     return <Photo photoName={item.name} folderPath={selectedFolder!} index={index} />;

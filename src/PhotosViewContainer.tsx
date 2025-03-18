@@ -1,8 +1,7 @@
 import { Motion } from '@legendapp/motion';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { useRef } from 'react';
-import { Animated } from 'react-native';
+import { EmptyLibrary } from './EmptyLibrary';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { PhotosView } from './PhotosView';
@@ -26,6 +25,7 @@ export function PhotosViewContainer() {
   const sidebarWidth = useSelector(
     () => (settings$.state.isSidebarOpen.get() && settings$.state.sidebarWidth.get()) || 0
   );
+  const hasLibrary = useSelector(() => settings$.library.paths.length > 0);
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: () => {
@@ -44,7 +44,7 @@ export function PhotosViewContainer() {
       animate={{ left: sidebarWidth }}
       transition={sidebarWidth > 0 ? SpringOpen : SpringClose}
     >
-      <PhotosView />
+      {hasLibrary ? <PhotosView /> : <EmptyLibrary />}
 
       {/* Plugins for the photosGrid location */}
       <PluginRenderer location="photosGrid" className="absolute top-4 right-4" />

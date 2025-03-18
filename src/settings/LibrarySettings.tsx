@@ -1,6 +1,7 @@
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Switch, Text, View } from 'react-native';
+import { addLibraryPath } from '../LibraryManager';
 import { Button } from '../components/Button';
 import { FilePicker } from '../components/FilePicker';
 import { SegmentedControl } from '../components/SegmentedControl';
@@ -10,11 +11,7 @@ export const LibrarySettings = () => {
   const librarySettings = useSelector(settings$.library);
 
   const handleAddFolderPath = (path: string) => {
-    // Update library paths with the selected folder
-    const currentPaths = settings$.library.paths.get();
-    if (!currentPaths.includes(path)) {
-      settings$.library.paths.set([...currentPaths, path]);
-    }
+    addLibraryPath(path);
   };
 
   const handleRemovePath = async (path: string) => {

@@ -17,3 +17,4 @@ alwaysApply: true
 - If I made changes after you, respect my changes and do not undo them.
 - Use tailwind/nativewind classes rather than stylesheets.
 - The command to run the project is `bun run mac`
+- Use Motion components only if a style is being animated.

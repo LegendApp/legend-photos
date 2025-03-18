@@ -69,7 +69,7 @@ export async function listFoldersWithPhotosRecursive(): Promise<string[]> {
  * @param folderPath - Path to scan
  * @returns Promise with an array of absolute folder paths that contain photos
  */
-async function scanFolderRecursive(folderPath: string): Promise<string[]> {
+export async function scanFolderRecursive(folderPath: string): Promise<string[]> {
   try {
     const folders: string[] = [];
     const items = await readDir(folderPath);
