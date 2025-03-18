@@ -4,7 +4,6 @@ import React from 'react';
 import { Animated, PlatformColor, Text, View, useColorScheme } from 'react-native';
 import { getFolderName, listFoldersWithPhotosRecursive } from './FileManager';
 import { SidebarButton } from './SidebarButton';
-import { state$ } from './State';
 import { settings$ } from './settings/SettingsFile';
 
 function Folder({
@@ -60,7 +59,7 @@ function Sidebar() {
   const isDarkMode = useColorScheme() === 'dark';
   const selectedFolder = useSelector(settings$.state.openFolder);
   const folders = useSelector(folders$) || [];
-  const sidebarWidth = useSelector(state$.sidebarWidth);
+  const sidebarWidth = useSelector(settings$.state.sidebarWidth);
 
   const onSelectFolder = (folder: string) => {
     settings$.state.openFolder.set(folder);

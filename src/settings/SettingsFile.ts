@@ -41,6 +41,8 @@ export interface AppSettings {
   // State
   state: {
     openFolder: string | null;
+    sidebarWidth: number;
+    isSidebarOpen: boolean;
   };
 }
 
@@ -77,6 +79,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   },
   state: {
     openFolder: null,
+    sidebarWidth: 160,
+    isSidebarOpen: true,
   },
 };
 

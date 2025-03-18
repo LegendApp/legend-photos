@@ -1,18 +1,15 @@
 import { LegendList } from '@legendapp/list';
 import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
 import { useBreakpoints } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { state$ } from './State';
 import { ax } from './ax';
+import { settings$ } from './settings/SettingsFile';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
-
-interface PhotosProps {
-  selectedFolder: string | null;
-}
 
 const breakpoints = {
   640: 'sm',
@@ -42,7 +39,8 @@ remapProps(LegendList, {
   contentContainerClassName: 'contentContainerStyle',
 });
 
-export function PhotosView({ selectedFolder }: PhotosProps) {
+export const PhotosView = memo(function PhotosView() {
+  const selectedFolder = useSelector(settings$.state.openFolder);
   const numColumns = useGridColumns();
   const photos = useSelector(state$.photos);
   const [loading, setLoading] = useState(false);
@@ -162,7 +160,7 @@ export function PhotosView({ selectedFolder }: PhotosProps) {
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   contentContainerStyle: {

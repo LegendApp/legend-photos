@@ -1,6 +1,7 @@
 import { observable, observe } from '@legendapp/state';
 import { NativeModules } from 'react-native';
 import type { PhotoInfo } from './FileManager';
+import { settings$ } from './settings/SettingsFile';
 
 const WindowControls = NativeModules.WindowControls;
 
@@ -19,8 +20,6 @@ export const state$ = observable({
   photos: [] as PhotoInfo[],
   selectedPhotoIndex: -1,
   fullscreenPhoto: null as FullscreenPhotoData | null,
-  sidebarWidth: 160 as number,
-  isSidebarOpen: true,
   numColumns: 1 as number,
   isPhotoFullscreenCoveringControls: false,
   stoplightEnforcerHovered: false,
@@ -29,7 +28,7 @@ export const state$ = observable({
 
 observe(() => {
   const isPhotoFullscreenCoveringControls = state$.isPhotoFullscreenCoveringControls.get();
-  const isSidebarOpen = state$.isSidebarOpen.get();
+  const isSidebarOpen = settings$.state.isSidebarOpen.get();
 
   const hide =
     !state$.stoplightEnforcerHovered.get() && (isPhotoFullscreenCoveringControls || !isSidebarOpen);
