@@ -30,8 +30,6 @@ export function registerPlugin(plugin: Plugin): void {
     const unsub = onHotkeys(plugin.hotkeys);
     hotkeyUnsubscribers.set(plugin.id, unsub);
   }
-
-  console.log(`Plugin registered: ${plugin.name} (${plugin.id})`);
 }
 
 // Unregister a plugin
@@ -41,8 +39,6 @@ export function unregisterPlugin(pluginId: string): void {
 
   // Remove from registry
   plugins$[pluginId].delete();
-
-  console.log(`Plugin unregistered: ${pluginId}`);
 }
 
 // Unregister plugin hotkeys

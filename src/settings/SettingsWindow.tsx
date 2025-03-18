@@ -27,8 +27,7 @@ export const SettingsWindow = () => {
             height: 600,
           };
 
-          const result = await windowManager.openWindow(options);
-          console.log('Window opened:', result);
+          await windowManager.openWindow(options);
         } catch (error) {
           console.error('Failed to open window:', error);
         }
@@ -38,7 +37,6 @@ export const SettingsWindow = () => {
     });
 
     const subscription = windowManager.onWindowClosed(() => {
-      console.log('Window was closed');
       state$.showSettings.set(false);
     });
 

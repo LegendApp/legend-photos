@@ -13,7 +13,6 @@ const defaultPlugins = [RatingPlugin, FlagRejectPlugin, DeletePlugin];
 // Register all default plugins
 export function registerDefaultPlugins(): void {
   defaultPlugins.forEach(registerPlugin);
-  console.log('Default plugins registered');
 }
 
 // Export individual plugins

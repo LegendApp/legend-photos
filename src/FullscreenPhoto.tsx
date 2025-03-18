@@ -43,8 +43,6 @@ export const FullscreenPhoto = () => {
       animatedRight.setValue(right);
       animatedBottom.setValue(bottom);
 
-      console.log('right', right, bottom);
-
       // Hide window controls (stoplight buttons) if on macOS
       setTimeout(() => {
         state$.isPhotoFullscreenCoveringControls.set(true);

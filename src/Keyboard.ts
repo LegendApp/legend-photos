@@ -43,7 +43,6 @@ const onKeyDown = (e: KeyboardEvent) => {
     keyRepeat$.fire();
   }
 
-  console.log('keydown', keyCode, keysToPreventDefault.has(keyCode));
   // }
 
   return keysToPreventDefault.has(keyCode);
