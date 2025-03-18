@@ -19,7 +19,7 @@ const SETTING_CATEGORIES = [
 ];
 
 export const Settings = () => {
-  const [selectedCategory, setSelectedCategory] = useState('general');
+  const [selectedCategory, setSelectedCategory] = useState('library');
   const isDarkMode = useColorScheme() === 'dark';
 
   // Initialize settings when component mounts

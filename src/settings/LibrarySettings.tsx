@@ -1,6 +1,6 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { useState } from 'react';
-import { FlatList, Text, TextInput, View } from 'react-native';
+import { FlatList, Switch, Text, TextInput, View } from 'react-native';
 import { Button } from '../components/Button';
 import { SegmentedControl } from '../components/SegmentedControl';
 import {
@@ -49,7 +49,7 @@ export const LibrarySettings = () => {
       {/* Library Paths */}
       <View className="pb-8">
         <Text className="text-base font-medium text-white mb-3">Library Paths</Text>
-        <View className="flex-row mb-3">
+        <View className="flex-row mb-3 items-center">
           <TextInput
             className="flex-1 bg-[#333] text-white px-3 py-2 rounded-md mr-2 border border-[#555]"
             value={newPath}
@@ -104,15 +104,7 @@ export const LibrarySettings = () => {
       {/* Show Filenames */}
       <View className="pb-8 w-32">
         <Text className="text-base font-medium text-white mb-6">Show Filenames</Text>
-        <SegmentedControl
-          options={['yes', 'no'] as const}
-          selectedValue={librarySettings.showFilenames ? 'yes' : 'no'}
-          onValueChange={(value) => {
-            console.log('value');
-            handleShowFilenamesChange(value === 'yes');
-          }}
-          size="large"
-        />
+        <Switch value={librarySettings.showFilenames} onValueChange={handleShowFilenamesChange} />
       </View>
 
       {/* Sort Options */}
