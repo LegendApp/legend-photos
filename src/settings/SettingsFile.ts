@@ -80,7 +80,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   state: {
     openFolder: null,
     sidebarWidth: 160,
-    isSidebarOpen: true,
+    isSidebarOpen: false,
   },
 };
 
