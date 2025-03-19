@@ -1,6 +1,7 @@
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
+import type { PhotoInfo } from '../FileManager';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
 import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
@@ -14,7 +15,7 @@ interface RatingPluginProps {
 
 // Rating component that will be rendered
 function RatingComponent({ photo }: RatingPluginProps) {
-  const photoName = photo.photoName;
+  const photoName = photo.photo.name;
   const selectedFolder = use$(settings$.state.openFolder);
   const photoId = `${selectedFolder}/${photoName}`;
   const photoMetadata$ = photoMetadatas$[photoId];
@@ -77,8 +78,8 @@ export const RatingPlugin: Plugin = {
   enabled: true,
   childOf: 'photo',
   component: RatingComponent,
-  shouldRender: ({ photo }: { photo: PhotoProps }) => {
-    const photoName = photo.photoName;
+  shouldRender: (photo: PhotoInfo) => {
+    const photoName = photo.name;
     const selectedFolder = use$(settings$.state.openFolder);
     const photoId = `${selectedFolder}/${photoName}`;
     const photoMetadata$ = photoMetadatas$[photoId];

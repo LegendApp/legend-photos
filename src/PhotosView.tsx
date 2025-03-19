@@ -98,7 +98,7 @@ export const PhotosView = memo(function PhotosView() {
   });
 
   const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
-    return <Photo photoName={item.name} folderPath={selectedFolder!} index={index} />;
+    return <Photo photo={item} folderPath={selectedFolder!} index={index} />;
   };
 
   if (loading) {

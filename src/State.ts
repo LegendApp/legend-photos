@@ -10,7 +10,6 @@ export const fullscreenView = {
 };
 // Define the interface for the fullscreen photo data
 export interface FullscreenPhotoData {
-  uri: string;
   initialPosition: {
     x: number;
     y: number;
@@ -27,6 +26,7 @@ export const state$ = observable({
   isPhotoFullscreenCoveringControls: false,
   stoplightEnforcerHovered: false,
   showSettings: false,
+  selectedPhoto: () => state$.photos[state$.selectedPhotoIndex.get()],
 });
 
 observe(() => {

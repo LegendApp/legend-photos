@@ -1,11 +1,13 @@
 import { use$, useObservable } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Animated, Dimensions, Pressable, View } from 'react-native';
+import type { PhotoInfo } from './FileManager';
 import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
+import { getPhotoUri } from './utils/photoHelpers';
 
 const SpringOpen = {
   bounciness: 3,
@@ -72,6 +74,8 @@ function springPositions(
 export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
+  const selectedPhoto = use$(state$.selectedPhoto) as PhotoInfo;
+  const photoUri = getPhotoUri(selectedPhoto);
   const isOpen$ = useObservable(false);
 
   // Animation values
@@ -198,7 +202,7 @@ export const FullscreenPhoto = () => {
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={closeFullscreen}>
-        <Img uri={fullscreenData.uri} className="flex-1" resizeMode="contain" onLoad={onLoad} />
+        <Img uri={photoUri} className="flex-1" resizeMode="contain" onLoad={onLoad} />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}

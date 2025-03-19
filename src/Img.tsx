@@ -2,6 +2,7 @@ import { remapProps } from 'nativewind';
 import React, { useState } from 'react';
 import {
   Image,
+  type ImageLoadEventData,
   type ImageProps,
   type ImageStyle,
   type NativeSyntheticEvent,

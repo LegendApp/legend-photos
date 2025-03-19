@@ -2,6 +2,7 @@ import type { Observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { View } from 'react-native';
+import type { PhotoInfo } from '../FileManager';
 import { KeyCodes } from '../KeyboardManager';
 import type { PhotoProps } from '../Photo';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
@@ -34,7 +35,7 @@ const handleRejectToggle = (photoId: string, photoMetadata$: Observable<PhotoMet
 
 // Flag/Reject component
 function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
-  const photoName = photo.photoName;
+  const photoName = photo.photo.name;
   const selectedFolder = use$(settings$.state.openFolder);
   const photoId = `${selectedFolder}/${photoName}`;
   const photoMetadata$ = photoMetadatas$[photoId];
@@ -90,8 +91,8 @@ export const FlagRejectPlugin: Plugin = {
   enabled: true,
   childOf: 'photo',
   component: FlagRejectComponent,
-  shouldRender: ({ photo }: { photo: PhotoProps }) => {
-    const photoName = photo.photoName;
+  shouldRender: (photo: PhotoInfo) => {
+    const photoName = photo.name;
     const selectedFolder = use$(settings$.state.openFolder);
     const photoId = `${selectedFolder}/${photoName}`;
     const photoMetadata$ = photoMetadatas$[photoId];
