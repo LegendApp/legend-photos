@@ -1,5 +1,5 @@
 import { remapProps } from 'nativewind';
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import {
   Image,
   type ImageLoadEventData,
@@ -16,10 +16,22 @@ interface ImgProps extends Exclude<ImageProps, 'source' | 'style'> {
   style?: ImageStyle;
 }
 
-export function Img({ uri, onLoad: onLoadProp, style: styleProp, ...props }: ImgProps) {
-  const [aspectRatio, setAspectRatio] = useState(1);
+const mapAspectRatios = new Map<string, number>();
+
+export const Img = memo(function Img({
+  uri,
+  onLoad: onLoadProp,
+  style: styleProp,
+  ...props
+}: ImgProps) {
+  const cachedAspectRatio = mapAspectRatios.get(uri);
+  const [aspectRatio, setAspectRatio] = useState(cachedAspectRatio || 1);
   const onLoad = (e: NativeSyntheticEvent<ImageLoadEventData>) => {
-    setAspectRatio(e.nativeEvent.source.width / e.nativeEvent.source.height);
+    if (!cachedAspectRatio) {
+      const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
+      mapAspectRatios.set(uri, ratio);
+      setAspectRatio(ratio);
+    }
     onLoadProp?.(e);
   };
 
@@ -51,7 +63,7 @@ export function Img({ uri, onLoad: onLoadProp, style: styleProp, ...props }: Img
       </View>
     </View>
   );
-}
+});
 
 remapProps(Img, {
   className: 'style',

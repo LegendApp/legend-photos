@@ -1,5 +1,5 @@
 import { use$, useObservable } from '@legendapp/state/react';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Animated, Dimensions, Pressable, View } from 'react-native';
 import type { PhotoInfo } from './FileManager';
 import { Img } from './Img';
@@ -90,47 +90,53 @@ export const FullscreenPhoto = () => {
     };
   }
 
-  const onLoad = () => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  const onLoad = useCallback(() => {
     if (!isOpen$.get()) {
-      isOpen$.set(true);
-      if (fullscreenData) {
-        // Set initial values
-        const dimensions = Dimensions.get('window');
-        animatedOpacity.setValue(0);
-        const left = fullscreenData.initialPosition.x;
-        const top = fullscreenData.initialPosition.y;
-        const right =
-          dimensions.width -
-          fullscreenData.initialPosition.width -
-          fullscreenData.initialPosition.x;
-        const bottom =
-          dimensions.height -
-          fullscreenData.initialPosition.height -
-          fullscreenData.initialPosition.y;
-
-        // Hide window controls (stoplight buttons) if on macOS
-        setTimeout(() => {
-          state$.isPhotoFullscreenCoveringControls.set(true);
-        }, 150);
-
-        // Animate to fullscreen
-        Animated.sequence([
-          Animated.timing(animatedOpacity, {
-            delay: 30,
-            toValue: 1,
-            duration: 0,
-            useNativeDriver: false,
-          }),
-          springPositions(
-            refAnimatedPositions.current!,
-            { left: 0, top: 0, right: 0, bottom: 0 },
-            SpringOpen,
-            { left, top, right, bottom }
-          ),
-        ]).start();
+      const fullscreenPhoto = state$.fullscreenPhoto.get();
+      if (!fullscreenPhoto) {
+        return;
       }
+
+      isOpen$.set(true);
+
+      // Set initial values
+      const dimensions = Dimensions.get('window');
+      animatedOpacity.setValue(0);
+      const left = fullscreenPhoto.initialPosition.x;
+      const top = fullscreenPhoto.initialPosition.y;
+      const right =
+        dimensions.width -
+        fullscreenPhoto.initialPosition.width -
+        fullscreenPhoto.initialPosition.x;
+      const bottom =
+        dimensions.height -
+        fullscreenPhoto.initialPosition.height -
+        fullscreenPhoto.initialPosition.y;
+
+      // Hide window controls (stoplight buttons) if on macOS
+      setTimeout(() => {
+        state$.isPhotoFullscreenCoveringControls.set(true);
+      }, 150);
+
+      // Animate to fullscreen
+      Animated.sequence([
+        Animated.timing(animatedOpacity, {
+          delay: 30,
+          toValue: 1,
+          duration: 0,
+          useNativeDriver: false,
+        }),
+        springPositions(
+          refAnimatedPositions.current!,
+          { left: 0, top: 0, right: 0, bottom: 0 },
+          SpringOpen,
+          { left, top, right, bottom }
+        ),
+      ]).start();
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const closeFullscreen = () => {
     const fullscreenPhoto = state$.fullscreenPhoto.get();
