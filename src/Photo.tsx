@@ -19,8 +19,7 @@ export interface PhotoProps {
 export const Photo = ({ photo, index }: PhotoProps) => {
   const photoUri = getPhotoUri(photo);
   const photoRef = useRef<View>(null);
-  const selectedIndex = useSelector(state$.selectedPhotoIndex);
-  const isSelected = selectedIndex === index;
+  const isSelected = useSelector(() => state$.selectedPhotoIndex.get() === index);
   if (isSelected) {
     const view = photoRef.current;
     fullscreenView.current = view;
