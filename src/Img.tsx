@@ -25,7 +25,8 @@ export const Img = memo(function Img({
   ...props
 }: ImgProps) {
   const cachedAspectRatio = mapAspectRatios.get(uri);
-  const [aspectRatio, setAspectRatio] = useState(cachedAspectRatio || 1);
+  const [_, setAspectRatio] = useState(0);
+  const aspectRatio = cachedAspectRatio || 1;
   const onLoad = (e: NativeSyntheticEvent<ImageLoadEventData>) => {
     if (!cachedAspectRatio) {
       const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
