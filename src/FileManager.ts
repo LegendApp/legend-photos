@@ -28,6 +28,10 @@ function isPhotoFile(str: string): boolean {
   return PHOTO_EXTENSIONS.some((ext) => str.toLowerCase().endsWith(ext.toLowerCase()));
 }
 
+function sortFilesByName(a: ReadDirResItemT, b: ReadDirResItemT) {
+  return a.name.localeCompare(b.name);
+}
+
 /**
  * Lists all photo files in a specified folder (non-recursive)
  * @param folderPath - Path to the folder
@@ -37,6 +41,8 @@ export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[
   try {
     // Read the directory contents
     const files = await readDir(folderPath);
+
+    files.sort(sortFilesByName);
 
     // Filter to only include photo files and extract just the filename
     return files.filter((file) => isPhotoFile(file.name));
