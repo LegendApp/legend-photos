@@ -30,8 +30,8 @@ export function HotkeyHelp() {
 
   return isVisible ? (
     <View className="absolute bottom-0 right-0 py-2 pr-2" style={{ maxHeight: dims.height }}>
-      <View className="flex-1 overflow-hidden bg-zinc-800/85 rounded-lg p-4 w-64 shadow-lg border border-zinc-700">
-        <View className="flex-row justify-between items-center mb-4">
+      <View className="flex-1 overflow-hidden bg-zinc-800/85 rounded-lg py-4 w-64 shadow-lg border border-zinc-700">
+        <View className="flex-row justify-between items-center mb-4 px-4">
           <Text className="text-white text-lg font-bold">Hotkeys</Text>
           {/* TODO: Make this an icon button */}
           <Pressable onPress={toggle}>
@@ -43,6 +43,7 @@ export function HotkeyHelp() {
           data={hotkeys}
           renderItem={HotkeyHelpItem}
           estimatedItemSize={36}
+          contentContainerStyle={styles.list}
           //   waitForInitialLayout
         />
       </View>
@@ -72,5 +73,12 @@ const HotkeyHelpItem = ({ item }: { item: HotkeyInfo }) => {
 };
 
 const styles = StyleSheet.create({
-  questionSymbol: { position: 'absolute', top: 3, left: 7 },
+  questionSymbol: {
+    position: 'absolute',
+    top: 3,
+    left: 7,
+  },
+  list: {
+    paddingHorizontal: 16,
+  },
 });

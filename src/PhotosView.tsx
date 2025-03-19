@@ -4,11 +4,12 @@ import { remapProps } from 'nativewind';
 import React, { memo, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
-import { useBreakpoints } from './HookWindowDimensions';
+import { windowDimensions$ } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { state$ } from './State';
 import { ax } from './ax';
 import { settings$ } from './settings/SettingsFile';
+import { useBreakpoints } from './useBreakpoints';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
 
 const breakpoints = {
@@ -25,7 +26,7 @@ const breakpoints = {
 
 // Calculate the number of columns based on screen width
 const useGridColumns = () => {
-  const { breakpointWidth } = useBreakpoints(breakpoints);
+  const { breakpointWidth } = useBreakpoints(windowDimensions$, breakpoints);
   // Adjust these values based on desired photo size
   const PHOTO_MAX_SIZE = 200;
 
@@ -142,6 +143,8 @@ export const PhotosView = memo(function PhotosView() {
           renderItem={renderPhoto}
           numColumns={numColumns}
           estimatedItemSize={200}
+          recycleItems
+          //   drawDistance={1000}
           keyExtractor={(item) => item.name}
           contentContainerStyle={styles.contentContainerStyle}
           columnWrapperStyle={styles.columnWrapperStyle}

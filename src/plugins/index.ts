@@ -8,7 +8,7 @@ export * from './PluginManager';
 export * from './PluginRenderer';
 
 // List of default plugins
-const defaultPlugins = [RatingPlugin, FlagRejectPlugin, DeletePlugin];
+const defaultPlugins = [RatingPlugin, FlagRejectPlugin /*DeletePlugin*/];
 
 // Register all default plugins
 export function registerDefaultPlugins(): void {
