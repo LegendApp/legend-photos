@@ -202,7 +202,7 @@ export const FullscreenPhoto = () => {
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={closeFullscreen}>
-        <Img uri={photoUri} className="flex-1" resizeMode="contain" onLoad={onLoad} />
+        <Img uri={photoUri!} className="flex-1" resizeMode="contain" onLoad={onLoad} />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}

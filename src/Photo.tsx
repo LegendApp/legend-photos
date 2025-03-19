@@ -21,12 +21,16 @@ export const Photo = ({ photo, index }: PhotoProps) => {
   const photoRef = useRef<View>(null);
   const selectedIndex = useSelector(state$.selectedPhotoIndex);
   const isSelected = selectedIndex === index;
+  if (isSelected) {
+    const view = photoRef.current;
+    fullscreenView.current = view;
+  }
 
   const openFullscreen = () => {
     const view = photoRef.current;
     if (view && !state$.fullscreenPhoto.get()) {
+      fullscreenView.current = view;
       view.measureInWindow((x, y, width, height) => {
-        fullscreenView.current = view;
         state$.fullscreenPhoto.set({
           initialPosition: {
             x,
