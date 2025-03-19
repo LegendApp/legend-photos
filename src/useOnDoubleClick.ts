@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 interface UseOnDoubleClickParams {
-  onClick: () => void;
+  onClick?: () => void;
   onDoubleClick: () => void;
 }
 
@@ -17,7 +17,7 @@ export function useOnDoubleClick({ onClick, onDoubleClick }: UseOnDoubleClickPar
       // Double tap detected
       onDoubleClick();
     } else {
-      onClick();
+      onClick?.();
     }
 
     refLastTap.current = now;

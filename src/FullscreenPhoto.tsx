@@ -7,6 +7,7 @@ import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
+import { useOnDoubleClick } from './useOnDoubleClick';
 import { getPhotoUri } from './utils/photoHelpers';
 
 const SpringOpen = {
@@ -181,6 +182,10 @@ export const FullscreenPhoto = () => {
     });
   };
 
+  const onPress = useOnDoubleClick({
+    onDoubleClick: closeFullscreen,
+  });
+
   useOnHotkeys({
     [KeyCodes.KEY_ESCAPE]: {
       action: closeFullscreen,
@@ -207,7 +212,7 @@ export const FullscreenPhoto = () => {
       className="bg-black z-[100] absolute"
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
-      <Pressable className="flex-1" onPress={closeFullscreen}>
+      <Pressable className="flex-1" onPress={onPress}>
         <Img uri={photoUri!} className="flex-1" resizeMode="contain" onLoad={onLoad} />
       </Pressable>
 
