@@ -1,6 +1,7 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Image, Pressable, View } from 'react-native';
+import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
@@ -57,9 +58,9 @@ export const Photo = (photo: PhotoProps) => {
   });
 
   return (
-    <View ref={photoRef} className="aspect-square rounded-lg overflow-hidden bg-black/5">
+    <View ref={photoRef} className="aspect-square rounded-lg overflow-hidden">
       <Pressable onPress={onPress} className="w-full h-full">
-        <Image source={{ uri: photoUri }} className="w-full h-full" resizeMode={'cover'} />
+        <Img uri={photoUri} className="w-full h-full" resizeMode={'cover'} />
         {isSelected && (
           <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
         )}

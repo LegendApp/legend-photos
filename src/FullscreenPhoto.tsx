@@ -1,6 +1,7 @@
 import { use$, useObservable } from '@legendapp/state/react';
 import React, { useRef } from 'react';
-import { Animated, Dimensions, Image, Pressable, View } from 'react-native';
+import { Animated, Dimensions, Pressable, View } from 'react-native';
+import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
@@ -197,12 +198,7 @@ export const FullscreenPhoto = () => {
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={closeFullscreen}>
-        <Image
-          source={{ uri: fullscreenData.uri }}
-          className="flex-1"
-          resizeMode="contain"
-          onLoad={onLoad}
-        />
+        <Img uri={fullscreenData.uri} className="flex-1" resizeMode="contain" onLoad={onLoad} />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}
