@@ -1,4 +1,5 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
+import type { PhotoInfo } from './FileManager';
 import { createJSONManager } from './utils/JSONManager';
 
 // Define the metadata structure for a single photo
@@ -23,14 +24,14 @@ export const photoMetadatas$ = createJSONManager<PhotoMetadataStore>(
 );
 
 // Get metadata for a specific photo
-export function getMetadata(photoId: string): PhotoMetadataItem {
-  return photoMetadatas$[photoId].get() || {};
+export function getMetadata(photo: PhotoInfo): PhotoMetadataItem {
+  return photoMetadatas$[photo.id].get() || {};
 }
 
 // Update metadata for a specific photo
 export async function updateMetadata(
-  photoId: string,
+  photo: PhotoInfo,
   updates: Partial<PhotoMetadataItem>
 ): Promise<void> {
-  photoMetadatas$[photoId].assign(updates);
+  photoMetadatas$[photo.id].assign(updates);
 }

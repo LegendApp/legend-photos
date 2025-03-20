@@ -1,27 +1,20 @@
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import type { PhotoInfo } from '../FileManager';
 import { KeyCodes } from '../KeyboardManager';
-import type { PhotoProps } from '../Photo';
 import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import { settings$ } from '../settings/SettingsFile';
-import type { Plugin } from './PluginTypes';
-
-interface RatingPluginProps {
-  photo: PhotoProps;
-}
+import type { PhotoPluginProps, Plugin } from './PluginTypes';
 
 // Rating component that will be rendered
-function RatingComponent({ photo }: RatingPluginProps) {
-  const photoName = photo.photo.name;
-  const selectedFolder = use$(settings$.state.openFolder);
-  const photoId = `${selectedFolder}/${photoName}`;
-  const photoMetadata$ = photoMetadatas$[photoId];
+function RatingComponent(props: PhotoPluginProps) {
+  const { photo } = props;
+  console.log('props', props);
+  const photoMetadata$ = photoMetadatas$[photo.id];
 
   const handleRatingChange = async (rating: number) => {
-    await updateMetadata(photoId, { rating });
+    await updateMetadata(photo, { rating });
   };
 
   // Render star ratings (1-5)
@@ -59,15 +52,14 @@ const rateCurrentPhoto = (ratingProp: number) => {
   }
 
   // Get the photo details
-  const photoName = photosList[index].name;
-  const photoId = `${folder}/${photoName}`;
+  const photo = photosList[index];
 
-  const metadata = getMetadata(photoId);
+  const metadata = getMetadata(photo);
 
   const rating = ratingProp === metadata?.rating ? 0 : ratingProp;
 
   // Update the metadata
-  updateMetadata(photoId, { rating });
+  updateMetadata(photo, { rating });
 };
 
 // Define the Rating plugin
@@ -78,11 +70,8 @@ export const RatingPlugin: Plugin = {
   enabled: true,
   childOf: 'photo',
   component: RatingComponent,
-  shouldRender: (photo: PhotoInfo) => {
-    const photoName = photo.name;
-    const selectedFolder = use$(settings$.state.openFolder);
-    const photoId = `${selectedFolder}/${photoName}`;
-    const photoMetadata$ = photoMetadatas$[photoId];
+  shouldRender: ({ photo }: PhotoPluginProps) => {
+    const photoMetadata$ = photoMetadatas$[photo.id];
     const photoMetadata = use$(photoMetadata$);
     return !!photoMetadata && photoMetadata.rating! > 0;
   },

@@ -4,41 +4,36 @@ import React from 'react';
 import { View } from 'react-native';
 import type { PhotoInfo } from '../FileManager';
 import { KeyCodes } from '../KeyboardManager';
-import type { PhotoProps } from '../Photo';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import { SFSymbol } from '../components/SFSymbol';
 import { settings$ } from '../settings/SettingsFile';
-import type { Plugin } from './PluginTypes';
+import type { PhotoPluginProps, Plugin } from './PluginTypes';
 
-interface FlagRejectPluginProps {
-  photo: PhotoProps;
-}
-
-const handleFlagToggle = async (photoId: string, photoMetadata$: Observable<PhotoMetadataItem>) => {
+const handleFlagToggle = async (
+  photo: PhotoInfo,
+  photoMetadata$: Observable<PhotoMetadataItem>
+) => {
   const metadata = photoMetadata$.get();
   const newValue: PhotoMetadataItem = { flag: !metadata?.flag };
   if (newValue.flag && metadata?.reject) {
     newValue.reject = false;
   }
-  await updateMetadata(photoId, newValue);
+  await updateMetadata(photo, newValue);
 };
 
-const handleRejectToggle = (photoId: string, photoMetadata$: Observable<PhotoMetadataItem>) => {
+const handleRejectToggle = (photo: PhotoInfo, photoMetadata$: Observable<PhotoMetadataItem>) => {
   const metadata = photoMetadata$.get();
   const newValue: PhotoMetadataItem = { reject: !metadata?.reject };
   if (newValue.reject && metadata?.flag) {
     newValue.flag = false;
   }
-  updateMetadata(photoId, newValue);
+  updateMetadata(photo, newValue);
 };
 
 // Flag/Reject component
-function FlagRejectComponent({ photo }: FlagRejectPluginProps) {
-  const photoName = photo.photo.name;
-  const selectedFolder = use$(settings$.state.openFolder);
-  const photoId = `${selectedFolder}/${photoName}`;
-  const photoMetadata$ = photoMetadatas$[photoId];
+function FlagRejectComponent({ photo }: PhotoPluginProps) {
+  const photoMetadata$ = photoMetadatas$[photo.id];
   const photoMetadata = use$(photoMetadata$);
 
   return (
@@ -60,26 +55,25 @@ const getCurrentPhoto = () => {
   }
 
   // Get the photo details
-  const photoName = photosList[index].name;
-  const photoId = `${folder}/${photoName}`;
+  const photo = photosList[index];
 
-  const photoMetadata$ = photoMetadatas$[photoId];
-  return { photoId, photoMetadata$ };
+  const photoMetadata$ = photoMetadatas$[photo.id];
+  return { photo, photoMetadata$ };
 };
 
 // Helper function to toggle flag on the current photo
 const toggleFlagCurrentPhoto = () => {
-  const { photoId, photoMetadata$ } = getCurrentPhoto();
-  if (photoId) {
-    handleFlagToggle(photoId, photoMetadata$);
+  const { photo, photoMetadata$ } = getCurrentPhoto();
+  if (photo) {
+    handleFlagToggle(photo, photoMetadata$);
   }
 };
 
 // Helper function to toggle reject on the current photo
 const toggleRejectCurrentPhoto = () => {
-  const { photoId, photoMetadata$ } = getCurrentPhoto();
-  if (photoId) {
-    handleRejectToggle(photoId, photoMetadata$);
+  const { photo, photoMetadata$ } = getCurrentPhoto();
+  if (photo) {
+    handleRejectToggle(photo, photoMetadata$);
   }
 };
 
@@ -91,11 +85,8 @@ export const FlagRejectPlugin: Plugin = {
   enabled: true,
   childOf: 'photo',
   component: FlagRejectComponent,
-  shouldRender: (photo: PhotoInfo) => {
-    const photoName = photo.name;
-    const selectedFolder = use$(settings$.state.openFolder);
-    const photoId = `${selectedFolder}/${photoName}`;
-    const photoMetadata$ = photoMetadatas$[photoId];
+  shouldRender: ({ photo }: PhotoPluginProps) => {
+    const photoMetadata$ = photoMetadatas$[photo.id];
     const photoMetadata = use$(photoMetadata$);
 
     return !!(photoMetadata && (photoMetadata.flag || photoMetadata.reject));

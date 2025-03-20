@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { PhotoInfo } from '../FileManager';
 import type { KeyInfo, KeyboardEventCodeHotkey } from '../Keyboard';
 
 // Define where plugins can be rendered
@@ -26,4 +27,8 @@ export interface Plugin {
 // Plugin registry
 export interface PluginRegistry {
   [id: string]: Plugin;
+}
+
+export interface PhotoPluginProps {
+  photo: PhotoInfo;
 }
