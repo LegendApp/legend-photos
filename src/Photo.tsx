@@ -8,7 +8,7 @@ import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
-import { getPhotoUri } from './utils/photoHelpers';
+import { getPhotoPath } from './utils/photoHelpers';
 
 export interface PhotoProps {
   photo: PhotoInfo;
@@ -17,7 +17,7 @@ export interface PhotoProps {
 }
 
 export const Photo = ({ photo, index }: PhotoProps) => {
-  const photoUri = getPhotoUri(photo);
+  const photoPath = getPhotoPath(photo);
   const photoRef = useRef<View>(null);
   const isSelected = useSelector(() => state$.selectedPhotoIndex.get() === index);
   if (isSelected) {
@@ -63,7 +63,7 @@ export const Photo = ({ photo, index }: PhotoProps) => {
   return (
     <View ref={photoRef} className="aspect-square rounded-lg overflow-hidden">
       <Pressable onPress={onPress} className="w-full h-full">
-        <Img uri={photoUri!} className="w-full h-full" resizeMode={'cover'} />
+        <Img imagePath={photoPath!} className="w-full h-full" resizeMode={'cover'} />
         {isSelected && (
           <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
         )}

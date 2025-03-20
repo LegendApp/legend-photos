@@ -8,7 +8,7 @@ import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
 import { PluginRenderer } from './plugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
-import { getPhotoUri } from './utils/photoHelpers';
+import { getPhotoPath } from './utils/photoHelpers';
 
 const SpringOpen = {
   bounciness: 3,
@@ -76,7 +76,7 @@ export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
   const selectedPhoto = use$(state$.selectedPhoto) as PhotoInfo;
-  const photoUri = getPhotoUri(selectedPhoto);
+  const photoPath = getPhotoPath(selectedPhoto);
   const isOpen$ = useObservable(false);
 
   // Animation values
@@ -213,7 +213,7 @@ export const FullscreenPhoto = () => {
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={onPress}>
-        <Img uri={photoUri!} className="flex-1" resizeMode="contain" onLoad={onLoad} />
+        <Img imagePath={photoPath!} className="flex-1" resizeMode="contain" onLoad={onLoad} />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}
