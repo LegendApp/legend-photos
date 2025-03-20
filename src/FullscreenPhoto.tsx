@@ -223,7 +223,7 @@ export const FullscreenPhoto = () => {
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}
-      <View className="absolute bottom-0 left-0 right-0">
+      <View className="absolute inset-0">
         <PluginRenderer location="photoFullscreen" className="p-4" />
       </View>
     </Animated.View>
