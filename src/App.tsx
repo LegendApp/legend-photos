@@ -9,7 +9,7 @@ import { HookWindowDimensions } from './HookWindowDimensions';
 import { HotkeyHelp } from './HotkeyHelp';
 import { MainSidebar } from './MainSidebar';
 import { PhotosViewContainer } from './PhotosViewContainer';
-import { StoplightEnforcer } from './StoplightEnforcer';
+import { TitleBar } from './TitleBar';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
 import { settings$ } from './settings/SettingsFile';
@@ -34,7 +34,7 @@ function App(): React.JSX.Element {
       <FullscreenPhoto />
       <HookWindowDimensions />
       <HookKeyboard />
-      <StoplightEnforcer />
+      <TitleBar />
       <SettingsWindow />
       <HotkeyHelp />
     </SafeAreaView>

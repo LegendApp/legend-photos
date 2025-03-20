@@ -1,7 +1,6 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { LegendList } from '@legendapp/list';
 import { useObservable, useSelector } from '@legendapp/state/react';
-import { remapProps } from 'nativewind';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { type HotkeyInfo, type KeyInfo, hotkeyRegistry$, useOnHotkeys } from './Keyboard';
