@@ -63,7 +63,7 @@ export const Photo = ({ photo, index }: PhotoProps) => {
   return (
     <View ref={photoRef} className="aspect-square rounded-lg overflow-hidden">
       <Pressable onPress={onPress} className="w-full h-full">
-        <Img imagePath={photoPath!} className="w-full h-full" resizeMode={'cover'} />
+        <Img imagePath={photoPath!} className="w-full h-full" resizeMode={'cover'} native={false} />
         {isSelected && (
           <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
         )}

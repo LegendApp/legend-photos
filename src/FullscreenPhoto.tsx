@@ -213,7 +213,13 @@ export const FullscreenPhoto = () => {
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
       <Pressable className="flex-1" onPress={onPress}>
-        <Img imagePath={photoPath!} className="flex-1" resizeMode="contain" onLoad={onLoad} />
+        <Img
+          imagePath={photoPath!}
+          className="flex-1"
+          resizeMode="contain"
+          onLoad={onLoad}
+          native
+        />
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}

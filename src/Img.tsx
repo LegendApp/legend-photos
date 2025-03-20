@@ -1,5 +1,6 @@
 import { remapProps } from 'nativewind';
 import React, { memo, useCallback, useRef, useState } from 'react';
+import { Image } from 'react-native';
 import {
   type ImageStyle,
   type NativeSyntheticEvent,
@@ -7,10 +8,11 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-import { NativeImage, type NativeImageLoadEvent, type NativeImageProps } from './NativeImage';
+import { NativeImage, type NativeImageProps } from './NativeImage';
 
 interface ImgProps extends Exclude<NativeImageProps, 'source' | 'style'> {
   style?: ImageStyle;
+  native: boolean;
 }
 
 const mapAspectRatios = new Map<string, number>();
@@ -19,6 +21,7 @@ export const Img = memo(function Img({
   imagePath,
   onLoad: onLoadProp,
   style: styleProp,
+  native,
   ...props
 }: ImgProps) {
   const cachedAspectRatio = mapAspectRatios.get(imagePath);
@@ -28,7 +31,7 @@ export const Img = memo(function Img({
   refImagePath.current = imagePath;
 
   const onLoad = useCallback(
-    (e: NativeSyntheticEvent<NativeImageLoadEvent>) => {
+    (e: NativeSyntheticEvent<{ source: { width: number; height: number } }>) => {
       if (!cachedAspectRatio) {
         const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
         mapAspectRatios.set(refImagePath.current, ratio);
@@ -56,19 +59,21 @@ export const Img = memo(function Img({
     alignItems: 'center',
   };
 
-  return (
-    <View style={style}>
-      <View className="rounded overflow-hidden">
-        <NativeImage
-          imagePath={imagePath}
-          style={styleImage}
-          borderRadius={4}
-          onLoad={onLoad}
-          {...props}
-        />
-      </View>
+  const image = native ? (
+    <NativeImage
+      imagePath={imagePath}
+      style={styleImage}
+      borderRadius={4}
+      onLoad={onLoad}
+      {...props}
+    />
+  ) : (
+    <View className="rounded overflow-hidden">
+      <Image source={{ uri: imagePath }} style={styleImage} onLoad={onLoad} {...props} />
     </View>
   );
+
+  return <View style={style}>{image}</View>;
 });
 
 remapProps(Img, {
