@@ -32,12 +32,12 @@ const handleRejectToggle = (photo: PhotoInfo, photoMetadata$: Observable<PhotoMe
 };
 
 // Flag/Reject component
-function FlagRejectComponent({ photo }: PhotoPluginProps) {
+function FlagRejectComponent({ photo, style }: PhotoPluginProps) {
   const photoMetadata$ = photoMetadatas$[photo.id];
   const photoMetadata = use$(photoMetadata$);
 
   return (
-    <View className="absolute left-0 bottom-0 flex-row items-center gap-x-1 h-8 pl-2">
+    <View className="flex-row items-center gap-x-1 h-8 pl-2" style={style}>
       {photoMetadata.flag && <SFSymbol name="flag.fill" size={16} color="white" />}
       {photoMetadata.reject && <SFSymbol name="flag.fill" size={16} color="#d00" />}
     </View>
@@ -84,6 +84,7 @@ export const FlagRejectPlugin: Plugin = {
   description: 'Flag photos with Space, reject with X',
   enabled: true,
   childOf: 'photo',
+  position: 'bl',
   component: FlagRejectComponent,
   shouldRender: ({ photo }: PhotoPluginProps) => {
     const photoMetadata$ = photoMetadatas$[photo.id];

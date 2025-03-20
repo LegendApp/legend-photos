@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { ViewStyle } from 'react-native';
 import type { PhotoInfo } from '../FileManager';
 import type { KeyInfo, KeyboardEventCodeHotkey } from '../Keyboard';
 
@@ -20,6 +21,7 @@ export interface Plugin {
   shouldRender?: (props: any) => boolean;
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;
+  position: 'l' | 'tl' | 't' | 'tr' | 'r' | 'br' | 'b' | 'bl';
   hotkeys?: Record<KeyboardEventCodeHotkey, KeyInfo>;
   settings?: PluginSettings;
 }
@@ -29,6 +31,10 @@ export interface PluginRegistry {
   [id: string]: Plugin;
 }
 
-export interface PhotoPluginProps {
+export interface PluginProps {
+  style: ViewStyle;
+}
+
+export interface PhotoPluginProps extends PluginProps {
   photo: PhotoInfo;
 }

@@ -1,8 +1,8 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { createElement } from 'react';
-import { View } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
 import { plugins$ } from './PluginManager';
-import type { PluginLocation } from './PluginTypes';
+import type { Plugin, PluginLocation } from './PluginTypes';
 
 interface PluginRendererProps {
   location: PluginLocation;
@@ -30,8 +30,35 @@ export function PluginRenderer({ location, className = '', props = {} }: PluginR
   return (
     <View className={className}>
       {locationPlugins.map((plugin) =>
-        createElement(plugin.component!, { ...props, key: plugin.id })
+        createElement(plugin.component!, {
+          ...props,
+          key: plugin.id,
+          style: getPluginStyle(plugin),
+        })
       )}
     </View>
   );
+}
+
+function getPluginStyle(plugin: Plugin) {
+  const style: ViewStyle = {
+    position: 'absolute',
+  };
+
+  const { position } = plugin;
+  if (position === 't') {
+    style.left = 0;
+    style.top = 0;
+    style.right = 0;
+  }
+  if (position === 'br') {
+    style.right = 0;
+    style.bottom = 0;
+  }
+  if (position === 'bl') {
+    style.left = 0;
+    style.bottom = 0;
+  }
+
+  return style;
 }

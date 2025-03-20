@@ -8,9 +8,7 @@ import { settings$ } from '../settings/SettingsFile';
 import type { PhotoPluginProps, Plugin } from './PluginTypes';
 
 // Rating component that will be rendered
-function RatingComponent(props: PhotoPluginProps) {
-  const { photo } = props;
-  console.log('props', props);
+function RatingComponent({ photo, style }: PhotoPluginProps) {
   const photoMetadata$ = photoMetadatas$[photo.id];
 
   const handleRatingChange = async (rating: number) => {
@@ -34,7 +32,7 @@ function RatingComponent(props: PhotoPluginProps) {
   }
 
   return (
-    <View className="absolute bottom-0 right-0 flex-row items-center justify-end pr-2 gap-x-1 h-7">
+    <View className="flex-row items-center justify-end pr-2 gap-x-1 h-7" style={style}>
       {stars}
     </View>
   );
@@ -69,6 +67,7 @@ export const RatingPlugin: Plugin = {
   description: 'Rate photos using hotkeys 1-5',
   enabled: true,
   childOf: 'photo',
+  position: 'br',
   component: RatingComponent,
   shouldRender: ({ photo }: PhotoPluginProps) => {
     const photoMetadata$ = photoMetadatas$[photo.id];

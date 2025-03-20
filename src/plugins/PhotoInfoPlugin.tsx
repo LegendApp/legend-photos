@@ -1,14 +1,17 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { state$ } from '../State';
 import type { Plugin } from './PluginTypes';
 
+interface PhotoInfoProps {
+  style: ViewStyle;
+}
 /**
  * Component that shows the name and created date of the currently selected photo
  */
-function PhotoInfo() {
+function PhotoInfo({ style }: PhotoInfoProps) {
   const selectedPhoto = use$(state$.selectedPhoto);
 
   if (!selectedPhoto) {
@@ -34,7 +37,7 @@ function PhotoInfo() {
   }
 
   return (
-    <View className="absolute top-0 left-0 right-0 flex items-center pt-2">
+    <View style={style} className="flex items-center pt-2">
       <VibrancyView
         blendingMode="withinWindow"
         state="active"
@@ -58,6 +61,7 @@ export const photoInfoPlugin: Plugin = {
   enabled: true,
   childOf: 'photoFullscreen',
   component: PhotoInfo,
+  position: 't',
 };
 
 const styles = StyleSheet.create({
