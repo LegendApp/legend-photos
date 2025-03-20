@@ -1,7 +1,13 @@
 import { remapProps } from 'nativewind';
-import React, { memo, useState } from 'react';
-import { type ImageStyle, type StyleProp, View, type ViewStyle } from 'react-native';
-import { NativeImage, type NativeImageProps } from './NativeImage';
+import React, { memo, useCallback, useRef, useState } from 'react';
+import {
+  type ImageStyle,
+  type NativeSyntheticEvent,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from 'react-native';
+import { NativeImage, type NativeImageLoadEvent, type NativeImageProps } from './NativeImage';
 
 interface ImgProps extends Exclude<NativeImageProps, 'source' | 'style'> {
   style?: ImageStyle;
@@ -18,8 +24,20 @@ export const Img = memo(function Img({
   const cachedAspectRatio = mapAspectRatios.get(imagePath);
   const [_, setAspectRatio] = useState(0);
   const aspectRatio = cachedAspectRatio || 1;
+  const refImagePath = useRef(imagePath);
+  refImagePath.current = imagePath;
 
-  // Check if this is a local file path - starts with / or file:// or ~
+  const onLoad = useCallback(
+    (e: NativeSyntheticEvent<NativeImageLoadEvent>) => {
+      if (!cachedAspectRatio) {
+        const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
+        mapAspectRatios.set(refImagePath.current, ratio);
+        setAspectRatio(ratio);
+      }
+      onLoadProp?.(e);
+    },
+    [cachedAspectRatio, onLoadProp]
+  );
 
   const styleImage: StyleProp<ImageStyle> = {
     aspectRatio,
@@ -45,14 +63,7 @@ export const Img = memo(function Img({
           imagePath={imagePath}
           style={styleImage}
           borderRadius={4}
-          onLoad={(e) => {
-            if (!cachedAspectRatio) {
-              const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
-              mapAspectRatios.set(imagePath, ratio);
-              setAspectRatio(ratio);
-            }
-            onLoadProp?.(e);
-          }}
+          onLoad={onLoad}
           {...props}
         />
       </View>
