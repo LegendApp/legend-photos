@@ -1,10 +1,9 @@
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { Switch, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { addLibraryPath } from '../LibraryManager';
 import { Button } from '../components/Button';
 import { FilePicker } from '../components/FilePicker';
-import { SegmentedControl } from '../components/SegmentedControl';
 import { settings$ } from './SettingsFile';
 
 export const LibrarySettings = () => {
@@ -19,21 +18,21 @@ export const LibrarySettings = () => {
     settings$.library.paths.set(currentPaths.filter((p) => p !== path));
   };
 
-  const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {
-    settings$.library.previewSize.set(size);
-  };
+  //   const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {
+  //     settings$.library.previewSize.set(size);
+  //   };
 
-  const handleShowFilenamesChange = async (show: boolean) => {
-    settings$.library.showFilenames.set(show);
-  };
+  //   const handleShowFilenamesChange = async (show: boolean) => {
+  //     settings$.library.showFilenames.set(show);
+  //   };
 
-  const handleSortChange = async (sortBy: 'name' | 'date' | 'size' | 'type') => {
-    settings$.library.sortBy.set(sortBy);
-  };
+  //   const handleSortChange = async (sortBy: 'name' | 'date' | 'size' | 'type') => {
+  //     settings$.library.sortBy.set(sortBy);
+  //   };
 
-  const handleSortDirectionChange = async (sortDirection: 'asc' | 'desc') => {
-    settings$.library.sortDirection.set(sortDirection);
-  };
+  //   const handleSortDirectionChange = async (sortDirection: 'asc' | 'desc') => {
+  //     settings$.library.sortDirection.set(sortDirection);
+  //   };
 
   return (
     <View className="space-y-8">
@@ -48,11 +47,11 @@ export const LibrarySettings = () => {
             onFileSelected={handleAddFolderPath}
             pickFolder={true}
             variant="primary"
-            size="large"
+            size="medium"
           />
         </View>
 
-        <View className="space-y-1">
+        <View className="gap-y-2">
           {librarySettings.paths.length > 0 ? (
             librarySettings.paths.map((path) => (
               <View
@@ -77,7 +76,7 @@ export const LibrarySettings = () => {
       </View>
 
       {/* Preview Size */}
-      <View className="pb-8 w-64">
+      {/* <View className="pb-8 w-64">
         <Text className="text-base font-medium text-white mb-6">Preview Size</Text>
         <SegmentedControl
           options={['small', 'medium', 'large'] as const}
@@ -86,16 +85,16 @@ export const LibrarySettings = () => {
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
           size="large"
         />
-      </View>
+      </View> */}
 
       {/* Show Filenames */}
-      <View className="pb-8 w-32">
+      {/* <View className="pb-8 w-32">
         <Text className="text-base font-medium text-white mb-6">Show Filenames</Text>
         <Switch value={librarySettings.showFilenames} onValueChange={handleShowFilenamesChange} />
-      </View>
+      </View> */}
 
       {/* Sort Options */}
-      <View className="pb-8 w-64">
+      {/* <View className="pb-8 w-64">
         <Text className="text-base font-medium text-white mb-6">Sort By</Text>
         <SegmentedControl
           options={['name', 'date', 'size', 'type'] as const}
@@ -104,10 +103,10 @@ export const LibrarySettings = () => {
           labelExtractor={(value) => value.charAt(0).toUpperCase() + value.slice(1)}
           size="large"
         />
-      </View>
+      </View> */}
 
       {/* Sort Direction */}
-      <View className="w-56">
+      {/* <View className="w-56">
         <Text className="text-base font-medium text-white mb-6">Sort Direction</Text>
         <SegmentedControl
           options={['asc', 'desc'] as const}
@@ -116,7 +115,7 @@ export const LibrarySettings = () => {
           labelExtractor={(value) => (value === 'asc' ? 'Ascending' : 'Descending')}
           size="large"
         />
-      </View>
+      </View> */}
     </View>
   );
 };

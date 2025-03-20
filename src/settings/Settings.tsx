@@ -10,10 +10,10 @@ import { ThemeSettings } from './ThemeSettings';
 
 // Define the categories for settings
 const SETTING_CATEGORIES = [
-  { id: 'general', label: 'General' },
-  { id: 'hotkeys', label: 'Hotkeys' },
-  { id: 'themes', label: 'Themes' },
-  { id: 'plugins', label: 'Plugins' },
+  //   { id: 'general', label: 'General' },
+  //   { id: 'hotkeys', label: 'Hotkeys' },
+  //   { id: 'themes', label: 'Themes' },
+  //   { id: 'plugins', label: 'Plugins' },
   { id: 'library', label: 'Library' },
   // Add more categories as needed
 ];
