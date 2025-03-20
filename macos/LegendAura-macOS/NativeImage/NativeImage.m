@@ -56,7 +56,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         imageCache = [[NSCache alloc] init];
-        imageCache.countLimit = 100; // Adjust as needed
+        imageCache.countLimit = 1; // Adjust as needed
     });
 
     NSString *resolvedPath = [_imagePath stringByExpandingTildeInPath];
