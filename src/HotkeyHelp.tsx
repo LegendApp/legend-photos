@@ -1,5 +1,7 @@
+import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { LegendList } from '@legendapp/list';
 import { useObservable, useSelector } from '@legendapp/state/react';
+import { remapProps } from 'nativewind';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { type HotkeyInfo, type KeyInfo, hotkeyRegistry$, useOnHotkeys } from './Keyboard';
@@ -30,32 +32,37 @@ export function HotkeyHelp() {
 
   return isVisible ? (
     <View className="absolute bottom-0 right-0 py-2 pr-2" style={{ maxHeight: dims.height }}>
-      <View className="flex-1 overflow-hidden bg-zinc-800/85 rounded-lg py-4 w-64 shadow-lg border border-zinc-700">
-        <View className="flex-row justify-between items-center mb-4 px-4">
-          <Text className="text-white text-lg font-bold">Hotkeys</Text>
-          {/* TODO: Make this an icon button */}
-          <Pressable onPress={toggle}>
-            <SFSymbol name="xmark" size={18} color="#fff" />
-          </Pressable>
-        </View>
-        <LegendList
-          className="max-h-[800px]"
-          data={hotkeys}
-          renderItem={HotkeyHelpItem}
-          estimatedItemSize={36}
-          contentContainerStyle={styles.list}
-          //   waitForInitialLayout
-        />
+      <View className="flex-1 overflow-hidden rounded-lg w-64 shadow-lg">
+        <VibrancyView
+          blendingMode="withinWindow"
+          state="active"
+          material="sidebar"
+          style={[styles.vibrancyView, { maxHeight: dims.height - 20 }]}
+        >
+          <View className="flex-row justify-between items-center mb-4 px-4">
+            <Text className="text-white text-lg font-bold">Hotkeys</Text>
+            {/* TODO: Make this an icon button */}
+            <Pressable onPress={toggle}>
+              <SFSymbol name="xmark" size={18} color="#fff" />
+            </Pressable>
+          </View>
+          <LegendList
+            className="max-h-[800px]"
+            data={hotkeys}
+            renderItem={HotkeyHelpItem}
+            estimatedItemSize={36}
+            contentContainerStyle={styles.list}
+            //   waitForInitialLayout
+          />
+        </VibrancyView>
       </View>
     </View>
   ) : (
-    // TODO: Make this an icon button
-    <Pressable
-      className="absolute bottom-3 right-3 bg-zinc-800 rounded-full size-9 border border-white/10"
-      onPress={toggle}
-    >
-      <SFSymbol name="questionmark" size={20} color="#ddd" style={styles.questionSymbol} />
-    </Pressable>
+    <View className="absolute bottom-3 right-3 bg-zinc-800 rounded-full size-9 border border-white/10">
+      <Pressable onPress={toggle}>
+        <SFSymbol name="questionmark" size={20} color="#ddd" style={styles.questionSymbol} />
+      </Pressable>
+    </View>
   );
 }
 
@@ -80,5 +87,14 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 16,
+  },
+  vibrancyView: {
+    flex: 1,
+    overflow: 'hidden',
+    maxHeight: '100%',
+    borderRadius: 8,
+    paddingVertical: 16,
+    borderWidth: 1,
+    borderColor: '#3f3f46',
   },
 });

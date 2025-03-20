@@ -1,6 +1,7 @@
+import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { state$ } from '../State';
 import type { Plugin } from './PluginTypes';
 
@@ -34,10 +35,17 @@ function PhotoInfo() {
 
   return (
     <View className="absolute top-0 left-0 right-0 flex items-center pt-2">
-      <View className="bg-black/50 px-4 py-1 rounded-md flex-row items-center gap-x-4">
-        <Text className="text-white font-medium text-lg text-center">{selectedPhoto.name}</Text>
-        <Text className="text-white/80 text-sm text-center">{creationDate}</Text>
-      </View>
+      <VibrancyView
+        blendingMode="withinWindow"
+        state="active"
+        material="fullScreenUI"
+        style={styles.vibrancyView}
+      >
+        <View className="px-4 py-1 rounded-md flex-row items-center gap-x-4">
+          <Text className="text-white font-medium text-sm text-center">{selectedPhoto.name}</Text>
+          <Text className="text-white/80 text-xs text-center">{creationDate}</Text>
+        </View>
+      </VibrancyView>
     </View>
   );
 }
@@ -51,3 +59,10 @@ export const photoInfoPlugin: Plugin = {
   childOf: 'photoFullscreen',
   component: PhotoInfo,
 };
+
+const styles = StyleSheet.create({
+  vibrancyView: {
+    flex: 1,
+    borderRadius: 8,
+  },
+});
