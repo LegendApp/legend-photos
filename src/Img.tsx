@@ -40,20 +40,22 @@ export const Img = memo(function Img({
 
   return (
     <View style={style}>
-      <NativeImage
-        imagePath={imagePath}
-        style={styleImage}
-        borderRadius={4}
-        onLoad={(e) => {
-          if (!cachedAspectRatio) {
-            const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
-            mapAspectRatios.set(imagePath, ratio);
-            setAspectRatio(ratio);
-          }
-          onLoadProp?.(e);
-        }}
-        {...props}
-      />
+      <View className="rounded overflow-hidden">
+        <NativeImage
+          imagePath={imagePath}
+          style={styleImage}
+          borderRadius={4}
+          onLoad={(e) => {
+            if (!cachedAspectRatio) {
+              const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
+              mapAspectRatios.set(imagePath, ratio);
+              setAspectRatio(ratio);
+            }
+            onLoadProp?.(e);
+          }}
+          {...props}
+        />
+      </View>
     </View>
   );
 });
