@@ -70,7 +70,7 @@ export const Img = memo(function Img({
       {...props}
     />
   ) : (
-    <View className="rounded overflow-hidden">
+    <View className="rounded overflow-hidden" style={{ aspectRatio }}>
       <Image source={{ uri: imagePath! }} style={styleImage} onLoad={onLoad} {...props} />
     </View>
   );
