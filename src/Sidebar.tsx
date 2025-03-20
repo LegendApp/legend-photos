@@ -1,3 +1,4 @@
+import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { observable } from '@legendapp/state';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
@@ -84,32 +85,33 @@ function Sidebar() {
 
   return (
     <Animated.View
-      className="h-full pt-6 border-r border-r-[#333]"
+      className="h-full border-r border-r-[#333]"
       style={{
         width: sidebarWidth,
-        backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush'),
       }}
     >
-      <View className="flex-1 py-2">
-        {Object.entries(groupedFolders).map(([parentPath, folderGroup]) => (
-          <View key={parentPath} className="mb-2">
-            <Text
-              className={`px-3 py-1 text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
-            >
-              {getFolderName(parentPath)}
-            </Text>
-            {folderGroup.map((file) => (
-              <Folder
-                key={file}
-                file={file}
-                isDarkMode={isDarkMode}
-                selectedFolder={selectedFolder}
-                onSelectFolder={onSelectFolder}
-              />
-            ))}
-          </View>
-        ))}
-      </View>
+      <VibrancyView blendingMode="behindWindow" material="sidebar" style={{ flex: 1 }}>
+        <View className="flex-1 py-2 pt-8">
+          {Object.entries(groupedFolders).map(([parentPath, folderGroup]) => (
+            <View key={parentPath} className="mb-2">
+              <Text
+                className={`px-3 py-1 text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
+              >
+                {getFolderName(parentPath)}
+              </Text>
+              {folderGroup.map((file) => (
+                <Folder
+                  key={file}
+                  file={file}
+                  isDarkMode={isDarkMode}
+                  selectedFolder={selectedFolder}
+                  onSelectFolder={onSelectFolder}
+                />
+              ))}
+            </View>
+          ))}
+        </View>
+      </VibrancyView>
     </Animated.View>
   );
 }

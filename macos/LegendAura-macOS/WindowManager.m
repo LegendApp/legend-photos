@@ -64,17 +64,6 @@ RCT_EXPORT_METHOD(openWindow:(NSDictionary *)options
                                           moduleName:@"SettingsWindow"
                                    initialProperties:nil];
 
-  NSVisualEffectView *blurView = [[NSVisualEffectView alloc] initWithFrame:self.secondWindow.contentView.bounds];
-  blurView.blendingMode = NSVisualEffectBlendingModeBehindWindow;
-  blurView.material = NSVisualEffectMaterialUnderWindowBackground;
-  blurView.state = NSVisualEffectStateActive;
-
-  // Ensure the blur view resizes with the window
-  blurView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-
-  [self.rootView addSubview:blurView positioned:NSWindowBelow relativeTo:nil];
-
-
   [self.secondWindow setContentView:self.rootView];
 
   // Set window delegate to track close events

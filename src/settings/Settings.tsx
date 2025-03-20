@@ -1,3 +1,4 @@
+import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
 import { PlatformColor, ScrollView, View, useColorScheme } from 'react-native';
 import { SidebarButton } from '../SidebarButton';
@@ -39,25 +40,24 @@ export const Settings = () => {
   };
 
   return (
-    <View
-      className="flex flex-1 flex-row bg-[#111]"
-      style={{ backgroundColor: PlatformColor('SystemControlAcrylicWindowBrush') }}
-    >
-      <View className="w-[140px] border-r border-r-[#333]">
-        <ScrollView>
-          {SETTING_CATEGORIES.map((category) => (
-            <SidebarButton
-              key={category.id}
-              label={category.label}
-              isSelected={selectedCategory === category.id}
-              isDarkMode={isDarkMode}
-              onPress={() => setSelectedCategory(category.id)}
-            />
-          ))}
-        </ScrollView>
-      </View>
+    <VibrancyView blendingMode="behindWindow" material="sidebar" style={{ flex: 1 }}>
+      <View className="flex flex-1 flex-row">
+        <View className="w-[140px] border-r border-r-[#333]">
+          <ScrollView>
+            {SETTING_CATEGORIES.map((category) => (
+              <SidebarButton
+                key={category.id}
+                label={category.label}
+                isSelected={selectedCategory === category.id}
+                isDarkMode={isDarkMode}
+                onPress={() => setSelectedCategory(category.id)}
+              />
+            ))}
+          </ScrollView>
+        </View>
 
-      <View className="flex-1 p-5 bg-[#1a1a1a]">{renderContent()}</View>
-    </View>
+        <View className="flex-1 p-5 bg-[#1a1a1a]">{renderContent()}</View>
+      </View>
+    </VibrancyView>
   );
 };
