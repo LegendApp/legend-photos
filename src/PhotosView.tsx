@@ -1,10 +1,12 @@
 import { LegendList } from '@legendapp/list';
+import { syncState } from '@legendapp/state';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { memo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
 import { Photo } from './Photo';
+import { photoMetadatas$ } from './PhotoMetadata';
 import { state$ } from './State';
 import { ax } from './ax';
 import { settings$ } from './settings/SettingsFile';
@@ -19,6 +21,7 @@ export const PhotosView = memo(function PhotosView() {
   const selectedFolder = useSelector(settings$.state.openFolder);
   const numColumns = useSelector(settings$.state.numColumns);
   const photos = useSelector(state$.photos);
+  const hasMetadatas = useSelector(() => syncState(photoMetadatas$).isPersistLoaded.get());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
@@ -71,7 +74,7 @@ export const PhotosView = memo(function PhotosView() {
     return <Photo photo={item} folderPath={selectedFolder!} index={index} />;
   };
 
-  if (loading) {
+  if (loading || !hasMetadatas) {
     return (
       <View className="flex-1 justify-center items-center">
         <Text>Loading photos...</Text>

@@ -4,7 +4,9 @@ import { settings$ } from './settings/SettingsFile';
 // Supported photo file extensions
 const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
 
-export type PhotoInfo = ReadDirResItemT;
+export interface PhotoInfo extends ReadDirResItemT {
+  id: string;
+}
 
 /**
  * Extracts the folder name from a full path
@@ -45,7 +47,12 @@ export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[
     files.sort(sortFilesByName);
 
     // Filter to only include photo files and extract just the filename
-    return files.filter((file) => isPhotoFile(file.name));
+    return files
+      .filter((file) => isPhotoFile(file.name))
+      .map((file) => ({
+        ...file,
+        id: `${folderPath}/${file.name}`,
+      }));
   } catch (error) {
     console.error('Error listing photos:', error);
     return [];

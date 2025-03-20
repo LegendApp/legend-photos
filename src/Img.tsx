@@ -1,45 +1,47 @@
+import { useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { memo, useCallback, useRef, useState } from 'react';
-import { Image } from 'react-native';
+import React, { memo, useCallback, useRef } from 'react';
 import {
+  Image,
   type ImageStyle,
   type NativeSyntheticEvent,
   type StyleProp,
   View,
   type ViewStyle,
 } from 'react-native';
-import { NativeImage, type NativeImageProps } from './NativeImage';
+import type { PhotoInfo } from './FileManager';
+import { NativeImage, type NativeImageLoadEvent, type NativeImageProps } from './NativeImage';
+import { photoMetadatas$ } from './PhotoMetadata';
+import { getPhotoPath } from './utils/photoHelpers';
 
-interface ImgProps extends Exclude<NativeImageProps, 'source' | 'style'> {
+interface ImgProps extends Exclude<NativeImageProps, 'imagePath' | 'style'> {
   style?: ImageStyle;
   native: boolean;
+  photo: PhotoInfo;
 }
 
-const mapAspectRatios = new Map<string, number>();
-
 export const Img = memo(function Img({
-  imagePath,
+  photo,
   onLoad: onLoadProp,
   style: styleProp,
   native,
   ...props
 }: ImgProps) {
-  const cachedAspectRatio = mapAspectRatios.get(imagePath);
-  const [_, setAspectRatio] = useState(0);
-  const aspectRatio = cachedAspectRatio || 1;
+  const imagePath = getPhotoPath(photo);
+  const metadata$ = photoMetadatas$[photo.id];
+  const aspectRatio = useSelector(metadata$.aspect) || 1;
   const refImagePath = useRef(imagePath);
   refImagePath.current = imagePath;
 
   const onLoad = useCallback(
-    (e: NativeSyntheticEvent<{ source: { width: number; height: number } }>) => {
-      if (!cachedAspectRatio) {
-        const ratio = e.nativeEvent.source.width / e.nativeEvent.source.height;
-        mapAspectRatios.set(refImagePath.current, ratio);
-        setAspectRatio(ratio);
+    (e: NativeSyntheticEvent<NativeImageLoadEvent>) => {
+      if (!metadata$.aspect.get()) {
+        const ratio = +(e.nativeEvent.source.width / e.nativeEvent.source.height).toFixed(2);
+        metadata$.aspect.set(ratio);
       }
       onLoadProp?.(e);
     },
-    [cachedAspectRatio, onLoadProp]
+    [metadata$, onLoadProp]
   );
 
   const styleImage: StyleProp<ImageStyle> = {
@@ -69,7 +71,7 @@ export const Img = memo(function Img({
     />
   ) : (
     <View className="rounded overflow-hidden">
-      <Image source={{ uri: imagePath }} style={styleImage} onLoad={onLoad} {...props} />
+      <Image source={{ uri: imagePath! }} style={styleImage} onLoad={onLoad} {...props} />
     </View>
   );
 

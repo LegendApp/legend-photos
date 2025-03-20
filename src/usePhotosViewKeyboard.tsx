@@ -48,7 +48,7 @@ export function usePhotosViewKeyboard() {
     },
     [KeyCodes.KEY_UP]: {
       action: () => {
-        const numColumns = state$.numColumns.get();
+        const numColumns = settings$.state.numColumns.get();
         const idx = selectedPhotoIndex$.get();
         if (idx! >= numColumns) {
           selectedPhotoIndex$.set((v) => v! - numColumns);
@@ -62,7 +62,7 @@ export function usePhotosViewKeyboard() {
     [KeyCodes.KEY_DOWN]: {
       action: () => {
         const photos = photos$.get();
-        const numColumns = state$.numColumns.get();
+        const numColumns = settings$.state.numColumns.get();
         const idx = selectedPhotoIndex$.get();
         if (idx! < photos.length - numColumns) {
           selectedPhotoIndex$.set((v) => v! + numColumns);

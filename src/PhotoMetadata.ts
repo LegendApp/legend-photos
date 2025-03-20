@@ -7,6 +7,7 @@ export interface PhotoMetadataItem {
   tags?: string[];
   flag?: boolean;
   reject?: boolean;
+  aspect?: number;
 }
 
 // Define the structure for all metadata

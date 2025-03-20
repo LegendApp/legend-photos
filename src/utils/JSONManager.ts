@@ -27,5 +27,7 @@ export function createJSONManager<T extends object>(
     })
   ) as unknown as Observable<T>;
 
+  data$.get();
+
   return data$;
 }
