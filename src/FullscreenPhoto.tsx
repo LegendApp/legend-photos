@@ -1,4 +1,5 @@
-import { use$, useObservable } from '@legendapp/state/react';
+import { AnimatePresence, Motion } from '@legendapp/motion';
+import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
 import { Animated, Dimensions, Pressable, View } from 'react-native';
 import type { PhotoInfo } from './FileManager';
@@ -19,6 +20,12 @@ const SpringClose = {
   bounciness: 2,
   speed: 24,
 };
+
+const SpringInfo = {
+  type: 'spring',
+  bounciness: 6,
+  speed: 24,
+} as const;
 
 interface AnimatedPositions {
   left: Animated.Value;
@@ -223,9 +230,19 @@ export const FullscreenPhoto = () => {
       </Pressable>
 
       {/* Add plugin renderer for photoFullscreen location */}
-      <View className="absolute inset-0">
-        <PluginRenderer location="photoFullscreen" className="p-4" />
-      </View>
+      <Show if={state$.isPhotoFullscreenCoveringControls} wrap={AnimatePresence}>
+        <Motion.View
+          className="absolute inset-0"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            opacity: { type: 'tween', duration: 100 },
+            y: SpringInfo,
+          }}
+        >
+          <PluginRenderer location="photoFullscreen" className="p-4" />
+        </Motion.View>
+      </Show>
     </Animated.View>
   );
 };
