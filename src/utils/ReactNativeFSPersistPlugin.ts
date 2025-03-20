@@ -23,6 +23,8 @@ export interface ReactNativeFSPersistPluginOptions {
    * Preload all tables on startup. Can be true to load all, or an array of table names
    */
   preload?: string[];
+
+  saveTimeout?: number;
 }
 
 export class ObservablePersistReactNativeFS implements ObservablePersistPlugin {
@@ -130,6 +132,14 @@ export class ObservablePersistReactNativeFS implements ObservablePersistPlugin {
   }
 
   private async save(table: string) {
+    timeoutOnce(
+      `save_${table}`,
+      () => this.saveDebounced(table),
+      this.configuration.saveTimeout || 100
+    );
+  }
+
+  private async saveDebounced(table: string) {
     const v = this.data[table];
     const filePath = `${this.basePath}${table}`;
 
@@ -189,4 +199,17 @@ export class ObservablePersistReactNativeFS implements ObservablePersistPlugin {
 
 export function observablePersistReactNativeFS(configuration: ReactNativeFSPersistPluginOptions) {
   return new ObservablePersistReactNativeFS(configuration);
+}
+
+const timeouts: Record<string, any> = {};
+function timeoutOnce(name: string, cb: () => void, time: number) {
+  const t = timeouts[name];
+  if (t) {
+    clearTimeout(t);
+  }
+  timeouts[name] = setTimeout(() => {
+    delete timeouts[name];
+
+    cb();
+  }, time);
 }

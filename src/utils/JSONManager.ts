@@ -22,6 +22,7 @@ export function createJSONManager<T extends object>(
         plugin: observablePersistReactNativeFS({
           basePath,
           preload: [filename],
+          saveTimeout: 300,
         }),
       },
     })
