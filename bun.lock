@@ -5,6 +5,7 @@
       "name": "legend-aura",
       "dependencies": {
         "@dr.pogodin/react-native-fs": "^2.32.0",
+        "@fluentui-react-native/vibrancy-view": "^0.3.0",
         "@legendapp/list": "^1.0.0-beta.24",
         "@legendapp/motion": "^2.4.0",
         "@legendapp/state": "^3.0.0-beta.30",
@@ -37,6 +38,9 @@
         "typescript": "5.0.4",
       },
     },
+  },
+  "patchedDependencies": {
+    "@fluentui-react-native/vibrancy-view@0.3.0": "patches/@fluentui-react-native%2Fvibrancy-view@0.3.0.patch",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -318,6 +322,10 @@
     "@eslint/eslintrc": ["@eslint/eslintrc@2.1.4", "", { "dependencies": { "ajv": "^6.12.4", "debug": "^4.3.2", "espree": "^9.6.0", "globals": "^13.19.0", "ignore": "^5.2.0", "import-fresh": "^3.2.1", "js-yaml": "^4.1.0", "minimatch": "^3.1.2", "strip-json-comments": "^3.1.1" } }, "sha512-269Z39MS6wVJtsoUl10L60WdkhJVdPG24Q4eZTH3nnF6lpvSShEK3wQjDX9JRWAUPvPh7COouPpU9IrqaZFvtQ=="],
 
     "@eslint/js": ["@eslint/js@8.57.1", "", {}, "sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q=="],
+
+    "@fluentui-react-native/adapters": ["@fluentui-react-native/adapters@0.13.0", "", { "peerDependencies": { "@office-iss/react-native-win32": "^0.73.0", "react": "18.2.0", "react-native": "^0.73.0", "react-native-macos": "^0.73.0", "react-native-windows": "^0.73.0" }, "optionalPeers": ["@office-iss/react-native-win32", "react-native-macos", "react-native-windows"] }, "sha512-IMSlRJkGS3wAk3atmiwmqwfvvmy7QYr0SZ3mcFbYHTReO9PNrE1MGHEEk9YqLPaEUjCbwfgsRKIL9eYgJ8+7RQ=="],
+
+    "@fluentui-react-native/vibrancy-view": ["@fluentui-react-native/vibrancy-view@0.3.0", "", { "dependencies": { "@fluentui-react-native/adapters": "0.13.0", "tslib": "^2.3.1" }, "peerDependencies": { "@office-iss/react-native-win32": "^0.73.0", "react": "18.2.0", "react-native": "^0.73.0", "react-native-macos": "^0.73.0", "react-native-windows": "^0.73.0" }, "optionalPeers": ["@office-iss/react-native-win32", "react-native-macos", "react-native-windows"] }, "sha512-NAaWUOhwLBe0j+nx3BiEAuSEg4R1Cp9DwUcjVNlZPbYyU8csMZIg7L4O2EaEVt3lkKIh5u5/vGVMamP6f44AAg=="],
 
     "@hapi/hoek": ["@hapi/hoek@9.3.0", "", {}, "sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ=="],
 

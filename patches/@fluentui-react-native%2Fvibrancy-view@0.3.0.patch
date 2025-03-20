@@ -1,0 +1,164 @@
+diff --git a/node_modules/@fluentui-react-native/vibrancy-view/.DS_Store b/.DS_Store
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@fluentui-react-native/vibrancy-view/.bun-tag-7847b6da63ee1e85 b/.bun-tag-7847b6da63ee1e85
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@fluentui-react-native/vibrancy-view/.bun-tag-7d0874724bc10b36 b/.bun-tag-7d0874724bc10b36
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/@fluentui-react-native/vibrancy-view/.bun-tag-8afa2b30cd0ed4cf b/.bun-tag-8afa2b30cd0ed4cf
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/lib/VibrancyView.d.ts b/lib/VibrancyView.d.ts
+index a4e1df9c01afd69dfea733996c62b2f83bdb4378..9237eddc3456efd19dc9992b71fafe3480ea8df4 100644
+--- a/lib/VibrancyView.d.ts
++++ b/lib/VibrancyView.d.ts
+@@ -3,9 +3,10 @@
+  * Licensed under the MIT License.
+  * @format
+  */
+-/** @jsxRuntime classic */
+ import React from 'react';
+-import type { VibrancyViewProps } from './VibrancyView.types';
+-export declare const VibrancyView: (props: VibrancyViewProps) => React.JSX.Element;
++import type {VibrancyViewProps} from './VibrancyView.types';
++export declare const VibrancyView: (
++  props: VibrancyViewProps,
++) => React.JSX.Element;
+ export default VibrancyView;
+ //# sourceMappingURL=VibrancyView.d.ts.map
+diff --git a/lib/VibrancyView.js b/lib/VibrancyView.js
+index ff9b956f5c3da784ea15e381a18b6f1f2ef1e3f7..367c9b90485d8e92d6c4cce0682353eb0ba7c4ec 100644
+--- a/lib/VibrancyView.js
++++ b/lib/VibrancyView.js
+@@ -3,12 +3,11 @@
+  * Licensed under the MIT License.
+  * @format
+  */
+-import { __assign } from "tslib";
+-/** @jsxRuntime classic */
++import {__assign} from 'tslib';
+ import React from 'react';
+ import NativeVibrancyView from './VibrancyViewNativeComponent';
+ export var VibrancyView = function (props) {
+-    return React.createElement(NativeVibrancyView, __assign({}, props));
++  return React.createElement(NativeVibrancyView, __assign({}, props));
+ };
+ export default VibrancyView;
+ //# sourceMappingURL=VibrancyView.js.map
+diff --git a/lib-commonjs/VibrancyView.d.ts b/lib-commonjs/VibrancyView.d.ts
+index a4e1df9c01afd69dfea733996c62b2f83bdb4378..9237eddc3456efd19dc9992b71fafe3480ea8df4 100644
+--- a/lib-commonjs/VibrancyView.d.ts
++++ b/lib-commonjs/VibrancyView.d.ts
+@@ -3,9 +3,10 @@
+  * Licensed under the MIT License.
+  * @format
+  */
+-/** @jsxRuntime classic */
+ import React from 'react';
+-import type { VibrancyViewProps } from './VibrancyView.types';
+-export declare const VibrancyView: (props: VibrancyViewProps) => React.JSX.Element;
++import type {VibrancyViewProps} from './VibrancyView.types';
++export declare const VibrancyView: (
++  props: VibrancyViewProps,
++) => React.JSX.Element;
+ export default VibrancyView;
+ //# sourceMappingURL=VibrancyView.d.ts.map
+diff --git a/lib-commonjs/VibrancyView.js b/lib-commonjs/VibrancyView.js
+index d14c45422a61351016c86197d8276568fc17097c..cbd80b3ed6ca9aeeca698c450e1ea89e2a6c610b 100644
+--- a/lib-commonjs/VibrancyView.js
++++ b/lib-commonjs/VibrancyView.js
+@@ -1,17 +1,20 @@
+-"use strict";
+ /**
+  * Copyright (c) Microsoft Corporation.
+  * Licensed under the MIT License.
+  * @format
+  */
+-Object.defineProperty(exports, "__esModule", { value: true });
++Object.defineProperty(exports, '__esModule', {value: true});
+ exports.VibrancyView = void 0;
+-var tslib_1 = require("tslib");
+-/** @jsxRuntime classic */
+-var react_1 = tslib_1.__importDefault(require("react"));
+-var VibrancyViewNativeComponent_1 = tslib_1.__importDefault(require("./VibrancyViewNativeComponent"));
++var tslib_1 = require('tslib');
++var react_1 = tslib_1.__importDefault(require('react'));
++var VibrancyViewNativeComponent_1 = tslib_1.__importDefault(
++  require('./VibrancyViewNativeComponent'),
++);
+ var VibrancyView = function (props) {
+-    return react_1.default.createElement(VibrancyViewNativeComponent_1.default, tslib_1.__assign({}, props));
++  return react_1.default.createElement(
++    VibrancyViewNativeComponent_1.default,
++    tslib_1.__assign({}, props),
++  );
+ };
+ exports.VibrancyView = VibrancyView;
+ exports.default = exports.VibrancyView;
+diff --git a/lib-commonjs/VibrancyView.types.js b/lib-commonjs/VibrancyView.types.js
+index c0274e7172a420bbac26739300b5e7edd0d43c98..1a60a59f68bfe24d6be207c99e3a01a65a265802 100644
+--- a/lib-commonjs/VibrancyView.types.js
++++ b/lib-commonjs/VibrancyView.types.js
+@@ -1,3 +1,2 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
++Object.defineProperty(exports, '__esModule', {value: true});
+ //# sourceMappingURL=VibrancyView.types.js.map
+diff --git a/lib-commonjs/VibrancyViewNativeComponent.js b/lib-commonjs/VibrancyViewNativeComponent.js
+index 03390ef12aed9e6bdabfd82a6be2610db4aa7a91..ff588b96f2c766b6c2e912d24712b36f6d09c2c2 100644
+--- a/lib-commonjs/VibrancyViewNativeComponent.js
++++ b/lib-commonjs/VibrancyViewNativeComponent.js
+@@ -1,11 +1,12 @@
+-"use strict";
+ /**
+  * Copyright (c) Microsoft Corporation.
+  * Licensed under the MIT License.
+  * @format
+  */
+-Object.defineProperty(exports, "__esModule", { value: true });
+-var tslib_1 = require("tslib");
+-var codegenNativeComponent_1 = tslib_1.__importDefault(require("react-native/Libraries/Utilities/codegenNativeComponent"));
++Object.defineProperty(exports, '__esModule', {value: true});
++var tslib_1 = require('tslib');
++var codegenNativeComponent_1 = tslib_1.__importDefault(
++  require('react-native/Libraries/Utilities/codegenNativeComponent'),
++);
+ exports.default = (0, codegenNativeComponent_1.default)('FRNVibrancyView');
+ //# sourceMappingURL=VibrancyViewNativeComponent.js.map
+diff --git a/lib-commonjs/index.js b/lib-commonjs/index.js
+index 38c0d1bec00f0bb7ea1aaad2d43238346c3baa9c..7d59186ba025cd993fe4a139c60fe830987e48b8 100644
+--- a/lib-commonjs/index.js
++++ b/lib-commonjs/index.js
+@@ -1,6 +1,10 @@
+-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
++Object.defineProperty(exports, '__esModule', {value: true});
+ exports.VibrancyView = void 0;
+-var VibrancyView_1 = require("./VibrancyView");
+-Object.defineProperty(exports, "VibrancyView", { enumerable: true, get: function () { return VibrancyView_1.VibrancyView; } });
++var VibrancyView_1 = require('./VibrancyView');
++Object.defineProperty(exports, 'VibrancyView', {
++  enumerable: true,
++  get: function () {
++    return VibrancyView_1.VibrancyView;
++  },
++});
+ //# sourceMappingURL=index.js.map
+diff --git a/src/VibrancyView.tsx b/src/VibrancyView.tsx
+index e27005df965806709053491311595254d9d158cd..64bf4da61c15bc686e280b05222a873676e924b6 100644
+--- a/src/VibrancyView.tsx
++++ b/src/VibrancyView.tsx
+@@ -4,10 +4,9 @@
+  * @format
+  */
+ 
+-/** @jsxRuntime classic */
+ import React from 'react';
+ 
+-import type { VibrancyViewProps } from './VibrancyView.types';
++import type {VibrancyViewProps} from './VibrancyView.types';
+ import NativeVibrancyView from './VibrancyViewNativeComponent';
+ 
+ export const VibrancyView = (props: VibrancyViewProps) => {

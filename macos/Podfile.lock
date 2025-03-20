@@ -24,6 +24,8 @@ PODS:
     - Yoga
   - FBLazyVector (0.76.6)
   - fmt (9.1.0)
+  - FRNVibrancyView (0.3.0):
+    - React
   - glog (0.3.5)
   - hermes-engine (0.76.7):
     - hermes-engine/Pre-built (= 0.76.7)
@@ -1606,6 +1608,7 @@ DEPENDENCIES:
   - "dr-pogodin-react-native-fs (from `../node_modules/@dr.pogodin/react-native-fs`)"
   - FBLazyVector (from `../node_modules/react-native-macos/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native-macos/third-party-podspecs/fmt.podspec`)
+  - "FRNVibrancyView (from `../node_modules/@fluentui-react-native/vibrancy-view`)"
   - glog (from `../node_modules/react-native-macos/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native-macos/sdks/hermes-engine/hermes-engine.podspec`)
   - RCT-Folly (from `../node_modules/react-native-macos/third-party-podspecs/RCT-Folly.podspec`)
@@ -1681,6 +1684,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/Libraries/FBLazyVector"
   fmt:
     :podspec: "../node_modules/react-native-macos/third-party-podspecs/fmt.podspec"
+  FRNVibrancyView:
+    :path: "../node_modules/@fluentui-react-native/vibrancy-view"
   glog:
     :podspec: "../node_modules/react-native-macos/third-party-podspecs/glog.podspec"
   hermes-engine:
@@ -1811,6 +1816,7 @@ SPEC CHECKSUMS:
   dr-pogodin-react-native-fs: 78d4ffc0b79b7be412a6773143c650d2cd1bbd7d
   FBLazyVector: c5f485ffd9dbfa25baaf946d4f8e71e822219374
   fmt: cca1eb84179ad528ae1ba9fdf135ed1ac49e19cb
+  FRNVibrancyView: 94483aa6601b438259de1b65d358f896ba66a77b
   glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
   hermes-engine: eb4a80f6bf578536c58a44198ec93a30f6e69218
   RCT-Folly: a7dc01750cc4b76a2d308fb2be04f4e3bc8dc094
