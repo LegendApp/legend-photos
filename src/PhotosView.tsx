@@ -1,10 +1,12 @@
 import { LegendList } from '@legendapp/list';
+import { Motion } from '@legendapp/motion';
 import { syncState } from '@legendapp/state';
-import { useObserveEffect, useSelector } from '@legendapp/state/react';
+import { use$, useObserveEffect, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { memo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
+import { isWindowFullScreen$ } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { photoMetadatas$ } from './PhotoMetadata';
 import { state$ } from './State';
@@ -123,22 +125,32 @@ export const PhotosView = memo(function PhotosView() {
           columnWrapperStyle={styles.columnWrapperStyle}
           style={styles.legendListStyle}
           ListHeaderComponent={
-            <View className="py-3">
-              <Text className="text-3xl font-medium text-white">{folderDisplayName}</Text>
-              <View className="gap-x-3 flex-row">
-                {subtitle.map((t) => (
-                  <Text key={t} className="text-xs font-medium text-white/60 pt-2">
-                    {t}
-                  </Text>
-                ))}
-              </View>
-            </View>
+            <ListHeaderComponent folderDisplayName={folderDisplayName} subtitle={subtitle} />
           }
         />
       </View>
     </View>
   );
 });
+
+function ListHeaderComponent({
+  folderDisplayName,
+  subtitle,
+}: { folderDisplayName: string; subtitle: string[] }) {
+  const isFullScreen = use$(isWindowFullScreen$);
+  return (
+    <View className={`pb-3  ${isFullScreen ? 'pt-10' : 'pt-3'}`}>
+      <Text className="text-3xl font-medium text-white">{folderDisplayName}</Text>
+      <View className="gap-x-3 flex-row">
+        {subtitle.map((t) => (
+          <Text key={t} className="text-xs font-medium text-white/60 pt-2">
+            {t}
+          </Text>
+        ))}
+      </View>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
