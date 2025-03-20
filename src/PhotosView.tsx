@@ -1,44 +1,14 @@
 import { LegendList } from '@legendapp/list';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
-import { windowDimensions$ } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { state$ } from './State';
 import { ax } from './ax';
 import { settings$ } from './settings/SettingsFile';
-import { useBreakpoints } from './useBreakpoints';
 import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
-
-const breakpoints = {
-  400: 'xs',
-  600: 'sm',
-  800: 'md',
-  1000: 'lg',
-  1200: 'xl',
-  1400: '2xl',
-  1600: '3xl',
-  1800: '4xl',
-  2000: '5xl',
-} as const;
-
-// Calculate the number of columns based on screen width
-const useGridColumns = () => {
-  const { breakpointWidth } = useBreakpoints(windowDimensions$, breakpoints);
-  // Adjust these values based on desired photo size
-  const PHOTO_MAX_SIZE = 200;
-
-  // Calculate columns based on available width
-  const columns = Math.max(1, Math.floor(breakpointWidth / PHOTO_MAX_SIZE));
-
-  useEffect(() => {
-    state$.numColumns.set(columns);
-  }, [columns]);
-
-  return columns;
-};
 
 remapProps(LegendList, {
   className: 'style',
@@ -47,7 +17,7 @@ remapProps(LegendList, {
 
 export const PhotosView = memo(function PhotosView() {
   const selectedFolder = useSelector(settings$.state.openFolder);
-  const numColumns = useGridColumns();
+  const numColumns = useSelector(settings$.state.numColumns);
   const photos = useSelector(state$.photos);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

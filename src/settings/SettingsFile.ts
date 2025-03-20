@@ -43,6 +43,7 @@ export interface AppSettings {
     openFolder: string | null;
     sidebarWidth: number;
     isSidebarOpen: boolean;
+    numColumns: number;
   };
 }
 
@@ -81,6 +82,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     openFolder: null,
     sidebarWidth: 160,
     isSidebarOpen: false,
+    numColumns: 4,
   },
 };
 

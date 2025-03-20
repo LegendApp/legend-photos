@@ -22,7 +22,6 @@ export const state$ = observable({
   photos: [] as PhotoInfo[],
   selectedPhotoIndex: -1,
   fullscreenPhoto: null as FullscreenPhotoData | null,
-  numColumns: 1 as number,
   isPhotoFullscreenCoveringControls: false,
   stoplightEnforcerHovered: false,
   showSettings: false,
