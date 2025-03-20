@@ -7,8 +7,8 @@ import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookKeyboard } from './HookKeyboard';
 import { HookWindowDimensions } from './HookWindowDimensions';
 import { HotkeyHelp } from './HotkeyHelp';
+import { MainSidebar } from './MainSidebar';
 import { PhotosViewContainer } from './PhotosViewContainer';
-import Sidebar from './Sidebar';
 import { StoplightEnforcer } from './StoplightEnforcer';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
@@ -27,7 +27,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-1 flex-row">
-        <Sidebar />
+        <MainSidebar />
         {settingsLoaded && <PhotosViewContainer />}
         <PluginRenderer location="root" className="absolute bottom-4 right-4" />
       </View>

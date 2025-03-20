@@ -1,7 +1,7 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
-import { PlatformColor, ScrollView, View, useColorScheme } from 'react-native';
-import { SidebarButton } from '../SidebarButton';
+import { View } from 'react-native';
+import { Sidebar } from '../Sidebar';
 import { GeneralSettings } from './GeneralSettings';
 import { HotkeySettings } from './HotkeySettings';
 import { LibrarySettings } from './LibrarySettings';
@@ -20,7 +20,6 @@ const SETTING_CATEGORIES = [
 
 export const Settings = () => {
   const [selectedCategory, setSelectedCategory] = useState('library');
-  const isDarkMode = useColorScheme() === 'dark';
 
   const renderContent = () => {
     switch (selectedCategory) {
@@ -42,20 +41,13 @@ export const Settings = () => {
   return (
     <VibrancyView blendingMode="behindWindow" material="sidebar" style={{ flex: 1 }}>
       <View className="flex flex-1 flex-row">
-        <View className="w-[140px] border-r border-r-[#333]">
-          <ScrollView>
-            {SETTING_CATEGORIES.map((category) => (
-              <SidebarButton
-                key={category.id}
-                label={category.label}
-                isSelected={selectedCategory === category.id}
-                isDarkMode={isDarkMode}
-                onPress={() => setSelectedCategory(category.id)}
-              />
-            ))}
-          </ScrollView>
-        </View>
-
+        <Sidebar
+          items={SETTING_CATEGORIES}
+          selectedItemId={selectedCategory}
+          onSelectItem={setSelectedCategory}
+          width={140}
+          showGroups={false}
+        />
         <View className="flex-1 p-5 bg-[#1a1a1a]">{renderContent()}</View>
       </View>
     </VibrancyView>

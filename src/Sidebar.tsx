@@ -1,119 +1,86 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
-import { observable } from '@legendapp/state';
-import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { Animated, PlatformColor, Text, View, useColorScheme } from 'react-native';
-import { getFolderName, listFoldersWithPhotosRecursive } from './FileManager';
+import { Animated, ScrollView, Text, View, useColorScheme } from 'react-native';
 import { SidebarButton } from './SidebarButton';
-import { settings$ } from './settings/SettingsFile';
 
-function Folder({
-  file,
-  isDarkMode,
-  selectedFolder,
-  onSelectFolder,
-}: {
-  file: string;
-  isDarkMode: boolean;
-  selectedFolder: string | undefined | null;
-  onSelectFolder: (file: string) => void;
-}) {
-  const isSelected = selectedFolder === file;
-  const displayName = getFolderName(file);
-
-  return (
-    <SidebarButton
-      label={displayName}
-      isSelected={isSelected}
-      isDarkMode={isDarkMode}
-      onPress={() => onSelectFolder(file)}
-    />
-  );
+interface SidebarItem {
+  id: string;
+  label: string;
 }
 
-// Helper function to get parent directory path
-function getParentPath(filePath: string): string {
-  // Handle trailing slash
-  const normalizedPath = filePath.endsWith('/') ? filePath.slice(0, -1) : filePath;
-  const lastSlashIndex = normalizedPath.lastIndexOf('/');
-  return lastSlashIndex !== -1 ? normalizedPath.substring(0, lastSlashIndex) : '';
+interface SidebarGroup {
+  title: string;
+  items: SidebarItem[];
 }
 
-// Helper function to group folders by parent path
-function groupFoldersByParent(folders: string[]): Record<string, string[]> {
-  const grouped: Record<string, string[]> = {};
-
-  for (const folder of folders) {
-    const parentPath = getParentPath(folder);
-    if (!grouped[parentPath]) {
-      grouped[parentPath] = [];
-    }
-    grouped[parentPath].push(folder);
-  }
-
-  return grouped;
+interface SidebarCommonProps {
+  items: SidebarItem[] | SidebarGroup[];
+  selectedItemId: string;
+  onSelectItem: (id: string) => void;
+  width?: number | Animated.Value;
+  showGroups?: boolean;
 }
 
-const folders$ = observable(listFoldersWithPhotosRecursive);
-
-function Sidebar() {
+export function Sidebar({
+  items,
+  selectedItemId,
+  onSelectItem,
+  width = 140,
+  showGroups = false,
+}: SidebarCommonProps) {
   const isDarkMode = useColorScheme() === 'dark';
-  const selectedFolder = useSelector(settings$.state.openFolder);
-  const folders = useSelector(folders$) || [];
-  const sidebarWidth = useSelector(settings$.state.sidebarWidth);
 
-  const onSelectFolder = (folder: string) => {
-    settings$.state.openFolder.set(folder);
+  const isGrouped = (item: any): item is SidebarGroup => {
+    return 'items' in item && 'title' in item;
   };
 
-  useObserveEffect((e) => {
-    if (!selectedFolder) {
-      const openFolder = settings$.state.openFolder.get();
-      if (openFolder) {
-        onSelectFolder(openFolder);
-        e.cancel = true;
-      } else if (folders$.get()?.length) {
-        console.log('selecting first folder');
-        onSelectFolder(folders$.get()[0]);
-        e.cancel = true;
-      }
+  const renderItems = () => {
+    if (showGroups && items.some(isGrouped)) {
+      return (items as SidebarGroup[]).map((group) => (
+        <View key={group.title} className="mb-2">
+          <Text
+            className={`px-3 py-1 text-xs font-medium ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}
+          >
+            {group.title}
+          </Text>
+          {group.items.map((item) => (
+            <SidebarButton
+              key={item.id}
+              label={item.label}
+              isSelected={selectedItemId === item.id}
+              isDarkMode={isDarkMode}
+              onPress={() => onSelectItem(item.id)}
+            />
+          ))}
+        </View>
+      ));
     }
-  });
 
-  // Group folders by parent path
-  const groupedFolders = groupFoldersByParent(folders);
+    return (items as SidebarItem[]).map((item) => (
+      <SidebarButton
+        key={item.id}
+        label={item.label}
+        isSelected={selectedItemId === item.id}
+        isDarkMode={isDarkMode}
+        onPress={() => onSelectItem(item.id)}
+      />
+    ));
+  };
 
   return (
     <Animated.View
       className="h-full border-r border-r-[#333]"
       style={{
-        width: sidebarWidth,
+        width,
       }}
     >
       <VibrancyView blendingMode="behindWindow" material="sidebar" style={{ flex: 1 }}>
         <View className="flex-1 py-2 pt-8">
-          {Object.entries(groupedFolders).map(([parentPath, folderGroup]) => (
-            <View key={parentPath} className="mb-2">
-              <Text
-                className={`px-3 py-1 text-xs font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}
-              >
-                {getFolderName(parentPath)}
-              </Text>
-              {folderGroup.map((file) => (
-                <Folder
-                  key={file}
-                  file={file}
-                  isDarkMode={isDarkMode}
-                  selectedFolder={selectedFolder}
-                  onSelectFolder={onSelectFolder}
-                />
-              ))}
-            </View>
-          ))}
+          <ScrollView>{renderItems()}</ScrollView>
         </View>
       </VibrancyView>
     </Animated.View>
   );
 }
-
-export default Sidebar;

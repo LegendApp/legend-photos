@@ -1,7 +1,7 @@
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
-import { Animated, Dimensions, Pressable, View } from 'react-native';
+import { Animated, Dimensions, Pressable } from 'react-native';
 import type { PhotoInfo } from './FileManager';
 import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
