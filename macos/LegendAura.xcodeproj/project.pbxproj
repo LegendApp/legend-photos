@@ -12,7 +12,7 @@
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
-		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendAura-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */; };
+		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendPhotos-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */; };
 		691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB342D881B49001CE76E /* RNSegmentedControl.swift */; };
 		691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB352D881B49001CE76E /* SegmentedControlBridge.m */; };
 		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
@@ -34,18 +34,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LegendAura-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* LegendAura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegendAura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LegendPhotos-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* LegendPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegendPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F8EEDA247044CE1FAE37B40 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		514201492437B4B30078DB4F /* LegendAura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegendAura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		514201492437B4B30078DB4F /* LegendPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegendPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5142014B2437B4B30078DB4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5142014C2437B4B30078DB4F /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		514201592437B4B40078DB4F /* LegendAura.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendAura.entitlements; sourceTree = "<group>"; };
-		6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		514201592437B4B40078DB4F /* LegendPhotos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendPhotos.entitlements; sourceTree = "<group>"; };
+		6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		691ECB342D881B49001CE76E /* RNSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNSegmentedControl.swift; sourceTree = "<group>"; };
 		691ECB352D881B49001CE76E /* SegmentedControlBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlBridge.m; sourceTree = "<group>"; };
 		693B2E292D85B9F800C3751E /* WindowControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControls.swift; sourceTree = "<group>"; };
@@ -65,7 +65,7 @@
 		69B089852D88646500529066 /* SFSymbolBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSymbolBridge.m; sourceTree = "<group>"; };
 		69C50A7D2D8BA76F0029BC4C /* NativeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeImage.h; sourceTree = "<group>"; };
 		69C50A7E2D8BA76F0029BC4C /* NativeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeImage.m; sourceTree = "<group>"; };
-		6E3A4903C70CA590711C8752 /* Pods-LegendAura-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendAura-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -81,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EB78D7BEB2BA57902B88DF3 /* libPods-LegendAura-macOS.a in Frameworks */,
+				5EB78D7BEB2BA57902B88DF3 /* libPods-LegendPhotos-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,12 +92,12 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				0518C4428D1D611D7CD74EC1 /* libPods-LegendAura-macOS.a */,
+				0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
+		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
 				697CF3222D8D804300833BFA /* FileSystemWatcher */,
@@ -116,9 +116,9 @@
 				514201532437B4B40078DB4F /* Main.storyboard */,
 				514201562437B4B40078DB4F /* Info.plist */,
 				514201572437B4B40078DB4F /* main.m */,
-				514201592437B4B40078DB4F /* LegendAura.entitlements */,
+				514201592437B4B40078DB4F /* LegendPhotos.entitlements */,
 			);
-			path = "LegendAura-macOS";
+			path = "LegendPhotos-macOS";
 			sourceTree = "<group>";
 		};
 		691ECB362D881B49001CE76E /* SegmentedControl */ = {
@@ -204,7 +204,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				5142014A2437B4B30078DB4F /* LegendAura-macOS */,
+				5142014A2437B4B30078DB4F /* LegendPhotos-macOS */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -219,8 +219,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* LegendAura.app */,
-				514201492437B4B30078DB4F /* LegendAura.app */,
+				13B07F961A680F5B00A75B9A /* LegendPhotos.app */,
+				514201492437B4B30078DB4F /* LegendPhotos.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -228,8 +228,8 @@
 		D0C3DE715E8130417AF7F33F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6E3A4903C70CA590711C8752 /* Pods-LegendAura-macOS.debug.xcconfig */,
-				6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */,
+				6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */,
+				6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -237,9 +237,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* LegendAura-iOS */ = {
+		13B07F861A680F5B00A75B9A /* LegendPhotos-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LegendAura-iOS" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LegendPhotos-iOS" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -250,14 +250,14 @@
 			);
 			dependencies = (
 			);
-			name = "LegendAura-iOS";
-			productName = LegendAura;
-			productReference = 13B07F961A680F5B00A75B9A /* LegendAura.app */;
+			name = "LegendPhotos-iOS";
+			productName = LegendPhotos;
+			productReference = 13B07F961A680F5B00A75B9A /* LegendPhotos.app */;
 			productType = "com.apple.product-type.application";
 		};
-		514201482437B4B30078DB4F /* LegendAura-macOS */ = {
+		514201482437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "LegendAura-macOS" */;
+			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "LegendPhotos-macOS" */;
 			buildPhases = (
 				1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */,
 				514201452437B4B30078DB4F /* Sources */,
@@ -271,9 +271,9 @@
 			);
 			dependencies = (
 			);
-			name = "LegendAura-macOS";
-			productName = LegendAura;
-			productReference = 514201492437B4B30078DB4F /* LegendAura.app */;
+			name = "LegendPhotos-macOS";
+			productName = LegendPhotos;
+			productReference = 514201492437B4B30078DB4F /* LegendPhotos.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -293,7 +293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LegendAura" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LegendPhotos" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -306,8 +306,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* LegendAura-iOS */,
-				514201482437B4B30078DB4F /* LegendAura-macOS */,
+				13B07F861A680F5B00A75B9A /* LegendPhotos-iOS */,
+				514201482437B4B30078DB4F /* LegendPhotos-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -354,7 +354,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
@@ -373,7 +373,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */ = {
@@ -391,7 +391,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LegendAura-macOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-LegendPhotos-macOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -404,7 +404,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-frameworks.sh",
 				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/macosx/hermes.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -413,7 +413,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendAura-macOS/Pods-LegendAura-macOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		381D8A6E24576A4E00465D17 /* Bundle React Native code and images */ = {
@@ -491,7 +491,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "LegendAura-iOS/Info.plist";
+				INFOPLIST_FILE = "LegendPhotos-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -499,7 +499,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = LegendAura;
+				PRODUCT_NAME = LegendPhotos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -512,7 +512,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "LegendAura-iOS/Info.plist";
+				INFOPLIST_FILE = "LegendPhotos-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -520,7 +520,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = LegendAura;
+				PRODUCT_NAME = LegendPhotos;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -528,13 +528,13 @@
 		};
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E3A4903C70CA590711C8752 /* Pods-LegendAura-macOS.debug.xcconfig */;
+			baseConfigurationReference = 6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				INFOPLIST_FILE = "LegendAura-macos/Info.plist";
+				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
@@ -543,7 +543,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = LegendAura;
+				PRODUCT_NAME = LegendPhotos;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -552,12 +552,12 @@
 		};
 		5142015C2437B4B40078DB4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6706840D8B16C60F2EF973CA /* Pods-LegendAura-macOS.release.xcconfig */;
+			baseConfigurationReference = 6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "LegendAura-macos/Info.plist";
+				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
@@ -566,7 +566,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = LegendAura;
+				PRODUCT_NAME = LegendPhotos;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -695,7 +695,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LegendAura-iOS" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "LegendPhotos-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -704,7 +704,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "LegendAura-macOS" */ = {
+		5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "LegendPhotos-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5142015B2437B4B40078DB4F /* Debug */,
@@ -713,7 +713,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LegendAura" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "LegendPhotos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

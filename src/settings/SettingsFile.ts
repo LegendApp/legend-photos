@@ -88,7 +88,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 
 // Create the settings manager
 export const settings$ = createJSONManager<AppSettings>(
-  `${DocumentDirectoryPath}/.legendaura/`,
+  `${DocumentDirectoryPath}/.legendphotos/`,
   'settings.json',
   DEFAULT_SETTINGS
 );
