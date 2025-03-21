@@ -1,5 +1,4 @@
 import { LegendList } from '@legendapp/list';
-import { Motion } from '@legendapp/motion';
 import { syncState } from '@legendapp/state';
 import { use$, useObserveEffect, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
