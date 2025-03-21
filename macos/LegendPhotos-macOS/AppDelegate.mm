@@ -70,6 +70,9 @@
   [window setTitlebarAppearsTransparent:YES];
   [window setStyleMask:[window styleMask] | NSWindowStyleMaskFullSizeContentView];
 
+  // Set the window delegate to handle close events
+  [window setDelegate:self];
+
   // Hide the close button
 //   [[window standardWindowButton:NSWindowCloseButton] setHidden:YES];
   // Hide the minimize button
@@ -81,6 +84,32 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:NSWindowDidBecomeKeyNotification
                                                 object:nil];
+}
+
+/**
+ * This method is called when the dock icon is clicked or when the application is reactivated.
+ * It ensures the window is made visible and brought to the front.
+ */
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+  if (!flag) {
+    // No visible windows - reactivate the main window
+    for (NSWindow *window in [NSApplication sharedApplication].windows) {
+      [window makeKeyAndOrderFront:self];
+    }
+  }
+  return YES;
+}
+
+/**
+ * This method is called when the user attempts to close the window.
+ * Instead of closing it completely, we'll just hide it so it can be reopened.
+ */
+- (BOOL)windowShouldClose:(NSWindow *)sender
+{
+  // Hide the window instead of closing it
+  [sender orderOut:self];
+  return NO;
 }
 
 @end
