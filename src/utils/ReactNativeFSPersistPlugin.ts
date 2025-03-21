@@ -15,7 +15,7 @@ const { safeParse, safeStringify } = internal;
  */
 export interface ReactNativeFSPersistPluginOptions {
   /**
-   * Base directory path. Defaults to DocumentDirectoryPath/.legendaura/
+   * Base directory path. Defaults to DocumentDirectoryPath/.legendphotos/
    */
   basePath: string;
 

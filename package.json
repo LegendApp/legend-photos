@@ -1,5 +1,5 @@
 {
-  "name": "legend-aura",
+  "name": "legend-photos",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,7 +12,7 @@
     "start": "react-native start",
     "startclear": "react-native start --reset-cache",
     "test": "jest",
-    "build": "cd macos && rm -fr build/Build/Products/Release/LegendAura.app && xcodebuild -workspace LegendAura.xcworkspace -scheme LegendAura-macOS -configuration Release -derivedDataPath ./build"
+    "build": "cd macos && rm -fr build/Build/Products/Release/Legend\\ Photos.app && xcodebuild -workspace LegendPhotos.xcworkspace -scheme LegendPhotos-macOS -configuration Release -derivedDataPath ./build"
   },
   "dependencies": {
     "@dr.pogodin/react-native-fs": "^2.32.0",

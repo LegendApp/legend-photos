@@ -1,4 +1,4 @@
-# Legend Aura
+# Legend Photos
 
 A photo viewing application built with React Native for macOS.
 

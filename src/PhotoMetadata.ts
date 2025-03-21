@@ -18,7 +18,7 @@ export interface PhotoMetadataStore {
 
 // Create the metadata manager
 export const photoMetadatas$ = createJSONManager<PhotoMetadataStore>(
-  `${DocumentDirectoryPath}/.legendaura/`,
+  `${DocumentDirectoryPath}/.legendphotos/`,
   'metadata.json',
   {}
 );

@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "legend-aura",
+      "name": "legend-photos",
       "dependencies": {
         "@dr.pogodin/react-native-fs": "^2.32.0",
         "@fluentui-react-native/vibrancy-view": "^0.3.0",
