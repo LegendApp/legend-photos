@@ -20,6 +20,8 @@
 		693B545D2D86D8E000E4580A /* WindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B545C2D86D8E000E4580A /* WindowManager.m */; };
 		696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 696C10852D894A97007D2C65 /* FilePickerBridge.m */; };
 		696C10882D894A97007D2C65 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696C10842D894A97007D2C65 /* FilePicker.swift */; };
+		697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3202D8D804300833BFA /* FileSystemWatcher.swift */; };
+		697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */; };
 		699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */; };
 		699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */; };
 		699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */; };
@@ -52,6 +54,8 @@
 		693B545C2D86D8E000E4580A /* WindowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowManager.m; sourceTree = "<group>"; };
 		696C10842D894A97007D2C65 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		696C10852D894A97007D2C65 /* FilePickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePickerBridge.m; sourceTree = "<group>"; };
+		697CF3202D8D804300833BFA /* FileSystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
+		697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemWatcherBridge.m; sourceTree = "<group>"; };
 		699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerBridge.m; sourceTree = "<group>"; };
 		699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNKeyboardManager.swift; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 		5142014A2437B4B30078DB4F /* LegendAura-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				69C50A7F2D8BA76F0029BC4C /* NativeImage */,
 				696C10862D894A97007D2C65 /* FilePicker */,
 				69B089862D88646500529066 /* SFSymbol */,
@@ -141,6 +146,15 @@
 				696C10852D894A97007D2C65 /* FilePickerBridge.m */,
 			);
 			path = FilePicker;
+			sourceTree = "<group>";
+		};
+		697CF3222D8D804300833BFA /* FileSystemWatcher */ = {
+			isa = PBXGroup;
+			children = (
+				697CF3202D8D804300833BFA /* FileSystemWatcher.swift */,
+				697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */,
+			);
+			path = FileSystemWatcher;
 			sourceTree = "<group>";
 		};
 		699BFD832D8592E2000F2A33 /* KeyboardManager */ = {
@@ -435,6 +449,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */,
+				697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */,
+				697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */,
 				696C10882D894A97007D2C65 /* FilePicker.swift in Sources */,
 				699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */,
 				699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */,
@@ -612,10 +628,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -671,10 +684,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
