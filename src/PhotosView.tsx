@@ -28,15 +28,16 @@ export const PhotosView = observer(function PhotosView() {
   const hasMetadatas = useSelector(() => syncState(photoMetadatas$).isPersistLoaded.get());
   const [loading] = useState(false);
   const [error] = useState<string | null>(null);
+  const openingFolder = useSelector(state$.openingFolder);
 
   // Set up keyboard shortcuts
   usePhotosViewKeyboard();
 
   console.log('photos', photos.length);
 
-  if (loading || !hasMetadatas) {
+  if (loading || !hasMetadatas || openingFolder) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 justify-center items-center bg-[#111]">
         <Text>Loading photos...</Text>
       </View>
     );

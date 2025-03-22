@@ -23,4 +23,5 @@ export const state$ = observable({
   titleBarHovered: false,
   showSettings: false,
   selectedPhoto: () => state$.photos[state$.selectedPhotoIndex.get()],
+  openingFolder: false,
 });

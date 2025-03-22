@@ -79,6 +79,10 @@ observe(async () => {
     return;
   }
 
+  // TODO: This is a temporary workaround for a bug where changing the photos
+  // immediately would scroll to -28. Need to investigate why that was happenign.
+  state$.openingFolder.set(true);
+
   // When filesystem watcher detects a change, update the photos list
   eventFolderChange.get();
 
@@ -87,5 +91,7 @@ observe(async () => {
     state$.photos.set(photosList);
   } catch (err) {
     console.error('Error loading photos:', err);
+  } finally {
+    state$.openingFolder.set(false);
   }
 });
