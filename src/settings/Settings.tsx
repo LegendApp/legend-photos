@@ -1,7 +1,7 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Sidebar } from '../Sidebar';
+import { Sidebar } from '../components/Sidebar';
 import { GeneralSettings } from './GeneralSettings';
 import { HotkeySettings } from './HotkeySettings';
 import { LibrarySettings } from './LibrarySettings';

@@ -9,9 +9,9 @@ import { isWindowFullScreen$ } from './HookWindowFullscreen';
 import { Photo } from './Photo';
 import { photoMetadatas$ } from './PhotoMetadata';
 import { state$ } from './State';
-import { ax } from './ax';
+import { usePhotosViewKeyboard } from './hooks/usePhotosViewKeyboard';
 import { settings$ } from './settings/SettingsFile';
-import { usePhotosViewKeyboard } from './usePhotosViewKeyboard';
+import { ax } from './utils/ax';
 
 remapProps(LegendList, {
   className: 'style',

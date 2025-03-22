@@ -9,10 +9,10 @@ import {
   View,
   type ViewStyle,
 } from 'react-native';
-import type { PhotoInfo } from './FileManager';
-import { photoMetadatas$ } from './PhotoMetadata';
-import { NativeImage, type NativeImageProps } from './native-modules/NativeImage';
-import { getPhotoPath } from './utils/photoHelpers';
+import type { PhotoInfo } from '../FileManager';
+import { photoMetadatas$ } from '../PhotoMetadata';
+import { NativeImage, type NativeImageProps } from '../native-modules/NativeImage';
+import { getPhotoPath } from '../utils/photoHelpers';
 
 interface ImgProps extends Omit<NativeImageProps, 'imagePath' | 'style'> {
   style?: ImageStyle;

@@ -2,12 +2,12 @@ import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Pressable, View } from 'react-native';
 import type { PhotoInfo } from './FileManager';
-import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
+import { Img } from './components/Img';
+import { useOnDoubleClick } from './hooks/useOnDoubleClick';
 import { PluginRenderer } from './plugin-system/registerDefaultPlugins';
-import { useOnDoubleClick } from './useOnDoubleClick';
 
 export interface PhotoProps {
   photo: PhotoInfo;

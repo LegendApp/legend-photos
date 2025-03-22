@@ -1,7 +1,7 @@
-import { useOnHotkeys } from './Keyboard';
-import { KeyCodes } from './KeyboardManager';
-import { state$ } from './State';
-import { settings$ } from './settings/SettingsFile';
+import { useOnHotkeys } from '../Keyboard';
+import { KeyCodes } from '../KeyboardManager';
+import { state$ } from '../State';
+import { settings$ } from '../settings/SettingsFile';
 
 /**
  * PhotosKeyboardManager handles keyboard shortcuts for the photos view

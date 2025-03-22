@@ -6,9 +6,9 @@ export function delayLog(...args: any[]) {
   if (!timeout) {
     timeout = setTimeout(() => {
       timeout = undefined;
-      queue.forEach((arg) => {
+      for (const arg of queue) {
         console.log(...arg);
-      });
+      }
       queue.length = 0;
     }, 1000);
   }

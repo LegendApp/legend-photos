@@ -2,7 +2,7 @@ import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { getFolderName } from './FileManager';
 import { folders$ } from './LibraryManager';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from './components/Sidebar';
 import { settings$ } from './settings/SettingsFile';
 
 // Helper function to find the parent library path for a folder
