@@ -66,6 +66,25 @@ The following settings are already configured in `.vscode/settings.json`:
   - `utils/` - Utility functions and helpers
 - `macos/` - macOS specific code
 
+## Project Goals
+
+Legend Photos aims to:
+
+- Be a modern, intuitive photo management experience that's very customizable and user-friendly. It should be great for
+    1. **Triage**: Sorting through and culling a lot of photos into a set of favorites
+    2. **Review**: Finding and viewing photos in a fun and beautiful way
+
+- Showcase the power of Legend libraries in a real-world application:
+  - [Legend State](https://github.com/LegendApp/legend-state) for efficient state management
+  - [Legend List](https://github.com/LegendApp/legend-list) for high-performance lists
+  - [Legend Motion](https://github.com/LegendApp/legend-motion) for fluid animations
+
+- Be extremely fast and light on resources
+
+- Provide a plugin-first architecture that welcomes community contributions and extensions
+
+- Explore the capabilities of React Native on desktop
+
 # Getting Started
 
 ## Step 1: Start the Metro Server
@@ -94,3 +113,5 @@ If everything is set up _correctly_, you should see a bunch of logs for a while,
 # Support Development
 
 If you find Legend Photos valuable, consider [sponsoring @jmeistrich on GitHub](https://github.com/sponsors/jmeistrich). Your support helps maintain and improve this project!
+
+Or if you're using the LegendApp libraries such as [Legend State](https://github.com/LegendApp/legend-state), [Legend List](https://github.com/LegendApp/legend-list), [Legend Motion](https://github.com/LegendApp/legend-motion), you may get a lot of value from [Legend Kit](https://www.legendapp.com/kit/).
