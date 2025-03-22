@@ -93,6 +93,7 @@ export function MainSidebar() {
       onSelectItem={onSelectFolder}
       width={sidebarWidth}
       showGroups={true}
+      className="pt-10"
     />
   );
 }

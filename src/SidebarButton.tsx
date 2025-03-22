@@ -28,11 +28,11 @@ export function SidebarButton({
 
   return (
     <Pressable
-      className={`py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : ''}`}
+      className={`py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : 'hover:bg-white/5'}`}
       onPress={onPress}
     >
       <View className="flex-row items-center" style={{ paddingLeft: indentPadding }}>
-        <Text className={`text-sm ${textColor}`}>{label}</Text>
+        <Text className={`text-sm ${textColor} ${isSelected ? 'font-medium' : ''}`}>{label}</Text>
       </View>
     </Pressable>
   );
