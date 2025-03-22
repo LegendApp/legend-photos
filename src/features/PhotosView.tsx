@@ -1,9 +1,4 @@
-import { LegendList } from '@legendapp/list';
-import { syncState } from '@legendapp/state';
-import { observer, use$, useSelector } from '@legendapp/state/react';
-import { remapProps } from 'nativewind';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Photo } from '@/features/Photo';
 import { isWindowFullScreen$ } from '@/hooks/HookWindowFullscreen';
 import { usePhotosViewKeyboard } from '@/hooks/usePhotosViewKeyboard';
 import { settings$ } from '@/settings/SettingsFile';
@@ -11,7 +6,12 @@ import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
 import { ax } from '@/utils/ax';
-import { Photo } from '@/features/Photo';
+import { LegendList } from '@legendapp/list';
+import { syncState } from '@legendapp/state';
+import { observer, use$, useSelector } from '@legendapp/state/react';
+import { remapProps } from 'nativewind';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 remapProps(LegendList, {
   className: 'style',
@@ -59,22 +59,20 @@ export const PhotosView = observer(function PhotosView() {
 
   return (
     <View className="flex-1 bg-[#111]">
-      <View className="flex-1">
-        <LegendList
-          data={photos}
-          renderItem={renderPhoto}
-          numColumns={numColumns}
-          estimatedItemSize={200}
-          automaticallyAdjustContentInsets={false}
-          recycleItems
-          //   drawDistance={1000}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.contentContainerStyle}
-          columnWrapperStyle={styles.columnWrapperStyle}
-          style={styles.legendListStyle}
-          ListHeaderComponent={ListHeaderComponent}
-        />
-      </View>
+      <LegendList
+        data={photos}
+        renderItem={renderPhoto}
+        numColumns={numColumns}
+        estimatedItemSize={200}
+        automaticallyAdjustContentInsets={false}
+        recycleItems
+        //   drawDistance={1000}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.contentContainerStyle}
+        columnWrapperStyle={styles.columnWrapperStyle}
+        style={styles.legendListStyle}
+        ListHeaderComponent={ListHeaderComponent}
+      />
     </View>
   );
 });

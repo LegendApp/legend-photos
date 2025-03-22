@@ -1,7 +1,7 @@
+import { SidebarButton } from '@/components/SidebarButton';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
-import { SidebarButton } from '@/components/SidebarButton';
 
 interface SidebarItem {
   id: string;
