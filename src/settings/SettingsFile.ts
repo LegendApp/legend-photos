@@ -5,9 +5,8 @@ import { createJSONManager } from '../utils/JSONManager';
 export interface AppSettings {
   // General settings
   general: {
-    theme: 'light' | 'dark' | 'system';
-    language: string;
-    autoSave: boolean;
+    // theme: 'light' | 'dark' | 'system';
+    // language: string;
     autoUpdate: {
       enabled: boolean;
       checkInterval: number; // in hours
@@ -15,32 +14,32 @@ export interface AppSettings {
   };
 
   // Hotkey settings
-  hotkeys: {
-    [action: string]: string;
-  };
+  //   hotkeys: {
+  //     [action: string]: string;
+  //   };
 
   // Theme settings
-  themes: {
-    customThemes: Array<{
-      name: string;
-      colors: Record<string, string>;
-    }>;
-    activeTheme: string;
-  };
+  //   themes: {
+  //     customThemes: Array<{
+  //       name: string;
+  //       colors: Record<string, string>;
+  //     }>;
+  //     activeTheme: string;
+  //   };
 
   // Plugin settings
-  plugins: {
-    enabled: Record<string, boolean>;
-    settings: Record<string, any>;
-  };
+  //   plugins: {
+  //     enabled: Record<string, boolean>;
+  //     settings: Record<string, any>;
+  //   };
 
   // Library settings
   library: {
     paths: string[];
-    previewSize: 'small' | 'medium' | 'large';
-    showFilenames: boolean;
-    sortBy: 'name' | 'date' | 'size' | 'type';
-    sortDirection: 'asc' | 'desc';
+    // previewSize: 'small' | 'medium' | 'large';
+    // showFilenames: boolean;
+    // sortBy: 'name' | 'date' | 'size' | 'type';
+    // sortDirection: 'asc' | 'desc';
   };
   // State
   state: {
@@ -54,37 +53,28 @@ export interface AppSettings {
 // Default settings
 const DEFAULT_SETTINGS: AppSettings = {
   general: {
-    theme: 'system',
-    language: 'en',
-    autoSave: true,
+    // theme: 'system',
+    // language: 'en',
     autoUpdate: {
       enabled: true,
       checkInterval: 24, // Check for updates once a day by default
     },
   },
-  hotkeys: {
-    rate1: '1',
-    rate2: '2',
-    rate3: '3',
-    rate4: '4',
-    rate5: '5',
-    flag: 'f',
-    reject: 'x',
-  },
-  themes: {
-    customThemes: [],
-    activeTheme: 'default',
-  },
-  plugins: {
-    enabled: {},
-    settings: {},
-  },
+  //   hotkeys: {},
+  //   themes: {
+  //     customThemes: [],
+  //     activeTheme: 'default',
+  //   },
+  //   plugins: {
+  //     enabled: {},
+  //     settings: {},
+  //   },
   library: {
     paths: [],
-    previewSize: 'medium',
-    showFilenames: true,
-    sortBy: 'date',
-    sortDirection: 'desc',
+    // previewSize: 'medium',
+    // showFilenames: true,
+    // sortBy: 'date',
+    // sortDirection: 'desc',
   },
   state: {
     openFolder: null,
