@@ -6,6 +6,7 @@ import { SidebarButton } from './SidebarButton';
 interface SidebarItem {
   id: string;
   label: string;
+  indentLevel?: number; // Optional indentation level for hierarchy
 }
 
 interface SidebarGroup {
@@ -52,6 +53,7 @@ export function Sidebar({
               isSelected={selectedItemId === item.id}
               isDarkMode={isDarkMode}
               onPress={() => onSelectItem(item.id)}
+              indentLevel={item.indentLevel || 0}
             />
           ))}
         </View>
@@ -65,6 +67,7 @@ export function Sidebar({
         isSelected={selectedItemId === item.id}
         isDarkMode={isDarkMode}
         onPress={() => onSelectItem(item.id)}
+        indentLevel={item.indentLevel || 0}
       />
     ));
   };

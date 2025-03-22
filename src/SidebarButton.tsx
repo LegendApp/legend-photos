@@ -1,14 +1,21 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 export interface SidebarButtonProps {
   label: string;
   isSelected: boolean;
   isDarkMode: boolean;
   onPress: () => void;
+  indentLevel?: number;
 }
 
-export function SidebarButton({ label, isSelected, isDarkMode, onPress }: SidebarButtonProps) {
+export function SidebarButton({
+  label,
+  isSelected,
+  isDarkMode,
+  onPress,
+  indentLevel = 0,
+}: SidebarButtonProps) {
   const textColor = isSelected
     ? isDarkMode
       ? 'text-white'
@@ -17,12 +24,16 @@ export function SidebarButton({ label, isSelected, isDarkMode, onPress }: Sideba
       ? 'text-[#bbb]'
       : 'text-[#333]';
 
+  const indentPadding = 8 + indentLevel * 12;
+
   return (
     <Pressable
-      className={`px-2 py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : ''}`}
+      className={`py-2 rounded-md mx-1 ${isSelected ? 'bg-white/10' : ''}`}
       onPress={onPress}
     >
-      <Text className={`text-sm ${textColor}`}>{label}</Text>
+      <View className="flex-row items-center" style={{ paddingLeft: indentPadding }}>
+        <Text className={`text-sm ${textColor}`}>{label}</Text>
+      </View>
     </Pressable>
   );
 }
