@@ -11,7 +11,6 @@ import { useOnDoubleClick } from './useOnDoubleClick';
 
 export interface PhotoProps {
   photo: PhotoInfo;
-  folderPath: string;
   index: number;
 }
 

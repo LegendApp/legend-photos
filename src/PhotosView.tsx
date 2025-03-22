@@ -1,8 +1,8 @@
 import { LegendList } from '@legendapp/list';
 import { syncState } from '@legendapp/state';
-import { use$, useSelector } from '@legendapp/state/react';
+import { observer, use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName } from './FileManager';
 import { isWindowFullScreen$ } from './HookWindowDimensions';
@@ -18,14 +18,72 @@ remapProps(LegendList, {
   contentContainerClassName: 'contentContainerStyle',
 });
 
-export const PhotosView = memo(function PhotosView() {
-  const selectedFolder = useSelector(settings$.state.openFolder);
+const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
+  return <Photo photo={item} index={index} />;
+};
+
+export const PhotosView = observer(function PhotosView() {
   const numColumns = useSelector(settings$.state.numColumns);
   const photos = useSelector(state$.photos);
   const hasMetadatas = useSelector(() => syncState(photoMetadatas$).isPersistLoaded.get());
   const [loading] = useState(false);
   const [error] = useState<string | null>(null);
-  const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
+
+  // Set up keyboard shortcuts
+  usePhotosViewKeyboard();
+
+  console.log('photos', photos.length);
+
+  if (loading || !hasMetadatas) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>Loading photos...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-red-500">{error}</Text>
+      </View>
+    );
+  }
+
+  if (photos.length === 0) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text>No photos found in this folder</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View className="flex-1 bg-[#111]">
+      <View className="flex-1">
+        <LegendList
+          data={photos}
+          renderItem={renderPhoto}
+          numColumns={numColumns}
+          estimatedItemSize={200}
+          automaticallyAdjustContentInsets={false}
+          recycleItems
+          //   drawDistance={1000}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.contentContainerStyle}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          style={styles.legendListStyle}
+          ListHeaderComponent={ListHeaderComponent}
+        />
+      </View>
+    </View>
+  );
+});
+
+function ListHeaderComponent() {
+  const isFullScreen = use$(isWindowFullScreen$);
+  const selectedFolder = useSelector(settings$.state.openFolder);
+  const photos = useSelector(state$.photos);
 
   let minDate: Date | undefined;
   let maxDate: Date | undefined;
@@ -46,76 +104,10 @@ export const PhotosView = memo(function PhotosView() {
       dateRange = `${minDate.toLocaleDateString()} - ${maxDate.toDateString()}`;
     }
   }
-
-  // Set up keyboard shortcuts
-  usePhotosViewKeyboard();
-
-  const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
-    return <Photo photo={item} folderPath={selectedFolder!} index={index} />;
-  };
-
-  if (loading || !hasMetadatas) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>Loading photos...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text className="text-red-500">{error}</Text>
-      </View>
-    );
-  }
-
-  if (!selectedFolder) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>Select a folder to view photos</Text>
-      </View>
-    );
-  }
-
-  if (photos.length === 0) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <Text>No photos found in this folder</Text>
-      </View>
-    );
-  }
-
   const subtitle = ax(dateRange, `${photos.length} photos`);
 
-  return (
-    <View className="flex-1 bg-[#111]">
-      <View className="flex-1">
-        <LegendList
-          data={photos}
-          renderItem={renderPhoto}
-          numColumns={numColumns}
-          estimatedItemSize={200}
-          recycleItems
-          //   drawDistance={1000}
-          keyExtractor={(item) => item.name}
-          contentContainerStyle={styles.contentContainerStyle}
-          columnWrapperStyle={styles.columnWrapperStyle}
-          style={styles.legendListStyle}
-          ListHeaderComponent={
-            <ListHeaderComponent folderDisplayName={folderDisplayName} subtitle={subtitle} />
-          }
-        />
-      </View>
-    </View>
-  );
-});
+  const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
 
-function ListHeaderComponent({
-  folderDisplayName,
-  subtitle,
-}: { folderDisplayName: string; subtitle: string[] }) {
-  const isFullScreen = use$(isWindowFullScreen$);
   return (
     <View className={`pb-3  ${isFullScreen ? 'pt-10' : 'pt-3'}`}>
       <Text className="text-3xl font-medium text-white">{folderDisplayName}</Text>
