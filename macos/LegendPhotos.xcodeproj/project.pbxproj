@@ -533,6 +533,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.legendapp.legend-photos";
 				PRODUCT_NAME = "Legend Photos";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -585,6 +586,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.legendapp.legend-photos";
 				PRODUCT_NAME = "Legend Photos";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;

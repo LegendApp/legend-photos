@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
     "mac": "react-native run-macos",
     "lint": "biome lint .",
     "format": "biome format --write .",
@@ -13,6 +11,7 @@
     "startclear": "react-native start --reset-cache",
     "test": "jest",
     "build": "cd macos && rm -fr build/Build/Products/Release/Legend\\ Photos.app && xcodebuild -workspace LegendPhotos.xcworkspace -scheme LegendPhotos-macOS -configuration Release -derivedDataPath ./build",
+    "notarize": "chmod +x scripts/notarize.sh && ./scripts/notarize.sh",
     "legend": "npx @legendapp/kit@latest"
   },
   "dependencies": {
