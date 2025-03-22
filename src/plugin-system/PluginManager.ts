@@ -1,6 +1,6 @@
 import { observable } from '@legendapp/state';
-import { onHotkeys } from '../systems/keyboard/Keyboard';
-import type { Plugin, PluginLocation, PluginRegistry } from './PluginTypes';
+import { onHotkeys } from '@/systems/keyboard/Keyboard';
+import type { Plugin, PluginLocation, PluginRegistry } from '@/plugin-system/PluginTypes';
 
 // Create an observable state for plugin registry
 export const plugins$ = observable<PluginRegistry>({});

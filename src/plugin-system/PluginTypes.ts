@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
-import type { PhotoInfo } from '../systems/FileManager';
-import type { KeyInfo, KeyboardEventCodeHotkey } from '../systems/keyboard/Keyboard';
+import type { PhotoInfo } from '@/systems/FileManager';
+import type { KeyInfo, KeyboardEventCodeHotkey } from '@/systems/keyboard/Keyboard';
 
 // Define where plugins can be rendered
 export type PluginLocation = 'root' | 'photosGrid' | 'photo' | 'photoFullscreen' | 'metadata';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, StyleSheet, View, type ViewStyle, requireNativeComponent } from 'react-native';
-import type { SFSymbols } from '../types/SFSymbols';
+import type { SFSymbols } from '@/types/SFSymbols';
 
 // Define the interface for the SFSymbol props
 interface SFSymbolProps {

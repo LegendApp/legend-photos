@@ -2,13 +2,13 @@ import type { Observable } from '@legendapp/state';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { View } from 'react-native';
-import { SFSymbol } from '../native-modules/SFSymbol';
-import type { PhotoPluginProps, Plugin } from '../plugin-system/PluginTypes';
-import { settings$ } from '../settings/SettingsFile';
-import type { PhotoInfo } from '../systems/FileManager';
-import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../systems/PhotoMetadata';
-import { state$ } from '../systems/State';
-import { KeyCodes } from '../systems/keyboard/KeyboardManager';
+import { SFSymbol } from '@/native-modules/SFSymbol';
+import type { PhotoPluginProps, Plugin } from '@/plugin-system/PluginTypes';
+import { settings$ } from '@/settings/SettingsFile';
+import type { PhotoInfo } from '@/systems/FileManager';
+import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '@/systems/PhotoMetadata';
+import { state$ } from '@/systems/State';
+import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 
 const handleFlagToggle = async (
   photo: PhotoInfo,

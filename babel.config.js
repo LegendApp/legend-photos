@@ -7,6 +7,7 @@ module.exports = {
         root: ['./src'],
         alias: {
           '@legend-kit': './src/legend-kit',
+          '@': './src',
         },
       },
     ],

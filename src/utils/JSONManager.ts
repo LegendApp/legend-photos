@@ -1,6 +1,6 @@
 import { type Observable, observable } from '@legendapp/state';
 import { synced } from '@legendapp/state/sync';
-import { observablePersistReactNativeFS } from './ReactNativeFSPersistPlugin';
+import { observablePersistReactNativeFS } from '@/utils/ReactNativeFSPersistPlugin';
 
 /**
  * Creates a manager for a JSON file with observable state

@@ -1,7 +1,7 @@
-import { settings$ } from '../settings/SettingsFile';
-import { state$ } from '../systems/State';
-import { useOnHotkeys } from '../systems/keyboard/Keyboard';
-import { KeyCodes } from '../systems/keyboard/KeyboardManager';
+import { settings$ } from '@/settings/SettingsFile';
+import { state$ } from '@/systems/State';
+import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
+import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 
 export function usePhotosViewKeyboard() {
   // Get the current state

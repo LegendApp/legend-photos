@@ -1,5 +1,5 @@
-import { settings$ } from '../settings/SettingsFile';
-import type { PhotoInfo } from '../systems/FileManager';
+import { settings$ } from '@/settings/SettingsFile';
+import type { PhotoInfo } from '@/systems/FileManager';
 
 export function getPhotoUri(photo: PhotoInfo | null | undefined) {
   if (!photo) {

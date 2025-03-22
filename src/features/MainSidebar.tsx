@@ -1,9 +1,9 @@
+import { Sidebar } from '@/components/Sidebar';
+import { settings$ } from '@/settings/SettingsFile';
+import { getFolderName } from '@/systems/FileManager';
+import { folders$ } from '@/systems/LibraryManager';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { Sidebar } from '../components/Sidebar';
-import { settings$ } from '../settings/SettingsFile';
-import { getFolderName } from '../systems/FileManager';
-import { folders$ } from '../systems/LibraryManager';
 
 // Helper function to find the parent library path for a folder
 function findParentLibraryPath(folder: string, libraryPaths: string[]): string | undefined {

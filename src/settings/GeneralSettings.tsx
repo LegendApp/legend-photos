@@ -1,8 +1,8 @@
 import { observer, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Switch, Text, TextInput, View } from 'react-native';
-import { AutoUpdaterModule } from '../native-modules/AutoUpdater';
-import { settings$ } from './SettingsFile';
+import { AutoUpdaterModule } from '@/native-modules/AutoUpdater';
+import { settings$ } from '@/settings/SettingsFile';
 
 export const GeneralSettings = observer(function GeneralSettings() {
   const { enabled: autoUpdateEnabled$, checkInterval: autoUpdateInterval$ } =

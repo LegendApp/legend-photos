@@ -10,7 +10,7 @@ import { type Observable, observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import { memo } from 'react';
 import { useWindowDimensions as useWindowDimensionsRN } from 'react-native';
-import { HookToObservable } from '../react/HookToObservable';
+import { HookToObservable } from '@/legend-kit/react/HookToObservable';
 
 // Observable to store window dimensions
 export const windowDimensions$ = observable({

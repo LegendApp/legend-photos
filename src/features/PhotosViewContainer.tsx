@@ -1,13 +1,13 @@
 import { Motion } from '@legendapp/motion';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { PluginRenderer } from '../plugin-system/registerDefaultPlugins';
-import { settings$ } from '../settings/SettingsFile';
-import { state$ } from '../systems/State';
-import { useOnHotkeys } from '../systems/keyboard/Keyboard';
-import { KeyCodes } from '../systems/keyboard/KeyboardManager';
-import { EmptyLibrary } from './EmptyLibrary';
-import { PhotosView } from './PhotosView';
+import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
+import { settings$ } from '@/settings/SettingsFile';
+import { state$ } from '@/systems/State';
+import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
+import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import { EmptyLibrary } from '@/features/EmptyLibrary';
+import { PhotosView } from '@/features/PhotosView';
 
 const SpringOpen = {
   type: 'spring',

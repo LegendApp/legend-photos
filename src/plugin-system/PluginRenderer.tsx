@@ -1,8 +1,8 @@
 import { useSelector } from '@legendapp/state/react';
 import React, { createElement } from 'react';
 import { View, type ViewStyle } from 'react-native';
-import { plugins$ } from './PluginManager';
-import type { Plugin, PluginLocation } from './PluginTypes';
+import { plugins$ } from '@/plugin-system/PluginManager';
+import type { Plugin, PluginLocation } from '@/plugin-system/PluginTypes';
 
 interface PluginRendererProps {
   location: PluginLocation;

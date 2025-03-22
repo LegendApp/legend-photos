@@ -1,9 +1,9 @@
+import type { Plugin } from '@/plugin-system/PluginTypes';
 import React from 'react';
 import { Alert, Text, View } from 'react-native';
-import type { Plugin } from '../plugin-system/PluginTypes';
-import { settings$ } from '../settings/SettingsFile';
-import { state$ } from '../systems/State';
-import { KeyCodes } from '../systems/keyboard/KeyboardManager';
+import { settings$ } from '@/settings/SettingsFile';
+import { state$ } from '@/systems/State';
+import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 
 // Delete component
 function DeleteComponent() {

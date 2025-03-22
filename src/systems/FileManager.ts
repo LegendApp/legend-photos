@@ -1,5 +1,5 @@
 import { type ReadDirResItemT, readDir, stat } from '@dr.pogodin/react-native-fs';
-import { settings$ } from '../settings/SettingsFile';
+import { settings$ } from '@/settings/SettingsFile';
 
 // Supported photo file extensions
 const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];

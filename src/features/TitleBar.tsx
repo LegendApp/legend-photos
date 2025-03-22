@@ -3,8 +3,8 @@ import { AnimatePresence, Motion } from '@legendapp/motion';
 import { observe } from '@legendapp/state';
 import { Show } from '@legendapp/state/react';
 import React, { NativeModules, Pressable, StyleSheet } from 'react-native';
-import { settings$ } from '../settings/SettingsFile';
-import { state$ } from '../systems/State';
+import { settings$ } from '@/settings/SettingsFile';
+import { state$ } from '@/systems/State';
 const WindowControls = NativeModules.WindowControls;
 
 export function TitleBar() {

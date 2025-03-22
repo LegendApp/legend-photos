@@ -1,6 +1,6 @@
 import type React from 'react';
 import { NativeModules } from 'react-native';
-import { Button, type ButtonProps } from './Button';
+import { Button, type ButtonProps } from '@/native-modules/Button';
 
 // Define type for the FilePicker native module
 interface FilePickerInterface {

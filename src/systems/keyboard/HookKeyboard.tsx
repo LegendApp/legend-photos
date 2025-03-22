@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
-import { useHookKeyboard } from './Keyboard';
+import { useHookKeyboard } from '@/systems/keyboard/Keyboard';
 
 export function HookKeyboard() {
   useHookKeyboard();

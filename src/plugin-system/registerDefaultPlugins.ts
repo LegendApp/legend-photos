@@ -1,11 +1,11 @@
-import { PluginFlagReject } from '../plugins/PluginFlagReject';
-import { PluginFullscreenPhotoInfo } from '../plugins/PluginFullscreenPhotoInfo';
-import { PluginRating } from '../plugins/PluginRating';
-import { registerPlugin } from './PluginManager';
+import { PluginFlagReject } from '@/plugins/PluginFlagReject';
+import { PluginFullscreenPhotoInfo } from '@/plugins/PluginFullscreenPhotoInfo';
+import { PluginRating } from '@/plugins/PluginRating';
+import { registerPlugin } from '@/plugin-system/PluginManager';
 
-export * from './PluginManager';
-export * from './PluginRenderer';
-export * from './PluginTypes';
+export * from '@/plugin-system/PluginManager';
+export * from '@/plugin-system/PluginRenderer';
+export * from '@/plugin-system/PluginTypes';
 
 // List of default plugins
 const defaultPlugins = [PluginRating, PluginFlagReject, PluginFullscreenPhotoInfo /*DeletePlugin*/];

@@ -1,6 +1,6 @@
 import { observable } from '@legendapp/state';
 import type { View } from 'react-native';
-import type { PhotoInfo } from './FileManager';
+import type { PhotoInfo } from '@/systems/FileManager';
 
 export const fullscreenView = {
   current: null as View | null,
