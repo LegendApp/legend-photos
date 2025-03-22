@@ -11,14 +11,10 @@ import {
 } from 'react-native';
 import type { PhotoInfo } from './FileManager';
 import { photoMetadatas$ } from './PhotoMetadata';
-import {
-  NativeImage,
-  type NativeImageLoadEvent,
-  type NativeImageProps,
-} from './native-modules/NativeImage';
+import { NativeImage, type NativeImageProps } from './native-modules/NativeImage';
 import { getPhotoPath } from './utils/photoHelpers';
 
-interface ImgProps extends Exclude<NativeImageProps, 'imagePath' | 'style'> {
+interface ImgProps extends Omit<NativeImageProps, 'imagePath' | 'style'> {
   style?: ImageStyle;
   native: boolean;
   photo: PhotoInfo;
@@ -38,7 +34,7 @@ export const Img = memo(function Img({
   refImagePath.current = imagePath;
 
   const onLoad = useCallback(
-    (e: NativeSyntheticEvent<NativeImageLoadEvent>) => {
+    (e: NativeSyntheticEvent<{ source: { width: number; height: number } }>) => {
       if (!metadata$.aspect.get()) {
         const ratio = +(e.nativeEvent.source.width / e.nativeEvent.source.height).toFixed(2);
         metadata$.aspect.set(ratio);
@@ -67,7 +63,7 @@ export const Img = memo(function Img({
 
   const image = native ? (
     <NativeImage
-      imagePath={imagePath}
+      imagePath={imagePath!}
       style={styleImage}
       borderRadius={4}
       onLoad={onLoad}
