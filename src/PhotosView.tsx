@@ -5,7 +5,7 @@ import { remapProps } from 'nativewind';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { type PhotoInfo, getFolderName } from './FileManager';
-import { isWindowFullScreen$ } from './HookWindowDimensions';
+import { isWindowFullScreen$ } from './HookWindowFullscreen';
 import { Photo } from './Photo';
 import { photoMetadatas$ } from './PhotoMetadata';
 import { state$ } from './State';

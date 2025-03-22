@@ -3,9 +3,9 @@ import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import '../global.css';
+import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
 import { FullscreenPhoto } from './FullscreenPhoto';
 import { HookKeyboard } from './HookKeyboard';
-import { HookWindowDimensions } from './HookWindowDimensions';
 import { HotkeyHelp } from './HotkeyHelp';
 import { MainSidebar } from './MainSidebar';
 import { PhotosViewContainer } from './PhotosViewContainer';
@@ -30,7 +30,7 @@ function App(): React.JSX.Element {
         <PluginRenderer location="root" className="absolute bottom-4 right-4" />
       </View>
       <FullscreenPhoto />
-      <HookWindowDimensions />
+      <HookWindowDimensions windowDimensions$={windowDimensions$} />
       <HookKeyboard />
       <TitleBar />
       <SettingsWindow />
