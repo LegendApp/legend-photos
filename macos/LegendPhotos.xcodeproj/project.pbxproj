@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,8 +17,6 @@
 		691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB352D881B49001CE76E /* SegmentedControlBridge.m */; };
 		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
 		693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E292D85B9F800C3751E /* WindowControls.swift */; };
-		693B545D2D86D8E000E4580A /* WindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B545C2D86D8E000E4580A /* WindowManager.m */; };
-		695539082D8E949B006C46ED /* AutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 695539072D8E949B006C46ED /* AutoUpdater.m */; };
 		696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 696C10852D894A97007D2C65 /* FilePickerBridge.m */; };
 		696C10882D894A97007D2C65 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696C10842D894A97007D2C65 /* FilePicker.swift */; };
 		697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3202D8D804300833BFA /* FileSystemWatcher.swift */; };
@@ -51,10 +49,6 @@
 		691ECB352D881B49001CE76E /* SegmentedControlBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlBridge.m; sourceTree = "<group>"; };
 		693B2E292D85B9F800C3751E /* WindowControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControls.swift; sourceTree = "<group>"; };
 		693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowControlsBridge.m; sourceTree = "<group>"; };
-		693B545B2D86D8E000E4580A /* WindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowManager.h; sourceTree = "<group>"; };
-		693B545C2D86D8E000E4580A /* WindowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowManager.m; sourceTree = "<group>"; };
-		695539062D8E949B006C46ED /* AutoUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoUpdater.h; sourceTree = "<group>"; };
-		695539072D8E949B006C46ED /* AutoUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoUpdater.m; sourceTree = "<group>"; };
 		696C10842D894A97007D2C65 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		696C10852D894A97007D2C65 /* FilePickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePickerBridge.m; sourceTree = "<group>"; };
 		697CF3202D8D804300833BFA /* FileSystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
@@ -71,6 +65,11 @@
 		6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		696630482D8EDBE8005AC08A /* AutoUpdater */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AutoUpdater; sourceTree = "<group>"; };
+		696630492D8EDBF2005AC08A /* WindowManager */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = WindowManager; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
@@ -103,25 +102,23 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
-				695539062D8E949B006C46ED /* AutoUpdater.h */,
-				695539072D8E949B006C46ED /* AutoUpdater.m */,
-				697CF3222D8D804300833BFA /* FileSystemWatcher */,
-				69C50A7F2D8BA76F0029BC4C /* NativeImage */,
-				696C10862D894A97007D2C65 /* FilePicker */,
-				69B089862D88646500529066 /* SFSymbol */,
-				69A6CFA82D884B9C00B29080 /* NativeButton */,
-				691ECB362D881B49001CE76E /* SegmentedControl */,
-				693B545B2D86D8E000E4580A /* WindowManager.h */,
-				693B545C2D86D8E000E4580A /* WindowManager.m */,
-				693B2E2B2D85B9F800C3751E /* WindowControls */,
-				699BFD832D8592E2000F2A33 /* KeyboardManager */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
-				514201532437B4B40078DB4F /* Main.storyboard */,
+				696630482D8EDBE8005AC08A /* AutoUpdater */,
+				696C10862D894A97007D2C65 /* FilePicker */,
+				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				514201562437B4B40078DB4F /* Info.plist */,
-				514201572437B4B40078DB4F /* main.m */,
+				699BFD832D8592E2000F2A33 /* KeyboardManager */,
 				514201592437B4B40078DB4F /* LegendPhotos.entitlements */,
+				514201572437B4B40078DB4F /* main.m */,
+				514201532437B4B40078DB4F /* Main.storyboard */,
+				69A6CFA82D884B9C00B29080 /* NativeButton */,
+				69C50A7F2D8BA76F0029BC4C /* NativeImage */,
+				691ECB362D881B49001CE76E /* SegmentedControl */,
+				69B089862D88646500529066 /* SFSymbol */,
+				693B2E2B2D85B9F800C3751E /* WindowControls */,
+				696630492D8EDBF2005AC08A /* WindowManager */,
 			);
 			path = "LegendPhotos-macOS";
 			sourceTree = "<group>";
@@ -275,6 +272,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				696630482D8EDBE8005AC08A /* AutoUpdater */,
+				696630492D8EDBF2005AC08A /* WindowManager */,
 			);
 			name = "LegendPhotos-macOS";
 			productName = "Legend Photos";
@@ -465,14 +466,12 @@
 				69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */,
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
-				695539082D8E949B006C46ED /* AutoUpdater.m in Sources */,
 				69B089872D88646500529066 /* SFSymbol.swift in Sources */,
 				69B089882D88646500529066 /* SFSymbolBridge.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
 				691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */,
 				69C50A802D8BA76F0029BC4C /* NativeImage.m in Sources */,
 				691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */,
-				693B545D2D86D8E000E4580A /* WindowManager.m in Sources */,
 				693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */,
 				693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */,
 			);
@@ -500,7 +499,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "LegendPhotos-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -521,7 +523,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "LegendPhotos-iOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -543,7 +548,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -566,7 +574,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -628,7 +639,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -685,7 +699,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/lib/swift",
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
