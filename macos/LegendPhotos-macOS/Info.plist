@@ -43,5 +43,9 @@
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>https://your-appcast-url.com/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>YOUR_ED25519_PUBLIC_KEY</string>
 </dict>
 </plist>

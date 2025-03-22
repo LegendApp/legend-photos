@@ -18,6 +18,9 @@ target 'LegendPhotos-macOS' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Add Sparkle dependency for auto updates
+  pod 'Sparkle', '~> 2.5.2'
+
   post_install do |installer|
     react_native_post_install(installer)
   end

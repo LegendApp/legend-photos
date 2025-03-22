@@ -18,6 +18,7 @@
 		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
 		693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E292D85B9F800C3751E /* WindowControls.swift */; };
 		693B545D2D86D8E000E4580A /* WindowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B545C2D86D8E000E4580A /* WindowManager.m */; };
+		695539082D8E949B006C46ED /* AutoUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 695539072D8E949B006C46ED /* AutoUpdater.m */; };
 		696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 696C10852D894A97007D2C65 /* FilePickerBridge.m */; };
 		696C10882D894A97007D2C65 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696C10842D894A97007D2C65 /* FilePicker.swift */; };
 		697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3202D8D804300833BFA /* FileSystemWatcher.swift */; };
@@ -52,6 +53,8 @@
 		693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowControlsBridge.m; sourceTree = "<group>"; };
 		693B545B2D86D8E000E4580A /* WindowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowManager.h; sourceTree = "<group>"; };
 		693B545C2D86D8E000E4580A /* WindowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowManager.m; sourceTree = "<group>"; };
+		695539062D8E949B006C46ED /* AutoUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoUpdater.h; sourceTree = "<group>"; };
+		695539072D8E949B006C46ED /* AutoUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoUpdater.m; sourceTree = "<group>"; };
 		696C10842D894A97007D2C65 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		696C10852D894A97007D2C65 /* FilePickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePickerBridge.m; sourceTree = "<group>"; };
 		697CF3202D8D804300833BFA /* FileSystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				695539062D8E949B006C46ED /* AutoUpdater.h */,
+				695539072D8E949B006C46ED /* AutoUpdater.m */,
 				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				69C50A7F2D8BA76F0029BC4C /* NativeImage */,
 				696C10862D894A97007D2C65 /* FilePicker */,
@@ -405,10 +410,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-frameworks.sh",
+				"${PODS_ROOT}/Sparkle/Sparkle.framework",
 				"${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/macosx/hermes.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +465,7 @@
 				69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */,
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
+				695539082D8E949B006C46ED /* AutoUpdater.m in Sources */,
 				69B089872D88646500529066 /* SFSymbol.swift in Sources */,
 				69B089882D88646500529066 /* SFSymbolBridge.m in Sources */,
 				5142014D2437B4B30078DB4F /* AppDelegate.mm in Sources */,
@@ -628,10 +636,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -687,10 +692,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

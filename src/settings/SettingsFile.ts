@@ -8,6 +8,10 @@ export interface AppSettings {
     theme: 'light' | 'dark' | 'system';
     language: string;
     autoSave: boolean;
+    autoUpdate: {
+      enabled: boolean;
+      checkInterval: number; // in hours
+    };
   };
 
   // Hotkey settings
@@ -53,6 +57,10 @@ const DEFAULT_SETTINGS: AppSettings = {
     theme: 'system',
     language: 'en',
     autoSave: true,
+    autoUpdate: {
+      enabled: true,
+      checkInterval: 24, // Check for updates once a day by default
+    },
   },
   hotkeys: {
     rate1: '1',

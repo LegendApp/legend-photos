@@ -1,5 +1,5 @@
 import { syncState } from '@legendapp/state';
-import { useMount, useSelector } from '@legendapp/state/react';
+import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import '../global.css';
@@ -10,19 +10,17 @@ import { HotkeyHelp } from './HotkeyHelp';
 import { MainSidebar } from './MainSidebar';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import { TitleBar } from './TitleBar';
+import { initializeUpdater } from './Updater';
 import { PluginRenderer } from './plugins';
 import { initializePluginSystem } from './plugins/initPlugins';
 import { settings$ } from './settings/SettingsFile';
 import { SettingsWindow } from './settings/SettingsWindow';
 
+initializePluginSystem();
+initializeUpdater();
+
 function App(): React.JSX.Element {
   const settingsLoaded = useSelector(() => !!syncState(settings$).isPersistLoaded.get());
-
-  // Initialize metadata system and plugins on app start
-  useMount(() => {
-    // Initialize plugin system
-    initializePluginSystem();
-  });
 
   return (
     <SafeAreaView className="flex-1">
