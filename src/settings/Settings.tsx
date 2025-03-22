@@ -1,6 +1,6 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Sidebar } from '../Sidebar';
 import { GeneralSettings } from './GeneralSettings';
 import { HotkeySettings } from './HotkeySettings';
@@ -10,7 +10,7 @@ import { ThemeSettings } from './ThemeSettings';
 
 // Define the categories for settings
 const SETTING_CATEGORIES = [
-  { id: 'general', label: 'General' },
+  //   { id: 'general', label: 'General' },
   //   { id: 'hotkeys', label: 'Hotkeys' },
   //   { id: 'themes', label: 'Themes' },
   //   { id: 'plugins', label: 'Plugins' },
@@ -19,7 +19,7 @@ const SETTING_CATEGORIES = [
 ];
 
 export const Settings = () => {
-  const [selectedCategory, setSelectedCategory] = useState('general');
+  const [selectedCategory, setSelectedCategory] = useState('library');
 
   const renderContent = () => {
     switch (selectedCategory) {
@@ -39,7 +39,7 @@ export const Settings = () => {
   };
 
   return (
-    <VibrancyView blendingMode="behindWindow" material="sidebar" style={{ flex: 1 }}>
+    <VibrancyView blendingMode="behindWindow" material="sidebar" style={styles.vibrancy}>
       <View className="flex flex-1 flex-row">
         <Sidebar
           items={SETTING_CATEGORIES}
@@ -53,3 +53,9 @@ export const Settings = () => {
     </VibrancyView>
   );
 };
+
+const styles = StyleSheet.create({
+  vibrancy: {
+    flex: 1,
+  },
+});
