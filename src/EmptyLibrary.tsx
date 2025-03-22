@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { addLibraryPath } from './LibraryManager';
-import { FilePicker } from './components/FilePicker';
-import { SFSymbol } from './components/SFSymbol';
+import { FilePicker } from './native-modules/FilePicker';
+import { SFSymbol } from './native-modules/SFSymbol';
 
 export function EmptyLibrary() {
   const handleFolderSelected = async (path: string) => {
@@ -26,8 +26,8 @@ export function EmptyLibrary() {
 
         <FilePicker
           title="Add Folder"
-          variant="primary"
-          size="large"
+          bezelStyle="rounded"
+          controlSize="large"
           pickFolder={true}
           onFileSelected={handleFolderSelected}
         />

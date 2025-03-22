@@ -19,7 +19,7 @@ export interface SegmentedControlProps<T extends string> {
   size?: NativeSegmentedControlProps['size'];
 }
 
-export function NativeSegmentedControl<T extends string>({
+export function SegmentedControl<T extends string>({
   options,
   selectedValue,
   onValueChange,

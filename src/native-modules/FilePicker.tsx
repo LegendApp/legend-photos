@@ -1,6 +1,6 @@
 import type React from 'react';
 import { NativeModules } from 'react-native';
-import { Button } from './Button';
+import { Button, type ButtonProps } from './Button';
 
 // Define type for the FilePicker native module
 interface FilePickerInterface {
@@ -14,16 +14,14 @@ interface FilePickerInterface {
 // Get the native module
 const NativeFilePicker = NativeModules.FilePicker as FilePickerInterface;
 
-type FilePickerProps = {
+interface FilePickerProps extends Pick<ButtonProps, 'bezelStyle' | 'controlSize'> {
   onFileSelected?: (path: string) => void;
   onCancel?: () => void;
   fileTypes?: string[];
   prompt?: string;
   title: string;
-  variant?: 'primary' | 'secondary' | 'danger';
-  size?: 'small' | 'medium' | 'large';
   pickFolder?: boolean;
-};
+}
 
 export const FilePicker: React.FC<FilePickerProps> = ({
   onFileSelected,
@@ -31,8 +29,6 @@ export const FilePicker: React.FC<FilePickerProps> = ({
   fileTypes = [],
   prompt = 'Select',
   title,
-  variant = 'primary',
-  size = 'medium',
   pickFolder = false,
 }) => {
   const handlePress = async () => {
@@ -58,5 +54,5 @@ export const FilePicker: React.FC<FilePickerProps> = ({
     }
   };
 
-  return <Button title={title} onPress={handlePress} variant={variant} size={size} />;
+  return <Button title={title} onPress={handlePress} />;
 };

@@ -10,8 +10,12 @@ import {
   type ViewStyle,
 } from 'react-native';
 import type { PhotoInfo } from './FileManager';
-import { NativeImage, type NativeImageLoadEvent, type NativeImageProps } from './NativeImage';
 import { photoMetadatas$ } from './PhotoMetadata';
+import {
+  NativeImage,
+  type NativeImageLoadEvent,
+  type NativeImageProps,
+} from './native-modules/NativeImage';
 import { getPhotoPath } from './utils/photoHelpers';
 
 interface ImgProps extends Exclude<NativeImageProps, 'imagePath' | 'style'> {

@@ -13,8 +13,7 @@ interface SFSymbolProps {
 }
 
 // Create the native component
-const RNSFSymbol =
-  Platform.OS === 'macos' ? requireNativeComponent<SFSymbolProps>('RNSFSymbol') : null;
+const RNSFSymbol = requireNativeComponent<SFSymbolProps>('RNSFSymbol');
 
 // SFSymbol component
 export function SFSymbol({ name, color, scale = 'medium', size, style, ...props }: SFSymbolProps) {

@@ -5,7 +5,7 @@ import {
   scanFolderRecursive,
 } from './FileManager';
 import { state$ } from './State';
-import { FileSystemWatcherModule } from './native/FileSystemWatcher';
+import * as FileSystemWatcher from './native-modules/FileSystemWatcher';
 import { settings$ } from './settings/SettingsFile';
 import { timeoutOnce } from './utils/timeoutOnce';
 
@@ -46,8 +46,8 @@ export const folders$ = observable(async () => {
 export function initializeFileSystemWatcher() {
   const paths = settings$.library.paths.get();
   if (paths.length > 0) {
-    FileSystemWatcherModule.setWatchedDirectories(paths);
-    FileSystemWatcherModule.addChangeListener(() => {
+    FileSystemWatcher.setWatchedDirectories(paths);
+    FileSystemWatcher.addChangeListener(() => {
       timeoutOnce(
         'updateFolders',
         () => {
@@ -66,7 +66,7 @@ when(
     initializeFileSystemWatcher();
     settings$.library.paths.onChange(({ value }) => {
       // Update the watched directories
-      FileSystemWatcherModule.setWatchedDirectories(value);
+      FileSystemWatcher.setWatchedDirectories(value);
     });
   }
 );

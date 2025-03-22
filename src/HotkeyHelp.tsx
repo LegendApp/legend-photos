@@ -6,7 +6,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { type HotkeyInfo, type KeyInfo, hotkeyRegistry$, useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
-import { SFSymbol } from './components/SFSymbol';
+import { SFSymbol } from './native-modules/SFSymbol';
 
 const sorter = (a: KeyInfo, b: KeyInfo) => {
   return a.name.localeCompare(b.name);

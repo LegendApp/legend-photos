@@ -6,7 +6,7 @@ import type { PhotoInfo } from '../FileManager';
 import { KeyCodes } from '../KeyboardManager';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
-import { SFSymbol } from '../components/SFSymbol';
+import { SFSymbol } from '../native-modules/SFSymbol';
 import type { PhotoPluginProps, Plugin } from '../plugin-system/PluginTypes';
 import { settings$ } from '../settings/SettingsFile';
 
@@ -78,7 +78,7 @@ const toggleRejectCurrentPhoto = () => {
 };
 
 // Define the Flag/Reject plugin
-export const FlagRejectPlugin: Plugin = {
+export const PluginFlagReject: Plugin = {
   id: 'flag-reject-plugin',
   name: 'Flag & Reject',
   description: 'Flag photos with Space, reject with X',
