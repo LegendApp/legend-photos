@@ -54,7 +54,7 @@ function PhotoInfo({ style }: PhotoInfoProps) {
 }
 
 // Export plugin configuration
-export const photoInfoPlugin: Plugin = {
+export const PluginFullscreenPhotoInfo: Plugin = {
   id: 'photo-info',
   name: 'Photo Info',
   description: 'Displays the name and created date of the currently selected photo',

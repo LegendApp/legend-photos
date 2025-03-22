@@ -61,7 +61,7 @@ const rateCurrentPhoto = (ratingProp: number) => {
 };
 
 // Define the Rating plugin
-export const RatingPlugin: Plugin = {
+export const PluginRating: Plugin = {
   id: 'rating-plugin',
   name: 'Photo Rating',
   description: 'Rate photos using hotkeys 1-5',

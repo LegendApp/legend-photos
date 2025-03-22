@@ -1,6 +1,6 @@
-import { FlagRejectPlugin } from '../plugins/FlagRejectPlugin';
-import { photoInfoPlugin } from '../plugins/PhotoInfoPlugin';
-import { RatingPlugin } from '../plugins/RatingPlugin';
+import { PluginFlagReject } from '../plugins/PluginFlagReject';
+import { PluginFullscreenPhotoInfo } from '../plugins/PluginFullscreenPhotoInfo';
+import { PluginRating } from '../plugins/PluginRating';
 import { registerPlugin } from './PluginManager';
 
 export * from './PluginManager';
@@ -8,7 +8,7 @@ export * from './PluginRenderer';
 export * from './PluginTypes';
 
 // List of default plugins
-const defaultPlugins = [RatingPlugin, FlagRejectPlugin, photoInfoPlugin /*DeletePlugin*/];
+const defaultPlugins = [PluginRating, PluginFlagReject, PluginFullscreenPhotoInfo /*DeletePlugin*/];
 
 // Register all default plugins
 export function registerDefaultPlugins(): void {
