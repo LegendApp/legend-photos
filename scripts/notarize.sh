@@ -10,6 +10,7 @@ if [ -f "$PROJECT_ROOT/.env" ]; then
   source "$PROJECT_ROOT/.env"
 else
   echo "Warning: .env file not found at $PROJECT_ROOT/.env."
+  exit 1
 fi
 
 # Configuration - Use values from .env file or fallback to defaults
