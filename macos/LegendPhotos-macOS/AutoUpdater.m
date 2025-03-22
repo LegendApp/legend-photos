@@ -10,7 +10,7 @@ RCT_EXPORT_MODULE();
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _updateController = [[SPUStandardUpdaterController alloc] initWithStartingUpdater:YES updaterDelegate:nil userDriverDelegate:nil];
+    _updateController = [[SPUStandardUpdaterController alloc] initWithStartingUpdater:NO updaterDelegate:nil userDriverDelegate:nil];
   }
   return self;
 }

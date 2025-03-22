@@ -33,8 +33,6 @@ export const PhotosView = observer(function PhotosView() {
   // Set up keyboard shortcuts
   usePhotosViewKeyboard();
 
-  console.log('photos', photos.length);
-
   if (loading || !hasMetadatas || openingFolder) {
     return (
       <View className="flex-1 justify-center items-center bg-[#111]">
