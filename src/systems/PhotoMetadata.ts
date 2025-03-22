@@ -1,6 +1,6 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
+import { createJSONManager } from '../utils/JSONManager';
 import type { PhotoInfo } from './FileManager';
-import { createJSONManager } from './utils/JSONManager';
 
 // Define the metadata structure for a single photo
 export interface PhotoMetadataItem {

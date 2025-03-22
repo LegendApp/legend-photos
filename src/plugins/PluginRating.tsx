@@ -1,11 +1,11 @@
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { KeyCodes } from '../KeyboardManager';
-import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
-import { state$ } from '../State';
 import type { PhotoPluginProps, Plugin } from '../plugin-system/PluginTypes';
 import { settings$ } from '../settings/SettingsFile';
+import { getMetadata, photoMetadatas$, updateMetadata } from '../systems/PhotoMetadata';
+import { state$ } from '../systems/State';
+import { KeyCodes } from '../systems/keyboard/KeyboardManager';
 
 // Rating component that will be rendered
 function RatingComponent({ photo, style }: PhotoPluginProps) {

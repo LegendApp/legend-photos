@@ -4,9 +4,14 @@ import { AnimatePresence, Motion } from '@legendapp/motion';
 import { useObservable, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
-import { type HotkeyInfo, type KeyInfo, hotkeyRegistry$, useOnHotkeys } from './Keyboard';
-import { KeyCodes } from './KeyboardManager';
-import { SFSymbol } from './native-modules/SFSymbol';
+import { SFSymbol } from '../native-modules/SFSymbol';
+import {
+  type HotkeyInfo,
+  type KeyInfo,
+  hotkeyRegistry$,
+  useOnHotkeys,
+} from '../systems/keyboard/Keyboard';
+import { KeyCodes } from '../systems/keyboard/KeyboardManager';
 
 const sorter = (a: KeyInfo, b: KeyInfo) => {
   return a.name.localeCompare(b.name);

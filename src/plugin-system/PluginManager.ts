@@ -1,5 +1,5 @@
 import { observable } from '@legendapp/state';
-import { onHotkeys } from '../Keyboard';
+import { onHotkeys } from '../systems/keyboard/Keyboard';
 import type { Plugin, PluginLocation, PluginRegistry } from './PluginTypes';
 
 // Create an observable state for plugin registry

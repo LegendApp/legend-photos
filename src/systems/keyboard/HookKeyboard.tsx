@@ -7,13 +7,7 @@ export function HookKeyboard() {
 
   return (
     <TextInput
-      style={{
-        position: 'absolute',
-        left: -1000,
-        height: 0,
-        width: 0,
-        opacity: 0,
-      }}
+      className="absolute left-[-1000px] h-0 w-0 opacity-0"
       onBlur={(e) => {
         e.preventDefault();
         // Refocus the input to ensure keyboard events are captured

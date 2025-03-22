@@ -1,20 +1,8 @@
-import { useOnHotkeys } from '../Keyboard';
-import { KeyCodes } from '../KeyboardManager';
-import { state$ } from '../State';
 import { settings$ } from '../settings/SettingsFile';
+import { state$ } from '../systems/State';
+import { useOnHotkeys } from '../systems/keyboard/Keyboard';
+import { KeyCodes } from '../systems/keyboard/KeyboardManager';
 
-/**
- * PhotosKeyboardManager handles keyboard shortcuts for the photos view
- *
- * Keyboard shortcuts:
- * - Left Arrow: Previous photo
- * - Right Arrow: Next photo
- * - Delete/Backspace: Delete current photo
- * - F: Toggle fullscreen
- * - Escape: Exit fullscreen
- * - Minus: Decrease columns
- * - Plus: Increase columns
- */
 export function usePhotosViewKeyboard() {
   // Get the current state
   const photos$ = state$.photos;

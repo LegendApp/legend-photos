@@ -2,13 +2,13 @@ import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
 import { Animated, Dimensions, Pressable } from 'react-native';
-import type { PhotoInfo } from './FileManager';
-import { useOnHotkeys } from './Keyboard';
-import { KeyCodes } from './KeyboardManager';
-import { fullscreenView, state$ } from './State';
-import { Img } from './components/Img';
-import { useOnDoubleClick } from './hooks/useOnDoubleClick';
-import { PluginRenderer } from './plugin-system/registerDefaultPlugins';
+import { Img } from '../components/Img';
+import { useOnDoubleClick } from '../hooks/useOnDoubleClick';
+import { PluginRenderer } from '../plugin-system/registerDefaultPlugins';
+import type { PhotoInfo } from '../systems/FileManager';
+import { fullscreenView, state$ } from '../systems/State';
+import { useOnHotkeys } from '../systems/keyboard/Keyboard';
+import { KeyCodes } from '../systems/keyboard/KeyboardManager';
 
 const SpringOpen = {
   bounciness: 3,

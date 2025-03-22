@@ -4,14 +4,14 @@ import { observer, use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { type PhotoInfo, getFolderName } from './FileManager';
-import { isWindowFullScreen$ } from './HookWindowFullscreen';
+import { isWindowFullScreen$ } from '../hooks/HookWindowFullscreen';
+import { usePhotosViewKeyboard } from '../hooks/usePhotosViewKeyboard';
+import { settings$ } from '../settings/SettingsFile';
+import { type PhotoInfo, getFolderName } from '../systems/FileManager';
+import { photoMetadatas$ } from '../systems/PhotoMetadata';
+import { state$ } from '../systems/State';
+import { ax } from '../utils/ax';
 import { Photo } from './Photo';
-import { photoMetadatas$ } from './PhotoMetadata';
-import { state$ } from './State';
-import { usePhotosViewKeyboard } from './hooks/usePhotosViewKeyboard';
-import { settings$ } from './settings/SettingsFile';
-import { ax } from './utils/ax';
 
 remapProps(LegendList, {
   className: 'style',

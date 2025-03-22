@@ -1,13 +1,13 @@
 import { batch, event, observable, observe, when } from '@legendapp/state';
+import * as FileSystemWatcher from '../native-modules/FileSystemWatcher';
+import { settings$ } from '../settings/SettingsFile';
+import { timeoutOnce } from '../utils/timeoutOnce';
 import {
   listFoldersWithPhotosRecursive,
   listPhotosInFolder,
   scanFolderRecursive,
 } from './FileManager';
 import { state$ } from './State';
-import * as FileSystemWatcher from './native-modules/FileSystemWatcher';
-import { settings$ } from './settings/SettingsFile';
-import { timeoutOnce } from './utils/timeoutOnce';
 
 export async function addLibraryPath(path: string) {
   const childFolders = await scanFolderRecursive(path);

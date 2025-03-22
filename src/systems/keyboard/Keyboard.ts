@@ -1,8 +1,8 @@
 import { event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
+import { ax } from '../../utils/ax';
+import { state$ } from '../State';
 import KeyboardManager, { type KeyboardEvent } from './KeyboardManager';
-import { state$ } from './State';
-import { ax } from './utils/ax';
 
 type KeyboardEventCode = number;
 type KeyboardEventCodeModifier = string;

@@ -1,9 +1,9 @@
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { addLibraryPath } from '../LibraryManager';
 import { Button } from '../native-modules/Button';
 import { FilePicker } from '../native-modules/FilePicker';
+import { addLibraryPath } from '../systems/LibraryManager';
 import { settings$ } from './SettingsFile';
 
 export const LibrarySettings = () => {

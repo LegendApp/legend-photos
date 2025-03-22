@@ -1,8 +1,8 @@
 import { useMountOnce } from '@legendapp/state/react';
-import { useOnHotkeys } from '../Keyboard';
-import { KeyCodes } from '../KeyboardManager';
-import { state$ } from '../State';
 import { type WindowOptions, useWindowManager } from '../native-modules/WindowManager';
+import { state$ } from '../systems/State';
+import { useOnHotkeys } from '../systems/keyboard/Keyboard';
+import { KeyCodes } from '../systems/keyboard/KeyboardManager';
 
 export const SettingsWindow = () => {
   const windowManager = useWindowManager();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { addLibraryPath } from './LibraryManager';
-import { FilePicker } from './native-modules/FilePicker';
-import { SFSymbol } from './native-modules/SFSymbol';
+import { FilePicker } from '../native-modules/FilePicker';
+import { SFSymbol } from '../native-modules/SFSymbol';
+import { addLibraryPath } from '../systems/LibraryManager';
 
 export function EmptyLibrary() {
   const handleFolderSelected = async (path: string) => {

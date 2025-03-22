@@ -2,8 +2,8 @@ import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
-import { state$ } from '../State';
 import type { Plugin } from '../plugin-system/PluginTypes';
+import { state$ } from '../systems/State';
 
 interface PhotoInfoProps {
   style: ViewStyle;
