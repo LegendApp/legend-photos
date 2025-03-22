@@ -1,10 +1,10 @@
 import { LegendList } from '@legendapp/list';
 import { syncState } from '@legendapp/state';
-import { use$, useObserveEffect, useSelector } from '@legendapp/state/react';
+import { use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { memo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { type PhotoInfo, getFolderName, listPhotosInFolder } from './FileManager';
+import { type PhotoInfo, getFolderName } from './FileManager';
 import { isWindowFullScreen$ } from './HookWindowDimensions';
 import { Photo } from './Photo';
 import { photoMetadatas$ } from './PhotoMetadata';
@@ -23,8 +23,8 @@ export const PhotosView = memo(function PhotosView() {
   const numColumns = useSelector(settings$.state.numColumns);
   const photos = useSelector(state$.photos);
   const hasMetadatas = useSelector(() => syncState(photoMetadatas$).isPersistLoaded.get());
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading] = useState(false);
+  const [error] = useState<string | null>(null);
   const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
 
   let minDate: Date | undefined;
@@ -49,27 +49,6 @@ export const PhotosView = memo(function PhotosView() {
 
   // Set up keyboard shortcuts
   usePhotosViewKeyboard();
-
-  useObserveEffect(async () => {
-    const folder = settings$.state.openFolder.get();
-    if (!folder) {
-      state$.photos.set([]);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      const photosList = await listPhotosInFolder(folder);
-      state$.photos.set(photosList);
-    } catch (err) {
-      console.error('Error loading photos:', err);
-      setError('Failed to load photos');
-    } finally {
-      setLoading(false);
-    }
-  });
 
   const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
     return <Photo photo={item} folderPath={selectedFolder!} index={index} />;

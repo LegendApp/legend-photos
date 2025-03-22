@@ -1,7 +1,7 @@
-import { observable } from '@legendapp/state';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { getFolderName, listFoldersWithPhotosRecursive } from './FileManager';
+import { getFolderName } from './FileManager';
+import { folders$ } from './LibraryManager';
 import { Sidebar } from './Sidebar';
 import { settings$ } from './settings/SettingsFile';
 
@@ -27,8 +27,6 @@ function groupFoldersByParent(folders: string[]): Record<string, string[]> {
 
   return grouped;
 }
-
-const folders$ = observable(listFoldersWithPhotosRecursive);
 
 export function MainSidebar() {
   const selectedFolder = useSelector(settings$.state.openFolder);

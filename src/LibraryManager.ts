@@ -1,6 +1,13 @@
-import { batch } from '@legendapp/state';
-import { scanFolderRecursive } from './FileManager';
+import { batch, event, observable, observe, when } from '@legendapp/state';
+import {
+  listFoldersWithPhotosRecursive,
+  listPhotosInFolder,
+  scanFolderRecursive,
+} from './FileManager';
+import { state$ } from './State';
+import { FileSystemWatcherModule } from './native/FileSystemWatcher';
 import { settings$ } from './settings/SettingsFile';
+import { timeoutOnce } from './utils/timeoutOnce';
 
 export async function addLibraryPath(path: string) {
   const childFolders = await scanFolderRecursive(path);
@@ -23,3 +30,62 @@ export async function addLibraryPath(path: string) {
     // TODO: Error handling, this folder has no child folders with photos
   }
 }
+
+const eventFolderChange = event();
+
+export const folders$ = observable(async () => {
+  // When filesystem watcher detects a change, update the folders list
+  eventFolderChange.get();
+
+  const folders = await listFoldersWithPhotosRecursive();
+
+  return folders;
+});
+
+// Set up file system watcher
+export function initializeFileSystemWatcher() {
+  const paths = settings$.library.paths.get();
+  if (paths.length > 0) {
+    FileSystemWatcherModule.setWatchedDirectories(paths);
+    FileSystemWatcherModule.addChangeListener(() => {
+      timeoutOnce(
+        'updateFolders',
+        () => {
+          eventFolderChange.fire();
+        },
+        100
+      );
+    });
+  }
+}
+
+// Initialize the file system watcher when the library paths are set
+when(
+  () => settings$.library.paths.get().length > 0,
+  () => {
+    initializeFileSystemWatcher();
+    settings$.library.paths.onChange(({ value }) => {
+      // Update the watched directories
+      FileSystemWatcherModule.setWatchedDirectories(value);
+    });
+  }
+);
+
+// Observe the open folder and update the photos list when it changes
+observe(async () => {
+  const folder = settings$.state.openFolder.get();
+  if (!folder) {
+    state$.photos.set([]);
+    return;
+  }
+
+  // When filesystem watcher detects a change, update the photos list
+  eventFolderChange.get();
+
+  try {
+    const photosList = await listPhotosInFolder(folder);
+    state$.photos.set(photosList);
+  } catch (err) {
+    console.error('Error loading photos:', err);
+  }
+});

@@ -6,6 +6,7 @@ import type {
   ObservablePersistPluginOptions,
   PersistMetadata,
 } from '@legendapp/state/sync';
+import { timeoutOnce } from './timeoutOnce';
 
 const MetadataSuffix = '__m';
 const { safeParse, safeStringify } = internal;
@@ -199,17 +200,4 @@ export class ObservablePersistReactNativeFS implements ObservablePersistPlugin {
 
 export function observablePersistReactNativeFS(configuration: ReactNativeFSPersistPluginOptions) {
   return new ObservablePersistReactNativeFS(configuration);
-}
-
-const timeouts: Record<string, any> = {};
-function timeoutOnce(name: string, cb: () => void, time: number) {
-  const t = timeouts[name];
-  if (t) {
-    clearTimeout(t);
-  }
-  timeouts[name] = setTimeout(() => {
-    delete timeouts[name];
-
-    cb();
-  }, time);
 }
