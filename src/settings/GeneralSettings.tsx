@@ -1,19 +1,22 @@
-import { useObservable } from '@legendapp/state/react';
+import { observer, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Switch, Text, TextInput, View } from 'react-native';
 import { AutoUpdaterModule } from '../native/AutoUpdater';
 import { settings$ } from './SettingsFile';
 
-export const GeneralSettings = () => {
-  const settings = useObservable(settings$);
-  const autoUpdateEnabled = useObservable(settings.general.autoUpdate.enabled);
-  const autoUpdateInterval = useObservable(settings.general.autoUpdate.checkInterval);
+export const GeneralSettings = observer(function GeneralSettings() {
+  const { enabled: autoUpdateEnabled$, checkInterval: autoUpdateInterval$ } =
+    settings$.general.autoUpdate;
+
+  const autoUpdateEnabled = useSelector(autoUpdateEnabled$);
+  const autoUpdateInterval = useSelector(autoUpdateInterval$);
 
   const handleIntervalChange = (text: string) => {
-    const value = Number.parseInt(text, 10);
-    if (!Number.isNaN(value) && value > 0) {
-      autoUpdateInterval.set(value);
+    let value = Number.parseInt(text || '0', 10);
+    if (Number.isNaN(value) || value < 1) {
+      value = 1;
     }
+    autoUpdateInterval$.set(value);
   };
 
   return (
@@ -27,17 +30,17 @@ export const GeneralSettings = () => {
         <View className="flex-row items-center mb-2">
           <Text className="text-white flex-1">Check for updates automatically</Text>
           <Switch
-            value={autoUpdateEnabled.get()}
-            onValueChange={(value) => autoUpdateEnabled.set(value)}
+            value={autoUpdateEnabled}
+            onValueChange={(value) => autoUpdateEnabled$.set(value)}
           />
         </View>
 
-        {autoUpdateEnabled.get() && (
+        {autoUpdateEnabled && (
           <View className="flex-row items-center mb-2">
             <Text className="text-white flex-1">Check interval (hours)</Text>
             <TextInput
               className="bg-gray-700 text-white px-2 py-1 rounded w-20 text-right"
-              value={autoUpdateInterval.get().toString()}
+              value={autoUpdateInterval.toString()}
               onChangeText={handleIntervalChange}
               keyboardType="number-pad"
             />
@@ -57,4 +60,4 @@ export const GeneralSettings = () => {
       {/* Other general settings would go here */}
     </View>
   );
-};
+});
