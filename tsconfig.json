@@ -4,6 +4,9 @@
     "paths": {
       "@legend-kit/*": [
         "./src/legend-kit/*"
+      ],
+      "@/*": [
+        "./src/*"
       ]
     }
   }

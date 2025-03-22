@@ -1,10 +1,10 @@
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { addLibraryPath } from '../LibraryManager';
-import { Button } from '../components/Button';
-import { FilePicker } from '../components/FilePicker';
-import { settings$ } from './SettingsFile';
+import { Button } from '@/native-modules/Button';
+import { FilePicker } from '@/native-modules/FilePicker';
+import { addLibraryPath } from '@/systems/LibraryManager';
+import { settings$ } from '@/settings/SettingsFile';
 
 export const LibrarySettings = () => {
   const librarySettings = useSelector(settings$.library);
@@ -46,8 +46,8 @@ export const LibrarySettings = () => {
             title="Add Folder"
             onFileSelected={handleAddFolderPath}
             pickFolder={true}
-            variant="primary"
-            size="medium"
+            bezelStyle="rounded"
+            controlSize="regular"
           />
         </View>
 
@@ -61,8 +61,8 @@ export const LibrarySettings = () => {
                 <Text className="text-white">{path}</Text>
                 <Button
                   title="Remove"
-                  variant="danger"
-                  size="large"
+                  bezelStyle="textured"
+                  controlSize="mini"
                   onPress={() => handleRemovePath(path)}
                 />
               </View>

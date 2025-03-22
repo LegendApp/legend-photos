@@ -6,7 +6,7 @@ import type {
   ObservablePersistPluginOptions,
   PersistMetadata,
 } from '@legendapp/state/sync';
-import { timeoutOnce } from './timeoutOnce';
+import { timeoutOnce } from '@/utils/timeoutOnce';
 
 const MetadataSuffix = '__m';
 const { safeParse, safeStringify } = internal;

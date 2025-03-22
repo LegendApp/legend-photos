@@ -1,12 +1,12 @@
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Sidebar } from '../Sidebar';
-import { GeneralSettings } from './GeneralSettings';
-import { HotkeySettings } from './HotkeySettings';
-import { LibrarySettings } from './LibrarySettings';
-import { PluginSettings } from './PluginSettings';
-import { ThemeSettings } from './ThemeSettings';
+import { Sidebar } from '@/components/Sidebar';
+import { GeneralSettings } from '@/settings/GeneralSettings';
+import { HotkeySettings } from '@/settings/HotkeySettings';
+import { LibrarySettings } from '@/settings/LibrarySettings';
+import { PluginSettings } from '@/settings/PluginSettings';
+import { ThemeSettings } from '@/settings/ThemeSettings';
 
 // Define the categories for settings
 const SETTING_CATEGORIES = [

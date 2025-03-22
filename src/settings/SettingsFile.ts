@@ -1,5 +1,5 @@
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
-import { createJSONManager } from '../utils/JSONManager';
+import { createJSONManager } from '@/utils/JSONManager';
 
 // Define the settings structure
 export interface AppSettings {
