@@ -1,12 +1,11 @@
-import { DeletePlugin } from './DeletePlugin';
-import { FlagRejectPlugin } from './FlagRejectPlugin';
-import { photoInfoPlugin } from './PhotoInfoPlugin';
+import { FlagRejectPlugin } from '../plugins/FlagRejectPlugin';
+import { photoInfoPlugin } from '../plugins/PhotoInfoPlugin';
+import { RatingPlugin } from '../plugins/RatingPlugin';
 import { registerPlugin } from './PluginManager';
-import { RatingPlugin } from './RatingPlugin';
 
-export * from './PluginTypes';
 export * from './PluginManager';
 export * from './PluginRenderer';
+export * from './PluginTypes';
 
 // List of default plugins
 const defaultPlugins = [RatingPlugin, FlagRejectPlugin, photoInfoPlugin /*DeletePlugin*/];
@@ -15,6 +14,3 @@ const defaultPlugins = [RatingPlugin, FlagRejectPlugin, photoInfoPlugin /*Delete
 export function registerDefaultPlugins(): void {
   defaultPlugins.forEach(registerPlugin);
 }
-
-// Export individual plugins
-export { RatingPlugin, FlagRejectPlugin, DeletePlugin, photoInfoPlugin };

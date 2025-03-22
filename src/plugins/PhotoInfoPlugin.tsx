@@ -3,7 +3,7 @@ import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { state$ } from '../State';
-import type { Plugin } from './PluginTypes';
+import type { Plugin } from '../plugin-system/PluginTypes';
 
 interface PhotoInfoProps {
   style: ViewStyle;

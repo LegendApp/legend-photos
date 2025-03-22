@@ -4,8 +4,8 @@ import { Pressable, Text, View } from 'react-native';
 import { KeyCodes } from '../KeyboardManager';
 import { getMetadata, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
+import type { PhotoPluginProps, Plugin } from '../plugin-system/PluginTypes';
 import { settings$ } from '../settings/SettingsFile';
-import type { PhotoPluginProps, Plugin } from './PluginTypes';
 
 // Rating component that will be rendered
 function RatingComponent({ photo, style }: PhotoPluginProps) {

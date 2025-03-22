@@ -6,7 +6,7 @@ import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { PhotosView } from './PhotosView';
 import { state$ } from './State';
-import { PluginRenderer } from './plugins';
+import { PluginRenderer } from './plugin-system/registerDefaultPlugins';
 import { settings$ } from './settings/SettingsFile';
 
 const SpringOpen = {

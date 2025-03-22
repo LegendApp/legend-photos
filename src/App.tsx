@@ -11,12 +11,11 @@ import { MainSidebar } from './MainSidebar';
 import { PhotosViewContainer } from './PhotosViewContainer';
 import { TitleBar } from './TitleBar';
 import { initializeUpdater } from './Updater';
-import { PluginRenderer } from './plugins';
-import { initializePluginSystem } from './plugins/initPlugins';
+import { PluginRenderer, registerDefaultPlugins } from './plugin-system/registerDefaultPlugins';
 import { settings$ } from './settings/SettingsFile';
 import { SettingsWindow } from './settings/SettingsWindow';
 
-initializePluginSystem();
+registerDefaultPlugins();
 initializeUpdater();
 
 function App(): React.JSX.Element {

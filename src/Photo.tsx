@@ -6,7 +6,7 @@ import { Img } from './Img';
 import { useOnHotkeys } from './Keyboard';
 import { KeyCodes } from './KeyboardManager';
 import { fullscreenView, state$ } from './State';
-import { PluginRenderer } from './plugins';
+import { PluginRenderer } from './plugin-system/registerDefaultPlugins';
 import { useOnDoubleClick } from './useOnDoubleClick';
 
 export interface PhotoProps {

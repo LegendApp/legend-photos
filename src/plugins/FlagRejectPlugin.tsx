@@ -7,8 +7,8 @@ import { KeyCodes } from '../KeyboardManager';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '../PhotoMetadata';
 import { state$ } from '../State';
 import { SFSymbol } from '../components/SFSymbol';
+import type { PhotoPluginProps, Plugin } from '../plugin-system/PluginTypes';
 import { settings$ } from '../settings/SettingsFile';
-import type { PhotoPluginProps, Plugin } from './PluginTypes';
 
 const handleFlagToggle = async (
   photo: PhotoInfo,
