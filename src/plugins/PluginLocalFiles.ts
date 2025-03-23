@@ -12,52 +12,7 @@ import { event, observable, observe } from '@legendapp/state';
 // Event for folder changes detected by file system watcher
 export const eventFolderChange = event();
 
-// Initialize file system watcher
-function initializeFileSystemWatcher() {
-  const paths = settings$.library.paths.get();
-  if (paths.length > 0) {
-    FileSystemWatcher.setWatchedDirectories(paths);
-    FileSystemWatcher.addChangeListener(() => {
-      timeoutOnce(
-        'updateFolders',
-        () => {
-          eventFolderChange.fire();
-        },
-        100
-      );
-    });
-  }
-}
-
-// Initialize watcher when plugin is loaded
-initializeFileSystemWatcher();
-
-// Listen for changes to library paths
-settings$.library.paths.onChange(({ value }) => {
-  // Update the watched directories
-  FileSystemWatcher.setWatchedDirectories(value);
-});
-
 const folders$ = observable<string[]>([]);
-
-observe(async () => {
-  try {
-    // Use the folder change event to trigger refresh
-    eventFolderChange.get();
-    const libraryPaths = settings$.library.paths.get();
-
-    if (libraryPaths.length > 0) {
-      const ret = await listFoldersWithPhotosRecursive(libraryPaths);
-
-      folders$.set(ret);
-    }
-  } catch (error) {
-    console.error('Error listing folders in LocalFiles plugin:', error);
-  }
-  return [];
-});
-
-folders$.get();
 
 export const PluginLocalFiles: SourcePlugin = {
   id: 'plugin-local-files',
@@ -66,6 +21,52 @@ export const PluginLocalFiles: SourcePlugin = {
   version: '1.0.0',
   enabled: true,
   type: 'source',
+
+  initialize: async () => {
+    folders$.get();
+    observe(async () => {
+      try {
+        // Use the folder change event to trigger refresh
+        eventFolderChange.get();
+        const libraryPaths = settings$.library.paths.get();
+
+        if (libraryPaths.length > 0) {
+          const ret = await listFoldersWithPhotosRecursive(libraryPaths);
+
+          folders$.set(ret);
+        }
+      } catch (error) {
+        console.error('Error listing folders in LocalFiles plugin:', error);
+      }
+      return [];
+    });
+
+    // Initialize file system watcher
+    function initializeFileSystemWatcher() {
+      const paths = settings$.library.paths.get();
+      if (paths.length > 0) {
+        FileSystemWatcher.setWatchedDirectories(paths);
+        FileSystemWatcher.addChangeListener(() => {
+          timeoutOnce(
+            'updateFolders',
+            () => {
+              eventFolderChange.fire();
+            },
+            100
+          );
+        });
+      }
+    }
+
+    // Initialize watcher when plugin is loaded
+    initializeFileSystemWatcher();
+
+    // Listen for changes to library paths
+    settings$.library.paths.onChange(({ value }) => {
+      // Update the watched directories
+      FileSystemWatcher.setWatchedDirectories(value);
+    });
+  },
 
   // Get a list of all folders with photos
   getFolders: () => {

@@ -1,6 +1,5 @@
 import type {
   DisplayPlugin,
-  Plugin,
   PluginLocation,
   PluginRegistry,
   SourcePlugin,
@@ -18,26 +17,22 @@ export const pluginSettings$ = observable<Record<string, any>>({});
 const hotkeyUnsubscribers = new Map<string, () => void>();
 
 // Register a plugin with the system
-export function registerPlugin(plugin: Plugin): void {
+export function registerPlugin(plugin: DisplayPlugin | SourcePlugin): void {
   // Store the plugin in the registry
   plugins$[plugin.id].set(plugin);
 
-  // Initialize plugin settings if available
-  if (plugin.settings) {
-    pluginSettings$[plugin.id].set(plugin.settings);
-  }
-
   // Register plugin hotkeys if available (only for render plugins)
   if (plugin.type === 'display') {
-    const displayPlugin = plugin as DisplayPlugin;
-    if (displayPlugin.hotkeys) {
+    if (plugin.hotkeys) {
       // Clean up existing hotkeys for this plugin if they exist
       unregisterPluginHotkeys(plugin.id);
 
       // Register new hotkeys
-      const unsub = onHotkeys(displayPlugin.hotkeys);
+      const unsub = onHotkeys(plugin.hotkeys);
       hotkeyUnsubscribers.set(plugin.id, unsub);
     }
+  } else if (plugin.type === 'source') {
+    plugin.initialize();
   }
 }
 
@@ -72,6 +67,7 @@ export function getPluginsForLocation(location: PluginLocation): DisplayPlugin[]
 
 // Helper function to get all source plugins
 export function getSourcePlugins(): SourcePlugin[] {
+  // TODO: Create this once so it doesn't filter every time
   const allPlugins = plugins$.get();
   return Object.values(allPlugins).filter(
     (plugin) => plugin.type === 'source' && plugin.enabled !== false

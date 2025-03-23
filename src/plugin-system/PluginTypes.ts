@@ -37,6 +37,8 @@ export interface DisplayPlugin extends Plugin {
 // Source plugin interface
 export interface SourcePlugin extends Plugin {
   type: 'source';
+  // Initialize the plugin
+  initialize: () => Promise<void>;
   // Get folders with photos (recursive)
   getFolders: () => string[];
   // Get photos in a specific folder
