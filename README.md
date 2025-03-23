@@ -6,20 +6,67 @@ A photo viewing application built with React Native for macOS.
 
 Legend Photos aims to:
 
-- Be a modern, intuitive photo management experience that's very customizable and user-friendly. It should be great for
+- Be a modern, intuitive photo management experience that's very customizable and user-friendly. It should be great for:
     1. **Triage**: Sorting through and culling a lot of photos into a set of favorites
     2. **Review**: Finding and viewing photos in a fun and beautiful way
 
 - Showcase the power of Legend libraries in a real-world application:
   - [Legend State](https://github.com/LegendApp/legend-state) for efficient state management
   - [Legend List](https://github.com/LegendApp/legend-list) for high-performance lists
-  - [Legend Motion](https://github.com/LegendApp/legend-motion) for fluid animations
+  - [Legend Motion](https://github.com/LegendApp/legend-motion) for easy animations
 
 - Be extremely fast and light on resources
 
 - Provide a plugin-first architecture that welcomes community contributions and extensions
 
+- Be extremely customizable with settings for everything
+
 - Explore the capabilities of React Native on desktop
+
+We want to focus on just those goals, at least in the early stages. So Legend Photos does not aim to:
+
+- Be an image editor. It will just make it easy to open photos in an editor.
+
+- Have a mobile app. Mobile photo apps are great already.
+
+- Do AI
+
+- Do sync
+
+## Roadmap
+
+- Customization: Hotkeys, themes, etc...
+- Filmstrip view mode
+- Zoom photos with trackpad and hotkeys
+- Tagging, display tags in sidebar
+- Filter by rating/flag/tag
+- Library view that includes all photos
+- Trackpad gestures for left/right
+- Buttons for toggle sidebar, view mode (customizable)
+- Image processing
+    - Generate small preview images
+    - Process raw files to jpg
+- Actions to open in image editor
+- Read and display EXIF data
+- EXIF editor
+- Batch file operations
+    - Move rated or unrated to subfolder
+- View photos by date/tag in addition to by folder
+- Many settings to customize everything
+
+## PRs gladly accepted!
+
+### Bugs
+
+If it's small, do a quick PR! If it's big you may want to post an issue first, and say you're fixing it, so nobody else does it first.
+
+### Features
+
+Please post a [Feature Proposal] issue first so we can discuss the right way to do it and make sure it'll be easy to accept and merge.
+
+### Plugins
+I want to make features as plugins wherever possible. So ideally there is a light core with a powerful plugin system which allows all sorts of plugins. If you want a feature which wouldn't fit as a pugin, let's discuss how we could augment the plugin system to enable it.
+
 
 ## Development
 
@@ -87,7 +134,7 @@ The following settings are already configured in `.vscode/settings.json`:
 
 # Getting Started
 
-## Step 1: Start the Metro Server
+### Step 1: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
@@ -97,7 +144,7 @@ To start Metro, run the following command from the _root_ of your React Native p
 bun start
 ```
 
-## Step 2: Start the Application
+### Step 2: Start the Application
 
 Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or
 _iOS_ app:
@@ -110,7 +157,7 @@ bun mac
 
 If everything is set up _correctly_, you should see a bunch of logs for a while, and then the app will open.
 
-# Support Development
+## Support Development
 
 If you find Legend Photos valuable, consider [sponsoring @jmeistrich](https://github.com/sponsors/jmeistrich). Your support helps me to be able to devote the time to maintain and improve this project!
 
