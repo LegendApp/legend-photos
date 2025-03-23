@@ -22,7 +22,6 @@ remapProps(LegendList, {
 
 // When the open folder changes, update the photos list
 observe(async () => {
-  console.log('foldersmanager');
   const folder = getOpenFolder();
   if (!folder) {
     state$.photos.set([]);
@@ -31,8 +30,6 @@ observe(async () => {
 
   // Temporary workaround for scrolling bug
   state$.openingFolder.set(true);
-
-  console.log('folder', folder);
 
   try {
     const photosList = await getPhotosInFolder(folder);

@@ -96,15 +96,7 @@ export async function getPhotosInFolder(folder: FolderInfo): Promise<PhotoInfo[]
     if (source) {
       const plugin = sourcePlugins.find((p) => p.id === source);
       if (plugin) {
-        return await plugin.getPhotos(path);
-      }
-    }
-
-    // If source plugin not found or specified, try all plugins
-    for (const plugin of sourcePlugins) {
-      const photos = await plugin.getPhotos(path);
-      if (photos.length > 0) {
-        return photos;
+        return plugin.getPhotos(path);
       }
     }
 
