@@ -1,10 +1,10 @@
+import { Button } from '@/native-modules/Button';
+import { FilePicker } from '@/native-modules/FilePicker';
+import { addLibraryPath } from '@/plugins/PluginLocalFiles';
+import { settings$ } from '@/settings/SettingsFile';
 import { useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Button } from '@/native-modules/Button';
-import { FilePicker } from '@/native-modules/FilePicker';
-import { addLibraryPath } from '@/systems/LibraryManager';
-import { settings$ } from '@/settings/SettingsFile';
 
 export const LibrarySettings = () => {
   const librarySettings = useSelector(settings$.library);

@@ -1,11 +1,11 @@
-import { use$ } from '@legendapp/state/react';
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import type { PhotoPluginProps, Plugin } from '@/plugin-system/PluginTypes';
-import { settings$ } from '@/settings/SettingsFile';
+import { getOpenFolder } from '@/plugin-system/FileSources';
+import type { DisplayPlugin, PhotoPluginProps } from '@/plugin-system/PluginTypes';
 import { getMetadata, photoMetadatas$, updateMetadata } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import { use$ } from '@legendapp/state/react';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 // Rating component that will be rendered
 function RatingComponent({ photo, style }: PhotoPluginProps) {
@@ -42,7 +42,7 @@ function RatingComponent({ photo, style }: PhotoPluginProps) {
 const rateCurrentPhoto = (ratingProp: number) => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = settings$.state.openFolder.get();
+  const folder = getOpenFolder();
 
   // Check if we have a valid selection
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {
@@ -61,7 +61,8 @@ const rateCurrentPhoto = (ratingProp: number) => {
 };
 
 // Define the Rating plugin
-export const PluginRating: Plugin = {
+export const PluginRating: DisplayPlugin = {
+  type: 'display',
   id: 'rating-plugin',
   name: 'Photo Rating',
   description: 'Rate photos using hotkeys 1-5',

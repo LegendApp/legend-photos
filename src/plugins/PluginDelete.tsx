@@ -1,9 +1,9 @@
-import type { Plugin } from '@/plugin-system/PluginTypes';
-import React from 'react';
-import { Alert, Text, View } from 'react-native';
-import { settings$ } from '@/settings/SettingsFile';
+import { getOpenFolder } from '@/plugin-system/FileSources';
+import type { DisplayPlugin } from '@/plugin-system/PluginTypes';
 import { state$ } from '@/systems/State';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import React from 'react';
+import { Alert, Text, View } from 'react-native';
 
 // Delete component
 function DeleteComponent() {
@@ -18,7 +18,7 @@ function DeleteComponent() {
 const deleteCurrentPhoto = () => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = settings$.state.openFolder.get();
+  const folder = getOpenFolder();
 
   // Check if we have a valid selection
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {
@@ -66,7 +66,8 @@ const deleteCurrentPhoto = () => {
 };
 
 // Define the Delete plugin
-export const PluginDelete: Plugin = {
+export const PluginDelete: DisplayPlugin = {
+  type: 'display',
   id: 'delete-plugin',
   name: 'Delete Photo',
   description: 'Delete the selected photo with Delete key',

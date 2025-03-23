@@ -1,7 +1,3 @@
-import { syncState } from '@legendapp/state';
-import { useSelector } from '@legendapp/state/react';
-import type React from 'react';
-import { SafeAreaView, View } from 'react-native';
 import '@/../global.css';
 import { FullscreenPhoto } from '@/features/FullscreenPhoto';
 import { HotkeyHelp } from '@/features/HotkeyHelp';
@@ -14,6 +10,10 @@ import { SettingsWindow } from '@/settings/SettingsWindow';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
+import { syncState } from '@legendapp/state';
+import { useSelector } from '@legendapp/state/react';
+import type React from 'react';
+import { SafeAreaView, View } from 'react-native';
 
 registerDefaultPlugins();
 initializeUpdater();
@@ -34,6 +34,7 @@ function App(): React.JSX.Element {
       <TitleBar />
       <SettingsWindow />
       <HotkeyHelp />
+      {/* <PhotoKitExample /> */}
     </SafeAreaView>
   );
 }

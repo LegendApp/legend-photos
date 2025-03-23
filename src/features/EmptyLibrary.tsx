@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text, View } from 'react-native';
 import { FilePicker } from '@/native-modules/FilePicker';
 import { SFSymbol } from '@/native-modules/SFSymbol';
-import { addLibraryPath } from '@/systems/LibraryManager';
+import { addLibraryPath } from '@/plugins/PluginLocalFiles';
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export function EmptyLibrary() {
   const handleFolderSelected = async (path: string) => {
