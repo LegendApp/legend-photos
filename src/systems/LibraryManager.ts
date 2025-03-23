@@ -1,13 +1,10 @@
-import { batch, event, observable, observe, when } from '@legendapp/state';
 import * as FileSystemWatcher from '@/native-modules/FileSystemWatcher';
+import { getAllFolders, getPhotosInFolder } from '@/plugin-system/FileSources';
 import { settings$ } from '@/settings/SettingsFile';
-import { timeoutOnce } from '@/utils/timeoutOnce';
-import {
-  listFoldersWithPhotosRecursive,
-  listPhotosInFolder,
-  scanFolderRecursive,
-} from '@/systems/FileManager';
+import { scanFolderRecursive } from '@/systems/FileManager';
 import { state$ } from '@/systems/State';
+import { timeoutOnce } from '@/utils/timeoutOnce';
+import { batch, event, observable, observe, when } from '@legendapp/state';
 
 export async function addLibraryPath(path: string) {
   const childFolders = await scanFolderRecursive(path);
@@ -37,7 +34,7 @@ export const folders$ = observable(async () => {
   // When filesystem watcher detects a change, update the folders list
   eventFolderChange.get();
 
-  const folders = await listFoldersWithPhotosRecursive();
+  const folders = await getAllFolders();
 
   return folders;
 });
@@ -87,7 +84,7 @@ observe(async () => {
   eventFolderChange.get();
 
   try {
-    const photosList = await listPhotosInFolder(folder);
+    const photosList = await getPhotosInFolder(folder);
     state$.photos.set(photosList);
   } catch (err) {
     console.error('Error loading photos:', err);

@@ -1,6 +1,12 @@
-import { observable } from '@legendapp/state';
+import type {
+  Plugin,
+  PluginLocation,
+  PluginRegistry,
+  RenderPlugin,
+  SourcePlugin,
+} from '@/plugin-system/PluginTypes';
 import { onHotkeys } from '@/systems/keyboard/Keyboard';
-import type { Plugin, PluginLocation, PluginRegistry } from '@/plugin-system/PluginTypes';
+import { observable } from '@legendapp/state';
 
 // Create an observable state for plugin registry
 export const plugins$ = observable<PluginRegistry>({});
@@ -21,14 +27,17 @@ export function registerPlugin(plugin: Plugin): void {
     pluginSettings$[plugin.id].set(plugin.settings);
   }
 
-  // Register plugin hotkeys if available
-  if (plugin.hotkeys) {
-    // Clean up existing hotkeys for this plugin if they exist
-    unregisterPluginHotkeys(plugin.id);
+  // Register plugin hotkeys if available (only for render plugins)
+  if (plugin.type === 'render') {
+    const renderPlugin = plugin as RenderPlugin;
+    if (renderPlugin.hotkeys) {
+      // Clean up existing hotkeys for this plugin if they exist
+      unregisterPluginHotkeys(plugin.id);
 
-    // Register new hotkeys
-    const unsub = onHotkeys(plugin.hotkeys);
-    hotkeyUnsubscribers.set(plugin.id, unsub);
+      // Register new hotkeys
+      const unsub = onHotkeys(renderPlugin.hotkeys);
+      hotkeyUnsubscribers.set(plugin.id, unsub);
+    }
   }
 }
 
@@ -50,12 +59,23 @@ function unregisterPluginHotkeys(pluginId: string): void {
   }
 }
 
-// Helper function to get all plugins for a specific location
-export function getPluginsForLocation(location: PluginLocation): Plugin[] {
+// Helper function to get all render plugins for a specific location
+export function getPluginsForLocation(location: PluginLocation): RenderPlugin[] {
   const allPlugins = plugins$.get();
   return Object.values(allPlugins).filter(
-    (plugin) => plugin.childOf === location && plugin.enabled !== false
-  );
+    (plugin) =>
+      plugin.type === 'render' &&
+      (plugin as RenderPlugin).childOf === location &&
+      plugin.enabled !== false
+  ) as RenderPlugin[];
+}
+
+// Helper function to get all source plugins
+export function getSourcePlugins(): SourcePlugin[] {
+  const allPlugins = plugins$.get();
+  return Object.values(allPlugins).filter(
+    (plugin) => plugin.type === 'source' && plugin.enabled !== false
+  ) as SourcePlugin[];
 }
 
 // Enable or disable a plugin
@@ -66,11 +86,14 @@ export function setPluginEnabled(pluginId: string, enabled: boolean): void {
   if (!enabled) {
     unregisterPluginHotkeys(pluginId);
   } else {
-    // If enabling, register hotkeys
+    // If enabling and it's a render plugin with hotkeys, register them
     const plugin = plugins$[pluginId].get();
-    if (plugin.hotkeys) {
-      const unsub = onHotkeys(plugin.hotkeys);
-      hotkeyUnsubscribers.set(pluginId, unsub);
+    if (plugin.type === 'render') {
+      const renderPlugin = plugin as RenderPlugin;
+      if (renderPlugin.hotkeys) {
+        const unsub = onHotkeys(renderPlugin.hotkeys);
+        hotkeyUnsubscribers.set(pluginId, unsub);
+      }
     }
   }
 }
