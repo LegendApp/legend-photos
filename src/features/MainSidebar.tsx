@@ -1,7 +1,7 @@
 import { Sidebar } from '@/components/Sidebar';
 import { settings$ } from '@/settings/SettingsFile';
 import { getFolderName } from '@/systems/FileManager';
-import { folders$ } from '@/systems/LibraryManager';
+import { allFolders$ } from '@/systems/FoldersManager';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 
@@ -12,7 +12,10 @@ function findParentLibraryPath(folder: string, libraryPaths: string[]): string |
 
   // Find the first library path that is a parent of the folder
   return sortedPaths.find((path) => {
-    if (folder === path) return true;
+    if (folder === path) {
+      return true;
+    }
+
     const normalizedFolder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
     const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
     return normalizedFolder.startsWith(`${normalizedPath}/`);
@@ -21,13 +24,17 @@ function findParentLibraryPath(folder: string, libraryPaths: string[]): string |
 
 // Helper function to get folder depth relative to its parent library path
 function getRelativeDepth(folder: string, parentPath: string): number {
-  if (folder === parentPath) return 0;
+  if (folder === parentPath) {
+    return 0;
+  }
 
   const normalizedFolder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
   const normalizedPath = parentPath.endsWith('/') ? parentPath.slice(0, -1) : parentPath;
 
   // If the folder is not a child of the parent path, return 0
-  if (!normalizedFolder.startsWith(`${normalizedPath}/`)) return 0;
+  if (!normalizedFolder.startsWith(`${normalizedPath}/`)) {
+    return 0;
+  }
 
   // Remove parent path from the folder path and count slashes
   const relativePath = normalizedFolder.slice(normalizedPath.length + 1);
@@ -36,7 +43,7 @@ function getRelativeDepth(folder: string, parentPath: string): number {
 
 export function MainSidebar() {
   const selectedFolder = useSelector(settings$.state.openFolder);
-  const folders = useSelector(folders$) || [];
+  const folders = useSelector(allFolders$) || [];
   const sidebarWidth = useSelector(settings$.state.sidebarWidth);
   const libraryPaths = useSelector(settings$.library.paths);
 
@@ -50,10 +57,13 @@ export function MainSidebar() {
       if (openFolder) {
         onSelectFolder(openFolder);
         e.cancel = true;
-      } else if (folders$.get()?.length) {
-        console.log('selecting first folder');
-        onSelectFolder(folders$.get()[0]);
-        e.cancel = true;
+      } else {
+        const allFolders = allFolders$.get();
+        if (allFolders?.length) {
+          console.log('selecting first folder');
+          onSelectFolder(allFolders[0]);
+          e.cancel = true;
+        }
       }
     }
   });

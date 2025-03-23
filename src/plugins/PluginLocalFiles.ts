@@ -1,6 +1,42 @@
+import * as FileSystemWatcher from '@/native-modules/FileSystemWatcher';
 import type { SourcePlugin } from '@/plugin-system/PluginTypes';
 import { settings$ } from '@/settings/SettingsFile';
-import { listFoldersWithPhotosRecursive, listPhotosInFolder } from '@/systems/FileManager';
+import {
+  listFoldersWithPhotosRecursive,
+  listPhotosInFolder,
+  scanFolderRecursive,
+} from '@/systems/FileManager';
+import { timeoutOnce } from '@/utils/timeoutOnce';
+import { event } from '@legendapp/state';
+
+// Event for folder changes detected by file system watcher
+export const eventFolderChange = event();
+
+// Initialize file system watcher
+function initializeFileSystemWatcher() {
+  const paths = settings$.library.paths.get();
+  if (paths.length > 0) {
+    FileSystemWatcher.setWatchedDirectories(paths);
+    FileSystemWatcher.addChangeListener(() => {
+      timeoutOnce(
+        'updateFolders',
+        () => {
+          eventFolderChange.fire();
+        },
+        100
+      );
+    });
+  }
+}
+
+// Initialize watcher when plugin is loaded
+initializeFileSystemWatcher();
+
+// Listen for changes to library paths
+settings$.library.paths.onChange(({ value }) => {
+  // Update the watched directories
+  FileSystemWatcher.setWatchedDirectories(value);
+});
 
 export const PluginLocalFiles: SourcePlugin = {
   id: 'plugin-local-files',
@@ -13,6 +49,8 @@ export const PluginLocalFiles: SourcePlugin = {
   // Get a list of all folders with photos
   async getFolders(): Promise<string[]> {
     try {
+      // Use the folder change event to trigger refresh
+      eventFolderChange.get();
       return await listFoldersWithPhotosRecursive();
     } catch (error) {
       console.error('Error listing folders in LocalFiles plugin:', error);
@@ -23,6 +61,8 @@ export const PluginLocalFiles: SourcePlugin = {
   // Get photos from a specific folder
   async getPhotos(folderPath: string) {
     try {
+      // Use the folder change event to trigger refresh
+      eventFolderChange.get();
       return await listPhotosInFolder(folderPath);
     } catch (error) {
       console.error('Error listing photos in LocalFiles plugin:', error);
@@ -30,8 +70,27 @@ export const PluginLocalFiles: SourcePlugin = {
     }
   },
 
+  // Add a path to the library
+
   // Settings for the plugin
   settings: {
     paths: settings$.library.paths,
   },
 };
+
+export async function addLibraryPath(path: string): Promise<boolean> {
+  try {
+    const childFolders = await scanFolderRecursive(path);
+    if (childFolders.length > 0) {
+      const currentPaths = settings$.library.paths.get();
+      if (!currentPaths.includes(path)) {
+        settings$.library.paths.push(path);
+      }
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error adding library path:', error);
+    return false;
+  }
+}
