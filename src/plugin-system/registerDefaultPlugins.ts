@@ -13,7 +13,7 @@ export * from '@/plugin-system/PluginTypes';
 // List of default plugins
 const defaultPlugins: (DisplayPlugin | SourcePlugin)[] = [
   PluginLocalFiles,
-  //   PluginPhotoKit,
+  PluginPhotoKit,
   PluginRating,
   PluginFlagReject,
   PluginFullscreenPhotoInfo,

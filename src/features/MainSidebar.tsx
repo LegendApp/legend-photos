@@ -30,8 +30,15 @@ export function MainSidebar() {
         const allSidebarGroups = allSidebarGroups$.get();
         if (allSidebarGroups?.length) {
           console.log('selecting first folder');
-          onSelectFolder(allSidebarGroups[0].items[0]);
-          e.cancel = true;
+          for (const group of allSidebarGroups) {
+            for (const item of group.items) {
+              if (item.source === 'plugin-local-files') {
+                onSelectFolder(item);
+                e.cancel = true;
+                return;
+              }
+            }
+          }
         }
       }
     }

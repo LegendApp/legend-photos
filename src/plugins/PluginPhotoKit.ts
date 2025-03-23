@@ -65,13 +65,20 @@ export const PluginPhotoKit: SourcePlugin = {
   },
 
   // Get a list of all albums (treated as folders in the plugin system)
-  getFolders: () => {
+  getSidebarGroups: () => {
     // Get event to trigger refresh when needed
     eventPhotoKitChange.get();
 
-    // Map albums to folder paths
-    // We use a custom format to identify these are PhotoKit albums
-    return albums$.get().map((album) => `photokit://${album.identifier}/${album.title}`);
+    return [
+      {
+        title: 'Apple Photos',
+        items: albums$.get().map((album) => ({
+          path: `photokit://${album.identifier}/${album.title}`,
+          text: album.title,
+          depth: 0,
+        })),
+      },
+    ];
   },
 
   // Get photos from a specific album

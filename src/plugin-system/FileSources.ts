@@ -67,6 +67,8 @@ export function getAllSidebarGroups(): SidebarGroupWithSource[] {
       }));
     });
 
+    console.log('results', results);
+
     // Flatten and sort the results by path
     return results.flat();
   } catch (error) {

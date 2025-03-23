@@ -1,6 +1,9 @@
 import { SidebarButton } from '@/components/SidebarButton';
-import type { SidebarGroupWithSource, SidebarItemWithSource } from '@/plugin-system/FileSources';
-import type { SidebarItem } from '@/plugin-system/PluginTypes';
+import {
+  type SidebarGroupWithSource,
+  type SidebarItemWithSource,
+  folderInfoToId,
+} from '@/plugin-system/FileSources';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
@@ -49,7 +52,7 @@ export function Sidebar({
               <SidebarButton
                 key={item.path}
                 text={item.text}
-                isSelected={selectedItemId === item.path}
+                isSelected={selectedItemId === folderInfoToId(item)}
                 isDarkMode={isDarkMode}
                 onPress={() => onSelectItem(item)}
                 indentLevel={item.depth || 0}
@@ -60,7 +63,7 @@ export function Sidebar({
       ));
     }
 
-    return (items as SidebarItem[]).map((item) => (
+    return (items as SidebarItemWithSource[]).map((item) => (
       <SidebarButton
         key={item.path}
         text={item.text}
