@@ -22,7 +22,6 @@ export interface Plugin {
   version?: string;
   enabled?: boolean;
   type: PluginType;
-  settings?: PluginSettings;
 }
 
 // Render plugin interface

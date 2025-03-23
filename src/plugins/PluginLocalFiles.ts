@@ -40,24 +40,16 @@ settings$.library.paths.onChange(({ value }) => {
 
 const folders$ = observable<string[]>([]);
 
-let lastLibraryPathsStr: string;
-
 observe(async () => {
   try {
     // Use the folder change event to trigger refresh
     eventFolderChange.get();
     const libraryPaths = settings$.library.paths.get();
-    // Note: This is a workaround for a Legend State bug we need to fix.
-    // It should not be firing this observe twice while loading from persistence.
-    const libraryPathsStr = JSON.stringify(libraryPaths);
-    if (libraryPathsStr !== lastLibraryPathsStr) {
-      lastLibraryPathsStr = libraryPathsStr;
 
-      if (libraryPaths.length > 0) {
-        const ret = await listFoldersWithPhotosRecursive(libraryPaths);
+    if (libraryPaths.length > 0) {
+      const ret = await listFoldersWithPhotosRecursive(libraryPaths);
 
-        folders$.set(ret);
-      }
+      folders$.set(ret);
     }
   } catch (error) {
     console.error('Error listing folders in LocalFiles plugin:', error);
@@ -76,7 +68,7 @@ export const PluginLocalFiles: SourcePlugin = {
   type: 'source',
 
   // Get a list of all folders with photos
-  getFolders() {
+  getFolders: () => {
     return folders$.get() || [];
   },
 
@@ -93,11 +85,6 @@ export const PluginLocalFiles: SourcePlugin = {
   },
 
   // Add a path to the library
-
-  // Settings for the plugin
-  settings: {
-    paths: settings$.library.paths,
-  },
 };
 
 export async function addLibraryPath(path: string): Promise<boolean> {
