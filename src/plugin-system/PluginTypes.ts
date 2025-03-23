@@ -39,7 +39,7 @@ export interface DisplayPlugin extends Plugin {
 export interface SourcePlugin extends Plugin {
   type: 'source';
   // Get folders with photos (recursive)
-  getFolders: () => Promise<string[]>;
+  getFolders: () => string[];
   // Get photos in a specific folder
   getPhotos: (folderPath: string) => Promise<PhotoInfo[]>;
 }

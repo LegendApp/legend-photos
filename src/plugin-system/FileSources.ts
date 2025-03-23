@@ -40,16 +40,14 @@ export async function getAllFolders(): Promise<FolderInfo[]> {
     }
 
     // Get folders from all source plugins with their source IDs
-    const results = await Promise.all(
-      sourcePlugins.map(async (plugin) => {
-        const folders = await plugin.getFolders();
-        // Map each folder path to an object with path and source
-        return folders.map((path) => ({
-          path,
-          source: plugin.id,
-        }));
-      })
-    );
+    const results = sourcePlugins.map((plugin) => {
+      const folders = plugin.getFolders();
+      // Map each folder path to an object with path and source
+      return folders.map((path) => ({
+        path,
+        source: plugin.id,
+      }));
+    });
 
     // Flatten and sort the results by path
     return results.flat().sort((a, b) => a.path.localeCompare(b.path));

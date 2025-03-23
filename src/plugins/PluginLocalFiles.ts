@@ -7,7 +7,7 @@ import {
   scanFolderRecursive,
 } from '@/systems/FileManager';
 import { timeoutOnce } from '@/utils/timeoutOnce';
-import { event } from '@legendapp/state';
+import { event, observable, observe } from '@legendapp/state';
 
 // Event for folder changes detected by file system watcher
 export const eventFolderChange = event();
@@ -38,6 +38,35 @@ settings$.library.paths.onChange(({ value }) => {
   FileSystemWatcher.setWatchedDirectories(value);
 });
 
+const folders$ = observable<string[]>([]);
+
+let lastLibraryPathsStr: string;
+
+observe(async () => {
+  try {
+    // Use the folder change event to trigger refresh
+    eventFolderChange.get();
+    const libraryPaths = settings$.library.paths.get();
+    // Note: This is a workaround for a Legend State bug we need to fix.
+    // It should not be firing this observe twice while loading from persistence.
+    const libraryPathsStr = JSON.stringify(libraryPaths);
+    if (libraryPathsStr !== lastLibraryPathsStr) {
+      lastLibraryPathsStr = libraryPathsStr;
+
+      if (libraryPaths.length > 0) {
+        const ret = await listFoldersWithPhotosRecursive(libraryPaths);
+
+        folders$.set(ret);
+      }
+    }
+  } catch (error) {
+    console.error('Error listing folders in LocalFiles plugin:', error);
+  }
+  return [];
+});
+
+folders$.get();
+
 export const PluginLocalFiles: SourcePlugin = {
   id: 'plugin-local-files',
   name: 'Local Files',
@@ -47,15 +76,8 @@ export const PluginLocalFiles: SourcePlugin = {
   type: 'source',
 
   // Get a list of all folders with photos
-  async getFolders(): Promise<string[]> {
-    try {
-      // Use the folder change event to trigger refresh
-      eventFolderChange.get();
-      return await listFoldersWithPhotosRecursive();
-    } catch (error) {
-      console.error('Error listing folders in LocalFiles plugin:', error);
-      return [];
-    }
+  getFolders() {
+    return folders$.get() || [];
   },
 
   // Get photos from a specific folder

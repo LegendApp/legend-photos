@@ -46,10 +46,3 @@ export function openFolder(folderPath: string): void {
     settings$.state.isSidebarOpen.set(true);
   }
 }
-
-/**
- * Refresh the folder list
- */
-export function refreshFolders(): void {
-  allFolders$.get(true); // Force refresh
-}

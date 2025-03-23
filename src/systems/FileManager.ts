@@ -1,5 +1,4 @@
 import { type ReadDirResItemT, readDir, stat } from '@dr.pogodin/react-native-fs';
-import { settings$ } from '@/settings/SettingsFile';
 
 // Supported photo file extensions
 const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
@@ -63,10 +62,8 @@ export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[
  * Lists all folders that contain photo files in the configured library paths and their subfolders
  * @returns Promise with an array of absolute folder paths
  */
-export async function listFoldersWithPhotosRecursive(): Promise<string[]> {
+export async function listFoldersWithPhotosRecursive(libraryPaths: string[]): Promise<string[]> {
   try {
-    const libraryPaths = settings$.library.paths.get();
-
     // Process each configured library path
     const allFolders = await Promise.all(libraryPaths.map(scanFolderRecursive));
 
