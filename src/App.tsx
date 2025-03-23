@@ -9,6 +9,7 @@ import { MainSidebar } from '@/features/MainSidebar';
 import { PhotosViewContainer } from '@/features/PhotosViewContainer';
 import { TitleBar } from '@/features/TitleBar';
 import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/registerDefaultPlugins';
+import { PhotoKitExample } from '@/plugins/PhotoKitExample';
 import { settings$ } from '@/settings/SettingsFile';
 import { SettingsWindow } from '@/settings/SettingsWindow';
 import { initializeUpdater } from '@/systems/Updater';
@@ -34,6 +35,7 @@ function App(): React.JSX.Element {
       <TitleBar />
       <SettingsWindow />
       <HotkeyHelp />
+      <PhotoKitExample />
     </SafeAreaView>
   );
 }
