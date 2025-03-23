@@ -1,4 +1,4 @@
-import PhotoKit, { type Album, type PhotoAsset } from '@/native-modules/PhotoKit/index';
+import PhotoKit, { type Album, type PhotoAsset } from '@/native-modules/PhotoKit';
 import { useCallback, useEffect, useState } from 'react';
 
 interface UsePhotoKitOptions {
