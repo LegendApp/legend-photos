@@ -2,6 +2,7 @@ import * as FileSystemWatcher from '@/native-modules/FileSystemWatcher';
 import type { SourcePlugin } from '@/plugin-system/PluginTypes';
 import { settings$ } from '@/settings/SettingsFile';
 import {
+  getFolderName,
   listFoldersWithPhotosRecursive,
   listPhotosInFolder,
   scanFolderRecursive,
@@ -69,8 +70,35 @@ export const PluginLocalFiles: SourcePlugin = {
   },
 
   // Get a list of all folders with photos
-  getFolders: () => {
-    return folders$.get() || [];
+  getSidebarGroups: () => {
+    const libraryPaths = settings$.library.paths.get();
+    const foldersByLibrary: Record<string, Array<{ path: string; depth: number }>> = {};
+    const folders = folders$.get();
+
+    for (const path of folders) {
+      const parentPath = findParentLibraryPath(path, libraryPaths);
+      if (parentPath) {
+        if (!foldersByLibrary[parentPath]) {
+          foldersByLibrary[parentPath] = [];
+        }
+
+        const depth = getRelativeDepth(path, parentPath);
+        foldersByLibrary[parentPath].push({ path, depth });
+      }
+    }
+
+    const sidebarGroups = Object.entries(foldersByLibrary)
+      .filter(([_, items]) => items.length > 0)
+      .map(([libraryPath, items]) => ({
+        title: getFolderName(libraryPath),
+        items: items.map(({ path, depth }) => ({
+          path,
+          text: getFolderName(path),
+          depth,
+        })),
+      }));
+
+    return sidebarGroups;
   },
 
   // Get photos from a specific folder
@@ -103,4 +131,40 @@ export async function addLibraryPath(path: string): Promise<boolean> {
     console.error('Error adding library path:', error);
     return false;
   }
+}
+
+// Helper function to find the parent library path for a folder
+function findParentLibraryPath(folderPath: string, libraryPaths: string[]): string | undefined {
+  // Sort library paths by length (descending) to prioritize more specific paths
+  const sortedPaths = [...libraryPaths].sort((a, b) => b.length - a.length);
+
+  // Find the first library path that is a parent of the folder
+  return sortedPaths.find((path) => {
+    if (folderPath === path) {
+      return true;
+    }
+
+    const normalizedFolder = folderPath.endsWith('/') ? folderPath.slice(0, -1) : folderPath;
+    const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+    return normalizedFolder.startsWith(`${normalizedPath}/`);
+  });
+}
+
+// Helper function to get folder depth relative to its parent library path
+function getRelativeDepth(folderPath: string, parentPath: string): number {
+  if (folderPath === parentPath) {
+    return 0;
+  }
+
+  const normalizedFolder = folderPath.endsWith('/') ? folderPath.slice(0, -1) : folderPath;
+  const normalizedPath = parentPath.endsWith('/') ? parentPath.slice(0, -1) : parentPath;
+
+  // If the folder is not a child of the parent path, return 0
+  if (!normalizedFolder.startsWith(`${normalizedPath}/`)) {
+    return 0;
+  }
+
+  // Remove parent path from the folder path and count slashes
+  const relativePath = normalizedFolder.slice(normalizedPath.length + 1);
+  return relativePath.split('/').length - 1;
 }

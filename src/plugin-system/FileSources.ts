@@ -1,6 +1,8 @@
 import { getSourcePlugins } from '@/plugin-system/PluginManager';
+import type { SidebarItem } from '@/plugin-system/PluginTypes';
 import { settings$ } from '@/settings/SettingsFile';
 import type { PhotoInfo } from '@/systems/FileManager';
+import { observable } from '@legendapp/state';
 
 // Define the folder info interface
 export interface FolderInfo {
@@ -26,11 +28,24 @@ export function parseFolderId(id: string): FolderInfo {
   };
 }
 
+export const allSidebarGroups$ = observable(async () => {
+  return getAllSidebarGroups();
+});
+
+export interface SidebarGroupWithSource {
+  title: string;
+  items: SidebarItemWithSource[];
+}
+
+export interface SidebarItemWithSource extends SidebarItem {
+  source: string;
+}
+
 /**
  * Get all folders with photos from all enabled source plugins
  * @returns Promise with an array of folder info objects
  */
-export async function getAllFolders(): Promise<FolderInfo[]> {
+export function getAllSidebarGroups(): SidebarGroupWithSource[] {
   try {
     const sourcePlugins = getSourcePlugins();
 
@@ -41,16 +56,19 @@ export async function getAllFolders(): Promise<FolderInfo[]> {
 
     // Get folders from all source plugins with their source IDs
     const results = sourcePlugins.map((plugin) => {
-      const folders = plugin.getFolders();
+      const groups = plugin.getSidebarGroups();
       // Map each folder path to an object with path and source
-      return folders.map((path) => ({
-        path,
-        source: plugin.id,
+      return groups.map(({ title, items }) => ({
+        title,
+        items: items.map((item) => ({
+          source: plugin.id,
+          ...item,
+        })),
       }));
     });
 
     // Flatten and sort the results by path
-    return results.flat().sort((a, b) => a.path.localeCompare(b.path));
+    return results.flat();
   } catch (error) {
     console.error('Error getting folders from source plugins:', error);
     return [];
@@ -101,6 +119,12 @@ export async function getPhotosInFolder(folder: FolderInfo): Promise<PhotoInfo[]
  */
 export function getOpenFolder(): FolderInfo | null {
   const folderId = settings$.state.openFolder.get();
-  if (!folderId) return null;
+  if (!folderId) {
+    return null;
+  }
   return parseFolderId(folderId);
+}
+
+export function setOpenFolder(folder: FolderInfo): void {
+  settings$.state.openFolder.set(folderInfoToId(folder));
 }

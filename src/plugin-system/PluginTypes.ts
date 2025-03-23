@@ -34,13 +34,24 @@ export interface DisplayPlugin extends Plugin {
   hotkeys?: Record<KeyboardEventCodeHotkey, KeyInfo>;
 }
 
+export interface SidebarGroup {
+  title: string;
+  items: SidebarItem[];
+}
+
+export interface SidebarItem {
+  path: string;
+  text: string;
+  depth: number;
+}
+
 // Source plugin interface
 export interface SourcePlugin extends Plugin {
   type: 'source';
   // Initialize the plugin
   initialize: () => Promise<void>;
   // Get folders with photos (recursive)
-  getFolders: () => string[];
+  getSidebarGroups: () => SidebarGroup[];
   // Get photos in a specific folder
   getPhotos: (folderPath: string) => Promise<PhotoInfo[]>;
 }

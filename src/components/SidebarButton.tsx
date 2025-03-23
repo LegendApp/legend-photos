@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 export interface SidebarButtonProps {
-  label: string;
+  text: string;
   isSelected: boolean;
   isDarkMode: boolean;
   onPress: () => void;
@@ -10,7 +10,7 @@ export interface SidebarButtonProps {
 }
 
 export function SidebarButton({
-  label,
+  text,
   isSelected,
   isDarkMode,
   onPress,
@@ -32,7 +32,7 @@ export function SidebarButton({
       onPress={onPress}
     >
       <View className="flex-row items-center" style={{ paddingLeft: indentPadding }}>
-        <Text className={`text-sm ${textColor} ${isSelected ? 'font-medium' : ''}`}>{label}</Text>
+        <Text className={`text-sm ${textColor} ${isSelected ? 'font-medium' : ''}`}>{text}</Text>
       </View>
     </Pressable>
   );

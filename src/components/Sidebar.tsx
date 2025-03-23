@@ -1,23 +1,14 @@
 import { SidebarButton } from '@/components/SidebarButton';
+import type { SidebarGroupWithSource, SidebarItemWithSource } from '@/plugin-system/FileSources';
+import type { SidebarItem } from '@/plugin-system/PluginTypes';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 
-interface SidebarItem {
-  id: string;
-  label: string;
-  indentLevel?: number; // Optional indentation level for hierarchy
-}
-
-interface SidebarGroup {
-  title: string;
-  items: SidebarItem[];
-}
-
 interface SidebarCommonProps {
-  items: SidebarItem[] | SidebarGroup[];
+  items: SidebarItemWithSource[] | SidebarGroupWithSource[];
   selectedItemId: string;
-  onSelectItem: (id: string) => void;
+  onSelectItem: (item: SidebarItemWithSource) => void;
   width?: number | Animated.Value;
   showGroups?: boolean;
   className?: string;
@@ -33,13 +24,15 @@ export function Sidebar({
 }: SidebarCommonProps) {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const isGrouped = (item: SidebarItem | SidebarGroup): item is SidebarGroup => {
+  const isGrouped = (
+    item: SidebarItemWithSource | SidebarGroupWithSource
+  ): item is SidebarGroupWithSource => {
     return 'items' in item && 'title' in item;
   };
 
   const renderItems = () => {
     if (showGroups && items.some(isGrouped)) {
-      return (items as SidebarGroup[]).map((group) => (
+      return (items as SidebarGroupWithSource[]).map((group) => (
         <View key={group.title} className="mb-6">
           <View className="mb-1">
             <Text
@@ -52,14 +45,14 @@ export function Sidebar({
           </View>
 
           {group.items.map((item) => (
-            <View key={item.id} className="relative">
+            <View key={item.path} className="relative">
               <SidebarButton
-                key={item.id}
-                label={item.label}
-                isSelected={selectedItemId === item.id}
+                key={item.path}
+                text={item.text}
+                isSelected={selectedItemId === item.path}
                 isDarkMode={isDarkMode}
-                onPress={() => onSelectItem(item.id)}
-                indentLevel={item.indentLevel || 0}
+                onPress={() => onSelectItem(item)}
+                indentLevel={item.depth || 0}
               />
             </View>
           ))}
@@ -69,12 +62,12 @@ export function Sidebar({
 
     return (items as SidebarItem[]).map((item) => (
       <SidebarButton
-        key={item.id}
-        label={item.label}
-        isSelected={selectedItemId === item.id}
+        key={item.path}
+        text={item.text}
+        isSelected={selectedItemId === item.path}
         isDarkMode={isDarkMode}
-        onPress={() => onSelectItem(item.id)}
-        indentLevel={item.indentLevel || 0}
+        onPress={() => onSelectItem(item)}
+        indentLevel={item.depth || 0}
       />
     ));
   };

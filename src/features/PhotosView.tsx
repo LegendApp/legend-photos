@@ -1,13 +1,15 @@
 import { Photo } from '@/features/Photo';
 import { isWindowFullScreen$ } from '@/hooks/HookWindowFullscreen';
 import { usePhotosViewKeyboard } from '@/hooks/usePhotosViewKeyboard';
+import { getPhotosInFolder } from '@/plugin-system/FileSources';
+import { getOpenFolder } from '@/plugin-system/FileSources';
 import { settings$ } from '@/settings/SettingsFile';
 import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
 import { ax } from '@/utils/ax';
 import { LegendList } from '@legendapp/list';
-import { syncState } from '@legendapp/state';
+import { observe, syncState } from '@legendapp/state';
 import { observer, use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
 import React, { useState } from 'react';
@@ -16,6 +18,30 @@ import { StyleSheet, Text, View } from 'react-native';
 remapProps(LegendList, {
   className: 'style',
   contentContainerClassName: 'contentContainerStyle',
+});
+
+// When the open folder changes, update the photos list
+observe(async () => {
+  console.log('foldersmanager');
+  const folder = getOpenFolder();
+  if (!folder) {
+    state$.photos.set([]);
+    return;
+  }
+
+  // Temporary workaround for scrolling bug
+  state$.openingFolder.set(true);
+
+  console.log('folder', folder);
+
+  try {
+    const photosList = await getPhotosInFolder(folder);
+    state$.photos.set(photosList);
+  } catch (err) {
+    console.error('Error loading photos:', err);
+  } finally {
+    state$.openingFolder.set(false);
+  }
 });
 
 const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {

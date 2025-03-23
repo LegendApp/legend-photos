@@ -1,9 +1,9 @@
+import type { DisplayPlugin } from '@/plugin-system/PluginTypes';
+import { state$ } from '@/systems/State';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { StyleSheet, Text, View, type ViewStyle } from 'react-native';
-import type { Plugin } from '@/plugin-system/PluginTypes';
-import { state$ } from '@/systems/State';
 
 interface PhotoInfoProps {
   style: ViewStyle;
@@ -54,7 +54,8 @@ function PhotoInfo({ style }: PhotoInfoProps) {
 }
 
 // Export plugin configuration
-export const PluginFullscreenPhotoInfo: Plugin = {
+export const PluginFullscreenPhotoInfo: DisplayPlugin = {
+  type: 'display',
   id: 'photo-info',
   name: 'Photo Info',
   description: 'Displays the name and created date of the currently selected photo',
