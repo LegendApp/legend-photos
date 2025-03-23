@@ -1,4 +1,4 @@
-import { type ReadDirResItemT, readDir, stat } from '@dr.pogodin/react-native-fs';
+import { type ReadDirResItemT, readDir } from '@dr.pogodin/react-native-fs';
 
 // Supported photo file extensions
 const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
@@ -64,7 +64,7 @@ export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[
  */
 export async function listFoldersWithPhotosRecursive(libraryPaths: string[]): Promise<string[]> {
   try {
-    // Process each configured library path
+    // Process each configured library path in parallel
     const allFolders = await Promise.all(libraryPaths.map(scanFolderRecursive));
 
     return allFolders.flat().sort();
@@ -84,25 +84,24 @@ export async function scanFolderRecursive(folderPath: string): Promise<string[]>
     const folders: string[] = [];
     const items = await readDir(folderPath);
 
-    let hasPhotos = false;
+    // Check if the current folder has photos (in parallel with subfolder scanning)
+    const hasPhotos = checkFolderForPhotos(items);
 
-    // Process each item in the directory
-    for (const item of items) {
-      const itemPath = `${folderPath}/${item.name}`;
-      const itemStat = await stat(itemPath);
+    // Process subdirectories in parallel
+    const subDirectories = items.filter((item) => item.isDirectory());
+    const subFolderPromises = subDirectories.map((dir) =>
+      scanFolderRecursive(`${folderPath}/${dir.name}`)
+    );
 
-      if (itemStat.isDirectory()) {
-        // If it's a directory, recursively scan it
-        const subFolders = await scanFolderRecursive(itemPath);
-        // Add the subfolder paths to results
-        folders.push(...subFolders);
-      } else if (!hasPhotos && isPhotoFile(item.name)) {
-        // If this folder has at least one photo, mark it
-        hasPhotos = true;
-      }
+    // Wait for all subfolder scans to complete
+    const subFolderResults = await Promise.all(subFolderPromises);
+
+    // Add all subfolders to our results
+    for (const result of subFolderResults) {
+      folders.push(...result);
     }
 
-    // If this folder has photos, add it to the results
+    // Check if the current folder has photos
     if (hasPhotos) {
       folders.push(folderPath);
     }
@@ -112,4 +111,13 @@ export async function scanFolderRecursive(folderPath: string): Promise<string[]>
     console.error(`Error scanning folder ${folderPath}:`, error);
     return [];
   }
+}
+
+/**
+ * Helper function to check if a folder contains photo files
+ * @param items - Directory items from readDir
+ * @returns Promise resolving to boolean indicating if the folder has photos
+ */
+function checkFolderForPhotos(items: ReadDirResItemT[]): boolean {
+  return items.some((item) => !item.isDirectory() && isPhotoFile(item.name));
 }
