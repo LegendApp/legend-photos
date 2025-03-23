@@ -7,7 +7,7 @@ import type { ViewStyle } from 'react-native';
 export type PluginLocation = 'root' | 'photosGrid' | 'photo' | 'photoFullscreen' | 'metadata';
 
 // Define types of plugins
-export type PluginType = 'render' | 'source';
+export type PluginType = 'display' | 'source';
 
 // Plugin settings interface
 export interface PluginSettings {
@@ -26,8 +26,8 @@ export interface Plugin {
 }
 
 // Render plugin interface
-export interface RenderPlugin extends Plugin {
-  type: 'render';
+export interface DisplayPlugin extends Plugin {
+  type: 'display';
   shouldRender?: (props: any) => boolean;
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;

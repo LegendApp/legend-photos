@@ -1,4 +1,4 @@
-import { getAllFolders, getPhotosInFolder } from '@/plugin-system/FileSources';
+import { getAllFolders, getOpenFolder, getPhotosInFolder } from '@/plugin-system/FileSources';
 import { registerPlugin } from '@/plugin-system/PluginManager';
 import { PluginLocalFiles } from '@/plugins/PluginLocalFiles';
 import { settings$ } from '@/settings/SettingsFile';
@@ -15,7 +15,7 @@ export const allFolders$ = observable(async () => {
 
 // When the open folder changes, update the photos list
 observe(async () => {
-  const folder = settings$.state.openFolder.get();
+  const folder = getOpenFolder();
   if (!folder) {
     state$.photos.set([]);
     return;

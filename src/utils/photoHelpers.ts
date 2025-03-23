@@ -1,20 +1,20 @@
-import { settings$ } from '@/settings/SettingsFile';
+import { getOpenFolder } from '@/plugin-system/FileSources';
 import type { PhotoInfo } from '@/systems/FileManager';
 
 export function getPhotoUri(photo: PhotoInfo | null | undefined) {
   if (!photo) {
     return null;
   }
-  const folderPath = settings$.state.openFolder.peek();
+  const { path } = getOpenFolder()!;
   const { name } = photo;
-  return `file://${folderPath}/${name}`;
+  return `file://${path}/${name}`;
 }
 
 export function getPhotoPath(photo: PhotoInfo | null | undefined) {
   if (!photo) {
     return null;
   }
-  const folderPath = settings$.state.openFolder.peek();
+  const { path } = getOpenFolder()!;
   const { name } = photo;
-  return `${folderPath}/${name}`;
+  return `${path}/${name}`;
 }

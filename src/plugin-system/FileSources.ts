@@ -1,15 +1,36 @@
 import { getSourcePlugins } from '@/plugin-system/PluginManager';
+import { settings$ } from '@/settings/SettingsFile';
 import type { PhotoInfo } from '@/systems/FileManager';
-import { observable } from '@legendapp/state';
 
-// Observable for tracking the currently active source plugin ID
-export const activeSourceId$ = observable<string | null>(null);
+// Define the folder info interface
+export interface FolderInfo {
+  path: string;
+  source: string;
+}
+
+/**
+ * Convert FolderInfo to a string ID in format "source:path"
+ */
+export function folderInfoToId(info: FolderInfo): string {
+  return `${info.source}:${info.path}`;
+}
+
+/**
+ * Parse a folder ID string back to FolderInfo
+ */
+export function parseFolderId(id: string): FolderInfo {
+  const [source, ...pathParts] = id.split(':');
+  return {
+    source,
+    path: pathParts.join(':'), // Rejoin in case path contains colons
+  };
+}
 
 /**
  * Get all folders with photos from all enabled source plugins
- * @returns Promise with an array of absolute folder paths
+ * @returns Promise with an array of folder info objects
  */
-export async function getAllFolders(): Promise<string[]> {
+export async function getAllFolders(): Promise<FolderInfo[]> {
   try {
     const sourcePlugins = getSourcePlugins();
 
@@ -18,11 +39,20 @@ export async function getAllFolders(): Promise<string[]> {
       return [];
     }
 
-    // Get folders from all source plugins
-    const allFoldersArrays = await Promise.all(sourcePlugins.map((plugin) => plugin.getFolders()));
+    // Get folders from all source plugins with their source IDs
+    const results = await Promise.all(
+      sourcePlugins.map(async (plugin) => {
+        const folders = await plugin.getFolders();
+        // Map each folder path to an object with path and source
+        return folders.map((path) => ({
+          path,
+          source: plugin.id,
+        }));
+      })
+    );
 
-    // Flatten and sort the results
-    return allFoldersArrays.flat().sort();
+    // Flatten and sort the results by path
+    return results.flat().sort((a, b) => a.path.localeCompare(b.path));
   } catch (error) {
     console.error('Error getting folders from source plugins:', error);
     return [];
@@ -30,12 +60,13 @@ export async function getAllFolders(): Promise<string[]> {
 }
 
 /**
- * Get photos in a specific folder from the appropriate source plugin
- * @param folderPath - Path to the folder
+ * Get photos in a specific folder
+ * @param folderId - The folder ID string in format "source:path"
  * @returns Promise with an array of photo info objects
  */
-export async function getPhotosInFolder(folderPath: string): Promise<PhotoInfo[]> {
+export async function getPhotosInFolder(folder: FolderInfo): Promise<PhotoInfo[]> {
   try {
+    const { source, path } = folder;
     const sourcePlugins = getSourcePlugins();
 
     if (sourcePlugins.length === 0) {
@@ -43,18 +74,17 @@ export async function getPhotosInFolder(folderPath: string): Promise<PhotoInfo[]
       return [];
     }
 
-    // If there's an active source specified, try to use that one first
-    const activeSourceId = activeSourceId$.get();
-    if (activeSourceId) {
-      const activePlugin = sourcePlugins.find((plugin) => plugin.id === activeSourceId);
-      if (activePlugin) {
-        return await activePlugin.getPhotos(folderPath);
+    // Try to use the specified source plugin
+    if (source) {
+      const plugin = sourcePlugins.find((p) => p.id === source);
+      if (plugin) {
+        return await plugin.getPhotos(path);
       }
     }
 
-    // Otherwise, try all plugins until one returns photos
+    // If source plugin not found or specified, try all plugins
     for (const plugin of sourcePlugins) {
-      const photos = await plugin.getPhotos(folderPath);
+      const photos = await plugin.getPhotos(path);
       if (photos.length > 0) {
         return photos;
       }
@@ -68,9 +98,11 @@ export async function getPhotosInFolder(folderPath: string): Promise<PhotoInfo[]
 }
 
 /**
- * Set the active source plugin
- * @param sourceId - ID of the source plugin to set as active
+ * Get the currently open folder as a FolderInfo object
+ * @returns The folder info, or null if no folder is open
  */
-export function setActiveSource(sourceId: string | null): void {
-  activeSourceId$.set(sourceId);
+export function getOpenFolder(): FolderInfo | null {
+  const folderId = settings$.state.openFolder.get();
+  if (!folderId) return null;
+  return parseFolderId(folderId);
 }

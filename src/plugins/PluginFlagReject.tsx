@@ -1,14 +1,14 @@
-import type { Observable } from '@legendapp/state';
-import { use$ } from '@legendapp/state/react';
-import React from 'react';
-import { View } from 'react-native';
 import { SFSymbol } from '@/native-modules/SFSymbol';
-import type { PhotoPluginProps, Plugin } from '@/plugin-system/PluginTypes';
-import { settings$ } from '@/settings/SettingsFile';
+import { getOpenFolder } from '@/plugin-system/FileSources';
+import type { DisplayPlugin, PhotoPluginProps } from '@/plugin-system/PluginTypes';
 import type { PhotoInfo } from '@/systems/FileManager';
 import { type PhotoMetadataItem, photoMetadatas$, updateMetadata } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import type { Observable } from '@legendapp/state';
+import { use$ } from '@legendapp/state/react';
+import React from 'react';
+import { View } from 'react-native';
 
 const handleFlagToggle = async (
   photo: PhotoInfo,
@@ -47,7 +47,7 @@ function FlagRejectComponent({ photo, style }: PhotoPluginProps) {
 const getCurrentPhoto = () => {
   const index = state$.selectedPhotoIndex.get();
   const photosList = state$.photos.get();
-  const folder = settings$.state.openFolder.get();
+  const folder = getOpenFolder();
 
   if (index === -1 || !photosList.length || !folder || index >= photosList.length) {
     // Check if we have a valid selection
@@ -78,7 +78,8 @@ const toggleRejectCurrentPhoto = () => {
 };
 
 // Define the Flag/Reject plugin
-export const PluginFlagReject: Plugin = {
+export const PluginFlagReject: DisplayPlugin = {
+  type: 'display',
   id: 'flag-reject-plugin',
   name: 'Flag & Reject',
   description: 'Flag photos with Space, reject with X',

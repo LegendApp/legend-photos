@@ -1,8 +1,8 @@
 import type {
+  DisplayPlugin,
   Plugin,
   PluginLocation,
   PluginRegistry,
-  RenderPlugin,
   SourcePlugin,
 } from '@/plugin-system/PluginTypes';
 import { onHotkeys } from '@/systems/keyboard/Keyboard';
@@ -28,14 +28,14 @@ export function registerPlugin(plugin: Plugin): void {
   }
 
   // Register plugin hotkeys if available (only for render plugins)
-  if (plugin.type === 'render') {
-    const renderPlugin = plugin as RenderPlugin;
-    if (renderPlugin.hotkeys) {
+  if (plugin.type === 'display') {
+    const displayPlugin = plugin as DisplayPlugin;
+    if (displayPlugin.hotkeys) {
       // Clean up existing hotkeys for this plugin if they exist
       unregisterPluginHotkeys(plugin.id);
 
       // Register new hotkeys
-      const unsub = onHotkeys(renderPlugin.hotkeys);
+      const unsub = onHotkeys(displayPlugin.hotkeys);
       hotkeyUnsubscribers.set(plugin.id, unsub);
     }
   }
@@ -60,14 +60,14 @@ function unregisterPluginHotkeys(pluginId: string): void {
 }
 
 // Helper function to get all render plugins for a specific location
-export function getPluginsForLocation(location: PluginLocation): RenderPlugin[] {
+export function getPluginsForLocation(location: PluginLocation): DisplayPlugin[] {
   const allPlugins = plugins$.get();
   return Object.values(allPlugins).filter(
     (plugin) =>
-      plugin.type === 'render' &&
-      (plugin as RenderPlugin).childOf === location &&
+      plugin.type === 'display' &&
+      (plugin as DisplayPlugin).childOf === location &&
       plugin.enabled !== false
-  ) as RenderPlugin[];
+  ) as DisplayPlugin[];
 }
 
 // Helper function to get all source plugins
@@ -88,10 +88,10 @@ export function setPluginEnabled(pluginId: string, enabled: boolean): void {
   } else {
     // If enabling and it's a render plugin with hotkeys, register them
     const plugin = plugins$[pluginId].get();
-    if (plugin.type === 'render') {
-      const renderPlugin = plugin as RenderPlugin;
-      if (renderPlugin.hotkeys) {
-        const unsub = onHotkeys(renderPlugin.hotkeys);
+    if (plugin.type === 'display') {
+      const displayDisplayPlugin = plugin as DisplayPlugin;
+      if (displayDisplayPlugin.hotkeys) {
+        const unsub = onHotkeys(displayDisplayPlugin.hotkeys);
         hotkeyUnsubscribers.set(pluginId, unsub);
       }
     }

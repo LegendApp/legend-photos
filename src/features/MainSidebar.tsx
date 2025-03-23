@@ -1,4 +1,5 @@
 import { Sidebar } from '@/components/Sidebar';
+import { type FolderInfo, folderInfoToId, getOpenFolder } from '@/plugin-system/FileSources';
 import { settings$ } from '@/settings/SettingsFile';
 import { getFolderName } from '@/systems/FileManager';
 import { allFolders$ } from '@/systems/FoldersManager';
@@ -6,29 +7,29 @@ import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 
 // Helper function to find the parent library path for a folder
-function findParentLibraryPath(folder: string, libraryPaths: string[]): string | undefined {
+function findParentLibraryPath(folderPath: string, libraryPaths: string[]): string | undefined {
   // Sort library paths by length (descending) to prioritize more specific paths
   const sortedPaths = [...libraryPaths].sort((a, b) => b.length - a.length);
 
   // Find the first library path that is a parent of the folder
   return sortedPaths.find((path) => {
-    if (folder === path) {
+    if (folderPath === path) {
       return true;
     }
 
-    const normalizedFolder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
+    const normalizedFolder = folderPath.endsWith('/') ? folderPath.slice(0, -1) : folderPath;
     const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
     return normalizedFolder.startsWith(`${normalizedPath}/`);
   });
 }
 
 // Helper function to get folder depth relative to its parent library path
-function getRelativeDepth(folder: string, parentPath: string): number {
-  if (folder === parentPath) {
+function getRelativeDepth(folderPath: string, parentPath: string): number {
+  if (folderPath === parentPath) {
     return 0;
   }
 
-  const normalizedFolder = folder.endsWith('/') ? folder.slice(0, -1) : folder;
+  const normalizedFolder = folderPath.endsWith('/') ? folderPath.slice(0, -1) : folderPath;
   const normalizedPath = parentPath.endsWith('/') ? parentPath.slice(0, -1) : parentPath;
 
   // If the folder is not a child of the parent path, return 0
@@ -42,26 +43,28 @@ function getRelativeDepth(folder: string, parentPath: string): number {
 }
 
 export function MainSidebar() {
-  const selectedFolder = useSelector(settings$.state.openFolder);
+  const selectedFolderId = useSelector(settings$.state.openFolder);
   const folders = useSelector(allFolders$) || [];
   const sidebarWidth = useSelector(settings$.state.sidebarWidth);
   const libraryPaths = useSelector(settings$.library.paths);
 
-  const onSelectFolder = (folder: string) => {
-    settings$.state.openFolder.set(folder);
+  const onSelectFolder = (folderId: string) => {
+    settings$.state.openFolder.set(folderId);
   };
 
   useObserveEffect((e) => {
-    if (!selectedFolder) {
-      const openFolder = settings$.state.openFolder.get();
+    if (!selectedFolderId) {
+      const openFolder = getOpenFolder();
       if (openFolder) {
-        onSelectFolder(openFolder);
+        const folderId = folderInfoToId(openFolder);
+        onSelectFolder(folderId);
         e.cancel = true;
       } else {
         const allFolders = allFolders$.get();
         if (allFolders?.length) {
           console.log('selecting first folder');
-          onSelectFolder(allFolders[0]);
+          const firstFolderId = folderInfoToId(allFolders[0]);
+          onSelectFolder(firstFolderId);
           e.cancel = true;
         }
       }
@@ -69,18 +72,18 @@ export function MainSidebar() {
   });
 
   // Group folders by library path
-  const foldersByLibrary: Record<string, Array<{ path: string; depth: number }>> = {};
+  const foldersByLibrary: Record<string, Array<{ folderInfo: FolderInfo; depth: number }>> = {};
 
   // Process each folder
-  for (const folder of folders) {
-    const parentPath = findParentLibraryPath(folder, libraryPaths);
+  for (const folderInfo of folders) {
+    const parentPath = findParentLibraryPath(folderInfo.path, libraryPaths);
     if (parentPath) {
       if (!foldersByLibrary[parentPath]) {
         foldersByLibrary[parentPath] = [];
       }
 
-      const depth = getRelativeDepth(folder, parentPath);
-      foldersByLibrary[parentPath].push({ path: folder, depth });
+      const depth = getRelativeDepth(folderInfo.path, parentPath);
+      foldersByLibrary[parentPath].push({ folderInfo, depth });
     }
   }
 
@@ -89,9 +92,9 @@ export function MainSidebar() {
     .filter(([_, items]) => items.length > 0)
     .map(([libraryPath, items]) => ({
       title: getFolderName(libraryPath),
-      items: items.map(({ path, depth }) => ({
-        id: path,
-        label: getFolderName(path),
+      items: items.map(({ folderInfo, depth }) => ({
+        id: folderInfoToId(folderInfo),
+        label: getFolderName(folderInfo.path),
         indentLevel: depth,
       })),
     }));
@@ -99,7 +102,7 @@ export function MainSidebar() {
   return (
     <Sidebar
       items={sidebarGroups}
-      selectedItemId={selectedFolder || ''}
+      selectedItemId={selectedFolderId || ''}
       onSelectItem={onSelectFolder}
       width={sidebarWidth}
       showGroups={true}

@@ -1,13 +1,14 @@
-import { Motion } from '@legendapp/motion';
-import { useSelector } from '@legendapp/state/react';
-import type React from 'react';
+import { EmptyLibrary } from '@/features/EmptyLibrary';
+import { PhotosView } from '@/features/PhotosView';
+import { getOpenFolder } from '@/plugin-system/FileSources';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
-import { EmptyLibrary } from '@/features/EmptyLibrary';
-import { PhotosView } from '@/features/PhotosView';
+import { Motion } from '@legendapp/motion';
+import { useSelector } from '@legendapp/state/react';
+import type React from 'react';
 
 const SpringOpen = {
   type: 'spring',
@@ -30,7 +31,7 @@ export function PhotosViewContainer() {
   useOnHotkeys({
     [KeyCodes.KEY_S]: {
       action: () => {
-        const selectedFolder = settings$.state.openFolder.get();
+        const selectedFolder = getOpenFolder();
 
         if (selectedFolder && !state$.fullscreenPhoto.get()) {
           settings$.state.isSidebarOpen.toggle();
