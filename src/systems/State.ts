@@ -1,6 +1,6 @@
+import type { PhotoInfo } from '@/systems/FileManager';
 import { observable } from '@legendapp/state';
 import type { View } from 'react-native';
-import type { PhotoInfo } from '@/systems/FileManager';
 
 export const fullscreenView = {
   current: null as View | null,
@@ -18,7 +18,7 @@ export interface FullscreenPhotoData {
 export const state$ = observable({
   photos: [] as PhotoInfo[],
   selectedPhotoIndex: -1,
-  fullscreenPhoto: null as FullscreenPhotoData | null,
+  fullscreenPhoto: null as PhotoInfo | null,
   isPhotoFullscreenCoveringControls: false,
   titleBarHovered: false,
   showSettings: false,
