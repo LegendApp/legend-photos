@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 
-import { spawnSync } from 'child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
-import path, { join, resolve } from 'path';
+import {spawnSync} from 'child_process';
+import {cpSync, existsSync, mkdirSync, readFileSync, writeFileSync} from 'fs';
+import path, {join, resolve} from 'path';
 
 // Types
 interface AppConfig {
@@ -141,7 +141,11 @@ function notarizeApp(appPath: string, config: AppConfig, safeAppName: string) {
 }
 
 // Function to create a version info file for Sparkle
-function createVersionInfoFile(distDir: string, config: AppConfig, zipFileName: string) {
+function createVersionInfoFile(
+  distDir: string,
+  config: AppConfig,
+  zipFileName: string,
+) {
   const infoPath = join(distDir, 'sparkle-version-info.plist');
   const content = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -161,7 +165,11 @@ function createVersionInfoFile(distDir: string, config: AppConfig, zipFileName: 
 }
 
 // Function to parse CHANGELOG.md and generate HTML update files for each version
-function generateChangelogHtml(distDir: string, config: AppConfig, appName: string) {
+function generateChangelogHtml(
+  distDir: string,
+  config: AppConfig,
+  appName: string,
+) {
   log('Generating HTML update files from CHANGELOG.md');
 
   const changelogPath = join(PROJECT_ROOT, 'CHANGELOG.md');
@@ -187,7 +195,9 @@ function generateChangelogHtml(distDir: string, config: AppConfig, appName: stri
     const htmlFilePath = join(distDir, htmlFileName);
 
     writeFileSync(htmlFilePath, notes, 'utf-8');
-    console.log(`Generated HTML update file for version ${version}: ${htmlFilePath}`);
+    console.log(
+      `Generated HTML update file for version ${version}: ${htmlFilePath}`,
+    );
   }
 
   log('HTML update file generation complete');
@@ -206,7 +216,9 @@ function checkVersionInChangelog(config: AppConfig) {
   const changelogContent = readFileSync(changelogPath, 'utf-8');
 
   // Look for the version header in the changelog
-  const versionHeaderRegex = new RegExp(`## ${config.version.replace(/\./g, '\\.')}`);
+  const versionHeaderRegex = new RegExp(
+    `## ${config.version.replace(/\./g, '\\.')}`,
+  );
 
   if (!versionHeaderRegex.test(changelogContent)) {
     console.error(`Error: Version ${config.version} not found in CHANGELOG.md`);
@@ -226,13 +238,25 @@ function generateAppcast(distDir: string, config: AppConfig) {
   );
 
   if (!existsSync(generateAppcastPath)) {
-    console.warn(`Warning: generate_appcast not found at ${generateAppcastPath}`);
-    console.warn('Skipping appcast generation. To enable this feature, set SPARKLE_PATH in .env');
+    console.warn(
+      `Warning: generate_appcast not found at ${generateAppcastPath}`,
+    );
+    console.warn(
+      'Skipping appcast generation. To enable this feature, set SPARKLE_PATH in .env',
+    );
     return;
   }
 
   log('Generating appcast from dist folder');
-  execCommand(generateAppcastPath, [distDir, '--download-url-prefix', `https://github.com/LegendApp/legend-photos/releases/tag/${config.version}/`], 'Error generating appcast:');
+  execCommand(
+    generateAppcastPath,
+    [
+      distDir,
+      '--download-url-prefix',
+      `https://github.com/LegendApp/legend-photos/releases/tag/${config.version}/`,
+    ],
+    'Error generating appcast:',
+  );
   log('Appcast generation complete');
 }
 
@@ -291,7 +315,14 @@ function main() {
   log(`Creating distribution ZIP archive: ${zipFileName}`);
   execCommand(
     'ditto',
-    ['-c', '-k', '--keepParent', distAppPath, zipFilePath],
+    [
+      '-ck',
+      '-rsrc',
+      '--sequesterRsrc',
+      '--keepParent',
+      distAppPath,
+      zipFilePath,
+    ],
     'Error creating distribution zip archive:',
   );
 
