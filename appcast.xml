@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Legend Photos</title>
+        <item>
+            <title>0.1.0</title>
+            <pubDate>Mon, 24 Mar 2025 19:52:34 +0800</pubDate>
+            <sparkle:version>010</sparkle:version>
+            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[Initial release]]></description>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos%200.1.0.zip" length="8814022" type="application/octet-stream" sparkle:edSignature="yrlPxZMP39oib1o3TGhEfLsrDqjjxaoEBoLqWEnZRmrZM1907VEJ88eA3zUl+kBkT15DJaL3Rf0zOF7Fmqy8Dg=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos010-001.delta" sparkle:deltaFrom="001" length="17310" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="VTN3ULDiJyzBm/InAHReaLQA2pQ9InnA2Bia3iUxFfWUgrVck0XX4lDLXhWSQ9s6znj0TbQ/is5xtDopNaPUCA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
+            <title>0.0.1</title>
+            <pubDate>Mon, 24 Mar 2025 19:35:36 +0800</pubDate>
+            <sparkle:version>001</sparkle:version>
+            <sparkle:shortVersionString>0.0.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[Initial release!]]></description>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos%200.0.1.zip" length="8814064" type="application/octet-stream" sparkle:edSignature="2uRzl2QcxryEsag1XIjKSyPoIH/r0NLhBafaF6QVJTww6oIv/o+mJM2KPjkd0FMwLdDrik4kwwgywnaBsb5WDA=="/>
+        </item>
+    </channel>
+</rss>
