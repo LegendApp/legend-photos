@@ -4,25 +4,12 @@ import { Pressable, Text, View } from 'react-native';
 export interface SidebarButtonProps {
   text: string;
   isSelected: boolean;
-  isDarkMode: boolean;
   onPress: () => void;
   indentLevel?: number;
 }
 
-export function SidebarButton({
-  text,
-  isSelected,
-  isDarkMode,
-  onPress,
-  indentLevel = 0,
-}: SidebarButtonProps) {
-  const textColor = isSelected
-    ? isDarkMode
-      ? 'text-white'
-      : 'text-[#333]'
-    : isDarkMode
-      ? 'text-[#bbb]'
-      : 'text-[#333]';
+export function SidebarButton({ text, isSelected, onPress, indentLevel = 0 }: SidebarButtonProps) {
+  const textColor = isSelected ? 'text-white' : 'text-[#bbb]';
 
   const indentPadding = 8 + indentLevel * 12;
 

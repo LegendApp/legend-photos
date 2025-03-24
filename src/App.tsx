@@ -21,7 +21,7 @@ function App(): React.JSX.Element {
   const settingsLoaded = useSelector(isSettingsLoaded$);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-[#111]">
       <View className="flex-1 flex-row">
         <MainSidebar />
         {settingsLoaded && <PhotosViewContainer />}

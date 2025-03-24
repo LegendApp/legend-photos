@@ -2,7 +2,7 @@ import { SidebarButton } from '@/components/SidebarButton';
 import type { SidebarGroup, SidebarItem } from '@/plugin-system/PluginTypes';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
-import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 interface SidebarCommonProps {
   items: SidebarItem[] | SidebarGroup[];
@@ -21,8 +21,6 @@ export function Sidebar({
   showGroups = false,
   className,
 }: SidebarCommonProps) {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const isGrouped = (item: SidebarItem | SidebarGroup): item is SidebarGroup => {
     return 'items' in item && 'title' in item;
   };
@@ -32,11 +30,7 @@ export function Sidebar({
       return (items as SidebarGroup[]).map((group) => (
         <View key={group.title} className="mb-6">
           <View className="mb-1">
-            <Text
-              className={`px-3 text-xs font-semibold tracking-wider ${
-                isDarkMode ? 'text-zinc-500' : 'text-zinc-600'
-              }`}
-            >
+            <Text className="px-3 text-xs font-semibold tracking-wider text-zinc-500">
               {group.title}
             </Text>
           </View>
@@ -47,7 +41,6 @@ export function Sidebar({
                 key={item.path}
                 text={item.text}
                 isSelected={isItemSelected(item)}
-                isDarkMode={isDarkMode}
                 onPress={() => onSelectItem(item)}
                 indentLevel={item.depth || 0}
               />
@@ -62,7 +55,6 @@ export function Sidebar({
         key={item.path}
         text={item.text}
         isSelected={isItemSelected(item)}
-        isDarkMode={isDarkMode}
         onPress={() => onSelectItem(item)}
         indentLevel={item.depth || 0}
       />

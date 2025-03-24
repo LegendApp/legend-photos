@@ -13,6 +13,9 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
+  // Force the app to use dark appearance
+  [NSApp setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
+
     /**
    *  Use a notification observer to modify the window properties once the window has been created.
    */
