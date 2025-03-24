@@ -12,8 +12,8 @@
     "test": "jest",
     "build": "bun scripts/build.ts",
     "package": "bun scripts/package-app.ts",
-    "release": "bun run build && bun run package",
     "githubrelease": "bun scripts/githubRelease.ts",
+    "release": "bun run package && bun run githubrelease",
     "legend": "npx @legendapp/kit@latest"
   },
   "dependencies": {
