@@ -1,3 +1,6 @@
+import { useSelector } from '@legendapp/state/react';
+import React, { useRef } from 'react';
+import { Pressable, View } from 'react-native';
 import { Img } from '@/components/Img';
 import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
@@ -6,9 +9,6 @@ import { fullscreenView, state$ } from '@/systems/State';
 import { Theme } from '@/systems/Theme';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
-import { useSelector } from '@legendapp/state/react';
-import React, { useRef } from 'react';
-import { Pressable, View } from 'react-native';
 
 export interface PhotoProps {
   photo: PhotoInfo;
@@ -27,7 +27,16 @@ export const Photo = ({ photo, index }: PhotoProps) => {
     const view = photoRef.current;
     if (view && !state$.fullscreenPhoto.get()) {
       fullscreenView.current = view;
-      state$.fullscreenPhoto.set(photo);
+      view.measureInWindow((x, y, width, height) => {
+        state$.fullscreenPhoto.set({
+          initialPosition: {
+            x,
+            y,
+            width,
+            height,
+          },
+        });
+      });
     }
   };
 
