@@ -133,7 +133,7 @@ function getZipFilePath(config: AppConfig): string {
 function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePath: string) {
   log(`Creating GitHub release for v${config.version}`);
 
-  const releaseTitle = `${config.APP_NAME} v${config.version}`;
+  const releaseTitle = `v${config.version}`;
   const tagName = `v${config.version}`;
 
   // Create the release with the gh CLI
