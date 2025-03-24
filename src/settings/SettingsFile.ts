@@ -1,5 +1,7 @@
 import { createJSONManager } from '@/utils/JSONManager';
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
+import { syncState } from '@legendapp/state';
+import { observable } from '@legendapp/state';
 
 // Define the settings structure
 export interface AppSettings {
@@ -92,3 +94,5 @@ export const settings$ = createJSONManager<AppSettings>(
   'settings.json',
   DEFAULT_SETTINGS
 );
+
+export const isSettingsLoaded$ = observable(() => !!syncState(settings$).isPersistLoaded.get());

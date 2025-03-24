@@ -11,7 +11,7 @@ import { timeoutOnce } from '@/utils/timeoutOnce';
 import { event, observable, observe } from '@legendapp/state';
 
 // Event for folder changes detected by file system watcher
-export const eventFolderChange = event();
+const eventFolderChange = event();
 
 const folders$ = observable<string[]>([]);
 

@@ -7,7 +7,7 @@ import {
   setOpenFolder,
 } from '@/plugin-system/FileSources';
 import type { SidebarItem } from '@/plugin-system/PluginTypes';
-import { settings$ } from '@/settings/SettingsFile';
+import { isSettingsLoaded$, settings$ } from '@/settings/SettingsFile';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 
@@ -17,7 +17,6 @@ export function MainSidebar() {
   const sidebarWidth = useSelector(settings$.state.sidebarWidth);
 
   const isItemSelected = (item: SidebarItem) => {
-    console.log(selectedFolderId, folderInfoToId(item as SidebarItemWithSource));
     return selectedFolderId === folderInfoToId(item as SidebarItemWithSource);
   };
 
@@ -30,7 +29,10 @@ export function MainSidebar() {
   };
 
   useObserveEffect((e) => {
-    if (!selectedFolderId) {
+    // If settings are loaded and there's no open folder, select one
+    // TODO: Move this out of this file to somewhere more appropriate
+    const isSettingsLoaded = isSettingsLoaded$.get();
+    if (!selectedFolderId && isSettingsLoaded) {
       const openFolder = getOpenFolder();
       if (openFolder) {
         e.cancel = true;
@@ -40,11 +42,9 @@ export function MainSidebar() {
           console.log('selecting first folder');
           for (const group of allSidebarGroups) {
             for (const item of group.items) {
-              if (item.source === 'plugin-local-files') {
-                onSelectFolder(item);
-                e.cancel = true;
-                return;
-              }
+              onSelectFolder(item);
+              e.cancel = true;
+              return;
             }
           }
         }

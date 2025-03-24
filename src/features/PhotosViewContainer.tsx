@@ -1,6 +1,6 @@
 import { EmptyLibrary } from '@/features/EmptyLibrary';
 import { PhotosView } from '@/features/PhotosView';
-import { getOpenFolder } from '@/plugin-system/FileSources';
+import { allSidebarGroups$, getOpenFolder } from '@/plugin-system/FileSources';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
@@ -26,7 +26,7 @@ export function PhotosViewContainer() {
   const sidebarWidth = useSelector(
     () => (settings$.state.isSidebarOpen.get() && settings$.state.sidebarWidth.get()) || 0
   );
-  const hasLibrary = useSelector(() => settings$.library.paths.length > 0);
+  const hasLibrary = useSelector(() => allSidebarGroups$.get()?.length > 0);
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: {

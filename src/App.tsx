@@ -5,12 +5,11 @@ import { MainSidebar } from '@/features/MainSidebar';
 import { PhotosViewContainer } from '@/features/PhotosViewContainer';
 import { TitleBar } from '@/features/TitleBar';
 import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/registerDefaultPlugins';
-import { settings$ } from '@/settings/SettingsFile';
+import { isSettingsLoaded$ } from '@/settings/SettingsFile';
 import { SettingsWindowManager } from '@/settings/SettingsWindowManager';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
-import { syncState } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
 import { SafeAreaView, View } from 'react-native';
@@ -19,7 +18,7 @@ registerDefaultPlugins();
 initializeUpdater();
 
 function App(): React.JSX.Element {
-  const settingsLoaded = useSelector(() => !!syncState(settings$).isPersistLoaded.get());
+  const settingsLoaded = useSelector(isSettingsLoaded$);
 
   return (
     <SafeAreaView className="flex-1">
