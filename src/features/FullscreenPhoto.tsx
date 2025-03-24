@@ -1,4 +1,5 @@
 import { Img } from '@/components/Img';
+import { Filmstrip } from '@/features/Filmstrip';
 import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import type { PhotoInfo } from '@/systems/FileManager';
@@ -8,7 +9,7 @@ import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
-import { Animated, Dimensions, Pressable } from 'react-native';
+import { Animated, Dimensions, Pressable, View } from 'react-native';
 
 const SpringOpen = {
   bounciness: 3,
@@ -82,6 +83,8 @@ export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
   const photo = use$(state$.selectedPhoto) as PhotoInfo;
+  const isCoveringControls$ = useObservable(false);
+  const isCoveringControls = use$(isCoveringControls$);
   const isOpen$ = useObservable(false);
 
   // Animation values
@@ -105,6 +108,7 @@ export const FullscreenPhoto = () => {
       }
 
       isOpen$.set(true);
+      isCoveringControls$.set(true);
 
       // Set initial values
       const dimensions = Dimensions.get('window');
@@ -160,6 +164,7 @@ export const FullscreenPhoto = () => {
       const bottom = dimensions.height - height - y;
 
       state$.isPhotoFullscreenCoveringControls.set(false);
+      isCoveringControls$.set(false);
 
       // Animate back to original position and size
       springPositions(
@@ -216,7 +221,12 @@ export const FullscreenPhoto = () => {
       className="bg-black z-[100] absolute"
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
-      <Pressable className="flex-1" onPress={onPress}>
+      <Pressable
+        className="flex-1"
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{ marginBottom: isCoveringControls ? 96 : 0 }}
+        onPress={onPress}
+      >
         <Img photo={photo} className="flex-1" resizeMode="contain" onLoad={onLoad} native />
       </Pressable>
 
@@ -233,6 +243,13 @@ export const FullscreenPhoto = () => {
         >
           <PluginRenderer location="photoFullscreen" className="p-4" />
         </Motion.View>
+      </Show>
+
+      {/* Add Filmstrip at the bottom */}
+      <Show if={isCoveringControls$} wrap={AnimatePresence}>
+        <View className="absolute bottom-0 left-0 right-0">
+          <Filmstrip />
+        </View>
       </Show>
     </Animated.View>
   );

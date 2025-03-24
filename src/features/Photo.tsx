@@ -3,6 +3,7 @@ import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import type { PhotoInfo } from '@/systems/FileManager';
 import { fullscreenView, state$ } from '@/systems/State';
+import { Theme } from '@/systems/Theme';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { useSelector } from '@legendapp/state/react';
@@ -53,7 +54,10 @@ export const Photo = ({ photo, index }: PhotoProps) => {
       <Pressable onPress={onPress} className="w-full h-full">
         <Img photo={photo} className="w-full h-full" resizeMode={'cover'} native={false} />
         {isSelected && (
-          <View className="absolute inset-0 border-2 border-white/90 rounded-lg pointer-events-none" />
+          <View
+            className="absolute inset-0 border-2 rounded-lg pointer-events-none"
+            style={{ borderColor: Theme.colors.filmstrip.border }}
+          />
         )}
 
         <PluginRenderer
