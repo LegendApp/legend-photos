@@ -13,6 +13,7 @@
     "build": "bun scripts/build.ts",
     "package": "bun scripts/package-app.ts",
     "release": "bun run build && bun run package",
+    "githubrelease": "bun scripts/githubRelease.ts",
     "legend": "npx @legendapp/kit@latest"
   },
   "dependencies": {
