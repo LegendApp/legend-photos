@@ -300,7 +300,7 @@ function main() {
   // Copy the app to dist with versioned name
   log(`Copying app to dist directory as ${versionedAppName}`);
   try {
-    cpSync(builtAppPath, distAppPath, {recursive: true});
+    cpSync(builtAppPath, distAppPath, {recursive: true, force: true});
     console.log(`App copied successfully to: ${distAppPath}`);
   } catch (error) {
     console.error('Error copying app to dist directory:', error);
