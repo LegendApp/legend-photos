@@ -160,6 +160,39 @@ function createVersionInfoFile(distDir: string, config: AppConfig, zipFileName: 
   console.log(`Created version info file at: ${infoPath}`);
 }
 
+// Function to parse CHANGELOG.md and generate HTML update files for each version
+function generateChangelogHtml(distDir: string, config: AppConfig, appName: string) {
+  log('Generating HTML update files from CHANGELOG.md');
+
+  const changelogPath = join(PROJECT_ROOT, 'CHANGELOG.md');
+  if (!existsSync(changelogPath)) {
+    console.warn(`Warning: CHANGELOG.md not found at ${changelogPath}`);
+    console.warn('Skipping HTML update file generation');
+    return;
+  }
+
+  const changelogContent = readFileSync(changelogPath, 'utf-8');
+
+  // Parse changelog into version blocks
+  // Format expected: ## x.x.x followed by release notes
+  const versionRegex = /## (\d+\.\d+\.\d+)\s+([\s\S]*?)(?=## \d+\.\d+\.\d+|$)/g;
+  let match;
+
+  while ((match = versionRegex.exec(changelogContent)) !== null) {
+    const version = match[1];
+    const notes = match[2].trim();
+
+    // Save HTML file with the same naming pattern as the zip but with .html extension
+    const htmlFileName = `${appName} ${version}.html`;
+    const htmlFilePath = join(distDir, htmlFileName);
+
+    writeFileSync(htmlFilePath, notes, 'utf-8');
+    console.log(`Generated HTML update file for version ${version}: ${htmlFilePath}`);
+  }
+
+  log('HTML update file generation complete');
+}
+
 // Function to generate appcast
 function generateAppcast(distDir: string, config: AppConfig) {
   // Find generate-appcast
@@ -184,14 +217,15 @@ function main() {
   // Load configuration
   const config = loadConfig();
 
+  const appName = config.APP_NAME;
+
   // Setup paths
   const builtAppPath = join(
     PROJECT_ROOT,
     'macos/build/Build/Products/Release',
-    `${config.APP_NAME}.app`,
+    `${appName}.app`,
   );
   const distDir = join(PROJECT_ROOT, 'dist');
-  const appName = config.APP_NAME;
 
   // Use the same base filename both for the app and zip
   const versionedAppName = `${appName}.app`;
@@ -226,7 +260,7 @@ function main() {
   notarizeApp(distAppPath, config, appName);
 
   // Create final zip
-  log(`Packaging ${config.APP_NAME} v${config.version}`);
+  log(`Packaging ${appName} v${config.version}`);
   log(`Creating distribution ZIP archive: ${zipFileName}`);
   execCommand(
     'ditto',
@@ -239,6 +273,9 @@ function main() {
 
   // Create version info file for Sparkle
   createVersionInfoFile(distDir, config, zipFileName);
+
+  // Generate HTML update files from CHANGELOG.md
+  generateChangelogHtml(distDir, config, appName);
 
   // Generate appcast
   generateAppcast(distDir, config);
