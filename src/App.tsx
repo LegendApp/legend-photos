@@ -6,7 +6,7 @@ import { PhotosViewContainer } from '@/features/PhotosViewContainer';
 import { TitleBar } from '@/features/TitleBar';
 import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
-import { SettingsWindow } from '@/settings/SettingsWindow';
+import { SettingsWindowManager } from '@/settings/SettingsWindowManager';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
@@ -32,7 +32,7 @@ function App(): React.JSX.Element {
       <HookWindowDimensions windowDimensions$={windowDimensions$} />
       <HookKeyboard />
       <TitleBar />
-      <SettingsWindow />
+      <SettingsWindowManager />
       <HotkeyHelp />
       {/* <PhotoKitExample /> */}
     </SafeAreaView>

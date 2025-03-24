@@ -1,24 +1,25 @@
-import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { Sidebar } from '@/components/Sidebar';
+import type { SidebarItem } from '@/plugin-system/PluginTypes';
 import { GeneralSettings } from '@/settings/GeneralSettings';
 import { HotkeySettings } from '@/settings/HotkeySettings';
 import { LibrarySettings } from '@/settings/LibrarySettings';
 import { PluginSettings } from '@/settings/PluginSettings';
 import { ThemeSettings } from '@/settings/ThemeSettings';
+import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 // Define the categories for settings
-const SETTING_CATEGORIES = [
+const SETTING_CATEGORIES: SidebarItem[] = [
   //   { id: 'general', label: 'General' },
   //   { id: 'hotkeys', label: 'Hotkeys' },
   //   { id: 'themes', label: 'Themes' },
   //   { id: 'plugins', label: 'Plugins' },
-  { id: 'library', label: 'Library' },
+  { path: 'library', text: 'Library', depth: 0 },
   // Add more categories as needed
 ];
 
-export const Settings = () => {
+export const SettingsContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState('library');
 
   const renderContent = () => {
@@ -44,7 +45,7 @@ export const Settings = () => {
         <Sidebar
           items={SETTING_CATEGORIES}
           selectedItemId={selectedCategory}
-          onSelectItem={setSelectedCategory}
+          onSelectItem={(item) => setSelectedCategory(item.path)}
           width={140}
           showGroups={false}
         />
