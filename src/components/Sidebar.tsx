@@ -6,7 +6,7 @@ import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 're
 
 interface SidebarCommonProps {
   items: SidebarItem[] | SidebarGroup[];
-  selectedItemId: string;
+  isItemSelected: (item: SidebarItem) => boolean;
   onSelectItem: (item: SidebarItem) => void;
   width?: number | Animated.Value;
   showGroups?: boolean;
@@ -15,7 +15,7 @@ interface SidebarCommonProps {
 
 export function Sidebar({
   items,
-  selectedItemId,
+  isItemSelected,
   onSelectItem,
   width = 140,
   showGroups = false,
@@ -46,7 +46,7 @@ export function Sidebar({
               <SidebarButton
                 key={item.path}
                 text={item.text}
-                isSelected={selectedItemId === item.path}
+                isSelected={isItemSelected(item)}
                 isDarkMode={isDarkMode}
                 onPress={() => onSelectItem(item)}
                 indentLevel={item.depth || 0}
@@ -61,7 +61,7 @@ export function Sidebar({
       <SidebarButton
         key={item.path}
         text={item.text}
-        isSelected={selectedItemId === item.path}
+        isSelected={isItemSelected(item)}
         isDarkMode={isDarkMode}
         onPress={() => onSelectItem(item)}
         indentLevel={item.depth || 0}

@@ -22,6 +22,10 @@ const SETTING_CATEGORIES: SidebarItem[] = [
 export const SettingsContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState('library');
 
+  const isItemSelected = (item: SidebarItem) => {
+    return item.path === selectedCategory;
+  };
+
   const renderContent = () => {
     switch (selectedCategory) {
       case 'general':
@@ -44,7 +48,7 @@ export const SettingsContainer = () => {
       <View className="flex flex-1 flex-row">
         <Sidebar
           items={SETTING_CATEGORIES}
-          selectedItemId={selectedCategory}
+          isItemSelected={isItemSelected}
           onSelectItem={(item) => setSelectedCategory(item.path)}
           width={140}
           showGroups={false}

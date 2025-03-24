@@ -2,9 +2,11 @@ import { Sidebar } from '@/components/Sidebar';
 import {
   type SidebarItemWithSource,
   allSidebarGroups$,
+  folderInfoToId,
   getOpenFolder,
   setOpenFolder,
 } from '@/plugin-system/FileSources';
+import type { SidebarItem } from '@/plugin-system/PluginTypes';
 import { settings$ } from '@/settings/SettingsFile';
 import { useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
@@ -14,10 +16,16 @@ export function MainSidebar() {
   const sidebarGroups = useSelector(allSidebarGroups$) || [];
   const sidebarWidth = useSelector(settings$.state.sidebarWidth);
 
-  const onSelectFolder = (item: SidebarItemWithSource) => {
+  const isItemSelected = (item: SidebarItem) => {
+    console.log(selectedFolderId, folderInfoToId(item as SidebarItemWithSource));
+    return selectedFolderId === folderInfoToId(item as SidebarItemWithSource);
+  };
+
+  const onSelectFolder = (item: SidebarItem) => {
+    const itemWithSource = item as SidebarItemWithSource;
     setOpenFolder({
-      path: item.path,
-      source: item.source,
+      path: itemWithSource.path,
+      source: itemWithSource.source,
     });
   };
 
@@ -47,7 +55,7 @@ export function MainSidebar() {
   return (
     <Sidebar
       items={sidebarGroups}
-      selectedItemId={selectedFolderId || ''}
+      isItemSelected={isItemSelected}
       onSelectItem={onSelectFolder}
       width={sidebarWidth}
       showGroups={true}
