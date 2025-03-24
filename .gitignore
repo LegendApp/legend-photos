@@ -75,3 +75,4 @@ yarn-error.log
 
 # Ensure .env file is ignored
 .env
+dist
