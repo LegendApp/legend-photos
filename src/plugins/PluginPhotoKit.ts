@@ -69,16 +69,18 @@ export const PluginPhotoKit: SourcePlugin = {
     // Get event to trigger refresh when needed
     eventPhotoKitChange.get();
 
-    return [
-      {
-        title: 'Apple Photos',
-        items: albums$.get().map((album) => ({
-          path: `photokit://${album.identifier}/${album.title}`,
-          text: album.title,
-          depth: 0,
-        })),
-      },
-    ];
+    return albums$.get().length > 0
+      ? [
+          {
+            title: 'Apple Photos',
+            items: albums$.get().map((album) => ({
+              path: `photokit://${album.identifier}/${album.title}`,
+              text: album.title,
+              depth: 0,
+            })),
+          },
+        ]
+      : [];
   },
 
   // Get photos from a specific album
