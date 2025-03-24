@@ -48,7 +48,6 @@
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		514201592437B4B40078DB4F /* LegendPhotos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LegendPhotos.entitlements; sourceTree = "<group>"; };
 		6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		691ECB342D881B49001CE76E /* RNSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNSegmentedControl.swift; sourceTree = "<group>"; };
 		691ECB352D881B49001CE76E /* SegmentedControlBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlBridge.m; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		69B089852D88646500529066 /* SFSymbolBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSymbolBridge.m; sourceTree = "<group>"; };
 		69C50A7D2D8BA76F0029BC4C /* NativeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeImage.h; sourceTree = "<group>"; };
 		69C50A7E2D8BA76F0029BC4C /* NativeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeImage.m; sourceTree = "<group>"; };
+		69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LegendPhotos-macOS.entitlements"; sourceTree = "<group>"; };
 		6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -111,6 +111,7 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
@@ -119,7 +120,6 @@
 				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				514201562437B4B40078DB4F /* Info.plist */,
 				699BFD832D8592E2000F2A33 /* KeyboardManager */,
-				514201592437B4B40078DB4F /* LegendPhotos.entitlements */,
 				514201572437B4B40078DB4F /* main.m */,
 				514201532437B4B40078DB4F /* Main.storyboard */,
 				69A6CFA82D884B9C00B29080 /* NativeButton */,
@@ -577,8 +577,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "LegendPhotos-macOS/LegendPhotos-macOS.entitlements";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -587,7 +589,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.legend-photos";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.legendapp.legend-Photos";
 				PRODUCT_NAME = "Legend Photos";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -602,12 +605,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = none;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "LegendPhotos-macOS/LegendPhotos-macOS.entitlements";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPLOYMENT_POSTPROCESSING = YES;
 				ENABLE_BITCODE = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "LegendPhotos-macos/Info.plist";
@@ -620,14 +625,12 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "com.legendapp.legend-photos";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.legendapp.legend-photos";
 				PRODUCT_NAME = "Legend Photos";
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = all;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -688,10 +691,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -752,16 +752,12 @@
 				);
 				LLVM_LTO = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = all;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};

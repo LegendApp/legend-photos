@@ -92,6 +92,8 @@ function notarizeApp(appPath: string, config: AppConfig, safeAppName: string) {
     [
       '--force',
       '--deep',
+      '--entitlements',
+      join(PROJECT_ROOT, 'macos/LegendPhotos-macOS/LegendPhotos-macOS.entitlements'),
       '--sign',
       `Developer ID Application: ${config.TEAM_NAME} (${config.TEAM_ID})`,
       '--options',
