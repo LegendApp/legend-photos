@@ -62,7 +62,7 @@ export function usePhotosViewKeyboard() {
       repeat: true,
     },
     // New shortcuts for adjusting columns
-    27: {
+    [KeyCodes.KEY_MINUS]: {
       // Minus key
       action: () => {
         const currentColumns = settings$.state.numColumns.get();
@@ -75,7 +75,7 @@ export function usePhotosViewKeyboard() {
       keyText: '-',
       repeat: true,
     },
-    24: {
+    [KeyCodes.KEY_EQUALS]: {
       // Plus/equals key
       action: () => {
         const currentColumns = settings$.state.numColumns.get();

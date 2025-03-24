@@ -80,6 +80,9 @@ export const KeyCodes = {
   KEY_8: 28,
   KEY_9: 25,
 
+  KEY_MINUS: 27,
+  KEY_EQUALS: 24,
+
   // Special Keys
   KEY_RETURN: 36,
   KEY_TAB: 48,

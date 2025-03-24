@@ -18,7 +18,7 @@ export interface FullscreenPhotoData {
 export const state$ = observable({
   photos: [] as PhotoInfo[],
   selectedPhotoIndex: -1,
-  fullscreenPhoto: null as PhotoInfo | null,
+  fullscreenPhoto: null as FullscreenPhotoData | null,
   isPhotoFullscreenCoveringControls: false,
   titleBarHovered: false,
   showSettings: false,
