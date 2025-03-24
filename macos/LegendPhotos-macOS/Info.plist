@@ -17,37 +17,37 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>001</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAppTransportSecurity</key>
- 	<dict>
- 		<key>NSAllowsArbitraryLoads</key>
- 		<true/>
- 		<key>NSExceptionDomains</key>
- 		<dict>
- 			<key>localhost</key>
- 			<dict>
- 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
- 				<true/>
- 			</dict>
- 		</dict>
- 	</dict>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to your photo library to display and manage your photos.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 	<key>NSSupportsAutomaticTermination</key>
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://your-appcast-url.com/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/LegendApp/legend-photos/refs/heads/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>YOUR_ED25519_PUBLIC_KEY</string>
+	<string>+9sqbwuHh6jqJHe35pGeXrZBCnQlH8tj3/q8NX+STQE=</string>
 </dict>
 </plist>

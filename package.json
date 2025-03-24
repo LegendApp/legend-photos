@@ -10,7 +10,7 @@
     "start": "react-native start",
     "startclear": "react-native start --reset-cache",
     "test": "jest",
-    "build": "cd macos && rm -fr build/Build/Products/Release/Legend\\ Photos.app && xcodebuild -workspace LegendPhotos.xcworkspace -scheme LegendPhotos-macOS -configuration Release -derivedDataPath ./build",
+    "build": "bun scripts/build.ts",
     "package": "bun scripts/package-app.ts",
     "release": "bun run build && bun run package",
     "legend": "npx @legendapp/kit@latest"

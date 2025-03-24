@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 
-import {resolve, join} from 'path';
-import {readFileSync, mkdirSync, existsSync, cpSync} from 'fs';
-import {spawnSync} from 'child_process';
+import { spawnSync } from 'child_process';
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import path, { join, resolve } from 'path';
 
 // Types
 interface AppConfig {
@@ -12,7 +12,6 @@ interface AppConfig {
   APPLE_ID: string;
   APP_PASSWORD: string;
   version: string;
-  [key: string]: string; // Index signature to allow string indexing
 }
 
 // Helper functions
@@ -65,7 +64,7 @@ function loadConfig(): AppConfig {
       'TEAM_ID',
       'APPLE_ID',
       'APP_PASSWORD',
-    ];
+    ] as const;
 
     envVars.forEach(key => {
       const pattern = new RegExp(`${key}=["']?([^"'\\n]+)["']?`);
@@ -84,8 +83,10 @@ function loadConfig(): AppConfig {
 
 // Function to notarize the app
 function notarizeApp(appPath: string, config: AppConfig, safeAppName: string) {
+  log(`Starting notarization process for ${appPath}`);
+
   // Step 1: Code Sign the app
-  log('Notarizing app');
+  log('Code signing app');
   execCommand(
     'codesign',
     [
@@ -139,6 +140,45 @@ function notarizeApp(appPath: string, config: AppConfig, safeAppName: string) {
   log('Notarization process completed successfully');
 }
 
+// Function to create a version info file for Sparkle
+function createVersionInfoFile(distDir: string, config: AppConfig, zipFileName: string) {
+  const infoPath = join(distDir, 'sparkle-version-info.plist');
+  const content = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleShortVersionString</key>
+    <string>${config.version}</string>
+    <key>CFBundleVersion</key>
+    <string>${config.version.split('.').join('')}</string>
+    <key>FileName</key>
+    <string>${zipFileName}</string>
+</dict>
+</plist>`;
+
+  writeFileSync(infoPath, content, 'utf-8');
+  console.log(`Created version info file at: ${infoPath}`);
+}
+
+// Function to generate appcast
+function generateAppcast(distDir: string, config: AppConfig) {
+  // Find generate-appcast
+  const generateAppcastPath = path.resolve(
+    __dirname,
+    '../macos/Pods/Sparkle/bin/generate_appcast',
+  );
+
+  if (!existsSync(generateAppcastPath)) {
+    console.warn(`Warning: generate_appcast not found at ${generateAppcastPath}`);
+    console.warn('Skipping appcast generation. To enable this feature, set SPARKLE_PATH in .env');
+    return;
+  }
+
+  log('Generating appcast from dist folder');
+  execCommand(generateAppcastPath, [distDir, '--download-url-prefix', `https://github.com/LegendApp/legend-photos/releases/tag/${config.version}/`], 'Error generating appcast:');
+  log('Appcast generation complete');
+}
+
 // Main execution
 function main() {
   // Load configuration
@@ -151,10 +191,12 @@ function main() {
     `${config.APP_NAME}.app`,
   );
   const distDir = join(PROJECT_ROOT, 'dist');
-  const safeAppName = config.APP_NAME.replace(/\s+/g, '_');
-  const versionedAppName = `${safeAppName}-v${config.version}.app`;
+  const appName = config.APP_NAME;
+
+  // Use the same base filename both for the app and zip
+  const versionedAppName = `${appName}.app`;
+  const zipFileName = `${appName} ${config.version}.zip`;
   const distAppPath = join(distDir, versionedAppName);
-  const zipFileName = `${safeAppName}-v${config.version}.zip`;
   const zipFilePath = join(distDir, zipFileName);
 
   // Check if app exists
@@ -181,7 +223,7 @@ function main() {
   }
 
   // Notarize the copied app
-  notarizeApp(distAppPath, config, safeAppName);
+  notarizeApp(distAppPath, config, appName);
 
   // Create final zip
   log(`Packaging ${config.APP_NAME} v${config.version}`);
@@ -194,6 +236,12 @@ function main() {
 
   log('Packaging complete');
   console.log(`App has been packaged to: ${zipFilePath}`);
+
+  // Create version info file for Sparkle
+  createVersionInfoFile(distDir, config, zipFileName);
+
+  // Generate appcast
+  generateAppcast(distDir, config);
 }
 
 // Run the script
