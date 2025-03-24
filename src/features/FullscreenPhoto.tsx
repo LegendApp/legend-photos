@@ -2,6 +2,7 @@ import { Img } from '@/components/Img';
 import { Filmstrip } from '@/features/Filmstrip';
 import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
+import { settings$ } from '@/settings/SettingsFile';
 import type { PhotoInfo } from '@/systems/FileManager';
 import { fullscreenView, state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
@@ -9,7 +10,7 @@ import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
-import { Animated, Dimensions, Pressable, View } from 'react-native';
+import { Animated, Dimensions, Pressable } from 'react-native';
 
 const SpringOpen = {
   bounciness: 3,
@@ -24,6 +25,12 @@ const SpringClose = {
 const SpringInfo = {
   type: 'spring',
   bounciness: 6,
+  speed: 24,
+} as const;
+
+const SpringFilmstrip = {
+  type: 'spring',
+  bounciness: 4,
   speed: 24,
 } as const;
 
@@ -83,9 +90,10 @@ export const FullscreenPhoto = () => {
   // Use the global observable
   const fullscreenData = use$(state$.fullscreenPhoto);
   const photo = use$(state$.selectedPhoto) as PhotoInfo;
-  const isCoveringControls$ = useObservable(false);
-  const isCoveringControls = use$(isCoveringControls$);
+  const isOpenOrClosing$ = useObservable(false);
   const isOpen$ = useObservable(false);
+  const showFilmstrip$ = use$(() => isOpenOrClosing$.get() && settings$.state.showFilmstrip.get());
+  const showFilmstrip = use$(showFilmstrip$);
 
   // Animation values
   const animatedOpacity = React.useRef(new Animated.Value(0)).current;
@@ -108,7 +116,7 @@ export const FullscreenPhoto = () => {
       }
 
       isOpen$.set(true);
-      isCoveringControls$.set(true);
+      isOpenOrClosing$.set(true);
 
       // Set initial values
       const dimensions = Dimensions.get('window');
@@ -164,7 +172,7 @@ export const FullscreenPhoto = () => {
       const bottom = dimensions.height - height - y;
 
       state$.isPhotoFullscreenCoveringControls.set(false);
-      isCoveringControls$.set(false);
+      isOpenOrClosing$.set(false);
 
       // Animate back to original position and size
       springPositions(
@@ -209,6 +217,12 @@ export const FullscreenPhoto = () => {
       description: 'Close fullscreen photo view',
       // Note: no keyText because we don't want it to show in hotkeys
     },
+    [KeyCodes.KEY_F]: {
+      action: () => settings$.state.showFilmstrip.toggle(),
+      name: 'Toggle Filmstrip',
+      description: 'Show the filmstrip in fullscreen',
+      keyText: 'F',
+    },
   });
 
   // If no fullscreen data, don't render anything
@@ -221,14 +235,15 @@ export const FullscreenPhoto = () => {
       className="bg-black z-[100] absolute"
       style={{ ...refAnimatedPositions.current, opacity: animatedOpacity }}
     >
-      <Pressable
+      <Motion.View
         className="flex-1"
-        // eslint-disable-next-line react-native/no-inline-styles
-        style={{ marginBottom: isCoveringControls ? 96 : 0 }}
-        onPress={onPress}
+        animate={{ marginBottom: showFilmstrip ? 96 : 0 }}
+        transition={SpringFilmstrip}
       >
-        <Img photo={photo} className="flex-1" resizeMode="contain" onLoad={onLoad} native />
-      </Pressable>
+        <Pressable className="flex-1" onPress={onPress}>
+          <Img photo={photo} className="flex-1" resizeMode="contain" onLoad={onLoad} native />
+        </Pressable>
+      </Motion.View>
 
       {/* Add plugin renderer for photoFullscreen location */}
       <Show if={state$.isPhotoFullscreenCoveringControls} wrap={AnimatePresence}>
@@ -246,10 +261,19 @@ export const FullscreenPhoto = () => {
       </Show>
 
       {/* Add Filmstrip at the bottom */}
-      <Show if={isCoveringControls$} wrap={AnimatePresence}>
-        <View className="absolute bottom-0 left-0 right-0">
+      <Show if={showFilmstrip$} wrap={AnimatePresence}>
+        <Motion.View
+          className="absolute bottom-0 left-0 right-0"
+          initial={{ opacity: 0, y: 88 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 88 }}
+          transition={{
+            opacity: { type: 'tween', duration: 100 },
+            y: SpringFilmstrip,
+          }}
+        >
           <Filmstrip />
-        </View>
+        </Motion.View>
       </Show>
     </Animated.View>
   );

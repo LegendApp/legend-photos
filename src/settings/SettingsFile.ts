@@ -1,5 +1,5 @@
-import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { createJSONManager } from '@/utils/JSONManager';
+import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 
 // Define the settings structure
 export interface AppSettings {
@@ -47,6 +47,7 @@ export interface AppSettings {
     sidebarWidth: number;
     isSidebarOpen: boolean;
     numColumns: number;
+    showFilmstrip: boolean;
   };
 }
 
@@ -81,6 +82,7 @@ const DEFAULT_SETTINGS: AppSettings = {
     sidebarWidth: 160,
     isSidebarOpen: false,
     numColumns: 4,
+    showFilmstrip: true,
   },
 };
 
