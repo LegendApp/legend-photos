@@ -129,6 +129,24 @@ function main() {
   ], 'Error building app:');
 
   log('Build completed successfully');
+
+  execCommand(
+    'codesign',
+    [
+      '--force',
+      '--deep',
+      '--entitlements',
+      join(PROJECT_ROOT, 'macos/LegendPhotos-macOS/LegendPhotos-macOS.entitlements'),
+      '--sign',
+      `Developer ID Application: ${config.TEAM_NAME} (${config.TEAM_ID})`,
+      '--options',
+      'runtime',
+      RELEASE_APP_PATH,
+    ],
+    'Error code signing app:',
+  );
+
+  log('Code signed successfully');
 }
 
 // Run the script
