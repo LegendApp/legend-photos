@@ -259,6 +259,8 @@ function generateAppcast(distDir: string, config: AppConfig) {
     ],
     'Error generating appcast:',
   );
+    cpSync(join(distDir, 'appcast.xml'), join(PROJECT__ROOT, 'appcast.xml'), {force: true});
+
   log('Appcast generation complete');
 }
 

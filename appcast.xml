@@ -9,7 +9,7 @@
             <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description><![CDATA[Initial release]]></description>
-            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos%200.1.0.zip" length="8814022" type="application/octet-stream" sparkle:edSignature="yrlPxZMP39oib1o3TGhEfLsrDqjjxaoEBoLqWEnZRmrZM1907VEJ88eA3zUl+kBkT15DJaL3Rf0zOF7Fmqy8Dg=="/>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos%200.1.0.zip" length="8813996" type="application/octet-stream" sparkle:edSignature="sOARaBcwGk/l/DtAQImS89tYSJrwrsUFuEX49V1yLmQmK8xein8fEn4h9In2ygYdBFzMYSgBf2Lw26+k6FxADg=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos010-001.delta" sparkle:deltaFrom="001" length="17310" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="VTN3ULDiJyzBm/InAHReaLQA2pQ9InnA2Bia3iUxFfWUgrVck0XX4lDLXhWSQ9s6znj0TbQ/is5xtDopNaPUCA=="/>
             </sparkle:deltas>
