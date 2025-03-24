@@ -62,7 +62,7 @@ export const LibrarySettings = () => {
                 <Button
                   title="Remove"
                   bezelStyle="textured"
-                  controlSize="mini"
+                  controlSize="regular"
                   onPress={() => handleRemovePath(path)}
                 />
               </View>

@@ -1,17 +1,13 @@
 import { SidebarButton } from '@/components/SidebarButton';
-import {
-  type SidebarGroupWithSource,
-  type SidebarItemWithSource,
-  folderInfoToId,
-} from '@/plugin-system/FileSources';
+import type { SidebarGroup, SidebarItem } from '@/plugin-system/PluginTypes';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native';
 
 interface SidebarCommonProps {
-  items: SidebarItemWithSource[] | SidebarGroupWithSource[];
+  items: SidebarItem[] | SidebarGroup[];
   selectedItemId: string;
-  onSelectItem: (item: SidebarItemWithSource) => void;
+  onSelectItem: (item: SidebarItem) => void;
   width?: number | Animated.Value;
   showGroups?: boolean;
   className?: string;
@@ -27,15 +23,13 @@ export function Sidebar({
 }: SidebarCommonProps) {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const isGrouped = (
-    item: SidebarItemWithSource | SidebarGroupWithSource
-  ): item is SidebarGroupWithSource => {
+  const isGrouped = (item: SidebarItem | SidebarGroup): item is SidebarGroup => {
     return 'items' in item && 'title' in item;
   };
 
   const renderItems = () => {
     if (showGroups && items.some(isGrouped)) {
-      return (items as SidebarGroupWithSource[]).map((group) => (
+      return (items as SidebarGroup[]).map((group) => (
         <View key={group.title} className="mb-6">
           <View className="mb-1">
             <Text
@@ -52,7 +46,7 @@ export function Sidebar({
               <SidebarButton
                 key={item.path}
                 text={item.text}
-                isSelected={selectedItemId === folderInfoToId(item)}
+                isSelected={selectedItemId === item.path}
                 isDarkMode={isDarkMode}
                 onPress={() => onSelectItem(item)}
                 indentLevel={item.depth || 0}
@@ -63,7 +57,7 @@ export function Sidebar({
       ));
     }
 
-    return (items as SidebarItemWithSource[]).map((item) => (
+    return (items as SidebarItem[]).map((item) => (
       <SidebarButton
         key={item.path}
         text={item.text}
