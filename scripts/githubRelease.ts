@@ -159,24 +159,39 @@ function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePat
 function tagAndPushCommit(config: AppConfig) {
   const tagName = `v${config.version}`;
 
-  log(`Tagging latest commit with ${tagName}`);
+  // Check if the latest commit is already tagged with this tag
+  log(`Checking if latest commit is already tagged with ${tagName}`);
+  const latestTagResult = spawnSync('git', ['tag', '--points-at', 'HEAD'], { stdio: 'pipe' });
 
-  // Tag the latest commit
-  execCommand(
-    'git',
-    ['tag', '-a', tagName, '-m', `Release ${tagName}`],
-    'Error tagging latest commit:'
-  );
+  if (latestTagResult.error) {
+    console.error('Error checking current tags:', latestTagResult.error);
+    process.exit(1);
+  }
 
-  // Push the tag
-  log('Pushing tag to remote repository');
-  execCommand(
-    'git',
-    ['push', 'origin', tagName],
-    'Error pushing tag to remote repository:'
-  );
+  const currentTags = latestTagResult.stdout.toString().trim().split('\n');
 
-  log('Tag successfully pushed to remote repository');
+  if (currentTags.includes(tagName)) {
+    log(`Latest commit is already tagged with ${tagName}, skipping tag creation`);
+  } else {
+    log(`Tagging latest commit with ${tagName}`);
+
+    // Tag the latest commit
+    execCommand(
+      'git',
+      ['tag', '-a', tagName, '-m', `Release ${tagName}`],
+      'Error tagging latest commit:'
+    );
+
+    // Push the tag
+    log('Pushing tag to remote repository');
+    execCommand(
+      'git',
+      ['push', 'origin', tagName],
+      'Error pushing tag to remote repository:'
+    );
+
+    log('Tag successfully pushed to remote repository');
+  }
 }
 
 // Main execution
