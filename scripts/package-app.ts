@@ -193,6 +193,30 @@ function generateChangelogHtml(distDir: string, config: AppConfig, appName: stri
   log('HTML update file generation complete');
 }
 
+// Function to check if version exists in CHANGELOG.md
+function checkVersionInChangelog(config: AppConfig) {
+  log('Checking for version in CHANGELOG.md');
+
+  const changelogPath = join(PROJECT_ROOT, 'CHANGELOG.md');
+  if (!existsSync(changelogPath)) {
+    console.error(`Error: CHANGELOG.md not found at ${changelogPath}`);
+    process.exit(1);
+  }
+
+  const changelogContent = readFileSync(changelogPath, 'utf-8');
+
+  // Look for the version header in the changelog
+  const versionHeaderRegex = new RegExp(`## ${config.version.replace(/\./g, '\\.')}`);
+
+  if (!versionHeaderRegex.test(changelogContent)) {
+    console.error(`Error: Version ${config.version} not found in CHANGELOG.md`);
+    console.error('Please add release notes for this version before packaging');
+    process.exit(1);
+  }
+
+  log(`Found version ${config.version} in CHANGELOG.md`);
+}
+
 // Function to generate appcast
 function generateAppcast(distDir: string, config: AppConfig) {
   // Find generate-appcast
@@ -218,6 +242,9 @@ function main() {
   const config = loadConfig();
 
   const appName = config.APP_NAME;
+
+  // Check if this version exists in the changelog before proceeding
+  checkVersionInChangelog(config);
 
   // Setup paths
   const builtAppPath = join(
