@@ -8,11 +8,11 @@ import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
 import { ax } from '@/utils/ax';
-import { LegendList } from '@legendapp/list';
+import { LegendList, type LegendListRef } from '@legendapp/list';
 import { observe, syncState } from '@legendapp/state';
 import { observer, use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 remapProps(LegendList, {
@@ -52,9 +52,10 @@ export const PhotosView = observer(function PhotosView() {
   const [loading] = useState(false);
   const [error] = useState<string | null>(null);
   const openingFolder = useSelector(state$.openingFolder);
+  const refList = useRef<LegendListRef>(null);
 
   // Set up keyboard shortcuts
-  usePhotosViewKeyboard();
+  usePhotosViewKeyboard(refList);
 
   if (loading || !hasMetadatas || openingFolder) {
     return (
@@ -95,6 +96,7 @@ export const PhotosView = observer(function PhotosView() {
         columnWrapperStyle={styles.columnWrapperStyle}
         style={styles.legendListStyle}
         ListHeaderComponent={ListHeaderComponent}
+        ref={refList}
       />
     </View>
   );

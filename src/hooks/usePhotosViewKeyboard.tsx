@@ -2,11 +2,22 @@ import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import type { LegendListRef } from '@legendapp/list';
+import type { RefObject } from 'react';
 
-export function usePhotosViewKeyboard() {
+export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
   // Get the current state
   const photos$ = state$.photos;
   const selectedPhotoIndex$ = state$.selectedPhotoIndex;
+
+  const addIndex = (add: number) => {
+    const newIdx = selectedPhotoIndex$.get() + add;
+    selectedPhotoIndex$.set(newIdx);
+
+    // TODO: Ensure this is in view
+    // const viewOffset = add > 0 ? windowDimensions$.height.get() - 200 : 0;
+    // refList.current?.scrollToIndex({ index: newIdx, animated: true, viewOffset });
+  };
 
   useOnHotkeys({
     [KeyCodes.KEY_LEFT]: {
@@ -26,7 +37,7 @@ export function usePhotosViewKeyboard() {
         const photos = photos$.get();
         const idx = selectedPhotoIndex$.get();
         if (idx! < photos.length - 1) {
-          selectedPhotoIndex$.set((v) => v! + 1);
+          addIndex(1);
         }
       },
       name: 'Right',
@@ -39,7 +50,7 @@ export function usePhotosViewKeyboard() {
         const numColumns = settings$.state.numColumns.get();
         const idx = selectedPhotoIndex$.get();
         if (idx! >= numColumns) {
-          selectedPhotoIndex$.set((v) => v! - numColumns);
+          addIndex(-numColumns);
         }
       },
       name: 'Up',
@@ -53,7 +64,7 @@ export function usePhotosViewKeyboard() {
         const numColumns = settings$.state.numColumns.get();
         const idx = selectedPhotoIndex$.get();
         if (idx! < photos.length - numColumns) {
-          selectedPhotoIndex$.set((v) => v! + numColumns);
+          addIndex(numColumns);
         }
       },
       name: 'Down',
