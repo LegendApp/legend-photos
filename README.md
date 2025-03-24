@@ -58,15 +58,19 @@ We want to focus on just those goals, at least in the early stages. So Legend Ph
 
 ### Bugs
 
-If it's small, do a quick PR! If it's big you may want to post an issue first, and say you're fixing it, so nobody else does it first.
+If it's small, do a quick PR! If it's big you may want to post an issue first, and say you're fixing it, to prevent conflicting with someone else.
 
 ### Features
 
 Please post a [Feature Proposal] issue first so we can discuss the right way to do it and make sure it'll be easy to accept and merge.
 
 ### Plugins
+
 I want to make features as plugins wherever possible. So ideally there is a light core with a powerful plugin system which allows all sorts of plugins. If you want a feature which wouldn't fit as a pugin, let's discuss how we could augment the plugin system to enable it.
 
+### Performance
+
+We want the best possible performance so if you have something to improve performance we'd love it!
 
 ## Development
 
