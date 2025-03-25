@@ -34,7 +34,7 @@ export function PhotosViewContainer() {
   });
 
   useOnHotkeys({
-    [KeyCodes.KEY_S]: {
+    Sidebar: {
       action: () => {
         const selectedFolder = getOpenFolder();
 
@@ -42,7 +42,7 @@ export function PhotosViewContainer() {
           settings$.state.isSidebarOpen.toggle();
         }
       },
-      name: 'Sidebar',
+      key: KeyCodes.KEY_S,
       description: 'Toggle sidebar visibility',
       keyText: 'S',
     },

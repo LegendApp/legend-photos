@@ -94,23 +94,21 @@ export const PluginFlagReject: DisplayPlugin = {
     return !!(photoMetadata && (photoMetadata.flag || photoMetadata.reject));
   },
   hotkeys: {
-    // Use Space to toggle flag
-    [KeyCodes.KEY_SPACE.toString()]: {
+    'Toggle Flag Space': {
       action: toggleFlagCurrentPhoto,
-      name: 'Toggle Flag',
+      key: KeyCodes.KEY_SPACE,
       description: 'Toggle flag on the current photo',
       keyText: 'Space',
     },
-    [KeyCodes.KEY_P.toString()]: {
+    'Toggle Flag P': {
       action: toggleFlagCurrentPhoto,
-      name: 'Toggle Flag',
+      key: KeyCodes.KEY_P,
       description: 'Toggle flag on the current photo',
       keyText: 'P',
     },
-    // Use X to toggle reject
-    [KeyCodes.KEY_X.toString()]: {
+    'Toggle Reject': {
       action: toggleRejectCurrentPhoto,
-      name: 'Toggle Reject',
+      key: KeyCodes.KEY_X,
       description: 'Toggle reject on the current photo',
       keyText: 'X',
     },

@@ -1,5 +1,5 @@
 import type { PhotoInfo } from '@/systems/FileManager';
-import type { KeyInfo, KeyboardEventCodeHotkey } from '@/systems/keyboard/Keyboard';
+import type { KeyInfo } from '@/systems/keyboard/Keyboard';
 import type { ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
 
@@ -31,7 +31,7 @@ export interface DisplayPlugin extends Plugin {
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;
   position: 'l' | 'tl' | 't' | 'tr' | 'r' | 'br' | 'b' | 'bl';
-  hotkeys?: Record<KeyboardEventCodeHotkey, KeyInfo>;
+  hotkeys?: Record<string, KeyInfo>;
 }
 
 export interface SidebarGroup {

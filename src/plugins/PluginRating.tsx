@@ -76,40 +76,39 @@ export const PluginRating: DisplayPlugin = {
     return !!photoMetadata && photoMetadata.rating! > 0;
   },
   hotkeys: {
-    // Use number keys 1-5 to set rating
-    [KeyCodes.KEY_0.toString()]: {
+    'Rate 0': {
       action: () => rateCurrentPhoto(0),
-      name: 'Rate 0',
+      key: KeyCodes.KEY_0,
       description: 'Rate photo 0',
       keyText: '0',
     },
-    [KeyCodes.KEY_1.toString()]: {
+    'Rate 1': {
       action: () => rateCurrentPhoto(1),
-      name: 'Rate 1',
+      key: KeyCodes.KEY_1,
       description: 'Rate photo 1',
       keyText: '1',
     },
-    [KeyCodes.KEY_2.toString()]: {
+    'Rate 2': {
       action: () => rateCurrentPhoto(2),
-      name: 'Rate 2',
+      key: KeyCodes.KEY_2,
       description: 'Rate photo 2',
       keyText: '2',
     },
-    [KeyCodes.KEY_3.toString()]: {
+    'Rate 3': {
       action: () => rateCurrentPhoto(3),
-      name: 'Rate 3',
+      key: KeyCodes.KEY_3,
       description: 'Rate photo 3',
       keyText: '3',
     },
-    [KeyCodes.KEY_4.toString()]: {
+    'Rate 4': {
       action: () => rateCurrentPhoto(4),
-      name: 'Rate 4',
+      key: KeyCodes.KEY_4,
       description: 'Rate photo 4',
       keyText: '4',
     },
-    [KeyCodes.KEY_5.toString()]: {
+    'Rate 5': {
       action: () => rateCurrentPhoto(5),
-      name: 'Rate 5',
+      key: KeyCodes.KEY_5,
       description: 'Rate photo 5',
       keyText: '5',
     },

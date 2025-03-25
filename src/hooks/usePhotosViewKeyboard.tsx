@@ -5,7 +5,7 @@ import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import type { LegendListRef } from '@legendapp/list';
 import type { RefObject } from 'react';
 
-export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
+export function usePhotosViewKeyboard(_refList: RefObject<LegendListRef>) {
   // Get the current state
   const photos$ = state$.photos;
   const selectedPhotoIndex$ = state$.selectedPhotoIndex;
@@ -20,19 +20,19 @@ export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
   };
 
   useOnHotkeys({
-    [KeyCodes.KEY_LEFT]: {
+    Left: {
       action: () => {
         const idx = selectedPhotoIndex$.get();
         if (idx! > 0) {
           selectedPhotoIndex$.set((v) => v! - 1);
         }
       },
-      name: 'Left',
+      key: KeyCodes.KEY_LEFT,
       description: 'Select previous photo',
       keyText: '←',
       repeat: true,
     },
-    [KeyCodes.KEY_RIGHT]: {
+    Right: {
       action: () => {
         const photos = photos$.get();
         const idx = selectedPhotoIndex$.get();
@@ -40,12 +40,12 @@ export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
           addIndex(1);
         }
       },
-      name: 'Right',
+      key: KeyCodes.KEY_RIGHT,
       description: 'Select next photo',
       keyText: '→',
       repeat: true,
     },
-    [KeyCodes.KEY_UP]: {
+    Up: {
       action: () => {
         const numColumns = settings$.state.numColumns.get();
         const idx = selectedPhotoIndex$.get();
@@ -53,12 +53,12 @@ export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
           addIndex(-numColumns);
         }
       },
-      name: 'Up',
+      key: KeyCodes.KEY_UP,
       description: 'Select photo above',
       keyText: '↑',
       repeat: true,
     },
-    [KeyCodes.KEY_DOWN]: {
+    Down: {
       action: () => {
         const photos = photos$.get();
         const numColumns = settings$.state.numColumns.get();
@@ -67,32 +67,29 @@ export function usePhotosViewKeyboard(refList: RefObject<LegendListRef>) {
           addIndex(numColumns);
         }
       },
-      name: 'Down',
+      key: KeyCodes.KEY_DOWN,
       description: 'Select photo below',
       keyText: '↓',
       repeat: true,
     },
-    // New shortcuts for adjusting columns
-    [KeyCodes.KEY_MINUS]: {
-      // Minus key
+    'Decrease Columns': {
       action: () => {
         const currentColumns = settings$.state.numColumns.get();
         if (currentColumns > 1) {
           settings$.state.numColumns.set(currentColumns - 1);
         }
       },
-      name: 'Decrease Columns',
+      key: KeyCodes.KEY_MINUS,
       description: 'Decrease number of columns',
       keyText: '-',
       repeat: true,
     },
-    [KeyCodes.KEY_EQUALS]: {
-      // Plus/equals key
+    'Increase Columns': {
       action: () => {
         const currentColumns = settings$.state.numColumns.get();
         settings$.state.numColumns.set(currentColumns + 1);
       },
-      name: 'Increase Columns',
+      key: KeyCodes.KEY_EQUALS,
       description: 'Increase number of columns',
       keyText: '+',
       repeat: true,

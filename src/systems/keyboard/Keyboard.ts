@@ -1,13 +1,14 @@
-import { event, observable } from '@legendapp/state';
-import { useEffectOnce, useMount } from '@legendapp/state/react';
-import { ax } from '@/utils/ax';
 import { state$ } from '@/systems/State';
 import KeyboardManager, { type KeyboardEvent } from '@/systems/keyboard/KeyboardManager';
+import { ax } from '@/utils/ax';
+import { event, observable } from '@legendapp/state';
+import { useEffectOnce, useMount } from '@legendapp/state/react';
 
 type KeyboardEventCode = number;
 type KeyboardEventCodeModifier = string;
 
 export type KeyboardEventCodeHotkey =
+  | KeyboardEventCode
   | `${KeyboardEventCode}`
   | `${KeyboardEventCodeModifier}+${KeyboardEventCode}`
   | `${KeyboardEventCodeModifier}+${KeyboardEventCodeModifier}+${KeyboardEventCode}`;
@@ -19,7 +20,7 @@ const keysToPreventDefault = new Set<KeyboardEventCode>();
 
 export interface KeyInfo {
   action: () => void;
-  name: string;
+  key: KeyboardEventCodeHotkey;
   description: string;
   repeat?: boolean;
   keyText?: string;
@@ -27,7 +28,7 @@ export interface KeyInfo {
 
 // Global registry for hotkeys with their name and action description
 export interface HotkeyInfo extends Exclude<KeyInfo, 'action'> {
-  keys: string;
+  name: string;
 }
 export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
 
@@ -85,16 +86,20 @@ export function useHookKeyboard() {
   });
 }
 
-type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, KeyInfo>>;
+type HotkeyCallbacks = Partial<Record<string, KeyInfo>>;
 
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   const hotkeyMap = new Map<string[], () => void>();
   const repeatActions = new Set<string[]>();
 
   // Process each combination and its callback
-  for (const [hotkey, keyInfo] of Object.entries(hotkeyCallbacks)) {
+  for (const [name, keyInfo] of Object.entries(hotkeyCallbacks)) {
     if (keyInfo) {
-      const keys = hotkey.toLowerCase().split('+');
+      const keys =
+        typeof keyInfo.key === 'number'
+          ? [keyInfo.key.toString()]
+          : keyInfo.key.toLowerCase().split('+');
+
       keysToPreventDefault.add(Number(keys[keys.length - 1]));
       hotkeyMap.set(keys, keyInfo.action);
 
@@ -104,8 +109,8 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
 
       if (keyInfo.keyText) {
         // Register the hotkey with its name and action
-        hotkeyRegistry$[keyInfo.name].set({
-          keys: hotkey,
+        hotkeyRegistry$[name].set({
+          name,
           ...keyInfo,
         });
       }

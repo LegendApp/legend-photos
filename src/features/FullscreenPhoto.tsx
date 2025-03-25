@@ -1,7 +1,3 @@
-import { AnimatePresence, Motion } from '@legendapp/motion';
-import { Show, use$, useObservable } from '@legendapp/state/react';
-import React, { useCallback, useRef } from 'react';
-import { Animated, Dimensions, Pressable } from 'react-native';
 import { Img } from '@/components/Img';
 import { Filmstrip } from '@/features/Filmstrip';
 import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
@@ -11,6 +7,10 @@ import type { PhotoInfo } from '@/systems/FileManager';
 import { fullscreenView, state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import { AnimatePresence, Motion } from '@legendapp/motion';
+import { Show, use$, useObservable } from '@legendapp/state/react';
+import React, { useCallback, useRef } from 'react';
+import { Animated, Dimensions, Pressable } from 'react-native';
 
 const SpringOpen = {
   bounciness: 3,
@@ -205,22 +205,21 @@ export const FullscreenPhoto = () => {
   });
 
   useOnHotkeys({
-    [KeyCodes.KEY_ESCAPE]: {
+    'Close Photo': {
       action: closeFullscreen,
-      name: 'Close Photo',
+      key: KeyCodes.KEY_ESCAPE,
       description: 'Close fullscreen photo view',
       keyText: 'Escape',
     },
-    // TODO: How to capture this and not let it run in Photo?
-    [KeyCodes.KEY_RETURN]: {
+    'Close Photo-2': {
       action: closeFullscreen,
-      name: 'Close Photo',
+      key: KeyCodes.KEY_RETURN,
       description: 'Close fullscreen photo view',
       // Note: no keyText because we don't want it to show in hotkeys
     },
-    [KeyCodes.KEY_F]: {
+    'Toggle Filmstrip': {
       action: () => settings$.state.showFilmstrip.toggle(),
-      name: 'Toggle Filmstrip',
+      key: KeyCodes.KEY_F,
       description: 'Show the filmstrip in fullscreen',
       keyText: 'F',
     },
