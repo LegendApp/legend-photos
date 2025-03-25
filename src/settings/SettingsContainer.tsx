@@ -12,7 +12,7 @@ import { StyleSheet, View } from 'react-native';
 // Define the categories for settings
 const SETTING_CATEGORIES: SidebarItem[] = [
   //   { id: 'general', label: 'General' },
-  //   { id: 'hotkeys', label: 'Hotkeys' },
+  { path: 'hotkeys', text: 'Hotkeys', depth: 0 },
   //   { id: 'themes', label: 'Themes' },
   //   { id: 'plugins', label: 'Plugins' },
   { path: 'library', text: 'Library', depth: 0 },

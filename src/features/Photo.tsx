@@ -5,7 +5,6 @@ import type { PhotoInfo } from '@/systems/FileManager';
 import { fullscreenView, state$ } from '@/systems/State';
 import { Theme } from '@/systems/Theme';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { useSelector } from '@legendapp/state/react';
 import React, { useRef } from 'react';
 import { Pressable, View } from 'react-native';
@@ -46,15 +45,10 @@ export const Photo = ({ photo, index }: PhotoProps) => {
   });
 
   useOnHotkeys({
-    'Open Photo': {
-      action: () => {
-        if (state$.selectedPhotoIndex.get() === index) {
-          openFullscreen();
-        }
-      },
-      key: KeyCodes.KEY_RETURN,
-      description: 'Open selected photo in fullscreen',
-      keyText: 'Return',
+    'Open Photo': () => {
+      if (state$.selectedPhotoIndex.get() === index) {
+        openFullscreen();
+      }
     },
   });
 

@@ -1,7 +1,6 @@
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import type { LegendListRef } from '@legendapp/list';
 import type { RefObject } from 'react';
 
@@ -20,79 +19,43 @@ export function usePhotosViewKeyboard(_refList: RefObject<LegendListRef>) {
   };
 
   useOnHotkeys({
-    Left: {
-      action: () => {
-        const idx = selectedPhotoIndex$.get();
-        if (idx! > 0) {
-          selectedPhotoIndex$.set((v) => v! - 1);
-        }
-      },
-      key: KeyCodes.KEY_LEFT,
-      description: 'Select previous photo',
-      keyText: '←',
-      repeat: true,
+    Left: () => {
+      const idx = selectedPhotoIndex$.get();
+      if (idx! > 0) {
+        selectedPhotoIndex$.set((v) => v! - 1);
+      }
     },
-    Right: {
-      action: () => {
-        const photos = photos$.get();
-        const idx = selectedPhotoIndex$.get();
-        if (idx! < photos.length - 1) {
-          addIndex(1);
-        }
-      },
-      key: KeyCodes.KEY_RIGHT,
-      description: 'Select next photo',
-      keyText: '→',
-      repeat: true,
+    Right: () => {
+      const photos = photos$.get();
+      const idx = selectedPhotoIndex$.get();
+      if (idx! < photos.length - 1) {
+        addIndex(1);
+      }
     },
-    Up: {
-      action: () => {
-        const numColumns = settings$.state.numColumns.get();
-        const idx = selectedPhotoIndex$.get();
-        if (idx! >= numColumns) {
-          addIndex(-numColumns);
-        }
-      },
-      key: KeyCodes.KEY_UP,
-      description: 'Select photo above',
-      keyText: '↑',
-      repeat: true,
+    Up: () => {
+      const numColumns = settings$.state.numColumns.get();
+      const idx = selectedPhotoIndex$.get();
+      if (idx! >= numColumns) {
+        addIndex(-numColumns);
+      }
     },
-    Down: {
-      action: () => {
-        const photos = photos$.get();
-        const numColumns = settings$.state.numColumns.get();
-        const idx = selectedPhotoIndex$.get();
-        if (idx! < photos.length - numColumns) {
-          addIndex(numColumns);
-        }
-      },
-      key: KeyCodes.KEY_DOWN,
-      description: 'Select photo below',
-      keyText: '↓',
-      repeat: true,
+    Down: () => {
+      const photos = photos$.get();
+      const numColumns = settings$.state.numColumns.get();
+      const idx = selectedPhotoIndex$.get();
+      if (idx! < photos.length - numColumns) {
+        addIndex(numColumns);
+      }
     },
-    'Decrease Columns': {
-      action: () => {
-        const currentColumns = settings$.state.numColumns.get();
-        if (currentColumns > 1) {
-          settings$.state.numColumns.set(currentColumns - 1);
-        }
-      },
-      key: KeyCodes.KEY_MINUS,
-      description: 'Decrease number of columns',
-      keyText: '-',
-      repeat: true,
+    'Decrease Columns': () => {
+      const currentColumns = settings$.state.numColumns.get();
+      if (currentColumns > 1) {
+        settings$.state.numColumns.set(currentColumns - 1);
+      }
     },
-    'Increase Columns': {
-      action: () => {
-        const currentColumns = settings$.state.numColumns.get();
-        settings$.state.numColumns.set(currentColumns + 1);
-      },
-      key: KeyCodes.KEY_EQUALS,
-      description: 'Increase number of columns',
-      keyText: '+',
-      repeat: true,
+    'Increase Columns': () => {
+      const currentColumns = settings$.state.numColumns.get();
+      settings$.state.numColumns.set(currentColumns + 1);
     },
   });
 }

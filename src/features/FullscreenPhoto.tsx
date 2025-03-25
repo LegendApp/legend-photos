@@ -6,7 +6,6 @@ import { settings$ } from '@/settings/SettingsFile';
 import type { PhotoInfo } from '@/systems/FileManager';
 import { fullscreenView, state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
@@ -205,24 +204,9 @@ export const FullscreenPhoto = () => {
   });
 
   useOnHotkeys({
-    'Close Photo': {
-      action: closeFullscreen,
-      key: KeyCodes.KEY_ESCAPE,
-      description: 'Close fullscreen photo view',
-      keyText: 'Escape',
-    },
-    'Close Photo-2': {
-      action: closeFullscreen,
-      key: KeyCodes.KEY_RETURN,
-      description: 'Close fullscreen photo view',
-      // Note: no keyText because we don't want it to show in hotkeys
-    },
-    'Toggle Filmstrip': {
-      action: () => settings$.state.showFilmstrip.toggle(),
-      key: KeyCodes.KEY_F,
-      description: 'Show the filmstrip in fullscreen',
-      keyText: 'F',
-    },
+    'Close Photo': closeFullscreen,
+    'Close Photo-2': closeFullscreen,
+    'Toggle Filmstrip': () => settings$.state.showFilmstrip.toggle(),
   });
 
   // If no fullscreen data, don't render anything

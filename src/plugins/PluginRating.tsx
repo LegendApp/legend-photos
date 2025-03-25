@@ -2,7 +2,6 @@ import { getOpenFolder } from '@/plugin-system/FileSources';
 import type { DisplayPlugin, PhotoPluginProps } from '@/plugin-system/PluginTypes';
 import { getMetadata, photoMetadatas$, updateMetadata } from '@/systems/PhotoMetadata';
 import { state$ } from '@/systems/State';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { use$ } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -76,41 +75,11 @@ export const PluginRating: DisplayPlugin = {
     return !!photoMetadata && photoMetadata.rating! > 0;
   },
   hotkeys: {
-    'Rate 0': {
-      action: () => rateCurrentPhoto(0),
-      key: KeyCodes.KEY_0,
-      description: 'Rate photo 0',
-      keyText: '0',
-    },
-    'Rate 1': {
-      action: () => rateCurrentPhoto(1),
-      key: KeyCodes.KEY_1,
-      description: 'Rate photo 1',
-      keyText: '1',
-    },
-    'Rate 2': {
-      action: () => rateCurrentPhoto(2),
-      key: KeyCodes.KEY_2,
-      description: 'Rate photo 2',
-      keyText: '2',
-    },
-    'Rate 3': {
-      action: () => rateCurrentPhoto(3),
-      key: KeyCodes.KEY_3,
-      description: 'Rate photo 3',
-      keyText: '3',
-    },
-    'Rate 4': {
-      action: () => rateCurrentPhoto(4),
-      key: KeyCodes.KEY_4,
-      description: 'Rate photo 4',
-      keyText: '4',
-    },
-    'Rate 5': {
-      action: () => rateCurrentPhoto(5),
-      key: KeyCodes.KEY_5,
-      description: 'Rate photo 5',
-      keyText: '5',
-    },
+    'Rate 0': () => rateCurrentPhoto(0),
+    'Rate 1': () => rateCurrentPhoto(1),
+    'Rate 2': () => rateCurrentPhoto(2),
+    'Rate 3': () => rateCurrentPhoto(3),
+    'Rate 4': () => rateCurrentPhoto(4),
+    'Rate 5': () => rateCurrentPhoto(5),
   },
 };

@@ -1,5 +1,4 @@
 import type { PhotoInfo } from '@/systems/FileManager';
-import type { KeyInfo } from '@/systems/keyboard/Keyboard';
 import type { ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
 
@@ -24,6 +23,9 @@ export interface Plugin {
   type: PluginType;
 }
 
+// SimpleKeyInfo is now just a function type
+export type SimpleKeyInfo = () => void;
+
 // Render plugin interface
 export interface DisplayPlugin extends Plugin {
   type: 'display';
@@ -31,7 +33,7 @@ export interface DisplayPlugin extends Plugin {
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;
   position: 'l' | 'tl' | 't' | 'tr' | 'r' | 'br' | 'b' | 'bl';
-  hotkeys?: Record<string, KeyInfo>;
+  hotkeys?: Record<string, SimpleKeyInfo>;
 }
 
 export interface SidebarGroup {

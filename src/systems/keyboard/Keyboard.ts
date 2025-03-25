@@ -1,3 +1,4 @@
+import { type HotkeyName, getHotkey, getHotkeyMetadata } from '@/settings/Hotkeys';
 import { state$ } from '@/systems/State';
 import KeyboardManager, { type KeyboardEvent } from '@/systems/keyboard/KeyboardManager';
 import { ax } from '@/utils/ax';
@@ -18,17 +19,18 @@ const keyRepeat$ = event();
 
 const keysToPreventDefault = new Set<KeyboardEventCode>();
 
+// Updated KeyInfo to only require the action function
 export interface KeyInfo {
   action: () => void;
+}
+
+// Global registry for hotkeys with their name and action description
+export interface HotkeyInfo {
+  name: string;
   key: KeyboardEventCodeHotkey;
   description: string;
   repeat?: boolean;
   keyText?: string;
-}
-
-// Global registry for hotkeys with their name and action description
-export interface HotkeyInfo extends Exclude<KeyInfo, 'action'> {
-  name: string;
 }
 export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
 
@@ -86,32 +88,46 @@ export function useHookKeyboard() {
   });
 }
 
-type HotkeyCallbacks = Partial<Record<string, KeyInfo>>;
+// Updated HotkeyCallbacks to map hotkey names to simple action functions
+type HotkeyCallbacks = Partial<Record<HotkeyName, () => void>>;
 
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   const hotkeyMap = new Map<string[], () => void>();
   const repeatActions = new Set<string[]>();
 
   // Process each combination and its callback
-  for (const [name, keyInfo] of Object.entries(hotkeyCallbacks)) {
-    if (keyInfo) {
+  for (const [name, action] of Object.entries(hotkeyCallbacks)) {
+    if (action) {
+      // Get the configured key for this hotkey from hotkeys$
+      const configuredKey = getHotkey(name as any);
+      if (!configuredKey) {
+        console.warn(`No hotkey configuration found for ${name}`);
+        continue;
+      }
+
       const keys =
-        typeof keyInfo.key === 'number'
-          ? [keyInfo.key.toString()]
-          : keyInfo.key.toLowerCase().split('+');
+        typeof configuredKey === 'number'
+          ? [configuredKey.toString()]
+          : configuredKey.toLowerCase().split('+');
 
       keysToPreventDefault.add(Number(keys[keys.length - 1]));
-      hotkeyMap.set(keys, keyInfo.action);
+      hotkeyMap.set(keys, action);
 
-      if (keyInfo.repeat) {
+      // Get metadata for this hotkey
+      const metadata = getHotkeyMetadata(name as any);
+
+      if (metadata?.repeat) {
         repeatActions.add(keys);
       }
 
-      if (keyInfo.keyText) {
-        // Register the hotkey with its name and action
+      // Register the hotkey with its name and action description
+      if (metadata) {
         hotkeyRegistry$[name].set({
           name,
-          ...keyInfo,
+          key: configuredKey,
+          description: metadata.description,
+          repeat: metadata.repeat,
+          keyText: metadata.keyText,
         });
       }
     }

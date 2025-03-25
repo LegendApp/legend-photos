@@ -1,6 +1,5 @@
 import { SFSymbol } from '@/native-modules/SFSymbol';
 import { type HotkeyInfo, hotkeyRegistry$, useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { LegendList } from '@legendapp/list';
 import { AnimatePresence, Motion } from '@legendapp/motion';
@@ -28,12 +27,7 @@ export function HotkeyHelp() {
 
   // Toggle visibility when / is pressed
   useOnHotkeys({
-    Help: {
-      action: toggle,
-      key: KeyCodes.KEY_SLASH,
-      description: 'Toggle shortcut help',
-      keyText: '/',
-    },
+    Help: toggle,
   });
 
   return (
