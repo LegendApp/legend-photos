@@ -13,7 +13,7 @@ import { event, observable, observe } from '@legendapp/state';
 // Event for folder changes detected by file system watcher
 const eventFolderChange = event();
 
-const folders$ = observable<string[]>([]);
+const folders$ = observable<string[] | null>(null);
 
 export const PluginLocalFiles: SourcePlugin = {
   id: 'plugin-local-files',
@@ -22,7 +22,7 @@ export const PluginLocalFiles: SourcePlugin = {
   version: '1.0.0',
   enabled: true,
   type: 'source',
-
+  isLoaded: () => folders$.get() !== null,
   initialize: async () => {
     folders$.get();
     observe(async () => {
@@ -35,6 +35,8 @@ export const PluginLocalFiles: SourcePlugin = {
           const ret = await listFoldersWithPhotosRecursive(libraryPaths);
 
           folders$.set(ret);
+        } else {
+          folders$.set([]);
         }
       } catch (error) {
         console.error('Error listing folders in LocalFiles plugin:', error);
@@ -73,7 +75,7 @@ export const PluginLocalFiles: SourcePlugin = {
   getSidebarGroups: () => {
     const libraryPaths = settings$.library.paths.get();
     const foldersByLibrary: Record<string, Array<{ path: string; depth: number }>> = {};
-    const folders = folders$.get();
+    const folders = folders$.get() || [];
 
     for (const path of folders) {
       const parentPath = findParentLibraryPath(path, libraryPaths);

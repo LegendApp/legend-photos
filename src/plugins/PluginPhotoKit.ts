@@ -7,7 +7,7 @@ import { event, observable } from '@legendapp/state';
 export const eventPhotoKitChange = event();
 
 // Observable for albums
-const albums$ = observable<Album[]>([]);
+const albums$ = observable<Album[] | null>(null);
 
 // Convert PhotoAsset to PhotoInfo by adapting to the expected fields
 function photoAssetToPhotoInfo(asset: PhotoAsset): PhotoInfo {
@@ -39,6 +39,7 @@ export const PluginPhotoKit: SourcePlugin = {
   version: '1.0.0',
   enabled: true,
   type: 'source',
+  isLoaded: () => albums$.get() !== null,
 
   initialize: async () => {
     try {
@@ -69,11 +70,13 @@ export const PluginPhotoKit: SourcePlugin = {
     // Get event to trigger refresh when needed
     eventPhotoKitChange.get();
 
-    return albums$.get().length > 0
+    const albums = albums$.get() || [];
+
+    return albums.length > 0
       ? [
           {
             title: 'Apple Photos',
-            items: albums$.get().map((album) => ({
+            items: albums.map((album) => ({
               path: `photokit://${album.identifier}/${album.title}`,
               text: album.title,
               depth: 0,

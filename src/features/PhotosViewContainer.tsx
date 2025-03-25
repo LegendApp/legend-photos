@@ -1,6 +1,6 @@
 import { EmptyLibrary } from '@/features/EmptyLibrary';
 import { PhotosView } from '@/features/PhotosView';
-import { allSidebarGroups$, getOpenFolder } from '@/plugin-system/FileSources';
+import { allSidebarGroups$, areSourcesLoaded, getOpenFolder } from '@/plugin-system/FileSources';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
@@ -26,7 +26,12 @@ export function PhotosViewContainer() {
   const sidebarWidth = useSelector(
     () => (settings$.state.isSidebarOpen.get() && settings$.state.sidebarWidth.get()) || 0
   );
-  const hasLibrary = useSelector(() => allSidebarGroups$.get()?.length > 0);
+  const isEmpty = useSelector(() => {
+    const groups = allSidebarGroups$.get();
+    const isLoaded = areSourcesLoaded();
+
+    return isLoaded && groups?.length === 0;
+  });
 
   useOnHotkeys({
     [KeyCodes.KEY_S]: {
@@ -50,7 +55,7 @@ export function PhotosViewContainer() {
       animate={{ left: sidebarWidth }}
       transition={sidebarWidth > 0 ? SpringOpen : SpringClose}
     >
-      {hasLibrary ? <PhotosView /> : <EmptyLibrary />}
+      {isEmpty ? <EmptyLibrary /> : <PhotosView />}
 
       {/* Plugins for the photosGrid location */}
       <PluginRenderer location="photosGrid" className="absolute top-4 right-4" />

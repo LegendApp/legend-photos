@@ -41,6 +41,11 @@ export interface SidebarItemWithSource extends SidebarItem {
   source: string;
 }
 
+export function areSourcesLoaded(): boolean {
+  const sourcePlugins = getSourcePlugins();
+  return sourcePlugins.every((plugin) => plugin.isLoaded());
+}
+
 /**
  * Get all folders with photos from all enabled source plugins
  * @returns Promise with an array of folder info objects

@@ -48,6 +48,7 @@ export interface SidebarItem {
 // Source plugin interface
 export interface SourcePlugin extends Plugin {
   type: 'source';
+  isLoaded: () => boolean;
   // Initialize the plugin
   initialize: () => Promise<void>;
   // Get folders with photos (recursive)
