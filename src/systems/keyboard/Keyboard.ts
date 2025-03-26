@@ -1,6 +1,6 @@
 import { type HotkeyName, getHotkey, getHotkeyMetadata } from '@/settings/Hotkeys';
 import { state$ } from '@/systems/State';
-import KeyboardManager, { type KeyboardEvent } from '@/systems/keyboard/KeyboardManager';
+import KeyboardManager, { type KeyboardEvent, KeyText } from '@/systems/keyboard/KeyboardManager';
 import { ax } from '@/utils/ax';
 import { event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
@@ -122,12 +122,15 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
 
       // Register the hotkey with its name and action description
       if (metadata) {
+        // Get keyText from KeyText mapping for numeric keys
+        const keyText = typeof configuredKey === 'number' ? KeyText[configuredKey] : configuredKey;
+
         hotkeyRegistry$[name].set({
           name,
           key: configuredKey,
           description: metadata.description,
           repeat: metadata.repeat,
-          keyText: metadata.keyText,
+          keyText,
         });
       }
     }

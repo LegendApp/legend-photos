@@ -112,7 +112,48 @@ export const KeyCodes = {
   MODIFIER_CONTROL: 1 << 18,
   MODIFIER_CAPS_LOCK: 1 << 16,
   MODIFIER_FUNCTION: 1 << 23,
-};
+} as const;
+
+export const KeyText: Record<number, string> = (() => {
+  const keyText: Record<number, string> = {};
+
+  // Create entries for all KeyCodes
+  for (const [key, value] of Object.entries(KeyCodes)) {
+    if (typeof value === 'number' && !key.startsWith('MODIFIER_')) {
+      // Extract the name part after KEY_ prefix
+      const name = key.startsWith('KEY_') ? key.substring(4) : key;
+
+      // Format the key name (convert to title case for special keys, keep uppercase for single letters)
+      if (name.length === 1) {
+        keyText[value] = name;
+      } else {
+        // Convert to title case (first letter uppercase, rest lowercase)
+        keyText[value] = name.charAt(0) + name.slice(1).toLowerCase();
+      }
+    }
+  }
+
+  // Special case overrides
+  const overrides: Record<number, string> = {
+    [KeyCodes.KEY_RETURN]: '↩',
+    [KeyCodes.KEY_TAB]: '⇥',
+    [KeyCodes.KEY_SPACE]: 'Space',
+    [KeyCodes.KEY_DELETE]: '⌫',
+    [KeyCodes.KEY_ESCAPE]: 'Esc',
+    [KeyCodes.KEY_LEFT]: '←',
+    [KeyCodes.KEY_RIGHT]: '→',
+    [KeyCodes.KEY_DOWN]: '↓',
+    [KeyCodes.KEY_UP]: '↑',
+    [KeyCodes.KEY_MINUS]: '-',
+    [KeyCodes.KEY_EQUALS]: '=',
+    [KeyCodes.KEY_COMMA]: ',',
+    [KeyCodes.KEY_PERIOD]: '.',
+    [KeyCodes.KEY_SLASH]: '/',
+  };
+
+  // Apply overrides
+  return { ...keyText, ...overrides };
+})();
 
 /**
  * KeyboardManager provides an interface to handle keyboard events in macOS
