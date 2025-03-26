@@ -23,8 +23,16 @@ export interface Plugin {
   type: PluginType;
 }
 
-// SimpleKeyInfo is now just a function type
-export type SimpleKeyInfo = () => void;
+// Enhanced key info with optional metadata
+export interface EnhancedKeyInfo {
+  action: () => void;
+  description?: string;
+  repeat?: boolean;
+  defaultKeyCode?: number; // Default key code to use for this hotkey
+}
+
+// SimpleKeyInfo is now just a function type or an EnhancedKeyInfo object
+export type SimpleKeyInfo = (() => void) | EnhancedKeyInfo;
 
 // Render plugin interface
 export interface DisplayPlugin extends Plugin {

@@ -4,6 +4,7 @@ import type {
   PluginRegistry,
   SourcePlugin,
 } from '@/plugin-system/PluginTypes';
+import { HotkeyMetadata, type HotkeyName, hotkeys$ } from '@/settings/Hotkeys';
 import { onHotkeys } from '@/systems/keyboard/Keyboard';
 import { observable } from '@legendapp/state';
 
@@ -27,8 +28,45 @@ export function registerPlugin(plugin: DisplayPlugin | SourcePlugin): void {
       // Clean up existing hotkeys for this plugin if they exist
       unregisterPluginHotkeys(plugin.id);
 
-      // Register new hotkeys
-      const unsub = onHotkeys(plugin.hotkeys);
+      // Convert hotkeys to a format compatible with onHotkeys
+      const processedHotkeys: Partial<Record<HotkeyName, () => void>> = {};
+
+      // Process each hotkey
+      for (const [hotkeyName, hotkeyValue] of Object.entries(plugin.hotkeys)) {
+        if (typeof hotkeyValue === 'function') {
+          // Simple function hotkey
+          processedHotkeys[hotkeyName as HotkeyName] = hotkeyValue;
+        } else if (hotkeyValue && typeof hotkeyValue === 'object') {
+          // Enhanced hotkey with metadata
+          processedHotkeys[hotkeyName as HotkeyName] = hotkeyValue.action;
+
+          // If there's a description or repeat option, update the metadata
+          const metadata = {} as {
+            description: string;
+            repeat?: boolean;
+          };
+          if (hotkeyValue.description) {
+            metadata.description = hotkeyValue.description;
+          }
+          if (hotkeyValue.repeat !== undefined) {
+            metadata.repeat = hotkeyValue.repeat;
+          }
+          HotkeyMetadata[hotkeyName as HotkeyName] = metadata;
+
+          // Set default key code if provided and not already set by user
+          if (hotkeyValue.defaultKeyCode !== undefined) {
+            const currentKeyCode = hotkeys$[hotkeyName as HotkeyName].get();
+
+            // Only set the default if the hotkey doesn't exist or has been reset to default
+            if (currentKeyCode === undefined) {
+              hotkeys$[hotkeyName as HotkeyName].set(hotkeyValue.defaultKeyCode);
+            }
+          }
+        }
+      }
+
+      // Register the processed hotkeys
+      const unsub = onHotkeys(processedHotkeys);
       hotkeyUnsubscribers.set(plugin.id, unsub);
     }
   } else if (plugin.type === 'source') {
