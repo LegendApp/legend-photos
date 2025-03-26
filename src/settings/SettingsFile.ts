@@ -89,10 +89,11 @@ const DEFAULT_SETTINGS: AppSettings = {
 };
 
 // Create the settings manager
-export const settings$ = createJSONManager<AppSettings>(
-  `${DocumentDirectoryPath}/.legendphotos/`,
-  'settings.json',
-  DEFAULT_SETTINGS
-);
+export const settings$ = createJSONManager<AppSettings>({
+  basePath: `${DocumentDirectoryPath}/.legendphotos/`,
+  filename: 'settings.json',
+  initialValue: DEFAULT_SETTINGS,
+  saveDefaultToFile: true,
+});
 
 export const isSettingsLoaded$ = observable(() => !!syncState(settings$).isPersistLoaded.get());

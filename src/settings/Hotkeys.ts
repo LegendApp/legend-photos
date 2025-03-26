@@ -87,11 +87,12 @@ export const HotkeyMetadata: Record<HotkeyName, { description: string; repeat?: 
 };
 
 // Create the hotkeys manager
-export const hotkeys$ = createJSONManager<Record<HotkeyName, KeyboardEventCodeHotkey>>(
-  `${DocumentDirectoryPath}/.legendphotos/`,
-  'hotkeys.json',
-  DEFAULT_HOTKEYS
-);
+export const hotkeys$ = createJSONManager<Record<HotkeyName, KeyboardEventCodeHotkey>>({
+  basePath: `${DocumentDirectoryPath}/.legendphotos/`,
+  filename: 'hotkeys.json',
+  initialValue: DEFAULT_HOTKEYS,
+  saveDefaultToFile: true,
+});
 
 export const isHotkeysLoaded$ = observable(() => !!syncState(hotkeys$).isPersistLoaded.get());
 
