@@ -149,11 +149,22 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
   return (
     <Pressable
       onPress={handlePress}
-      className={`px-4 py-2 rounded ${isEditing$.get() ? 'bg-blue-500' : 'bg-gray-300'}`}
+      className={`px-4 py-2 rounded-md border ${
+        isEditing ? 'bg-amber-50 border-amber-300' : 'bg-gray-100 border-gray-300'
+      }`}
     >
-      <Text className={`font-mono ${isEditing$.get() ? 'text-white' : 'text-black'}`}>
-        {isEditing && !accumulatedKeys.length ? 'Press keys...' : displayText}
-      </Text>
+      {isEditing ? (
+        <View className="flex-row items-center">
+          <View className="h-2 w-2 rounded-full bg-red-500 mr-2" />
+          <Text className="font-mono text-amber-900">
+            {accumulatedKeys.length ? displayText : 'Press keys...'}
+          </Text>
+        </View>
+      ) : (
+        <View className="flex-row items-center">
+          <Text className="font-mono text-gray-800">{displayText}</Text>
+        </View>
+      )}
     </Pressable>
   );
 }
