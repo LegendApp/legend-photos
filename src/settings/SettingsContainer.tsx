@@ -12,10 +12,10 @@ import { StyleSheet, View } from 'react-native';
 // Define the categories for settings
 const SETTING_CATEGORIES: SidebarItem[] = [
   //   { id: 'general', label: 'General' },
+  { path: 'library', text: 'Library', depth: 0 },
   { path: 'hotkeys', text: 'Hotkeys', depth: 0 },
   //   { id: 'themes', label: 'Themes' },
   //   { id: 'plugins', label: 'Plugins' },
-  { path: 'library', text: 'Library', depth: 0 },
   // Add more categories as needed
 ];
 
@@ -53,7 +53,7 @@ export const SettingsContainer = () => {
           width={140}
           showGroups={false}
         />
-        <View className="flex-1 p-5 bg-[#1a1a1a]">{renderContent()}</View>
+        <View className="flex-1 bg-[#1a1a1a]">{renderContent()}</View>
       </View>
     </VibrancyView>
   );

@@ -35,7 +35,7 @@ export const LibrarySettings = () => {
   //   };
 
   return (
-    <View className="space-y-8">
+    <View className="space-y-8 p-5">
       <Text className="text-2xl font-bold text-white mb-2">Library Settings</Text>
 
       {/* Library Paths */}

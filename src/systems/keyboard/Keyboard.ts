@@ -48,7 +48,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 
   // }
 
-  return !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+  return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
 };
 const onKeyUp = (e: KeyboardEvent) => {
   const { keyCode } = e;
@@ -59,7 +59,7 @@ const onKeyUp = (e: KeyboardEvent) => {
   //   resetKeys();
   // }
 
-  return !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+  return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
 };
 
 export function useHookKeyboard() {

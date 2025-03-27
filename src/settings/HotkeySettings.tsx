@@ -1,5 +1,10 @@
+import { HotkeyMetadata, type HotkeyName, hotkeys$ } from '@/settings/Hotkeys';
+import { HiddenTextInput } from '@/systems/keyboard/HookKeyboard';
+import { type KeyboardEventCodeHotkey, keysPressed$ } from '@/systems/keyboard/Keyboard';
+import { KeyText } from '@/systems/keyboard/KeyboardManager';
+import { use$, useObservable, useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
 /**
  * A simpler component for displaying keyboard shortcuts
@@ -7,71 +12,110 @@ import { ScrollView, Text, View } from 'react-native';
  * and allow editing the keys
  */
 export function HotkeySettings() {
-  // For a real implementation, this would use the actual hotkeys from hotkeys$
-  const coreHotkeys: Record<string, { description: string; keyText: string }> = {
-    Left: { description: 'Select previous photo', keyText: '←' },
-    Right: { description: 'Select next photo', keyText: '→' },
-    Up: { description: 'Select photo above', keyText: '↑' },
-    Down: { description: 'Select photo below', keyText: '↓' },
-    'Open Photo': { description: 'Open selected photo in fullscreen', keyText: 'Return' },
-    'Close Photo': { description: 'Close fullscreen photo view', keyText: 'Escape' },
-    'Toggle Filmstrip': { description: 'Show the filmstrip in fullscreen', keyText: 'F' },
-    Sidebar: { description: 'Toggle sidebar visibility', keyText: 'S' },
-    Settings: { description: 'Open settings', keyText: ',' },
-    Help: { description: 'Toggle shortcut help', keyText: '/' },
-  };
-
-  const pluginHotkeys: Record<string, { description: string; keyText: string }> = {
-    'Rate 1': { description: 'Rate photo 1 star', keyText: '1' },
-    'Rate 2': { description: 'Rate photo 2 stars', keyText: '2' },
-    'Rate 3': { description: 'Rate photo 3 stars', keyText: '3' },
-    'Rate 4': { description: 'Rate photo 4 stars', keyText: '4' },
-    'Rate 5': { description: 'Rate photo 5 stars', keyText: '5' },
-    'Toggle Flag': { description: 'Toggle flag on the current photo', keyText: 'Space' },
-    'Toggle Reject': { description: 'Toggle reject on the current photo', keyText: 'X' },
-    'Delete Photo': { description: 'Delete the selected photo', keyText: 'Delete' },
-  };
+  const hotkeys = use$(hotkeys$);
+  const hotkeyNames = Object.keys(hotkeys);
 
   return (
-    <ScrollView className="p-4">
+    <ScrollView contentContainerClassName="p-5">
+      <HiddenTextInput />
       <Text className="text-2xl font-bold mb-4">Keyboard Shortcuts</Text>
-
-      <Text className="text-xl font-semibold mt-4 mb-2">Core Hotkeys</Text>
-      {Object.entries(coreHotkeys).map(([name, info]) => (
-        <HotkeyItem key={name} name={name} description={info.description} keyText={info.keyText} />
+      {hotkeyNames.map((name) => (
+        <HotkeyItem
+          key={name}
+          name={name as HotkeyName}
+          description={HotkeyMetadata[name as HotkeyName]?.description || ''}
+          keyCode={hotkeys[name as HotkeyName]}
+        />
       ))}
-
-      <Text className="text-xl font-semibold mt-6 mb-2">Plugin Hotkeys</Text>
-      {Object.entries(pluginHotkeys).map(([name, info]) => (
-        <HotkeyItem key={name} name={name} description={info.description} keyText={info.keyText} />
-      ))}
-
-      <View className="mt-6 p-4 bg-yellow-100 rounded">
-        <Text className="italic">
-          Note: In a real implementation, this screen would allow you to customize each hotkey. The
-          customized hotkeys would be saved to hotkeys.json and would override the defaults.
-        </Text>
-      </View>
     </ScrollView>
   );
 }
 
 interface HotkeyItemProps {
-  name: string;
+  name: HotkeyName;
   description: string;
-  keyText: string;
+  keyCode: KeyboardEventCodeHotkey;
 }
 
-function HotkeyItem({ name, description, keyText }: HotkeyItemProps) {
+function HotkeyItem({ name, description, keyCode }: HotkeyItemProps) {
   return (
     <View className="flex-row justify-between items-center my-2">
       <View className="flex-1">
         <Text className="text-lg">{name}</Text>
         <Text className="text-sm text-gray-600">{description}</Text>
       </View>
-      <View className="px-4 py-2 rounded bg-gray-300">
-        <Text className="text-black font-mono">{keyText}</Text>
-      </View>
+      <HotkeyInput hotkeyName={name} currentKeyCode={keyCode} />
     </View>
+  );
+}
+
+interface HotkeyInputProps {
+  hotkeyName: HotkeyName;
+  currentKeyCode: KeyboardEventCodeHotkey;
+}
+
+function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
+  const isEditing$ = useObservable(false);
+  const isEditing = useSelector(isEditing$);
+  const accumulatedKeys$ = useObservable<number[]>([]);
+  const accumulatedKeys = useSelector(accumulatedKeys$);
+
+  // Convert current keyCode to display text
+  const getDisplayText = () => {
+    const keys = accumulatedKeys.length > 0 ? accumulatedKeys : [currentKeyCode];
+    return keys.map((key) => KeyText[key] || key.toString()).join(' + ');
+  };
+  const displayText = getDisplayText();
+
+  const handlePress = () => {
+    if (!isEditing$.get()) {
+      isEditing$.set(true);
+      accumulatedKeys$.set([]);
+    }
+  };
+
+  // Watch pressed keys and update hotkey when editing
+  useObserveEffect(() => {
+    if (!isEditing$.get()) return;
+
+    // Get all currently pressed keys
+    const pressedKeyCodes = Object.entries(keysPressed$.get())
+      .filter(([_, isPressed]) => isPressed)
+      .map(([keyCode]) => Number(keyCode));
+
+    if (pressedKeyCodes.length === 0) {
+      // If no keys are pressed and we have accumulated keys, save the hotkey
+      const accumulated = accumulatedKeys$.get();
+      if (accumulated.length > 0) {
+        // Sort keys to ensure consistent order (modifiers first)
+        const sortedKeys = [...accumulated].sort();
+        // If there's only one key, use it as a number, otherwise join with +
+        const newHotkey =
+          sortedKeys.length === 1
+            ? sortedKeys[0]
+            : (sortedKeys.join('+') as KeyboardEventCodeHotkey);
+        hotkeys$[hotkeyName].set(newHotkey);
+        isEditing$.set(false);
+        accumulatedKeys$.set([]);
+      }
+    } else {
+      // Add any new keys that aren't already in our accumulated list
+      const currentAccumulated = accumulatedKeys$.get();
+      const newKeys = pressedKeyCodes.filter((key) => !currentAccumulated.includes(key));
+      if (newKeys.length > 0) {
+        accumulatedKeys$.set([...currentAccumulated, ...newKeys]);
+      }
+    }
+  });
+
+  return (
+    <Pressable
+      onPress={handlePress}
+      className={`px-4 py-2 rounded ${isEditing$.get() ? 'bg-blue-500' : 'bg-gray-300'}`}
+    >
+      <Text className={`font-mono ${isEditing$.get() ? 'text-white' : 'text-black'}`}>
+        {isEditing && !accumulatedKeys.length ? 'Press keys...' : displayText}
+      </Text>
+    </Pressable>
   );
 }
