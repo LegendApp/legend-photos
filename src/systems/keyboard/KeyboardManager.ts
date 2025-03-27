@@ -149,6 +149,11 @@ export const KeyText: Record<number, string> = (() => {
     [KeyCodes.KEY_COMMA]: ',',
     [KeyCodes.KEY_PERIOD]: '.',
     [KeyCodes.KEY_SLASH]: '/',
+    [KeyCodes.MODIFIER_COMMAND]: '⌘',
+    [KeyCodes.MODIFIER_SHIFT]: '⇧',
+    [KeyCodes.MODIFIER_OPTION]: '⌥',
+    [KeyCodes.MODIFIER_CONTROL]: '⌃',
+    [KeyCodes.MODIFIER_CAPS_LOCK]: '⇪',
   };
 
   // Apply overrides

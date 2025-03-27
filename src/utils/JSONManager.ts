@@ -1,7 +1,6 @@
 import { observablePersistReactNativeFS } from '@/utils/ReactNativeFSPersistPlugin';
-import { exists, writeFile } from '@dr.pogodin/react-native-fs';
 import { type Observable, observable } from '@legendapp/state';
-import { synced } from '@legendapp/state/sync';
+import { type SyncTransform, synced } from '@legendapp/state/sync';
 
 /**
  * Creates a manager for a JSON file with observable state
@@ -14,8 +13,9 @@ export function createJSONManager<T extends object>(params: {
   filename: `${string}.json`;
   initialValue: T;
   saveDefaultToFile: boolean;
+  transform?: SyncTransform<any, any>;
 }): Observable<T> {
-  const { basePath, filename, initialValue, saveDefaultToFile } = params;
+  const { basePath, filename, initialValue, saveDefaultToFile, transform } = params;
   // Create an observable with the initial value and make sure it has the correct type
   const data$ = observable<Record<string, any>>(
     synced({
@@ -27,6 +27,7 @@ export function createJSONManager<T extends object>(params: {
           preload: [filename],
           saveTimeout: 300,
         }),
+        transform,
       },
     })
   );

@@ -90,20 +90,7 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
   };
 
   const getKeyDisplayText = (keyCode: number) => {
-    switch (keyCode) {
-      case KeyCodes.MODIFIER_COMMAND:
-        return '⌘';
-      case KeyCodes.MODIFIER_SHIFT:
-        return '⇧';
-      case KeyCodes.MODIFIER_OPTION:
-        return '⌥';
-      case KeyCodes.MODIFIER_CONTROL:
-        return '⌃';
-      case KeyCodes.MODIFIER_FUNCTION:
-        return 'fn';
-      default:
-        return KeyText[keyCode] || keyCode.toString();
-    }
+    return KeyText[keyCode] || keyCode.toString();
   };
 
   const displayText = getDisplayText();

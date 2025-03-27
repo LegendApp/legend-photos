@@ -1,5 +1,5 @@
 import type { KeyboardEventCodeHotkey } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
+import { KeyCodes, KeyText } from '@/systems/keyboard/KeyboardManager';
 import { createJSONManager } from '@/utils/JSONManager';
 import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { syncState } from '@legendapp/state';
@@ -92,6 +92,39 @@ export const hotkeys$ = createJSONManager<Record<HotkeyName, KeyboardEventCodeHo
   filename: 'hotkeys.json',
   initialValue: DEFAULT_HOTKEYS,
   saveDefaultToFile: true,
+  transform: {
+    load: (value: Record<string, string>) => {
+      return Object.fromEntries(
+        Object.entries(value).map(([key, val]) => {
+          const vals = `${val}`.split('+');
+          const parts = vals.map((v) => {
+            const keyCode = Object.entries(KeyText).find(([, text]) => text === v)?.[0];
+            return keyCode || v;
+          });
+          // Convert the KeyText to corresponding key code
+          return [key, parts.join('+')];
+        })
+      );
+    },
+    save: (value: Record<string, string>) => {
+      return Object.fromEntries(
+        Object.entries(value).map(([key, val]) => {
+          const vals = `${val}`.split('+');
+          // Add the main key text
+          const parts = vals.map((v) => {
+            console.log('v', v, KeyText[+v], KeyText[v]);
+            if (KeyText[+v]) {
+              return KeyText[+v];
+            }
+            return +v;
+          });
+
+          // Join with + or return empty string if no parts
+          return [key, parts.join('+')];
+        })
+      );
+    },
+  },
 });
 
 export const isHotkeysLoaded$ = observable(() => !!syncState(hotkeys$).isPersistLoaded.get());
