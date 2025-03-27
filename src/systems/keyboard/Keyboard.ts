@@ -1,8 +1,12 @@
 import { type HotkeyName, getHotkey, getHotkeyMetadata } from '@/settings/Hotkeys';
 import { state$ } from '@/systems/State';
-import KeyboardManager, { type KeyboardEvent, KeyText } from '@/systems/keyboard/KeyboardManager';
+import KeyboardManager, {
+  type KeyboardEvent,
+  KeyCodes,
+  KeyText,
+} from '@/systems/keyboard/KeyboardManager';
 import { ax } from '@/utils/ax';
-import { event, observable } from '@legendapp/state';
+import { batch, event, observable } from '@legendapp/state';
 import { useEffectOnce, useMount } from '@legendapp/state/react';
 
 type KeyboardEventCode = number;
@@ -34,31 +38,50 @@ export interface HotkeyInfo {
 }
 export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
 
+const MODIFIERS = [
+  KeyCodes.MODIFIER_COMMAND,
+  KeyCodes.MODIFIER_SHIFT,
+  KeyCodes.MODIFIER_OPTION,
+  KeyCodes.MODIFIER_CONTROL,
+] as const;
+
 // Handle events to set current key states
 const onKeyDown = (e: KeyboardEvent) => {
-  const { keyCode } = e;
-  // Add the pressed key if not holding Alt
-  // if (!e.altKey) {
-  const isAlreadyPressed = keysPressed$[keyCode].get();
-  keysPressed$[keyCode].set(true);
+  const { keyCode, modifiers } = e;
 
-  if (isAlreadyPressed) {
-    keyRepeat$.fire();
-  }
+  batch(() => {
+    // Add the pressed key
+    const isAlreadyPressed = keysPressed$[keyCode].get();
+    keysPressed$[keyCode].set(true);
 
-  // }
+    // Handle modifiers
+    for (const mod of MODIFIERS) {
+      keysPressed$[mod].set(!!(modifiers & mod));
+    }
 
+    if (isAlreadyPressed) {
+      keyRepeat$.fire();
+    }
+  });
+
+  //   TODO: Add this back in
   return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
 };
+
 const onKeyUp = (e: KeyboardEvent) => {
-  const { keyCode } = e;
-  keysPressed$[keyCode].delete();
+  const { keyCode, modifiers } = e;
 
-  // if (e.key === 'Meta' || e.key === 'Alt') {
-  //   // If releasing Meta or Alt then we need to release all keys or they might get stuck on
-  //   resetKeys();
-  // }
+  batch(() => {
+    // Remove the released key
+    keysPressed$[keyCode].delete();
 
+    // Handle modifiers
+    for (const mod of MODIFIERS) {
+      keysPressed$[mod].set(!!(modifiers & mod));
+    }
+  });
+
+  //   TODO: Add this back in
   return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
 };
 

@@ -1,7 +1,7 @@
 import { HotkeyMetadata, type HotkeyName, hotkeys$ } from '@/settings/Hotkeys';
 import { HiddenTextInput } from '@/systems/keyboard/HookKeyboard';
 import { type KeyboardEventCodeHotkey, keysPressed$ } from '@/systems/keyboard/Keyboard';
-import { KeyText } from '@/systems/keyboard/KeyboardManager';
+import { KeyCodes, KeyText } from '@/systems/keyboard/KeyboardManager';
 import { use$, useObservable, useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -62,9 +62,49 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
 
   // Convert current keyCode to display text
   const getDisplayText = () => {
-    const keys = accumulatedKeys.length > 0 ? accumulatedKeys : [currentKeyCode];
-    return keys.map((key) => KeyText[key] || key.toString()).join(' + ');
+    const currentKeys =
+      typeof currentKeyCode === 'string'
+        ? currentKeyCode.split('+').map(Number)
+        : [Number(currentKeyCode)];
+    const keys = accumulatedKeys.length > 0 ? accumulatedKeys : currentKeys;
+    const sortedKeys = [...keys].sort((a, b) => {
+      // Sort modifiers first
+      const aIsModifier = isModifierKey(a);
+      const bIsModifier = isModifierKey(b);
+      if (aIsModifier && !bIsModifier) return -1;
+      if (!aIsModifier && bIsModifier) return 1;
+      return a - b;
+    });
+    return sortedKeys.map((key) => getKeyDisplayText(key)).join(' + ');
   };
+
+  const isModifierKey = (keyCode: number) => {
+    return [
+      KeyCodes.MODIFIER_COMMAND,
+      KeyCodes.MODIFIER_SHIFT,
+      KeyCodes.MODIFIER_OPTION,
+      KeyCodes.MODIFIER_CONTROL,
+      KeyCodes.MODIFIER_FUNCTION,
+    ].includes(keyCode);
+  };
+
+  const getKeyDisplayText = (keyCode: number) => {
+    switch (keyCode) {
+      case KeyCodes.MODIFIER_COMMAND:
+        return '⌘';
+      case KeyCodes.MODIFIER_SHIFT:
+        return '⇧';
+      case KeyCodes.MODIFIER_OPTION:
+        return '⌥';
+      case KeyCodes.MODIFIER_CONTROL:
+        return '⌃';
+      case KeyCodes.MODIFIER_FUNCTION:
+        return 'fn';
+      default:
+        return KeyText[keyCode] || keyCode.toString();
+    }
+  };
+
   const displayText = getDisplayText();
 
   const handlePress = () => {
@@ -83,12 +123,20 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
       .filter(([_, isPressed]) => isPressed)
       .map(([keyCode]) => Number(keyCode));
 
-    if (pressedKeyCodes.length === 0) {
+    const numKeys = pressedKeyCodes.filter((key) => !isModifierKey(key)).length;
+
+    if (numKeys === 0) {
       // If no keys are pressed and we have accumulated keys, save the hotkey
       const accumulated = accumulatedKeys$.get();
       if (accumulated.length > 0) {
         // Sort keys to ensure consistent order (modifiers first)
-        const sortedKeys = [...accumulated].sort();
+        const sortedKeys = [...accumulated].sort((a, b) => {
+          const aIsModifier = isModifierKey(a);
+          const bIsModifier = isModifierKey(b);
+          if (aIsModifier && !bIsModifier) return -1;
+          if (!aIsModifier && bIsModifier) return 1;
+          return a - b;
+        });
         // If there's only one key, use it as a number, otherwise join with +
         const newHotkey =
           sortedKeys.length === 1
@@ -103,7 +151,7 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
       const currentAccumulated = accumulatedKeys$.get();
       const newKeys = pressedKeyCodes.filter((key) => !currentAccumulated.includes(key));
       if (newKeys.length > 0) {
-        accumulatedKeys$.set([...currentAccumulated, ...newKeys]);
+        accumulatedKeys$.push(...newKeys);
       }
     }
   });
