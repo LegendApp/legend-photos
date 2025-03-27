@@ -64,8 +64,10 @@ const onKeyDown = (e: KeyboardEvent) => {
     }
   });
 
-  //   TODO: Add this back in
-  return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+  return (
+    state$.listeningForKeyPress.get() ||
+    (!state$.showSettings.get() && keysToPreventDefault.has(keyCode))
+  );
 };
 
 const onKeyUp = (e: KeyboardEvent) => {
@@ -81,8 +83,10 @@ const onKeyUp = (e: KeyboardEvent) => {
     }
   });
 
-  //   TODO: Add this back in
-  return true; // !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+  return (
+    state$.listeningForKeyPress.get() ||
+    (!state$.showSettings.get() && keysToPreventDefault.has(keyCode))
+  );
 };
 
 export function useHookKeyboard() {

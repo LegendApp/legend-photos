@@ -1,4 +1,5 @@
 import { HotkeyMetadata, type HotkeyName, hotkeys$ } from '@/settings/Hotkeys';
+import { state$ } from '@/systems/State';
 import { HiddenTextInput } from '@/systems/keyboard/HookKeyboard';
 import { type KeyboardEventCodeHotkey, keysPressed$ } from '@/systems/keyboard/Keyboard';
 import { KeyCodes, KeyText } from '@/systems/keyboard/KeyboardManager';
@@ -116,6 +117,8 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
 
   // Watch pressed keys and update hotkey when editing
   useObserveEffect(() => {
+    state$.listeningForKeyPress.set(isEditing$.get());
+
     if (!isEditing$.get()) return;
 
     // Get all currently pressed keys

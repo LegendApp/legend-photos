@@ -22,6 +22,7 @@ export const state$ = observable({
   isPhotoFullscreenCoveringControls: false,
   titleBarHovered: false,
   showSettings: false,
+  listeningForKeyPress: false,
   selectedPhoto: () => state$.photos[state$.selectedPhotoIndex.get()],
   openingFolder: false,
 });
