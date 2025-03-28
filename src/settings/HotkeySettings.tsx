@@ -19,7 +19,10 @@ export function HotkeySettings() {
   return (
     <ScrollView contentContainerClassName="p-5">
       <HiddenTextInput />
-      <Text className="text-2xl font-bold mb-4">Keyboard Shortcuts</Text>
+      <View className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+        <Text>Note: This may become a Pro feature once Pro is set up</Text>
+      </View>
+      <Text className="text-2xl font-bold mb-4 mt-4">Keyboard Shortcuts</Text>
       {hotkeyNames.map((name) => (
         <HotkeyItem
           key={name}
