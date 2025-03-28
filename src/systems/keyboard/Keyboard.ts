@@ -7,7 +7,7 @@ import KeyboardManager, {
 } from '@/systems/keyboard/KeyboardManager';
 import { ax } from '@/utils/ax';
 import { batch, event, observable } from '@legendapp/state';
-import { useEffectOnce, useMount } from '@legendapp/state/react';
+import { useMount, useObserveEffect } from '@legendapp/state/react';
 
 type KeyboardEventCode = number;
 type KeyboardEventCodeModifier = string;
@@ -207,5 +207,8 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
 }
 
 export function useOnHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
-  useEffectOnce(() => onHotkeys(hotkeyCallbacks), []);
+  useObserveEffect((e) => {
+    const sub = onHotkeys(hotkeyCallbacks);
+    e.onCleanup = sub;
+  });
 }
