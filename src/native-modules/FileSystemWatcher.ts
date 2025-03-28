@@ -16,7 +16,8 @@ const eventEmitter = new NativeEventEmitter(FileSystemWatcher);
  * @param directories Array of root directory paths to watch
  */
 export function setWatchedDirectories(directories: string[]): void {
-  FileSystemWatcher.setWatchedDirectories(directories);
+  // Clone the array because the native bridge Object.freezes it
+  FileSystemWatcher.setWatchedDirectories([...directories]);
 }
 
 /**

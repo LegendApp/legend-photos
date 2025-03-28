@@ -15,7 +15,8 @@ export const LibrarySettings = () => {
 
   const handleRemovePath = async (path: string) => {
     const currentPaths = settings$.library.paths.get();
-    settings$.library.paths.set(currentPaths.filter((p) => p !== path));
+    const idx = currentPaths.indexOf(path);
+    settings$.library.paths.splice(idx, 1);
   };
 
   //   const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {

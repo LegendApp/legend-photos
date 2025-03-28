@@ -1,3 +1,4 @@
+import { timeoutOnce } from '@/utils/timeoutOnce';
 import { exists, mkdir, readFile, writeFile } from '@dr.pogodin/react-native-fs';
 import type { Change } from '@legendapp/state';
 import { applyChanges, internal, isArray } from '@legendapp/state';
@@ -6,7 +7,6 @@ import type {
   ObservablePersistPluginOptions,
   PersistMetadata,
 } from '@legendapp/state/sync';
-import { timeoutOnce } from '@/utils/timeoutOnce';
 
 const MetadataSuffix = '__m';
 const { safeParse, safeStringify } = internal;
