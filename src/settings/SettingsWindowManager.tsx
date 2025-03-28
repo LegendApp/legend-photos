@@ -18,7 +18,7 @@ export const SettingsWindowManager = () => {
           const options: WindowOptions = {
             title: 'Settings',
             width: 600,
-            height: 480,
+            height: 680,
           };
 
           await windowManager.openWindow(options);

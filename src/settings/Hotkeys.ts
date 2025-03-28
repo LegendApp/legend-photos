@@ -112,7 +112,6 @@ export const hotkeys$ = createJSONManager<Record<HotkeyName, KeyboardEventCodeHo
           const vals = `${val}`.split('+');
           // Add the main key text
           const parts = vals.map((v) => {
-            console.log('v', v, KeyText[+v], KeyText[v]);
             if (KeyText[+v]) {
               return KeyText[+v];
             }

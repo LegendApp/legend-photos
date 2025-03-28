@@ -150,19 +150,19 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
     <Pressable
       onPress={handlePress}
       className={`px-4 py-2 rounded-md border ${
-        isEditing ? 'bg-amber-50 border-amber-300' : 'bg-gray-100 border-gray-300'
+        isEditing ? 'bg-emerald-900 border-emerald-700' : 'bg-gray-800 border-gray-700'
       }`}
     >
       {isEditing ? (
         <View className="flex-row items-center">
           <View className="h-2 w-2 rounded-full bg-red-500 mr-2" />
-          <Text className="font-mono text-amber-900">
+          <Text className="font-mono text-emerald-100">
             {accumulatedKeys.length ? displayText : 'Press keys...'}
           </Text>
         </View>
       ) : (
         <View className="flex-row items-center">
-          <Text className="font-mono text-gray-800">{displayText}</Text>
+          <Text className="font-mono text-gray-200">{displayText}</Text>
         </View>
       )}
     </Pressable>
