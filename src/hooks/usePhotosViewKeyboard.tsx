@@ -4,7 +4,7 @@ import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import type { LegendListRef } from '@legendapp/list';
 import type { RefObject } from 'react';
 
-export function usePhotosViewKeyboard(_refList: RefObject<LegendListRef>) {
+export function usePhotosViewKeyboard(_refList: RefObject<LegendListRef | null>) {
   // Get the current state
   const photos$ = state$.photos;
   const selectedPhotoIndex$ = state$.selectedPhotoIndex;
