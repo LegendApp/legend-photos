@@ -7,6 +7,7 @@ import { TitleBar } from '@/features/TitleBar';
 import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/registerDefaultPlugins';
 import { isSettingsLoaded$ } from '@/settings/SettingsFile';
 import { SettingsWindowManager } from '@/settings/SettingsWindowManager';
+import { initializeMenuManager } from '@/systems/MenuManager';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
@@ -16,6 +17,7 @@ import { SafeAreaView, View } from 'react-native';
 
 registerDefaultPlugins();
 initializeUpdater();
+initializeMenuManager();
 
 function App(): React.JSX.Element {
   const settingsLoaded = useSelector(isSettingsLoaded$);

@@ -78,9 +78,6 @@ export const HotkeyMetadata: Record<HotkeyName, { description: string; repeat?: 
   Sidebar: {
     description: 'Toggle sidebar visibility',
   },
-  Settings: {
-    description: 'Open settings',
-  },
   Help: {
     description: 'Toggle shortcut help',
   },

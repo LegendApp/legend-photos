@@ -3,6 +3,12 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTBridge.h>
 #import <React/RCTLinkingManager.h>
+#import <React/RCTCxxBridgeDelegate.h>
+
+// Forward declaration for notification
+@interface NSNotificationCenter (MenuEvents)
+- (void)postNotificationName:(NSString *)name object:(id)object userInfo:(NSDictionary *)userInfo;
+@end
 
 @implementation AppDelegate
 
@@ -16,15 +22,45 @@
   // Force the app to use dark appearance
   [NSApp setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameDarkAqua]];
 
-    /**
+  /**
    *  Use a notification observer to modify the window properties once the window has been created.
    */
   [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowDidBecomeKey:)
-                                                 name:NSWindowDidBecomeKeyNotification
-                                               object:nil];
+                                           selector:@selector(windowDidBecomeKey:)
+                                               name:NSWindowDidBecomeKeyNotification
+                                             object:nil];
+
+  // Setup menu item connections after application has finished launching
+  [self performSelector:@selector(setupMenuConnections) withObject:nil afterDelay:0.5];
 
   return [super applicationDidFinishLaunching:notification];
+}
+
+// Setup menu item connections
+- (void)setupMenuConnections {
+  // Safely connect preferences menu item
+  NSMenu *mainMenu = [NSApp mainMenu];
+  if (mainMenu && [mainMenu numberOfItems] > 0) {
+    NSMenuItem *appMenuItem = [mainMenu itemAtIndex:0];
+    if (appMenuItem) {
+      NSMenu *appMenu = [appMenuItem submenu];
+      if (appMenu) {
+        NSMenuItem *preferencesMenuItem = [appMenu itemWithTitle:@"Preferences…"];
+        if (preferencesMenuItem) {
+          [preferencesMenuItem setTarget:self];
+          [preferencesMenuItem setAction:@selector(showPreferences:)];
+        }
+      }
+    }
+  }
+}
+
+// Add a method to handle the Preferences menu item
+- (void)showPreferences:(id)sender {
+  // Post a notification that our MenuEvents module can listen for
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowPreferencesMenuClicked"
+                                                      object:nil
+                                                    userInfo:nil];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

@@ -1,16 +1,10 @@
 import { type WindowOptions, useWindowManager } from '@/native-modules/WindowManager';
 import { state$ } from '@/systems/State';
-import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
 import { useMountOnce } from '@legendapp/state/react';
 
 export const SettingsWindowManager = () => {
   const windowManager = useWindowManager();
 
-  useOnHotkeys({
-    Settings: () => {
-      state$.showSettings.set(true);
-    },
-  });
   useMountOnce(() => {
     state$.showSettings.onChange(async ({ value }) => {
       if (value) {

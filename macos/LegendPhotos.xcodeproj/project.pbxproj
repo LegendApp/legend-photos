@@ -13,6 +13,7 @@
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
 		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendPhotos-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */; };
+		691BAF192D9842DA000EB46F /* MenuEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 691BAF172D9842DA000EB46F /* MenuEvents.m */; };
 		691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB342D881B49001CE76E /* RNSegmentedControl.swift */; };
 		691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB352D881B49001CE76E /* SegmentedControlBridge.m */; };
 		693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 693B2E2A2D85B9F800C3751E /* WindowControlsBridge.m */; };
@@ -49,6 +50,8 @@
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		691BAF162D9842DA000EB46F /* MenuEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuEvents.h; sourceTree = "<group>"; };
+		691BAF172D9842DA000EB46F /* MenuEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuEvents.m; sourceTree = "<group>"; };
 		691ECB342D881B49001CE76E /* RNSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNSegmentedControl.swift; sourceTree = "<group>"; };
 		691ECB352D881B49001CE76E /* SegmentedControlBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlBridge.m; sourceTree = "<group>"; };
 		693B2E292D85B9F800C3751E /* WindowControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowControls.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				691BAF182D9842DA000EB46F /* MenuEvents */,
 				69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
@@ -131,6 +135,15 @@
 				69A5FF262D90268100EE1C87 /* WindowManager */,
 			);
 			path = "LegendPhotos-macOS";
+			sourceTree = "<group>";
+		};
+		691BAF182D9842DA000EB46F /* MenuEvents */ = {
+			isa = PBXGroup;
+			children = (
+				691BAF162D9842DA000EB46F /* MenuEvents.h */,
+				691BAF172D9842DA000EB46F /* MenuEvents.m */,
+			);
+			path = MenuEvents;
 			sourceTree = "<group>";
 		};
 		691ECB362D881B49001CE76E /* SegmentedControl */ = {
@@ -495,6 +508,7 @@
 				696C10882D894A97007D2C65 /* FilePicker.swift in Sources */,
 				699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */,
 				699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */,
+				691BAF192D9842DA000EB46F /* MenuEvents.m in Sources */,
 				69A6CFA92D884B9C00B29080 /* NativeButtonBridge.m in Sources */,
 				69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */,
 				6948E1662D900F46000F322F /* PhotoKit.swift in Sources */,
@@ -691,10 +705,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -755,10 +766,7 @@
 				);
 				LLVM_LTO = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
