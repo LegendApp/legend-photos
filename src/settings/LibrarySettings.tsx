@@ -15,7 +15,8 @@ export const LibrarySettings = () => {
 
   const handleRemovePath = async (path: string) => {
     const currentPaths = settings$.library.paths.get();
-    settings$.library.paths.set(currentPaths.filter((p) => p !== path));
+    const idx = currentPaths.indexOf(path);
+    settings$.library.paths.splice(idx, 1);
   };
 
   //   const handlePreviewSizeChange = async (size: 'small' | 'medium' | 'large') => {
@@ -35,7 +36,7 @@ export const LibrarySettings = () => {
   //   };
 
   return (
-    <View className="space-y-8">
+    <View className="space-y-8 p-5">
       <Text className="text-2xl font-bold text-white mb-2">Library Settings</Text>
 
       {/* Library Paths */}

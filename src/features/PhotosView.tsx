@@ -1,8 +1,7 @@
 import { Photo } from '@/features/Photo';
 import { isWindowFullScreen$ } from '@/hooks/HookWindowFullscreen';
 import { usePhotosViewKeyboard } from '@/hooks/usePhotosViewKeyboard';
-import { getPhotosInFolder } from '@/plugin-system/FileSources';
-import { getOpenFolder } from '@/plugin-system/FileSources';
+import { getOpenFolder, getPhotosInFolder } from '@/plugin-system/FileSources';
 import { settings$ } from '@/settings/SettingsFile';
 import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
@@ -41,7 +40,7 @@ observe(async () => {
   }
 });
 
-const renderPhoto = ({ item, index }: { item: PhotoInfo; index: number }) => {
+const PhotoItem = ({ item, index }: { item: PhotoInfo; index: number }) => {
   return <Photo photo={item} index={index} />;
 };
 
@@ -85,7 +84,7 @@ export const PhotosView = observer(function PhotosView() {
     <View className="flex-1 bg-[#111]">
       <LegendList
         data={photos}
-        renderItem={renderPhoto}
+        renderItem={PhotoItem}
         numColumns={numColumns}
         estimatedItemSize={200}
         automaticallyAdjustContentInsets={false}

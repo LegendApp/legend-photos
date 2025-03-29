@@ -1,5 +1,4 @@
 import type { PhotoInfo } from '@/systems/FileManager';
-import type { KeyInfo, KeyboardEventCodeHotkey } from '@/systems/keyboard/Keyboard';
 import type { ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
 
@@ -24,6 +23,17 @@ export interface Plugin {
   type: PluginType;
 }
 
+// Enhanced key info with optional metadata
+export interface EnhancedKeyInfo {
+  action: () => void;
+  description?: string;
+  repeat?: boolean;
+  defaultKeyCode?: number; // Default key code to use for this hotkey
+}
+
+// SimpleKeyInfo is now just a function type or an EnhancedKeyInfo object
+export type SimpleKeyInfo = (() => void) | EnhancedKeyInfo;
+
 // Render plugin interface
 export interface DisplayPlugin extends Plugin {
   type: 'display';
@@ -31,7 +41,7 @@ export interface DisplayPlugin extends Plugin {
   component?: (props: any) => ReactNode;
   childOf?: PluginLocation;
   position: 'l' | 'tl' | 't' | 'tr' | 'r' | 'br' | 'b' | 'bl';
-  hotkeys?: Record<KeyboardEventCodeHotkey, KeyInfo>;
+  hotkeys?: Record<string, SimpleKeyInfo>;
 }
 
 export interface SidebarGroup {

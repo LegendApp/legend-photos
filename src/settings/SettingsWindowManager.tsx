@@ -1,20 +1,14 @@
 import { type WindowOptions, useWindowManager } from '@/native-modules/WindowManager';
 import { state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { useMountOnce } from '@legendapp/state/react';
 
 export const SettingsWindowManager = () => {
   const windowManager = useWindowManager();
 
   useOnHotkeys({
-    [KeyCodes.KEY_COMMA]: {
-      action: () => {
-        state$.showSettings.set(true);
-      },
-      name: 'Settings',
-      description: 'Open settings',
-      keyText: ',',
+    Settings: () => {
+      state$.showSettings.set(true);
     },
   });
   useMountOnce(() => {
@@ -24,7 +18,7 @@ export const SettingsWindowManager = () => {
           const options: WindowOptions = {
             title: 'Settings',
             width: 600,
-            height: 480,
+            height: 680,
           };
 
           await windowManager.openWindow(options);

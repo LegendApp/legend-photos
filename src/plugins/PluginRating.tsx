@@ -76,42 +76,35 @@ export const PluginRating: DisplayPlugin = {
     return !!photoMetadata && photoMetadata.rating! > 0;
   },
   hotkeys: {
-    // Use number keys 1-5 to set rating
-    [KeyCodes.KEY_0.toString()]: {
+    'Rate 0': {
       action: () => rateCurrentPhoto(0),
-      name: 'Rate 0',
-      description: 'Rate photo 0',
-      keyText: '0',
+      description: 'Remove rating from current photo',
+      defaultKeyCode: KeyCodes.KEY_0,
     },
-    [KeyCodes.KEY_1.toString()]: {
+    'Rate 1': {
       action: () => rateCurrentPhoto(1),
-      name: 'Rate 1',
-      description: 'Rate photo 1',
-      keyText: '1',
+      description: 'Rate current photo 1 star',
+      defaultKeyCode: KeyCodes.KEY_1,
     },
-    [KeyCodes.KEY_2.toString()]: {
+    'Rate 2': {
       action: () => rateCurrentPhoto(2),
-      name: 'Rate 2',
-      description: 'Rate photo 2',
-      keyText: '2',
+      description: 'Rate current photo 2 stars',
+      defaultKeyCode: KeyCodes.KEY_2,
     },
-    [KeyCodes.KEY_3.toString()]: {
+    'Rate 3': {
       action: () => rateCurrentPhoto(3),
-      name: 'Rate 3',
-      description: 'Rate photo 3',
-      keyText: '3',
+      description: 'Rate current photo 3 stars',
+      defaultKeyCode: KeyCodes.KEY_3,
     },
-    [KeyCodes.KEY_4.toString()]: {
+    'Rate 4': {
       action: () => rateCurrentPhoto(4),
-      name: 'Rate 4',
-      description: 'Rate photo 4',
-      keyText: '4',
+      description: 'Rate current photo 4 stars',
+      defaultKeyCode: KeyCodes.KEY_4,
     },
-    [KeyCodes.KEY_5.toString()]: {
+    'Rate 5': {
       action: () => rateCurrentPhoto(5),
-      name: 'Rate 5',
-      description: 'Rate photo 5',
-      keyText: '5',
+      description: 'Rate current photo 5 stars',
+      defaultKeyCode: KeyCodes.KEY_5,
     },
   },
 };

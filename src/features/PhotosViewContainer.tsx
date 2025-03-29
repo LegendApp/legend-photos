@@ -5,7 +5,6 @@ import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
-import { KeyCodes } from '@/systems/keyboard/KeyboardManager';
 import { Motion } from '@legendapp/motion';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
@@ -34,17 +33,12 @@ export function PhotosViewContainer() {
   });
 
   useOnHotkeys({
-    [KeyCodes.KEY_S]: {
-      action: () => {
-        const selectedFolder = getOpenFolder();
+    Sidebar: () => {
+      const selectedFolder = getOpenFolder();
 
-        if (selectedFolder && !state$.fullscreenPhoto.get()) {
-          settings$.state.isSidebarOpen.toggle();
-        }
-      },
-      name: 'Sidebar',
-      description: 'Toggle sidebar visibility',
-      keyText: 'S',
+      if (selectedFolder && !state$.fullscreenPhoto.get()) {
+        settings$.state.isSidebarOpen.toggle();
+      }
     },
   });
 

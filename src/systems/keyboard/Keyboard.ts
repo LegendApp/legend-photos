@@ -1,13 +1,19 @@
-import { event, observable } from '@legendapp/state';
-import { useEffectOnce, useMount } from '@legendapp/state/react';
-import { ax } from '@/utils/ax';
+import { type HotkeyName, getHotkey, getHotkeyMetadata } from '@/settings/Hotkeys';
 import { state$ } from '@/systems/State';
-import KeyboardManager, { type KeyboardEvent } from '@/systems/keyboard/KeyboardManager';
+import KeyboardManager, {
+  type KeyboardEvent,
+  KeyCodes,
+  KeyText,
+} from '@/systems/keyboard/KeyboardManager';
+import { ax } from '@/utils/ax';
+import { batch, event, observable } from '@legendapp/state';
+import { useMount, useObserveEffect } from '@legendapp/state/react';
 
 type KeyboardEventCode = number;
 type KeyboardEventCodeModifier = string;
 
 export type KeyboardEventCodeHotkey =
+  | KeyboardEventCode
   | `${KeyboardEventCode}`
   | `${KeyboardEventCodeModifier}+${KeyboardEventCode}`
   | `${KeyboardEventCodeModifier}+${KeyboardEventCodeModifier}+${KeyboardEventCode}`;
@@ -17,46 +23,70 @@ const keyRepeat$ = event();
 
 const keysToPreventDefault = new Set<KeyboardEventCode>();
 
+// Updated KeyInfo to only require the action function
 export interface KeyInfo {
   action: () => void;
+}
+
+// Global registry for hotkeys with their name and action description
+export interface HotkeyInfo {
   name: string;
+  key: KeyboardEventCodeHotkey;
   description: string;
   repeat?: boolean;
   keyText?: string;
 }
-
-// Global registry for hotkeys with their name and action description
-export interface HotkeyInfo extends Exclude<KeyInfo, 'action'> {
-  keys: string;
-}
 export const hotkeyRegistry$ = observable<Record<string, HotkeyInfo>>({});
+
+const MODIFIERS = [
+  KeyCodes.MODIFIER_COMMAND,
+  KeyCodes.MODIFIER_SHIFT,
+  KeyCodes.MODIFIER_OPTION,
+  KeyCodes.MODIFIER_CONTROL,
+] as const;
 
 // Handle events to set current key states
 const onKeyDown = (e: KeyboardEvent) => {
-  const { keyCode } = e;
-  // Add the pressed key if not holding Alt
-  // if (!e.altKey) {
-  const isAlreadyPressed = keysPressed$[keyCode].get();
-  keysPressed$[keyCode].set(true);
+  const { keyCode, modifiers } = e;
 
-  if (isAlreadyPressed) {
-    keyRepeat$.fire();
-  }
+  batch(() => {
+    // Add the pressed key
+    const isAlreadyPressed = keysPressed$[keyCode].get();
+    keysPressed$[keyCode].set(true);
 
-  // }
+    // Handle modifiers
+    for (const mod of MODIFIERS) {
+      keysPressed$[mod].set(!!(modifiers & mod));
+    }
 
-  return !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+    if (isAlreadyPressed) {
+      keyRepeat$.fire();
+    }
+  });
+
+  return (
+    state$.listeningForKeyPress.get() ||
+    (!state$.showSettings.get() && keysToPreventDefault.has(keyCode))
+  );
 };
+
 const onKeyUp = (e: KeyboardEvent) => {
-  const { keyCode } = e;
-  keysPressed$[keyCode].delete();
+  const { keyCode, modifiers } = e;
 
-  // if (e.key === 'Meta' || e.key === 'Alt') {
-  //   // If releasing Meta or Alt then we need to release all keys or they might get stuck on
-  //   resetKeys();
-  // }
+  batch(() => {
+    // Remove the released key
+    keysPressed$[keyCode].delete();
 
-  return !state$.showSettings.get() && keysToPreventDefault.has(keyCode);
+    // Handle modifiers
+    for (const mod of MODIFIERS) {
+      keysPressed$[mod].set(!!(modifiers & mod));
+    }
+  });
+
+  return (
+    state$.listeningForKeyPress.get() ||
+    (!state$.showSettings.get() && keysToPreventDefault.has(keyCode))
+  );
 };
 
 export function useHookKeyboard() {
@@ -85,28 +115,49 @@ export function useHookKeyboard() {
   });
 }
 
-type HotkeyCallbacks = Partial<Record<KeyboardEventCodeHotkey, KeyInfo>>;
+// Updated HotkeyCallbacks to map hotkey names to simple action functions
+type HotkeyCallbacks = Partial<Record<HotkeyName, () => void>>;
 
 export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
   const hotkeyMap = new Map<string[], () => void>();
   const repeatActions = new Set<string[]>();
 
   // Process each combination and its callback
-  for (const [hotkey, keyInfo] of Object.entries(hotkeyCallbacks)) {
-    if (keyInfo) {
-      const keys = hotkey.toLowerCase().split('+');
-      keysToPreventDefault.add(Number(keys[keys.length - 1]));
-      hotkeyMap.set(keys, keyInfo.action);
+  for (const [name, action] of Object.entries(hotkeyCallbacks)) {
+    if (action) {
+      // Get the configured key for this hotkey from hotkeys$
+      const configuredKey = getHotkey(name as any);
+      if (!configuredKey) {
+        console.warn(`No hotkey configuration found for ${name}`);
+        continue;
+      }
 
-      if (keyInfo.repeat) {
+      const keys =
+        typeof configuredKey === 'number'
+          ? [configuredKey.toString()]
+          : configuredKey.toLowerCase().split('+');
+
+      keysToPreventDefault.add(Number(keys[keys.length - 1]));
+      hotkeyMap.set(keys, action);
+
+      // Get metadata for this hotkey
+      const metadata = getHotkeyMetadata(name as any);
+
+      if (metadata?.repeat) {
         repeatActions.add(keys);
       }
 
-      if (keyInfo.keyText) {
-        // Register the hotkey with its name and action
-        hotkeyRegistry$[keyInfo.name].set({
-          keys: hotkey,
-          ...keyInfo,
+      // Register the hotkey with its name and action description
+      if (metadata) {
+        // Get keyText from KeyText mapping for numeric keys
+        const keyText = typeof configuredKey === 'number' ? KeyText[configuredKey] : configuredKey;
+
+        hotkeyRegistry$[name].set({
+          name,
+          key: configuredKey,
+          description: metadata.description,
+          repeat: metadata.repeat,
+          keyText,
         });
       }
     }
@@ -156,5 +207,8 @@ export function onHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
 }
 
 export function useOnHotkeys(hotkeyCallbacks: HotkeyCallbacks) {
-  useEffectOnce(() => onHotkeys(hotkeyCallbacks), []);
+  useObserveEffect((e) => {
+    const sub = onHotkeys(hotkeyCallbacks);
+    e.onCleanup = sub;
+  });
 }

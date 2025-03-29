@@ -1,6 +1,6 @@
-import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
-import { createJSONManager } from '@/utils/JSONManager';
 import type { PhotoInfo } from '@/systems/FileManager';
+import { createJSONManager } from '@/utils/JSONManager';
+import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 
 // Define the metadata structure for a single photo
 export interface PhotoMetadataItem {
@@ -17,11 +17,12 @@ export interface PhotoMetadataStore {
 }
 
 // Create the metadata manager
-export const photoMetadatas$ = createJSONManager<PhotoMetadataStore>(
-  `${DocumentDirectoryPath}/.legendphotos/`,
-  'metadata.json',
-  {}
-);
+export const photoMetadatas$ = createJSONManager<PhotoMetadataStore>({
+  basePath: `${DocumentDirectoryPath}/.legendphotos/`,
+  filename: 'metadata.json',
+  initialValue: {},
+  saveDefaultToFile: false,
+});
 
 // Get metadata for a specific photo
 export function getMetadata(photo: PhotoInfo): PhotoMetadataItem {
