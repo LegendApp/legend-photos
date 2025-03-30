@@ -5,6 +5,7 @@ import { HotkeySettings } from '@/settings/HotkeySettings';
 import { LibrarySettings } from '@/settings/LibrarySettings';
 import { PluginSettings } from '@/settings/PluginSettings';
 import { ThemeSettings } from '@/settings/ThemeSettings';
+import { ThemeProvider } from '@/theme/ThemeProvider';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -45,16 +46,18 @@ export const SettingsContainer = () => {
 
   return (
     <VibrancyView blendingMode="behindWindow" material="sidebar" style={styles.vibrancy}>
-      <View className="flex flex-1 flex-row">
-        <Sidebar
-          items={SETTING_CATEGORIES}
-          isItemSelected={isItemSelected}
-          onSelectItem={(item) => setSelectedCategory(item.path)}
-          width={140}
-          showGroups={false}
-        />
-        <View className="flex-1 bg-[#1a1a1a]">{renderContent()}</View>
-      </View>
+      <ThemeProvider>
+        <View className="flex flex-1 flex-row">
+          <Sidebar
+            items={SETTING_CATEGORIES}
+            isItemSelected={isItemSelected}
+            onSelectItem={(item) => setSelectedCategory(item.path)}
+            width={140}
+            showGroups={false}
+          />
+          <View className="flex-1 bg-[#1a1a1a]">{renderContent()}</View>
+        </View>
+      </ThemeProvider>
     </VibrancyView>
   );
 };

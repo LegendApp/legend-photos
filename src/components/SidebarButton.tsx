@@ -10,13 +10,16 @@ export interface SidebarButtonProps {
 }
 
 export function SidebarButton({ text, isSelected, onPress, indentLevel = 0 }: SidebarButtonProps) {
-  const textColor = isSelected ? 'text-white' : 'text-[#bbb]';
+  const textColor = isSelected ? 'text-text-primary' : 'text-text-secondary';
 
   const indentPadding = 8 + indentLevel * 12;
 
   return (
     <Pressable
-      className={cn('py-2 rounded-md mx-1', isSelected ? 'bg-white/10' : 'hover:bg-white/5')}
+      className={cn(
+        'py-2 rounded-md mx-1',
+        isSelected ? 'bg-accent-primary/20' : 'hover:bg-background-secondary'
+      )}
       onPress={onPress}
     >
       <View className="flex-row items-center" style={{ paddingLeft: indentPadding }}>

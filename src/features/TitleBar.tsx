@@ -1,10 +1,10 @@
+import { settings$ } from '@/settings/SettingsFile';
+import { state$ } from '@/systems/State';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { observe } from '@legendapp/state';
 import { Show } from '@legendapp/state/react';
 import React, { NativeModules, Pressable, StyleSheet } from 'react-native';
-import { settings$ } from '@/settings/SettingsFile';
-import { state$ } from '@/systems/State';
 const WindowControls = NativeModules.WindowControls;
 
 export function TitleBar() {
@@ -25,7 +25,7 @@ export function TitleBar() {
     >
       <Show if={state$.titleBarHovered} wrap={AnimatePresence}>
         <Motion.View
-          className="absolute inset-0 border-b border-white/10"
+          className="absolute inset-0 border-b border-[var(--border)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

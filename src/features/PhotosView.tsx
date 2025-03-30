@@ -69,7 +69,7 @@ export const PhotosView = observer(function PhotosView() {
 
   if (loading || !hasMetadatas || openingFolder) {
     return (
-      <View className="flex-1 justify-center items-center bg-[#111]">
+      <View className="flex-1 justify-center items-center bg-background-primary">
         <Text>Loading photos...</Text>
       </View>
     );
@@ -92,7 +92,7 @@ export const PhotosView = observer(function PhotosView() {
   }
 
   return (
-    <View className="flex-1 bg-[#111]">
+    <View className="flex-1 bg-background-primary">
       <LegendList
         data={photos}
         renderItem={PhotoItem}

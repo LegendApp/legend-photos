@@ -31,7 +31,7 @@ export function Sidebar({
       return (items as SidebarGroup[]).map((group) => (
         <View key={group.title} className="mb-6">
           <View className="mb-1">
-            <Text className="px-3 text-xs font-semibold tracking-wider text-zinc-500">
+            <Text className="px-3 text-xs font-semibold tracking-wider text-text-tertiary">
               {group.title}
             </Text>
           </View>
@@ -64,7 +64,7 @@ export function Sidebar({
 
   return (
     <Animated.View
-      className="h-full border-r border-r-[#333]"
+      className="h-full border-r border-border"
       style={{
         width,
       }}
