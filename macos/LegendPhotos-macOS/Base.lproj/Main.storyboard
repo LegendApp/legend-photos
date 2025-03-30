@@ -292,9 +292,9 @@
                             </menuItem>
                             <menuItem title="View" id="H8h-7b-M4v">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="View" id="HyV-fh-RgO">
+                                <menu key="submenu" title="View" autoenablesItems="NO" id="HyV-fh-RgO">
                                     <items>
-                                        <menuItem title="Show Filmstrip" keyEquivalent="f" id="snW-S8-Cw5">
+                                        <menuItem title="Show Filmstrip" keyEquivalent="f" allowsKeyEquivalentWhenHidden="YES" id="snW-S8-Cw5">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleToolbarShown:" target="Ady-hI-5gd" id="BXY-wc-z0C"/>

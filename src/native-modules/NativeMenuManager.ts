@@ -4,7 +4,12 @@ import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
 const { MenuEvents } = NativeModules;
 
 // Define event types
-type MenuEvent = 'onShowPreferences';
+type MenuEvent = 'onMenuCommand';
+
+// Define command callback type
+export interface MenuCommandEvent {
+  commandId: string;
+}
 
 /**
  * MenuManager provides an interface to handle native menu events in macOS
@@ -13,6 +18,7 @@ class MenuManager {
   private eventEmitter: NativeEventEmitter | null = null;
   private eventSubscriptions: { [key: string]: any } = {};
   private isNativeModuleAvailable: boolean;
+  private commandListeners: Map<string, Array<() => void>> = new Map();
 
   constructor() {
     // Check if we're on macOS and if the native module is available
@@ -30,7 +36,7 @@ class MenuManager {
   /**
    * Add a listener for a menu event
    */
-  public addListener(event: MenuEvent, callback: () => void) {
+  public addListener(event: MenuEvent, callback: (event: MenuCommandEvent) => void) {
     if (!this.eventEmitter) return;
 
     // Remove existing subscription if any
@@ -59,6 +65,7 @@ class MenuManager {
       this.eventSubscriptions[event].remove();
     }
     this.eventSubscriptions = {};
+    this.commandListeners.clear();
   }
 }
 

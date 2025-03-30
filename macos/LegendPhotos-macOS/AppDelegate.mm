@@ -4,6 +4,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTCxxBridgeDelegate.h>
+#import <objc/runtime.h>
 
 // Forward declaration for notification
 @interface NSNotificationCenter (MenuEvents)
@@ -38,30 +39,91 @@
 
 // Setup menu item connections
 - (void)setupMenuConnections {
-  // Safely connect preferences menu item
+  // Get the main menu
   NSMenu *mainMenu = [NSApp mainMenu];
-  if (mainMenu && [mainMenu numberOfItems] > 0) {
-    NSMenuItem *appMenuItem = [mainMenu itemAtIndex:0];
-    if (appMenuItem) {
-      NSMenu *appMenu = [appMenuItem submenu];
-      if (appMenu) {
-        NSMenuItem *preferencesMenuItem = [appMenu itemWithTitle:@"Preferences…"];
-        if (preferencesMenuItem) {
-          [preferencesMenuItem setTarget:self];
-          [preferencesMenuItem setAction:@selector(showPreferences:)];
-        }
-      }
-    }
+  if (!mainMenu || [mainMenu numberOfItems] <= 0) {
+    return;
   }
+
+  // Set up menu items
+  [self setupMenuCommand:@"preferences" itemTitle:@"Preferences…" inMenu:@"LegendPhotos"];
+  [self setupMenuCommand:@"showSidebar" itemTitle:@"Show Sidebar" inMenu:@"View"];
+  [self setupMenuCommand:@"showFilmstrip" itemTitle:@"Show Filmstrip" inMenu:@"View"];
+
+  // Add more menu items here as needed
+  // [self setupMenuCommand:@"someAction" itemTitle:@"Some Menu Item" inMenu:@"Menu Title"];
 }
 
+// Combined method to setup a menu command and connect it to a menu item
+- (BOOL)setupMenuCommand:(NSString *)commandId itemTitle:(NSString *)itemTitle inMenu:(NSString *)menuTitle {
+  // Create the selector name from the command ID
+  NSString *selectorName = [NSString stringWithFormat:@"%@:", commandId];
+  SEL selector = NSSelectorFromString(selectorName);
+
+  // Dynamically add the method to AppDelegate
+  class_addMethod([self class], selector, imp_implementationWithBlock(^(id _self, id sender) {
+    [_self triggerMenuCommand:commandId];
+  }), "v@:@");
+
+  // Connect the menu item
+  NSMenu *mainMenu = [NSApp mainMenu];
+
+  // Find the menu by title
+  NSMenuItem *menuItem = nil;
+  for (int i = 0; i < [mainMenu numberOfItems]; i++) {
+    NSMenuItem *item = [mainMenu itemAtIndex:i];
+    if ([[item title] isEqualToString:menuTitle]) {
+      menuItem = item;
+      break;
+    }
+  }
+
+  if (!menuItem) {
+    NSLog(@"Menu '%@' not found", menuTitle);
+    return NO;
+  }
+
+  // Find the submenu
+  NSMenu *subMenu = [menuItem submenu];
+  if (!subMenu) {
+    NSLog(@"Submenu of '%@' not found", menuTitle);
+    return NO;
+  }
+
+  // Find the menu item
+  NSMenuItem *targetItem = [subMenu itemWithTitle:itemTitle];
+  if (!targetItem) {
+    NSLog(@"Menu item '%@' not found in menu '%@'", itemTitle, menuTitle);
+    return NO;
+  }
+
+  // Connect the action
+  [targetItem setTarget:self];
+  [targetItem setAction:selector];
+
+  return YES;
+}
+
+// Generic method to trigger menu commands
+- (void)triggerMenuCommand:(NSString *)commandId {
+  NSDictionary *userInfo = @{@"commandId": commandId};
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"MenuCommandTriggered"
+                                                      object:nil
+                                                    userInfo:userInfo];
+}
+
+/* Now handled by dynamically created methods
 // Add a method to handle the Preferences menu item
 - (void)showPreferences:(id)sender {
-  // Post a notification that our MenuEvents module can listen for
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"ShowPreferencesMenuClicked"
-                                                      object:nil
-                                                    userInfo:nil];
+  // Send using the generic method
+  [self triggerMenuCommand:@"preferences"];
 }
+
+- (void)showSidebar:(id)sender {
+  // Send using the generic method
+  [self triggerMenuCommand:@"showSidebar"];
+}
+*/
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
