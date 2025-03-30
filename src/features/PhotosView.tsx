@@ -5,14 +5,20 @@ import { getOpenFolder, getPhotosInFolder } from '@/plugin-system/FileSources';
 import { settings$ } from '@/settings/SettingsFile';
 import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
-import { state$ } from '@/systems/State';
+import { state, state$ } from '@/systems/State';
 import { ax } from '@/utils/ax';
 import { LegendList, type LegendListRef } from '@legendapp/list';
 import { observe, syncState } from '@legendapp/state';
 import { observer, use$, useSelector } from '@legendapp/state/react';
 import { remapProps } from 'nativewind';
-import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import {
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 remapProps(LegendList, {
   className: 'style',
@@ -56,6 +62,10 @@ export const PhotosView = observer(function PhotosView() {
   // Set up keyboard shortcuts
   usePhotosViewKeyboard(refList);
 
+  const onScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    state.photosViewScrollY = e.nativeEvent.contentOffset.y;
+  }, []);
+
   if (loading || !hasMetadatas || openingFolder) {
     return (
       <View className="flex-1 justify-center items-center bg-[#111]">
@@ -95,6 +105,7 @@ export const PhotosView = observer(function PhotosView() {
         columnWrapperStyle={styles.columnWrapperStyle}
         style={styles.legendListStyle}
         ListHeaderComponent={ListHeaderComponent}
+        onScroll={onScroll}
         ref={refList}
       />
     </View>

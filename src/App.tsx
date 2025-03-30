@@ -8,12 +8,13 @@ import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/register
 import { isSettingsLoaded$ } from '@/settings/SettingsFile';
 import { SettingsWindowManager } from '@/settings/SettingsWindowManager';
 import { initializeMenuManager } from '@/systems/MenuManager';
+import { appView } from '@/systems/State';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
 import { useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 registerDefaultPlugins();
 initializeUpdater();
@@ -23,7 +24,12 @@ function App(): React.JSX.Element {
   const settingsLoaded = useSelector(isSettingsLoaded$);
 
   return (
-    <SafeAreaView className="flex-1 bg-[#111]">
+    <View
+      className="flex-1 bg-[#111]"
+      ref={(r) => {
+        appView.current = r;
+      }}
+    >
       <View className="flex-1 flex-row">
         <MainSidebar />
         {settingsLoaded && <PhotosViewContainer />}
@@ -36,7 +42,7 @@ function App(): React.JSX.Element {
       <SettingsWindowManager />
       <HotkeyHelp />
       {/* <PhotoKitExample /> */}
-    </SafeAreaView>
+    </View>
   );
 }
 

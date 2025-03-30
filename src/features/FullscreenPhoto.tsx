@@ -4,8 +4,9 @@ import { useOnDoubleClick } from '@/hooks/useOnDoubleClick';
 import { PluginRenderer } from '@/plugin-system/registerDefaultPlugins';
 import { settings$ } from '@/settings/SettingsFile';
 import type { PhotoInfo } from '@/systems/FileManager';
-import { fullscreenView, state$ } from '@/systems/State';
+import { appView, fullscreenView, state, state$ } from '@/systems/State';
 import { useOnHotkeys } from '@/systems/keyboard/Keyboard';
+import { windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
 import { AnimatePresence, Motion } from '@legendapp/motion';
 import { Show, use$, useObservable } from '@legendapp/state/react';
 import React, { useCallback, useRef } from 'react';
@@ -161,15 +162,15 @@ export const FullscreenPhoto = () => {
       return;
     }
 
-    const dimensions = Dimensions.get('window');
+    const dimensions = windowDimensions$.get();
 
     const view = fullscreenView.current;
 
-    view!.measureInWindow((x, y, width, height) => {
+    view!.measureLayout(appView.current!, (x, y, width, height) => {
+      const top = y - state.photosViewScrollY;
       const left = x;
-      const top = y;
       const right = dimensions.width - width - x;
-      const bottom = dimensions.height - height - y;
+      const bottom = dimensions.height - height - top;
 
       state$.isPhotoFullscreenCoveringControls.set(false);
       isOpenOrClosing$.set(false);
@@ -187,7 +188,7 @@ export const FullscreenPhoto = () => {
       ).start();
 
       Animated.timing(animatedOpacity, {
-        delay: 300,
+        delay: 100,
         toValue: 0,
         duration: 100,
         useNativeDriver: false,

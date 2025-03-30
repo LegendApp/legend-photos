@@ -52,8 +52,8 @@ export const Filmstrip = observer(() => {
       listRef.current.scrollToIndex({
         index: index,
         animated: !isFirstRender.current,
-        viewOffset: (windowDimensions$.width.get() - thumbnailSize) / 2,
-        // viewPosition: 0.5, // Center the item
+        // viewOffset: (windowDimensions$.width.get() - thumbnailSize) / 2,
+        viewPosition: 0.5, // Center the item
       });
       isFirstRender.current = false;
     }

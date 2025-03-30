@@ -5,6 +5,12 @@ import type { View } from 'react-native';
 export const fullscreenView = {
   current: null as View | null,
 };
+export const appView = {
+  current: null as View | null,
+};
+export const state = {
+  photosViewScrollY: -28,
+};
 // Define the interface for the fullscreen photo data
 export interface FullscreenPhotoData {
   initialPosition: {

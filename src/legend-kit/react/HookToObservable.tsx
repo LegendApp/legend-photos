@@ -35,8 +35,10 @@ export const HookToObservable = typedMemo(function HookToObservable<T, T2 = T>({
 
   useLayoutEffect(() => {
     if (!ifProp || ifProp(value)) {
-      const valueToSet = getValue ? getValue(value) : value;
-      (value$ as Observable<any>).set(valueToSet);
+      try {
+        const valueToSet = getValue ? getValue(value) : value;
+        (value$ as Observable<any>).set(valueToSet);
+      } catch {}
     }
   }, [value, ifProp, value$, getValue]);
 
