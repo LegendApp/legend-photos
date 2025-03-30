@@ -43,6 +43,7 @@ const FilmstripItem = observer(({ item, index, size }: FilmstripItemProps) => {
 export const Filmstrip = observer(() => {
   const photos = useSelector(state$.photos);
   const listRef = useRef<LegendListRef>(null);
+  const width = useSelector(windowDimensions$.width);
   const thumbnailSize = 80;
   const isFirstRender = useRef(true);
 
@@ -76,6 +77,9 @@ export const Filmstrip = observer(() => {
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="py-2 px-2"
         estimatedItemSize={88} // 64px for item + 8px for margin
+        style={{
+          width,
+        }}
       />
     </View>
   );
