@@ -7,6 +7,7 @@ import { type PhotoInfo, getFolderName } from '@/systems/FileManager';
 import { photoMetadatas$ } from '@/systems/PhotoMetadata';
 import { state, state$ } from '@/systems/State';
 import { ax } from '@/utils/ax';
+import { cn } from '@/utils/cn';
 import { LegendList, type LegendListRef } from '@legendapp/list';
 import { observe, syncState } from '@legendapp/state';
 import { observer, use$, useSelector } from '@legendapp/state/react';
@@ -141,7 +142,7 @@ function ListHeaderComponent() {
   const folderDisplayName = selectedFolder ? getFolderName(selectedFolder) : '';
 
   return (
-    <View className={`pb-3  ${isFullScreen ? 'pt-10' : 'pt-3'}`}>
+    <View className={cn('pb-3', isFullScreen ? 'pt-10' : 'pt-3')}>
       <Text className="text-3xl font-medium text-white">{folderDisplayName}</Text>
       <View className="gap-x-3 flex-row">
         {subtitle.map((t) => (

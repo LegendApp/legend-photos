@@ -1,5 +1,6 @@
 import { SidebarButton } from '@/components/SidebarButton';
 import type { SidebarGroup, SidebarItem } from '@/plugin-system/PluginTypes';
+import { cn } from '@/utils/cn';
 import { VibrancyView } from '@fluentui-react-native/vibrancy-view';
 import React from 'react';
 import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -69,7 +70,7 @@ export function Sidebar({
       }}
     >
       <VibrancyView blendingMode="behindWindow" material="sidebar" style={styles.vibrancy}>
-        <View className={`flex-1 py-2 ${className}`}>
+        <View className={cn('flex-1 py-2', className)}>
           <ScrollView showsVerticalScrollIndicator={false}>{renderItems()}</ScrollView>
         </View>
       </VibrancyView>

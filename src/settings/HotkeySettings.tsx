@@ -3,6 +3,7 @@ import { state$ } from '@/systems/State';
 import { HiddenTextInput } from '@/systems/keyboard/HookKeyboard';
 import { type KeyboardEventCodeHotkey, keysPressed$ } from '@/systems/keyboard/Keyboard';
 import { KeyCodes, KeyText } from '@/systems/keyboard/KeyboardManager';
+import { cn } from '@/utils/cn';
 import { use$, useObservable, useObserveEffect, useSelector } from '@legendapp/state/react';
 import React from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -152,9 +153,10 @@ function HotkeyInput({ hotkeyName, currentKeyCode }: HotkeyInputProps) {
   return (
     <Pressable
       onPress={handlePress}
-      className={`px-4 py-2 rounded-md border ${
+      className={cn(
+        'px-4 py-2 rounded-md border',
         isEditing ? 'bg-emerald-900 border-emerald-700' : 'bg-gray-800 border-gray-700'
-      }`}
+      )}
     >
       {isEditing ? (
         <View className="flex-row items-center">
