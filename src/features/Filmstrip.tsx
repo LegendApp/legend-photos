@@ -46,6 +46,7 @@ export const Filmstrip = observer(() => {
   const width = useSelector(windowDimensions$.width);
   const thumbnailSize = 80;
   const isFirstRender = useRef(true);
+  const initialScrollIndex = state$.selectedPhotoIndex.peek();
 
   useObserveEffect(() => {
     const index = state$.selectedPhotoIndex.get();
@@ -53,7 +54,6 @@ export const Filmstrip = observer(() => {
       listRef.current.scrollToIndex({
         index: index,
         animated: !isFirstRender.current,
-        // viewOffset: (windowDimensions$.width.get() - thumbnailSize) / 2,
         viewPosition: 0.5, // Center the item
       });
       isFirstRender.current = false;
@@ -74,6 +74,7 @@ export const Filmstrip = observer(() => {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         horizontal
+        initialScrollOffset={initialScrollIndex * 88 - (width - 100) / 2} // 100 is 88 plus some buffer to center it
         showsHorizontalScrollIndicator={false}
         contentContainerClassName="py-2 px-2"
         estimatedItemSize={88} // 64px for item + 8px for margin
