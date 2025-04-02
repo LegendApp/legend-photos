@@ -6,7 +6,7 @@ export function initializeMenuManager() {
   menuManager.addListener('onMenuCommand', (e) => {
     console.log('onMenuCommand', e);
     switch (e.commandId) {
-      case 'preferences':
+      case 'settings':
         state$.showSettings.set(true);
         break;
       case 'showSidebar':

@@ -13,7 +13,7 @@
                         <items>
                             <menuItem title="LegendPhotos" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="LegendPhotos" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="LegendPhotos" systemMenu="apple" autoenablesItems="NO" id="uQy-DD-JDr">
                                     <items>
                                         <menuItem title="About LegendPhotos" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -22,9 +22,9 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                        <menuItem title="Settings…" keyEquivalent="," id="BOF-NM-1cW">
                                             <connections>
-                                                <action selector="showPreferences:" target="Voe-Tx-rLC" id="your-unique-id"/>
+                                                <action selector="showSettings:" target="Voe-Tx-rLC" id="your-unique-id"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>

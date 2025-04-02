@@ -46,7 +46,7 @@
   }
 
   // Set up menu items
-  [self setupMenuCommand:@"preferences" itemTitle:@"Preferences…" inMenu:@"LegendPhotos"];
+  [self setupMenuCommand:@"settings" itemTitle:@"Settings…" inMenu:@"LegendPhotos"];
   [self setupMenuCommand:@"showSidebar" itemTitle:@"Show Sidebar" inMenu:@"View"];
   [self setupMenuCommand:@"showFilmstrip" itemTitle:@"Show Filmstrip" inMenu:@"View"];
 
@@ -111,19 +111,6 @@
                                                       object:nil
                                                     userInfo:userInfo];
 }
-
-/* Now handled by dynamically created methods
-// Add a method to handle the Preferences menu item
-- (void)showPreferences:(id)sender {
-  // Send using the generic method
-  [self triggerMenuCommand:@"preferences"];
-}
-
-- (void)showSidebar:(id)sender {
-  // Send using the generic method
-  [self triggerMenuCommand:@"showSidebar"];
-}
-*/
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
