@@ -182,17 +182,28 @@ function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePat
   log('GitHub release created successfully');
 }
 
-// Function to push the commits
-function pushCommit() {
-  // Push the commits
-  log('Pushing commits to remote repository');
-  execCommand(
-    'git',
-    ['push', 'origin', 'HEAD'],
-    'Error pushing commits to remote repository:'
-  );
+// Function to tag and push the commits
+function tagAndPushCommit(config: AppConfig) {
+  const tagName = `v${config.version}`;
 
-  log('Commits successfully pushed to remote repository');
+    log(`Tagging latest commit with ${tagName}`);
+
+    // Tag the latest commit
+    execCommand(
+        'git',
+        ['tag', '-a', tagName, '-m', `Release ${tagName}`],
+        'Error tagging latest commit:'
+    );
+
+    // Push the tag
+    log('Pushing tag to remote repository');
+    execCommand(
+        'git',
+        ['push', 'origin', tagName],
+        'Error pushing tag to remote repository:'
+    );
+
+    log('Tag successfully pushed to remote repository');
 }
 
 // Main execution
@@ -217,7 +228,7 @@ function main() {
   createGitHubRelease(config, releaseNotes, zipFilePath);
 
   // Push the commits
-  pushCommit();
+  tagAndPushCommit(config);
 
   log(`Release process completed successfully for ${config.APP_NAME} v${config.version}`);
 }

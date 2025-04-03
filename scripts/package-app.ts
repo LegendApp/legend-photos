@@ -255,7 +255,7 @@ function generateAppcast(distDir: string, config: AppConfig) {
     [
       distDir,
       '--download-url-prefix',
-      `https://github.com/LegendApp/legend-photos/releases/tag/v${config.version}/`,
+      `https://github.com/LegendApp/legend-photos/releases/download/v${config.version}/`,
     ],
     'Error generating appcast:',
   );
@@ -339,51 +339,51 @@ function main() {
   }
 
   // Create dist directory if needed
-//   if (!existsSync(distDir)) {
-//     console.log(`Creating distribution directory: ${distDir}`);
-//     mkdirSync(distDir, {recursive: true});
-//   }
+  if (!existsSync(distDir)) {
+    console.log(`Creating distribution directory: ${distDir}`);
+    mkdirSync(distDir, {recursive: true});
+  }
 
-//   // Copy the app to dist with versioned name
-//   log(`Copying app to dist directory as ${versionedAppName}`);
-//   try {
-//     cpSync(builtAppPath, distAppPath, {recursive: true, force: true});
-//     console.log(`App copied successfully to: ${distAppPath}`);
-//   } catch (error) {
-//     console.error('Error copying app to dist directory:', error);
-//     process.exit(1);
-//   }
+  // Copy the app to dist with versioned name
+  log(`Copying app to dist directory as ${versionedAppName}`);
+  try {
+    cpSync(builtAppPath, distAppPath, {recursive: true, force: true});
+    console.log(`App copied successfully to: ${distAppPath}`);
+  } catch (error) {
+    console.error('Error copying app to dist directory:', error);
+    process.exit(1);
+  }
 
-//   // Notarize the copied app
-//   notarizeApp(distAppPath, config, appName);
+  // Notarize the copied app
+  notarizeApp(distAppPath, config, appName);
 
-//   // Create final zip
-//   log(`Packaging ${appName} v${config.version}`);
-//   log(`Creating distribution ZIP archive: ${zipFileName}`);
-//   execCommand(
-//     'ditto',
-//     [
-//       '-ck',
-//       '-rsrc',
-//       '--sequesterRsrc',
-//       '--keepParent',
-//       distAppPath,
-//       zipFilePath,
-//     ],
-//     'Error creating distribution zip archive:',
-//   );
+  // Create final zip
+  log(`Packaging ${appName} v${config.version}`);
+  log(`Creating distribution ZIP archive: ${zipFileName}`);
+  execCommand(
+    'ditto',
+    [
+      '-ck',
+      '-rsrc',
+      '--sequesterRsrc',
+      '--keepParent',
+      distAppPath,
+      zipFilePath,
+    ],
+    'Error creating distribution zip archive:',
+  );
 
-//   log('Packaging complete');
-//   console.log(`App has been packaged to: ${zipFilePath}`);
+  log('Packaging complete');
+  console.log(`App has been packaged to: ${zipFilePath}`);
 
-//   // Create version info file for Sparkle
-//   createVersionInfoFile(distDir, config, zipFileName);
+  // Create version info file for Sparkle
+  createVersionInfoFile(distDir, config, zipFileName);
 
-//   // Generate HTML update files from CHANGELOG.md
-//   generateChangelogHtml(distDir, config, appName);
+  // Generate HTML update files from CHANGELOG.md
+  generateChangelogHtml(distDir, config, appName);
 
-//   // Generate appcast
-//   generateAppcast(distDir, config);
+  // Generate appcast
+  generateAppcast(distDir, config);
 
   replaceSpacesInAppcast(distDir);
 }
