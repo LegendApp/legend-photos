@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Fix: Auto-updater wasn't configured correctly
+
 ## 0.2.0
 
 - Feature: Customizable hotkeys
