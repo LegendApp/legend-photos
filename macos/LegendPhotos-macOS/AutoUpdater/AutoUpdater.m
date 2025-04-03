@@ -17,6 +17,11 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(checkForUpdates:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
   dispatch_async(dispatch_get_main_queue(), ^{
+    if (self->_updateController.updater.sessionInProgress) {
+      reject(@"UPDATE_IN_PROGRESS", @"An update check is already in progress", nil);
+      return;
+    }
+    [self->_updateController startUpdater];
     [self->_updateController.updater checkForUpdates];
     resolve(@(YES));
   });
@@ -31,6 +36,9 @@ RCT_EXPORT_METHOD(getAutomaticallyChecksForUpdates:(RCTPromiseResolveBlock)resol
 
 RCT_EXPORT_METHOD(setAutomaticallyChecksForUpdates:(BOOL)value resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
   dispatch_async(dispatch_get_main_queue(), ^{
+    if (value) {
+        [self->_updateController startUpdater];
+    }
     self->_updateController.updater.automaticallyChecksForUpdates = value;
     resolve(@(YES));
   });
