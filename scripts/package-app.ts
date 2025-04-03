@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 
 import {spawnSync} from 'child_process';
-import {cpSync, existsSync, mkdirSync, readFileSync, writeFileSync} from 'fs';
+import {cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync} from 'fs';
 import path, {join, resolve} from 'path';
 
 // Types
@@ -268,6 +268,43 @@ function generateAppcast(distDir: string, config: AppConfig) {
   log('Appcast generation complete');
 }
 
+// Function to replace spaces with hyphens in appcast.xml and delta files
+function replaceSpacesInAppcast(distDir: string) {
+  log('Replacing spaces with hyphens in appcast.xml and delta files');
+
+  const appcastPath = join(distDir, 'appcast.xml');
+  const appcastContent = readFileSync(appcastPath, 'utf-8');
+
+  // First rename any delta files that have spaces
+  const deltaFiles = appcastContent.match(/Legend%20Photos[^"<>]+\.delta/g) || [];
+  console.log('deltaFiles', deltaFiles)
+  deltaFiles.forEach(deltaFile => {
+    const oldPath = join(distDir, deltaFile.replace(/(%20)+/g, ' '));
+    const newPath = join(distDir, deltaFile.replace(/(%20)+/g, '-'));
+    console.log('newPath',oldPath, newPath);
+
+    if (existsSync(oldPath)) {
+      cpSync(oldPath, newPath, { force: true });
+      rmSync(oldPath, {force: true});
+    }
+  });
+
+  // Now update the appcast.xml content to use the new filenames
+  const updatedContent = appcastContent.replace(/Legend(%20)Photos[^"<>]+\.delta/g, match => {
+    console.log('match', match)
+    return match.replace(/(%20)+/g, '-')
+  }
+  );
+
+  writeFileSync(appcastPath, updatedContent, 'utf-8');
+
+  // Also update the root appcast.xml
+  const rootAppcastPath = join(PROJECT_ROOT, 'appcast.xml');
+  writeFileSync(rootAppcastPath, updatedContent, 'utf-8');
+
+  log('Space replacement in appcast.xml and delta files complete');
+}
+
 // Main execution
 function main() {
   // Load configuration
@@ -286,9 +323,11 @@ function main() {
   );
   const distDir = join(PROJECT_ROOT, 'dist');
 
+  const appNameForZip = appName.replace(/\s+/g, '-');
+
   // Use the same base filename both for the app and zip
   const versionedAppName = `${appName}.app`;
-  const zipFileName = `${appName} ${config.version}.zip`;
+  const zipFileName = `${appNameForZip}-${config.version}.zip`;
   const distAppPath = join(distDir, versionedAppName);
   const zipFilePath = join(distDir, zipFileName);
 
@@ -300,51 +339,53 @@ function main() {
   }
 
   // Create dist directory if needed
-  if (!existsSync(distDir)) {
-    console.log(`Creating distribution directory: ${distDir}`);
-    mkdirSync(distDir, {recursive: true});
-  }
+//   if (!existsSync(distDir)) {
+//     console.log(`Creating distribution directory: ${distDir}`);
+//     mkdirSync(distDir, {recursive: true});
+//   }
 
-  // Copy the app to dist with versioned name
-  log(`Copying app to dist directory as ${versionedAppName}`);
-  try {
-    cpSync(builtAppPath, distAppPath, {recursive: true, force: true});
-    console.log(`App copied successfully to: ${distAppPath}`);
-  } catch (error) {
-    console.error('Error copying app to dist directory:', error);
-    process.exit(1);
-  }
+//   // Copy the app to dist with versioned name
+//   log(`Copying app to dist directory as ${versionedAppName}`);
+//   try {
+//     cpSync(builtAppPath, distAppPath, {recursive: true, force: true});
+//     console.log(`App copied successfully to: ${distAppPath}`);
+//   } catch (error) {
+//     console.error('Error copying app to dist directory:', error);
+//     process.exit(1);
+//   }
 
-  // Notarize the copied app
-  notarizeApp(distAppPath, config, appName);
+//   // Notarize the copied app
+//   notarizeApp(distAppPath, config, appName);
 
-  // Create final zip
-  log(`Packaging ${appName} v${config.version}`);
-  log(`Creating distribution ZIP archive: ${zipFileName}`);
-  execCommand(
-    'ditto',
-    [
-      '-ck',
-      '-rsrc',
-      '--sequesterRsrc',
-      '--keepParent',
-      distAppPath,
-      zipFilePath,
-    ],
-    'Error creating distribution zip archive:',
-  );
+//   // Create final zip
+//   log(`Packaging ${appName} v${config.version}`);
+//   log(`Creating distribution ZIP archive: ${zipFileName}`);
+//   execCommand(
+//     'ditto',
+//     [
+//       '-ck',
+//       '-rsrc',
+//       '--sequesterRsrc',
+//       '--keepParent',
+//       distAppPath,
+//       zipFilePath,
+//     ],
+//     'Error creating distribution zip archive:',
+//   );
 
-  log('Packaging complete');
-  console.log(`App has been packaged to: ${zipFilePath}`);
+//   log('Packaging complete');
+//   console.log(`App has been packaged to: ${zipFilePath}`);
 
-  // Create version info file for Sparkle
-  createVersionInfoFile(distDir, config, zipFileName);
+//   // Create version info file for Sparkle
+//   createVersionInfoFile(distDir, config, zipFileName);
 
-  // Generate HTML update files from CHANGELOG.md
-  generateChangelogHtml(distDir, config, appName);
+//   // Generate HTML update files from CHANGELOG.md
+//   generateChangelogHtml(distDir, config, appName);
 
-  // Generate appcast
-  generateAppcast(distDir, config);
+//   // Generate appcast
+//   generateAppcast(distDir, config);
+
+  replaceSpacesInAppcast(distDir);
 }
 
 // Run the script

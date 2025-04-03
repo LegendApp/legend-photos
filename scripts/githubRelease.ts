@@ -117,7 +117,7 @@ function getReleaseNotes(config: AppConfig): string {
 
 // Function to get the path to the zip file
 function getZipFilePath(config: AppConfig): string {
-  const zipFileName = `${config.APP_NAME} ${config.version}.zip`;
+  const zipFileName = `${config.APP_NAME.replace(/\s+/g, '-')}-${config.version}.zip`;
   const zipFilePath = join(PROJECT_ROOT, 'dist', zipFileName);
 
   if (!existsSync(zipFilePath)) {
@@ -129,6 +129,26 @@ function getZipFilePath(config: AppConfig): string {
   return zipFilePath;
 }
 
+// Function to get delta files for current version
+function getDeltaFiles(config: AppConfig): string[] {
+  const distDir = join(PROJECT_ROOT, 'dist');
+  const versionNumber = config.version.split('.').join('');
+
+  try {
+    return readFileSync(join(distDir, 'appcast.xml'), 'utf-8')
+      .split('\n')
+      .filter(line => line.includes('.delta"') && line.includes(`Legend-Photos${versionNumber}-`))
+      .map(line => {
+        const match = line.match(/Legend-Photos[^"]+\.delta/);
+        return match ? join(distDir, match[0]) : null;
+      })
+      .filter((path): path is string => path !== null && existsSync(path));
+  } catch (error) {
+    console.warn('Warning: Could not find delta files in appcast.xml');
+    return [];
+  }
+}
+
 // Function to create a GitHub release
 function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePath: string) {
   log(`Creating GitHub release for v${config.version}`);
@@ -136,7 +156,13 @@ function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePat
   const releaseTitle = `v${config.version}`;
   const tagName = `v${config.version}`;
 
-  // Create the release with the gh CLI
+  // Get delta files
+  const deltaFiles = getDeltaFiles(config);
+  if (deltaFiles.length > 0) {
+    log(`Found ${deltaFiles.length} delta files to upload`);
+  }
+
+  // Create the release with the gh CLI, including all files
   execCommand(
     'gh',
     [
@@ -148,6 +174,7 @@ function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePat
       '--notes',
       releaseNotes,
       zipFilePath,
+      ...deltaFiles,
     ],
     'Error creating GitHub release:'
   );
@@ -155,43 +182,17 @@ function createGitHubRelease(config: AppConfig, releaseNotes: string, zipFilePat
   log('GitHub release created successfully');
 }
 
-// Function to tag the latest commit and push the tag
-function tagAndPushCommit(config: AppConfig) {
-  const tagName = `v${config.version}`;
+// Function to push the commits
+function pushCommit() {
+  // Push the commits
+  log('Pushing commits to remote repository');
+  execCommand(
+    'git',
+    ['push', 'origin', 'HEAD'],
+    'Error pushing commits to remote repository:'
+  );
 
-  // Check if the latest commit is already tagged with this tag
-  log(`Checking if latest commit is already tagged with ${tagName}`);
-  const latestTagResult = spawnSync('git', ['tag', '--points-at', 'HEAD'], { stdio: 'pipe' });
-
-  if (latestTagResult.error) {
-    console.error('Error checking current tags:', latestTagResult.error);
-    process.exit(1);
-  }
-
-  const currentTags = latestTagResult.stdout.toString().trim().split('\n');
-
-  if (currentTags.includes(tagName)) {
-    log(`Latest commit is already tagged with ${tagName}, skipping tag creation`);
-  } else {
-    log(`Tagging latest commit with ${tagName}`);
-
-    // Tag the latest commit
-    execCommand(
-      'git',
-      ['tag', '-a', tagName, '-m', `Release ${tagName}`],
-      'Error tagging latest commit:'
-    );
-
-    // Push the tag
-    log('Pushing tag to remote repository');
-    execCommand(
-      'git',
-      ['push', 'origin', tagName],
-      'Error pushing tag to remote repository:'
-    );
-
-    log('Tag successfully pushed to remote repository');
-  }
+  log('Commits successfully pushed to remote repository');
 }
 
 // Main execution
@@ -215,8 +216,8 @@ function main() {
   // Create GitHub release
   createGitHubRelease(config, releaseNotes, zipFilePath);
 
-  // Tag the latest commit and push the tag
-  tagAndPushCommit(config);
+  // Push the commits
+  pushCommit();
 
   log(`Release process completed successfully for ${config.APP_NAME} v${config.version}`);
 }
