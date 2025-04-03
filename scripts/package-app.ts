@@ -255,7 +255,7 @@ function generateAppcast(distDir: string, config: AppConfig) {
     [
       distDir,
       '--download-url-prefix',
-      `https://github.com/LegendApp/legend-photos/releases/tag/${config.version}/`,
+      `https://github.com/LegendApp/legend-photos/releases/tag/v${config.version}/`,
     ],
     'Error generating appcast:',
   );

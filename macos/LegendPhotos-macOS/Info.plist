@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.2.2</string>
+	<string>0.2.3</string>
 	<key>CFBundleVersion</key>
-	<string>022</string>
+	<string>023</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAppTransportSecurity</key>
@@ -46,7 +46,7 @@
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/LegendApp/legend-photos/refs/heads/main/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/LegendApp/legend-photos/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>+9sqbwuHh6jqJHe35pGeXrZBCnQlH8tj3/q8NX+STQE=</string>
 </dict>

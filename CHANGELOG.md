@@ -1,3 +1,7 @@
+## 0.2.3
+
+- Fix: Auto-updater wasn't configured correctly
+
 ## 0.2.2
 
 - Fix: Auto-updater wasn't configured correctly, and added to menu

@@ -4,9 +4,9 @@ import { observe } from '@legendapp/state';
 
 export function initializeUpdater() {
   // Don't update in dev
-  if (__DEV__) {
-    return;
-  }
+  //   if (__DEV__) {
+  //     return;
+  //   }
 
   // TODO: Implement auto-updater
   let previousCheckUpdates = false;
