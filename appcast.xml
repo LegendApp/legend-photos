@@ -3,13 +3,28 @@
     <channel>
         <title>Legend Photos</title>
         <item>
+            <title>0.2.2</title>
+            <pubDate>Thu, 03 Apr 2025 20:00:31 +0800</pubDate>
+            <sparkle:version>022</sparkle:version>
+            <sparkle:shortVersionString>0.2.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[- Fix: Auto-updater wasn't configured correctly, and added to menu]]></description>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos%200.2.2.zip" length="8853204" type="application/octet-stream" sparkle:edSignature="v08GwLCByE1HyEDSyqM2AS1IHlPPOIdNsnaI1rZhH+Ow00VNbEtjwTk0Dqw5QkKHdaqF0UZykozpBOtzZBpmCg=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos022-021.delta" sparkle:deltaFrom="021" length="397998" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="WSV6cQi703a4MuLJay5fBVw2aPdWe9/NP4ge1SR9nvbxj4CDtIxQgLLMaA2xtk/t16GkginbKIVsEpJaxrRwAw=="/>
+                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos022-020.delta" sparkle:deltaFrom="020" length="408330" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="6N7RqUt/SUlwmpkDvuLyL5W8ihY0zdfk6kgOkBgq375zyTLjdqMsM1ZOM7SLc6yjGcg8f0yq1wJwFYd8k/GZBw=="/>
+                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos022-010.delta" sparkle:deltaFrom="010" length="630294" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="Xdos6hUS3gSGbvj7yYcfWdOK1PXwB8OJVpbaxpnyyG4VaDD+THyHHaqsyfjnvpmejgEP/iJp/x4XLJ6h7U47Ag=="/>
+                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos022-001.delta" sparkle:deltaFrom="001" length="626250" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="AoWdkSI7OIHY9AE8uUbU6khiHV2LJSewiGt8v6oWDDlcDVuv7R/8WP/4qIYh+363VZ6Z0KdN4j7Aft54zCjhCw=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
             <title>0.2.1</title>
             <pubDate>Thu, 03 Apr 2025 19:30:21 +0800</pubDate>
             <sparkle:version>021</sparkle:version>
             <sparkle:shortVersionString>0.2.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description><![CDATA[- Fix: Auto-updater wasn't configured correctly]]></description>
-            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.1/Legend%20Photos%200.2.1.zip" length="8852658" type="application/octet-stream" sparkle:edSignature="f0YZfxpGuRtGzG5Twgx0zzzi9bHWtZta/v1LX5zxkZteXOdQco/W8R9Gvf0+kPRFSTbC0WTHn21X0r+CUVnAAA=="/>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos%200.2.1.zip" length="8852658" type="application/octet-stream" sparkle:edSignature="f0YZfxpGuRtGzG5Twgx0zzzi9bHWtZta/v1LX5zxkZteXOdQco/W8R9Gvf0+kPRFSTbC0WTHn21X0r+CUVnAAA=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.1/Legend%20Photos021-020.delta" sparkle:deltaFrom="020" length="316770" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="J6OBZxR6BFuNNKPi7Gh6PyzIYlJlNqjhWoT6IKR261y/Ej6/sSiGhIbKa2vufaA4IIut8ovfcNBwi8Ps0PDHAQ=="/>
                 <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.1/Legend%20Photos021-010.delta" sparkle:deltaFrom="010" length="621482" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="q3y7dWwM88jJjEKG8H2qm1Q9NsVeBRxHGk739cB0Dghp19f+5illYbH9olILjmNypdkHNZqSX8O4VlzTWqtECg=="/>
@@ -27,22 +42,10 @@
 - Fix: Filmstrip performance was bad while opening a fullscreen photo
 - Fix: Miscellaneous small bugs
 - Misc: Using nativewind theming]]></description>
-            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.1/Legend%20Photos%200.2.0.zip" length="8852067" type="application/octet-stream" sparkle:edSignature="R6e1i3ypK3yJx0OHArD6FfoK+kwMS+gDNOit0onX36QLlz2hkaC20L9oFQHAmzPuNwHH4T76v2uaG13lfM0SAg=="/>
+            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.2/Legend%20Photos%200.2.0.zip" length="8852067" type="application/octet-stream" sparkle:edSignature="R6e1i3ypK3yJx0OHArD6FfoK+kwMS+gDNOit0onX36QLlz2hkaC20L9oFQHAmzPuNwHH4T76v2uaG13lfM0SAg=="/>
             <sparkle:deltas>
                 <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.0/Legend%20Photos020-010.delta" sparkle:deltaFrom="010" length="626022" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="7rdaPm6EZ9MWdcOYGpkqH1CRWdcTtGIRTtFRzUMnNlC8pZgda1vzvzGQXy2HKv0l+jyo8HkovL+n8EqaPqInBg=="/>
                 <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.0/Legend%20Photos020-001.delta" sparkle:deltaFrom="001" length="622506" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="ZFKPCB2QYaJOcY1IC5Q+LNl8kvIRN72kIocXax+Uk5+klp2d65Si7T3Kkc6iZiwq2tzMoQA2xGg5HPgwOvUDCA=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>0.1.0</title>
-            <pubDate>Mon, 24 Mar 2025 19:52:34 +0800</pubDate>
-            <sparkle:version>010</sparkle:version>
-            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[Initial release]]></description>
-            <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.2.1/Legend%20Photos%200.1.0.zip" length="8813996" type="application/octet-stream" sparkle:edSignature="sOARaBcwGk/l/DtAQImS89tYSJrwrsUFuEX49V1yLmQmK8xein8fEn4h9In2ygYdBFzMYSgBf2Lw26+k6FxADg=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/LegendApp/legend-photos/releases/tag/0.1.0/Legend%20Photos010-001.delta" sparkle:deltaFrom="001" length="17310" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="864832" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,en" sparkle:edSignature="VTN3ULDiJyzBm/InAHReaLQA2pQ9InnA2Bia3iUxFfWUgrVck0XX4lDLXhWSQ9s6znj0TbQ/is5xtDopNaPUCA=="/>
             </sparkle:deltas>
         </item>
     </channel>
