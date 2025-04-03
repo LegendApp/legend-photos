@@ -47,11 +47,9 @@
 
   // Set up menu items
   [self setupMenuCommand:@"settings" itemTitle:@"Settings…" inMenu:@"LegendPhotos"];
+  [self setupMenuCommand:@"checkForUpdates" itemTitle:@"Check for Updates..." inMenu:@"LegendPhotos"];
   [self setupMenuCommand:@"showSidebar" itemTitle:@"Show Sidebar" inMenu:@"View"];
   [self setupMenuCommand:@"showFilmstrip" itemTitle:@"Show Filmstrip" inMenu:@"View"];
-
-  // Add more menu items here as needed
-  // [self setupMenuCommand:@"someAction" itemTitle:@"Some Menu Item" inMenu:@"Menu Title"];
 }
 
 // Combined method to setup a menu command and connect it to a menu item

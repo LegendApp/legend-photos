@@ -1,3 +1,4 @@
+import { AutoUpdaterModule } from '@/native-modules/AutoUpdater';
 import { menuManager } from '@/native-modules/NativeMenuManager';
 import { settings$ } from '@/settings/SettingsFile';
 import { state$ } from '@/systems/State';
@@ -8,6 +9,9 @@ export function initializeMenuManager() {
     switch (e.commandId) {
       case 'settings':
         state$.showSettings.set(true);
+        break;
+      case 'checkForUpdates':
+        AutoUpdaterModule.checkForUpdates();
         break;
       case 'showSidebar':
         settings$.state.isSidebarOpen.toggle();

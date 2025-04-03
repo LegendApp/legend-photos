@@ -10,10 +10,16 @@ export function initializeUpdater() {
 
   // TODO: Implement auto-updater
   let previousCheckUpdates = false;
+  let isCheckingForUpdates = false;
   observe(async () => {
     const autoUpdateEnabled = settings$.general.autoUpdate.enabled.get();
     const checkInterval = settings$.general.autoUpdate.checkInterval.get() * 3600; // Convert hours to seconds
 
+    if (isCheckingForUpdates) {
+      return;
+    }
+
+    isCheckingForUpdates = true;
     try {
       // Configure auto-update based on settings
       await Promise.all([
@@ -25,10 +31,12 @@ export function initializeUpdater() {
 
       // Check for updates immediately on app start if enabled
       if (autoUpdateEnabled && !previousCheckUpdates) {
-        AutoUpdaterModule.checkForUpdates();
+        AutoUpdaterModule.checkForUpdatesInBackground();
       }
     } catch (err) {
       console.error('Failed to initialize auto-updater:', err);
+    } finally {
+      isCheckingForUpdates = false;
     }
 
     previousCheckUpdates = autoUpdateEnabled;

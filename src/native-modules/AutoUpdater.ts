@@ -10,6 +10,12 @@ interface AutoUpdaterInterface {
   checkForUpdates(): Promise<boolean>;
 
   /**
+   * Checks for updates in the background without showing UI
+   * @returns Promise that resolves when the check is initiated
+   */
+  checkForUpdatesInBackground(): Promise<boolean>;
+
+  /**
    * Gets whether automatic update checking is enabled
    * @returns Promise that resolves to a boolean indicating if automatic updates are enabled
    */
