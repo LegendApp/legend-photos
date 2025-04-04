@@ -28,13 +28,11 @@ export function initializeAnalytics() {
     appVersion: version,
   });
 
-  console.log('Tracking loaded event');
   Aptabase.trackEvent('loaded');
 
   onAppTerminate(async () => {
-    const now = performance.now();
     Aptabase.trackEvent('unloaded');
+    // Dispose which also flushes the events (added in the patched package)
     await Aptabase.dispose();
-    console.log('Disposed in', performance.now() - now);
   });
 }

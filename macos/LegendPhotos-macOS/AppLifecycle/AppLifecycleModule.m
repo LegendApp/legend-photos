@@ -36,6 +36,10 @@ RCT_EXPORT_MODULE();
     return;
   }
 
+  // Hide the main window to make the app appear to close faster
+  NSWindow *mainWindow = [NSApplication sharedApplication].mainWindow;
+  [mainWindow orderOut:nil];
+
   // Generate a unique ID for this termination event
   NSString *eventId = [[NSUUID UUID] UUIDString];
 
@@ -43,7 +47,7 @@ RCT_EXPORT_MODULE();
   [self sendEventWithName:@"willTerminate" body:@{@"eventId": eventId}];
 
   // Wait for a limited time for JavaScript to process the event
-  NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:0.5]; // 500ms timeout
+  NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:2]; // 2s timeout
 
   while ([timeoutDate timeIntervalSinceNow] > 0) {
     // Check if we received a response from JS
