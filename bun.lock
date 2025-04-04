@@ -4,6 +4,7 @@
     "": {
       "name": "legend-photos",
       "dependencies": {
+        "@aptabase/react-native": "^0.3.10",
         "@dr.pogodin/react-native-fs": "^2.32.0",
         "@fluentui-react-native/vibrancy-view": "^0.3.0",
         "@legendapp/list": "^1.0.0-beta.28",
@@ -44,11 +45,14 @@
   },
   "patchedDependencies": {
     "@fluentui-react-native/vibrancy-view@0.3.0": "patches/@fluentui-react-native%2Fvibrancy-view@0.3.0.patch",
+    "@aptabase/react-native@0.3.10": "patches/@aptabase%2Freact-native@0.3.10.patch",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
 
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
+
+    "@aptabase/react-native": ["@aptabase/react-native@0.3.10", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-EqmW+AZsigas5aWTjEa/EP3b6WQAsMHpp9iF6992qwNMIPQkSgqLn00tk4dAWBKywBbAlffEbviFtCXV9LNR8g=="],
 
     "@babel/code-frame": ["@babel/code-frame@7.26.2", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.25.9", "js-tokens": "^4.0.0", "picocolors": "^1.0.0" } }, "sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ=="],
 

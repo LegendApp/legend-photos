@@ -12,10 +12,18 @@ import { appView } from '@/systems/State';
 import { initializeUpdater } from '@/systems/Updater';
 import { HookKeyboard } from '@/systems/keyboard/HookKeyboard';
 import { ThemeProvider } from '@/theme/ThemeProvider';
+import Aptabase from '@aptabase/react-native';
+import { APTABASE_KEY } from '@env';
 import { HookWindowDimensions, windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
-import { useSelector } from '@legendapp/state/react';
+import { useMountOnce, useSelector } from '@legendapp/state/react';
 import type React from 'react';
-import { View } from 'react-native';
+import { useEffect } from 'react';
+import { AppState, Platform, View } from 'react-native';
+import { version } from '../package.json';
+
+Aptabase.init(APTABASE_KEY, {
+  appVersion: version,
+});
 
 registerDefaultPlugins();
 initializeUpdater();
@@ -23,6 +31,10 @@ initializeMenuManager();
 
 function App(): React.JSX.Element {
   const settingsLoaded = useSelector(isSettingsLoaded$);
+
+  useMountOnce(() => {
+    Aptabase.trackEvent('loaded');
+  });
 
   return (
     <ThemeProvider>
