@@ -23,33 +23,37 @@ type ThemeContextType = {
 // Create a global observable for theme state
 export const themeState$ = observable({
   currentTheme: 'dark' as ThemeType,
+  customColors: {
+    light: { ...colors.light },
+    dark: { ...colors.dark },
+  },
 });
 
 // Create theme variables for each theme
-const themes = {
+const getThemes = (theme$: typeof themeState$) => ({
   light: vars({
-    '--background-primary': colors.light.background.primary,
-    '--background-secondary': colors.light.background.secondary,
-    '--background-tertiary': colors.light.background.tertiary,
-    '--text-primary': colors.light.text.primary,
-    '--text-secondary': colors.light.text.secondary,
-    '--text-tertiary': colors.light.text.tertiary,
-    '--accent-primary': colors.light.accent.primary,
-    '--accent-secondary': colors.light.accent.secondary,
-    '--border': colors.light.border,
+    '--background-primary': theme$.customColors.light.background.primary.get(),
+    '--background-secondary': theme$.customColors.light.background.secondary.get(),
+    '--background-tertiary': theme$.customColors.light.background.tertiary.get(),
+    '--text-primary': theme$.customColors.light.text.primary.get(),
+    '--text-secondary': theme$.customColors.light.text.secondary.get(),
+    '--text-tertiary': theme$.customColors.light.text.tertiary.get(),
+    '--accent-primary': theme$.customColors.light.accent.primary.get(),
+    '--accent-secondary': theme$.customColors.light.accent.secondary.get(),
+    '--border': theme$.customColors.light.border.get(),
   }),
   dark: vars({
-    '--background-primary': colors.dark.background.primary,
-    '--background-secondary': colors.dark.background.secondary,
-    '--background-tertiary': colors.dark.background.tertiary,
-    '--text-primary': colors.dark.text.primary,
-    '--text-secondary': colors.dark.text.secondary,
-    '--text-tertiary': colors.dark.text.tertiary,
-    '--accent-primary': colors.dark.accent.primary,
-    '--accent-secondary': colors.dark.accent.secondary,
-    '--border': colors.dark.border,
+    '--background-primary': theme$.customColors.dark.background.primary.get(),
+    '--background-secondary': theme$.customColors.dark.background.secondary.get(),
+    '--background-tertiary': theme$.customColors.dark.background.tertiary.get(),
+    '--text-primary': theme$.customColors.dark.text.primary.get(),
+    '--text-secondary': theme$.customColors.dark.text.secondary.get(),
+    '--text-tertiary': theme$.customColors.dark.text.tertiary.get(),
+    '--accent-primary': theme$.customColors.dark.accent.primary.get(),
+    '--accent-secondary': theme$.customColors.dark.accent.secondary.get(),
+    '--border': theme$.customColors.dark.border.get(),
   }),
-};
+});
 
 // Create context for theme
 const ThemeContext = createContext<ThemeContextType>({
@@ -80,7 +84,7 @@ export const ThemeProvider = observer(({ children }: { children: ReactNode }) =>
 
   return (
     <ThemeContext.Provider value={contextValue}>
-      <View className="flex-1" style={themes[theme$.currentTheme.get()]}>
+      <View className="flex-1" style={getThemes(theme$)[theme$.currentTheme.get()]}>
         {children}
       </View>
     </ThemeContext.Provider>
