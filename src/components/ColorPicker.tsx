@@ -40,7 +40,7 @@ export const ColorPicker = ({ $color, label }: ColorPickerProps) => {
 
   return (
     <View className="flex-row items-center mb-4">
-      {label && <Text className="text-text-primary mr-3 w-24">{label}</Text>}
+      {label && <Text className="text-text-primary mr-3 w-32">{label}</Text>}
       <View className="flex-row items-center border border-border rounded-md overflow-hidden">
         <TextInput
           value={inputValue}

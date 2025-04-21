@@ -1,16 +1,10 @@
 import { observable } from '@legendapp/state';
-import { enableReactTracking } from '@legendapp/state/config/enableReactTracking';
-import { observer, useObservable } from '@legendapp/state/react';
+import { observer, use$, useObservable } from '@legendapp/state/react';
 import { vars } from 'nativewind';
 import * as React from 'react';
 import { type ReactNode, createContext, useContext } from 'react';
 import { View } from 'react-native';
 import { colors } from './colors';
-
-// Enable reactive state tracking
-enableReactTracking({
-  auto: true,
-});
 
 // Define theme types
 type ThemeType = 'light' | 'dark';
@@ -31,7 +25,7 @@ export const themeState$ = observable({
 
 // Create theme variables for each theme
 const getThemes = (theme$: typeof themeState$) => {
-  const { light, dark } = theme$.customColors.get();
+  const { light, dark } = use$(theme$.customColors);
   return {
     light: vars({
       '--background-primary': light.background.primary,
