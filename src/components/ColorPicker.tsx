@@ -1,14 +1,16 @@
 import { ColorPickerModule } from '@/native-modules/ColorPickerModule';
+import type { Observable } from '@legendapp/state';
+import { use$ } from '@legendapp/state/react';
 import React, { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 
 export interface ColorPickerProps {
-  color: string;
-  onColorChange: (color: string) => void;
   label?: string;
+  $color: Observable<string>;
 }
 
-export const ColorPicker = ({ color, onColorChange, label }: ColorPickerProps) => {
+export const ColorPicker = ({ $color, label }: ColorPickerProps) => {
+  const color = use$($color);
   const [inputValue, setInputValue] = useState(color);
 
   const handleColorChange = (text: string) => {
@@ -18,21 +20,18 @@ export const ColorPicker = ({ color, onColorChange, label }: ColorPickerProps) =
     setInputValue(text);
 
     if (isValidHex) {
-      onColorChange(text);
+      $color.set(text);
     }
   };
 
-  console.log('color', color);
-
   const handleColorSwatchPress = async () => {
     try {
-      console.log('open swatch');
       // Show the native color picker with current color
       const selectedColor = await ColorPickerModule.showColorPicker(color);
 
       // Update the input field and notify parent
       setInputValue(selectedColor);
-      onColorChange(selectedColor);
+      $color.set(selectedColor);
     } catch (error) {
       // Color picker was cancelled or there was an error
       console.log('Color picker cancelled or error:', error);
@@ -46,7 +45,7 @@ export const ColorPicker = ({ color, onColorChange, label }: ColorPickerProps) =
         <TextInput
           value={inputValue}
           onChangeText={handleColorChange}
-          className="px-3 py-1 text-text-primary bg-background-secondary"
+          className="px-3 py-1 text-text-primary w-24"
           placeholder="#RRGGBB"
           placeholderTextColor="#777"
           autoCapitalize="none"
