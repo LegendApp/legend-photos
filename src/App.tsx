@@ -7,6 +7,7 @@ import { TitleBar } from '@/features/TitleBar';
 import { PluginRenderer, registerDefaultPlugins } from '@/plugin-system/registerDefaultPlugins';
 import { isSettingsLoaded$ } from '@/settings/SettingsFile';
 import { SettingsWindowManager } from '@/settings/SettingsWindowManager';
+import { initializeAnalytics } from '@/systems/Analytics';
 import { initializeMenuManager } from '@/systems/MenuManager';
 import { appView } from '@/systems/State';
 import { initializeUpdater } from '@/systems/Updater';
@@ -20,6 +21,7 @@ import { View } from 'react-native';
 registerDefaultPlugins();
 initializeUpdater();
 initializeMenuManager();
+initializeAnalytics();
 
 function App(): React.JSX.Element {
   const settingsLoaded = useSelector(isSettingsLoaded$);

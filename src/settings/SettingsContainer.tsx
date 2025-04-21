@@ -15,7 +15,7 @@ const SETTING_CATEGORIES: SidebarItem[] = [
   //   { id: 'general', label: 'General' },
   { path: 'library', text: 'Library', depth: 0 },
   { path: 'hotkeys', text: 'Hotkeys', depth: 0 },
-  //   { id: 'themes', label: 'Themes' },
+  { path: 'themes', text: 'Themes', depth: 0 },
   //   { id: 'plugins', label: 'Plugins' },
   // Add more categories as needed
 ];

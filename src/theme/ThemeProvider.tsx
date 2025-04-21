@@ -1,16 +1,10 @@
 import { observable } from '@legendapp/state';
-import { enableReactTracking } from '@legendapp/state/config/enableReactTracking';
-import { observer, useObservable } from '@legendapp/state/react';
+import { observer, use$, useObservable } from '@legendapp/state/react';
 import { vars } from 'nativewind';
 import * as React from 'react';
 import { type ReactNode, createContext, useContext } from 'react';
 import { View } from 'react-native';
 import { colors } from './colors';
-
-// Enable reactive state tracking
-enableReactTracking({
-  auto: true,
-});
 
 // Define theme types
 type ThemeType = 'light' | 'dark';
@@ -23,32 +17,39 @@ type ThemeContextType = {
 // Create a global observable for theme state
 export const themeState$ = observable({
   currentTheme: 'dark' as ThemeType,
+  customColors: {
+    light: { ...colors.light },
+    dark: { ...colors.dark },
+  },
 });
 
 // Create theme variables for each theme
-const themes = {
-  light: vars({
-    '--background-primary': colors.light.background.primary,
-    '--background-secondary': colors.light.background.secondary,
-    '--background-tertiary': colors.light.background.tertiary,
-    '--text-primary': colors.light.text.primary,
-    '--text-secondary': colors.light.text.secondary,
-    '--text-tertiary': colors.light.text.tertiary,
-    '--accent-primary': colors.light.accent.primary,
-    '--accent-secondary': colors.light.accent.secondary,
-    '--border': colors.light.border,
-  }),
-  dark: vars({
-    '--background-primary': colors.dark.background.primary,
-    '--background-secondary': colors.dark.background.secondary,
-    '--background-tertiary': colors.dark.background.tertiary,
-    '--text-primary': colors.dark.text.primary,
-    '--text-secondary': colors.dark.text.secondary,
-    '--text-tertiary': colors.dark.text.tertiary,
-    '--accent-primary': colors.dark.accent.primary,
-    '--accent-secondary': colors.dark.accent.secondary,
-    '--border': colors.dark.border,
-  }),
+const getThemes = (theme$: typeof themeState$) => {
+  const { light, dark } = use$(theme$.customColors);
+  return {
+    light: vars({
+      '--background-primary': light.background.primary,
+      '--background-secondary': light.background.secondary,
+      '--background-tertiary': light.background.tertiary,
+      '--text-primary': light.text.primary,
+      '--text-secondary': light.text.secondary,
+      '--text-tertiary': light.text.tertiary,
+      '--accent-primary': light.accent.primary,
+      '--accent-secondary': light.accent.secondary,
+      '--border': light.border,
+    }),
+    dark: vars({
+      '--background-primary': dark.background.primary,
+      '--background-secondary': dark.background.secondary,
+      '--background-tertiary': dark.background.tertiary,
+      '--text-primary': dark.text.primary,
+      '--text-secondary': dark.text.secondary,
+      '--text-tertiary': dark.text.tertiary,
+      '--accent-primary': dark.accent.primary,
+      '--accent-secondary': dark.accent.secondary,
+      '--border': dark.border,
+    }),
+  };
 };
 
 // Create context for theme
@@ -80,7 +81,7 @@ export const ThemeProvider = observer(({ children }: { children: ReactNode }) =>
 
   return (
     <ThemeContext.Provider value={contextValue}>
-      <View className="flex-1" style={themes[theme$.currentTheme.get()]}>
+      <View className="flex-1" style={getThemes(theme$)[theme$.currentTheme.get()]}>
         {children}
       </View>
     </ThemeContext.Provider>

@@ -1,7 +1,6 @@
 import { Img } from '@/components/Img';
 import type { PhotoInfo } from '@/systems/FileManager';
 import { state$ } from '@/systems/State';
-import { Theme } from '@/systems/Theme';
 import { windowDimensions$ } from '@legend-kit/react-native/windowDimensions';
 import { LegendList, type LegendListRef } from '@legendapp/list';
 import { observer, useObserveEffect, useSelector } from '@legendapp/state/react';
@@ -31,7 +30,7 @@ const FilmstripItem = observer(({ item, index, size }: FilmstripItemProps) => {
   return (
     <Pressable onPress={handlePress} className="mx-1 py-2 rounded-md overflow-hidden">
       <View
-        className="rounded-md overflow-hidden"
+        className="rounded-md overflow-hidden border-accent-primary"
         style={[isSelected ? styles.selectedItem : null, { width: size, height: size }]}
       >
         <Img photo={item} className="w-full h-full" resizeMode={'cover'} native={false} />
@@ -89,6 +88,5 @@ export const Filmstrip = observer(() => {
 const styles = StyleSheet.create({
   selectedItem: {
     borderWidth: 2,
-    borderColor: Theme.colors.filmstrip.border,
   },
 });

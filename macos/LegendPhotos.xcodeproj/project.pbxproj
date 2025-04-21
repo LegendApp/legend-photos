@@ -25,6 +25,9 @@
 		696C10882D894A97007D2C65 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696C10842D894A97007D2C65 /* FilePicker.swift */; };
 		697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3202D8D804300833BFA /* FileSystemWatcher.swift */; };
 		697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */; };
+		6982A6552DB37F5F00040276 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6982A6522DB37F5F00040276 /* ColorPicker.swift */; };
+		6982A6562DB37F5F00040276 /* ColorPickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6982A6532DB37F5F00040276 /* ColorPickerBridge.m */; };
+		6999B4DC2DA0390C0094A257 /* AppLifecycleModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6999B4DA2DA0390C0094A257 /* AppLifecycleModule.m */; };
 		699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */; };
 		699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */; };
 		699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */; };
@@ -63,6 +66,9 @@
 		696C10852D894A97007D2C65 /* FilePickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePickerBridge.m; sourceTree = "<group>"; };
 		697CF3202D8D804300833BFA /* FileSystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
 		697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemWatcherBridge.m; sourceTree = "<group>"; };
+		6982A6522DB37F5F00040276 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		6982A6532DB37F5F00040276 /* ColorPickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorPickerBridge.m; sourceTree = "<group>"; };
+		6999B4DA2DA0390C0094A257 /* AppLifecycleModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppLifecycleModule.m; sourceTree = "<group>"; };
 		699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerBridge.m; sourceTree = "<group>"; };
 		699BFD822D8592E2000F2A33 /* RNKeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNKeyboardManager.swift; sourceTree = "<group>"; };
@@ -114,6 +120,8 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
+				6982A6542DB37F5F00040276 /* ColorPicker */,
+				6999B4DB2DA0390C0094A257 /* AppLifecycle */,
 				691BAF182D9842DA000EB46F /* MenuEvents */,
 				69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
@@ -189,6 +197,23 @@
 				697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */,
 			);
 			path = FileSystemWatcher;
+			sourceTree = "<group>";
+		};
+		6982A6542DB37F5F00040276 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				6982A6522DB37F5F00040276 /* ColorPicker.swift */,
+				6982A6532DB37F5F00040276 /* ColorPickerBridge.m */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		6999B4DB2DA0390C0094A257 /* AppLifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				6999B4DA2DA0390C0094A257 /* AppLifecycleModule.m */,
+			);
+			path = AppLifecycle;
 			sourceTree = "<group>";
 		};
 		699BFD832D8592E2000F2A33 /* KeyboardManager */ = {
@@ -511,6 +536,8 @@
 				691BAF192D9842DA000EB46F /* MenuEvents.m in Sources */,
 				69A6CFA92D884B9C00B29080 /* NativeButtonBridge.m in Sources */,
 				69A6CFAA2D884B9C00B29080 /* NativeButton.swift in Sources */,
+				6982A6552DB37F5F00040276 /* ColorPicker.swift in Sources */,
+				6982A6562DB37F5F00040276 /* ColorPickerBridge.m in Sources */,
 				6948E1662D900F46000F322F /* PhotoKit.swift in Sources */,
 				6948E1672D900F46000F322F /* PhotoKitBridge.m in Sources */,
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
@@ -524,6 +551,7 @@
 				69C50A802D8BA76F0029BC4C /* NativeImage.m in Sources */,
 				691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */,
 				693B2E2C2D85B9F800C3751E /* WindowControlsBridge.m in Sources */,
+				6999B4DC2DA0390C0094A257 /* AppLifecycleModule.m in Sources */,
 				693B2E2D2D85B9F800C3751E /* WindowControls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -705,10 +733,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -769,10 +794,7 @@
 				);
 				LLVM_LTO = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;

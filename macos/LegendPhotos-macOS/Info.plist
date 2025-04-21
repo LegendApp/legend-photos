@@ -44,7 +44,7 @@
 	<key>NSSupportsAutomaticTermination</key>
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
-	<true/>
+	<false/>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/LegendApp/legend-photos/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
