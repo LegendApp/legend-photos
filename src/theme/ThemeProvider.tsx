@@ -11,8 +11,8 @@ import { colors } from './colors';
 type ThemeType = 'light' | 'dark';
 type ThemeContextType = {
   currentTheme: ThemeType;
-  toggleTheme: () => void;
   setTheme: (theme: ThemeType) => void;
+  resetTheme: () => void;
 };
 
 interface ThemeSettings {
@@ -68,30 +68,25 @@ const getThemes = (theme$: typeof themeState$) => {
 };
 
 // Create context for theme
-const ThemeContext = createContext<ThemeContextType>({
-  currentTheme: 'dark',
-  toggleTheme: () => {},
-  setTheme: () => {},
-});
+const ThemeContext = createContext<ThemeContextType>(undefined as any);
 
 // Theme provider component
 export const ThemeProvider = observer(({ children }: { children: ReactNode }) => {
   const theme$ = useObservable(themeState$);
 
-  // Theme switcher methods
-  const toggleTheme = () => {
-    theme$.currentTheme.set(theme$.currentTheme.get() === 'dark' ? 'light' : 'dark');
-  };
-
   const setTheme = (theme: ThemeType) => {
     theme$.currentTheme.set(theme);
+  };
+
+  const resetTheme = () => {
+    theme$.customColors.set(clone(colors));
   };
 
   // Context value
   const contextValue: ThemeContextType = {
     currentTheme: theme$.currentTheme.get(),
-    toggleTheme,
     setTheme,
+    resetTheme,
   };
 
   return (
