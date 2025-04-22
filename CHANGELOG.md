@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Feature: Theme settings to set a bunch of colors
+
 ## 0.2.4
 
 - Fix: Auto-updater wasn't configured correctly
