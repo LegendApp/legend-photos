@@ -1,4 +1,5 @@
-import { observable } from '@legendapp/state';
+import { createJSONManager } from '@/utils/JSONManager';
+import { DocumentDirectoryPath } from '@dr.pogodin/react-native-fs';
 import { observer, use$, useObservable } from '@legendapp/state/react';
 import { vars } from 'nativewind';
 import * as React from 'react';
@@ -14,13 +15,27 @@ type ThemeContextType = {
   setTheme: (theme: ThemeType) => void;
 };
 
-// Create a global observable for theme state
-export const themeState$ = observable({
-  currentTheme: 'dark' as ThemeType,
+interface ThemeSettings {
+  currentTheme: ThemeType;
   customColors: {
-    light: { ...colors.light },
-    dark: { ...colors.dark },
+    light: typeof colors.light;
+    dark: typeof colors.dark;
+  };
+}
+
+function clone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value));
+}
+
+// Create a global observable for theme state
+export const themeState$ = createJSONManager<ThemeSettings>({
+  basePath: `${DocumentDirectoryPath}/.legendphotos/`,
+  filename: 'theme.json',
+  initialValue: {
+    currentTheme: 'dark' as ThemeType,
+    customColors: clone(colors),
   },
+  saveDefaultToFile: true,
 });
 
 // Create theme variables for each theme
