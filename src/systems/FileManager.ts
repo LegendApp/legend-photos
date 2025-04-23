@@ -7,6 +7,9 @@ const DEFAULT_PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
 // Observable state for dynamically added extensions from loader plugins
 export const additionalExtensions$ = observable<string[]>([]);
 
+// Global map to store jpg paths for raw files
+export const jpgFileMap = new Map<string, string>();
+
 // Function to get all supported photo extensions (default + from plugins)
 export function getAllPhotoExtensions(): string[] {
   return [...DEFAULT_PHOTO_EXTENSIONS, ...additionalExtensions$.get()];
@@ -30,16 +33,22 @@ export function getFolderName(path: string): string {
 }
 
 /**
+ * Extracts the base name of a file (without extension)
+ * @param filename - The filename with extension
+ * @returns The base name without extension
+ */
+function getBaseName(filename: string): string {
+  const lastDotIndex = filename.lastIndexOf('.');
+  return lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
+}
+
+/**
  * Checks if a string ends with any of the supported photo extensions
  * @param str - The string to check
  * @returns boolean indicating if the string is a photo file
  */
 function isPhotoFile(str: string): boolean {
   return getAllPhotoExtensions().some((ext) => str.toLowerCase().endsWith(ext.toLowerCase()));
-}
-
-function sortFilesByName(a: ReadDirResItemT, b: ReadDirResItemT) {
-  return a.name.localeCompare(b.name);
 }
 
 /**
@@ -52,19 +61,69 @@ export async function listPhotosInFolder(folderPath: string): Promise<PhotoInfo[
     // Read the directory contents
     const files = await readDir(folderPath);
 
-    files.sort(sortFilesByName);
+    // Map to track the best non-jpg file for each base name
+    const bestFileByBaseName = new Map<string, ReadDirResItemT>();
+    // Map to track jpg files by base name
+    const jpgFilesByBaseName = new Map<string, ReadDirResItemT>();
 
-    // Filter to only include photo files and extract just the filename
-    return files
-      .filter((file) => isPhotoFile(file.name))
-      .map((file) => ({
-        ...file,
-        id: `${folderPath}/${file.name}`,
-      }));
+    // Process all photo files in a single pass
+    for (const file of files) {
+      if (!isPhotoFile(file.name)) continue;
+
+      const baseName = getBaseName(file.name);
+      const fileExt = file.name.slice(file.name.lastIndexOf('.')).toLowerCase();
+      const fullPath = `${folderPath}/${file.name}`;
+
+      // Track jpg files separately
+      if (fileExt === '.jpg') {
+        jpgFilesByBaseName.set(baseName, file);
+        // Store in the global map
+        jpgFileMap.set(`${folderPath}/${baseName}`, fullPath);
+      }
+      // Store the non-jpg file if we haven't seen this base name yet
+      else if (!bestFileByBaseName.has(baseName)) {
+        bestFileByBaseName.set(baseName, file);
+      }
+    }
+
+    // Add jpg files that don't have a corresponding raw file
+    for (const [baseName, jpgFile] of jpgFilesByBaseName) {
+      if (!bestFileByBaseName.has(baseName)) {
+        bestFileByBaseName.set(baseName, jpgFile);
+      }
+    }
+
+    // Convert map to result array
+    const result: PhotoInfo[] = Array.from(bestFileByBaseName.values()).map((file) => ({
+      ...file,
+      id: `${folderPath}/${file.name}`,
+    }));
+
+    // Sort by filename
+    result.sort((a, b) => a.name.localeCompare(b.name));
+
+    return result;
   } catch (error) {
     console.error('Error listing photos:', error);
     return [];
   }
+}
+
+/**
+ * Gets the photo path, preferring jpg version if available
+ * @param filePath - The original file path
+ * @returns The jpg path if available, otherwise the original path
+ */
+export function getPhotoPath(filePath: string): string {
+  const folderPath = filePath.substring(0, filePath.lastIndexOf('/'));
+  const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+  const baseName = getBaseName(fileName);
+  const baseKey = `${folderPath}/${baseName}`;
+
+  // Check if we have a jpg version for this file
+  const jpgPath = jpgFileMap.get(baseKey);
+
+  return jpgPath || filePath;
 }
 
 /**

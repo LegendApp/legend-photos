@@ -1,6 +1,6 @@
 import { plugins$ } from '@/plugin-system/PluginManager';
 import type { LoaderPlugin } from '@/plugin-system/PluginTypes';
-import type { PhotoInfo } from '@/systems/FileManager';
+import { type PhotoInfo, getPhotoPath } from '@/systems/FileManager';
 import { observable } from '@legendapp/state';
 
 // Cache for converted file paths
@@ -38,7 +38,14 @@ export function findLoaderForPath(filePath: string): LoaderPlugin | undefined {
 export async function loadImagePath(photo: PhotoInfo): Promise<string> {
   if (!photo) return '';
 
+  const jpgPath = getPhotoPath(photo.path);
+
+  if (jpgPath) {
+    return jpgPath;
+  }
+
   const { path } = photo;
+
   const cachedPath = imagePathCache$[path].get();
 
   // Use cached path if available
