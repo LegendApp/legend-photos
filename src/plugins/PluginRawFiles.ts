@@ -22,8 +22,8 @@ export const PluginRawFiles: LoaderPlugin = {
 
   loadAsImage: async (filePath: string) => {
     try {
-      // Extract JPEG preview from RAW file
-      const jpgPath = await ExifTool.rawToJpg(filePath);
+      // Extract JPEG preview from RAW file with a max size of 1000px
+      const jpgPath = await ExifTool.rawToJpg(filePath, 1000);
       return jpgPath;
     } catch (error) {
       console.error('Error converting RAW to JPG:', error);
