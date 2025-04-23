@@ -23,6 +23,7 @@
 		6948E1692D901337000F322F /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6948E1682D901337000F322F /* Photos.framework */; };
 		696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 696C10852D894A97007D2C65 /* FilePickerBridge.m */; };
 		696C10882D894A97007D2C65 /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696C10842D894A97007D2C65 /* FilePicker.swift */; };
+		6972A7F82DB939C90001B528 /* ExifTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6972A7F62DB939C90001B528 /* ExifTool.m */; };
 		697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3202D8D804300833BFA /* FileSystemWatcher.swift */; };
 		697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */; };
 		6982A6552DB37F5F00040276 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6982A6522DB37F5F00040276 /* ColorPicker.swift */; };
@@ -64,6 +65,8 @@
 		6948E1682D901337000F322F /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		696C10842D894A97007D2C65 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		696C10852D894A97007D2C65 /* FilePickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilePickerBridge.m; sourceTree = "<group>"; };
+		6972A7F52DB939C90001B528 /* ExifTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExifTool.h; sourceTree = "<group>"; };
+		6972A7F62DB939C90001B528 /* ExifTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExifTool.m; sourceTree = "<group>"; };
 		697CF3202D8D804300833BFA /* FileSystemWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemWatcher.swift; sourceTree = "<group>"; };
 		697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemWatcherBridge.m; sourceTree = "<group>"; };
 		6982A6522DB37F5F00040276 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
@@ -120,20 +123,21 @@
 		5142014A2437B4B30078DB4F /* LegendPhotos-macOS */ = {
 			isa = PBXGroup;
 			children = (
-				6982A6542DB37F5F00040276 /* ColorPicker */,
-				6999B4DB2DA0390C0094A257 /* AppLifecycle */,
-				691BAF182D9842DA000EB46F /* MenuEvents */,
-				69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */,
 				5142014B2437B4B30078DB4F /* AppDelegate.h */,
 				5142014C2437B4B30078DB4F /* AppDelegate.mm */,
+				6999B4DB2DA0390C0094A257 /* AppLifecycle */,
 				514201512437B4B40078DB4F /* Assets.xcassets */,
 				69A5FF222D90267F00EE1C87 /* AutoUpdater */,
+				6982A6542DB37F5F00040276 /* ColorPicker */,
+				6972A7F72DB939C90001B528 /* ExifTool */,
 				696C10862D894A97007D2C65 /* FilePicker */,
 				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				514201562437B4B40078DB4F /* Info.plist */,
 				699BFD832D8592E2000F2A33 /* KeyboardManager */,
+				69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */,
 				514201572437B4B40078DB4F /* main.m */,
 				514201532437B4B40078DB4F /* Main.storyboard */,
+				691BAF182D9842DA000EB46F /* MenuEvents */,
 				69A6CFA82D884B9C00B29080 /* NativeButton */,
 				69C50A7F2D8BA76F0029BC4C /* NativeImage */,
 				6948E1652D900F46000F322F /* PhotoKit */,
@@ -188,6 +192,15 @@
 				696C10852D894A97007D2C65 /* FilePickerBridge.m */,
 			);
 			path = FilePicker;
+			sourceTree = "<group>";
+		};
+		6972A7F72DB939C90001B528 /* ExifTool */ = {
+			isa = PBXGroup;
+			children = (
+				6972A7F52DB939C90001B528 /* ExifTool.h */,
+				6972A7F62DB939C90001B528 /* ExifTool.m */,
+			);
+			path = ExifTool;
 			sourceTree = "<group>";
 		};
 		697CF3222D8D804300833BFA /* FileSystemWatcher */ = {
@@ -543,6 +556,7 @@
 				699BFD892D8592E2000F2A33 /* RNKeyboardManager.swift in Sources */,
 				514201582437B4B40078DB4F /* main.m in Sources */,
 				69A5FF232D90267F00EE1C87 /* AutoUpdater.m in Sources */,
+				6972A7F82DB939C90001B528 /* ExifTool.m in Sources */,
 				69B089872D88646500529066 /* SFSymbol.swift in Sources */,
 				69B089882D88646500529066 /* SFSymbolBridge.m in Sources */,
 				69A5FF272D90268100EE1C87 /* WindowManager.m in Sources */,
