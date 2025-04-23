@@ -44,80 +44,87 @@ RCT_EXPORT_METHOD(rawToJpg:(nonnull NSString *)rawFilePath
 
   // Create output path by replacing the extension with jpg
   NSString *outputFilePath = [rawFilePath stringByDeletingPathExtension];
-  outputFilePath = [outputFilePath stringByAppendingString:@"_thumb.jpg"];
+  outputFilePath = [outputFilePath stringByAppendingString:@".jpg"];
 
-  // Set resized output path if maxSize is provided
-  NSString *resizedOutputFilePath = nil;
-  if ([maxSize integerValue] > 0) {
-    resizedOutputFilePath = [rawFilePath stringByDeletingPathExtension];
-    resizedOutputFilePath = [resizedOutputFilePath stringByAppendingString:@".jpg"];
-  }
-
-  // Create task
-  NSTask *task = [[NSTask alloc] init];
-  [task setLaunchPath:_exifToolPath];
-
-  // Set arguments for extracting preview - no output file specified in arguments
-  [task setArguments:@[@"-b", @"-PreviewImage", rawFilePath]];
-
-  NSPipe *pipe = [NSPipe pipe];
-  [task setStandardOutput:pipe];
-  [task setStandardError:[NSPipe pipe]]; // Separate pipe for stderr
-
-  NSFileHandle *fileHandle = [pipe fileHandleForReading];
-
-  // Log the command details for debugging
-  NSLog(@"ExifTool executing command: %@ %@ > %@", _exifToolPath, [task.arguments componentsJoinedByString:@" "], outputFilePath);
+  // Create a temporary file path for the intermediate image
+  NSString *tempFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:
+                            [NSString stringWithFormat:@"%@_temp.jpg", [[NSUUID UUID] UUIDString]]];
 
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     @try {
-      [task launch];
+      // First, extract the preview image from RAW to a temporary file
+      NSTask *extractTask = [[NSTask alloc] init];
+      [extractTask setLaunchPath:_exifToolPath];
+      [extractTask setArguments:@[@"-b", @"-PreviewImage", rawFilePath]];
 
-      // Read the binary data from stdout
-      NSData *outputData = [fileHandle readDataToEndOfFile];
+      NSPipe *extractPipe = [NSPipe pipe];
+      [extractTask setStandardOutput:extractPipe];
+      NSPipe *extractErrorPipe = [NSPipe pipe];
+      [extractTask setStandardError:extractErrorPipe];
 
-      // Write the binary data to the output file
+      // Read the output from exiftool and write it to the temp file
+      NSFileHandle *extractHandle = [extractPipe fileHandleForReading];
+
+      NSLog(@"ExifTool extracting preview: %@ -b -PreviewImage %@", _exifToolPath, rawFilePath);
+
+      [extractTask launch];
+      NSData *imageData = [extractHandle readDataToEndOfFile];
+      [extractTask waitUntilExit];
+
+      int extractStatus = [extractTask terminationStatus];
+
+      if (extractStatus != 0 || imageData.length == 0) {
+        // Handle error from exiftool
+        NSFileHandle *errorHandle = [extractErrorPipe fileHandleForReading];
+        NSData *errorData = [errorHandle readDataToEndOfFile];
+        NSString *errorOutput = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+          reject(@"EXTRACT_FAILED", [NSString stringWithFormat:@"Failed to extract preview: %@", errorOutput], nil);
+        });
+        return;
+      }
+
+      // Write the image data to the temporary file
       NSError *writeError = nil;
-      BOOL writeSuccess = [outputData writeToFile:outputFilePath options:NSDataWritingAtomic error:&writeError];
+      BOOL writeSuccess = [imageData writeToFile:tempFilePath options:NSDataWritingAtomic error:&writeError];
 
-      [task waitUntilExit];
-      int status = [task terminationStatus];
+      if (!writeSuccess) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          reject(@"WRITE_FAILED", [NSString stringWithFormat:@"Failed to write temp file: %@", writeError.localizedDescription], nil);
+        });
+        return;
+      }
 
-      dispatch_async(dispatch_get_main_queue(), ^{
-        if (status == 0 && writeSuccess) {
-          // Check if the output file exists and has content
-          if ([[NSFileManager defaultManager] fileExistsAtPath:outputFilePath]) {
-            // If maxSize is provided, resize the image
-            if (resizedOutputFilePath != nil) {
-              [self resizeImage:outputFilePath toPath:resizedOutputFilePath withMaxSize:maxSize completion:^(BOOL success, NSString *errorMessage) {
-                if (success) {
-                  resolve(resizedOutputFilePath);
-                } else {
-                  reject(@"RESIZE_FAILED", errorMessage, nil);
-                }
-              }];
-            } else {
-              resolve(outputFilePath);
-            }
-          } else {
-            reject(@"FILE_NOT_CREATED", @"Failed to create output file", nil);
-          }
-        } else if (!writeSuccess) {
-          reject(@"WRITE_FAILED", [NSString stringWithFormat:@"Failed to write output file: %@", writeError.localizedDescription], nil);
-        } else {
-          // Get stderr output for error message
-          NSFileHandle *errorHandle = [((NSPipe *)[task standardError]) fileHandleForReading];
-          NSData *errorData = [errorHandle readDataToEndOfFile];
-          NSString *errorOutput = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
+      // Now resize the temporary image directly to the final output
+      [self resizeImage:tempFilePath toPath:outputFilePath withMaxSize:maxSize completion:^(BOOL success, NSString *errorMessage) {
+        // Delete the temporary file
+        NSError *removeError = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:&removeError];
 
-          reject(@"COMMAND_FAILED", [NSString stringWithFormat:@"exiftool failed with status %d: %@", status, errorOutput], nil);
+        if (removeError) {
+          NSLog(@"Warning: Failed to remove temporary file: %@", removeError.localizedDescription);
         }
-      });
+
+        // Return the result
+        dispatch_async(dispatch_get_main_queue(), ^{
+          if (success) {
+            resolve(outputFilePath);
+          } else {
+            reject(@"RESIZE_FAILED", errorMessage, nil);
+          }
+        });
+      }];
     } @catch (NSException *exception) {
       NSString *errorMessage = [NSString stringWithFormat:@"Exception: %@", exception.reason];
       dispatch_async(dispatch_get_main_queue(), ^{
         reject(@"EXCEPTION", errorMessage, nil);
       });
+
+      // Try to delete the temporary file if it exists
+      if ([[NSFileManager defaultManager] fileExistsAtPath:tempFilePath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:tempFilePath error:nil];
+      }
     }
   });
 }
