@@ -74,6 +74,8 @@ export interface LoaderPlugin extends Plugin {
   supportedExtensions: string[];
   // Initialize the plugin
   initialize: () => Promise<void>;
+  // Load a file as an image and return the path to the loaded image
+  loadAsImage: (filePath: string) => Promise<string>;
 }
 
 // Plugin registry

@@ -10,6 +10,7 @@ import { PluginRawFiles } from '@/plugins/PluginRawFiles';
 export * from '@/plugin-system/PluginManager';
 export * from '@/plugin-system/PluginRenderer';
 export * from '@/plugin-system/PluginTypes';
+export * from '@/plugin-system/PluginLoaders';
 
 // List of default plugins
 const defaultPlugins: (DisplayPlugin | SourcePlugin | LoaderPlugin)[] = [
