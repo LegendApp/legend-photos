@@ -1,5 +1,6 @@
 import type {
   DisplayPlugin,
+  LoaderPlugin,
   PluginLocation,
   PluginRegistry,
   SourcePlugin,
@@ -18,7 +19,7 @@ export const pluginSettings$ = observable<Record<string, any>>({});
 const hotkeyUnsubscribers = new Map<string, () => void>();
 
 // Register a plugin with the system
-export function registerPlugin(plugin: DisplayPlugin | SourcePlugin): void {
+export function registerPlugin(plugin: DisplayPlugin | SourcePlugin | LoaderPlugin): void {
   // Store the plugin in the registry
   plugins$[plugin.id].set(plugin);
 
@@ -69,7 +70,7 @@ export function registerPlugin(plugin: DisplayPlugin | SourcePlugin): void {
       const unsub = onHotkeys(processedHotkeys);
       hotkeyUnsubscribers.set(plugin.id, unsub);
     }
-  } else if (plugin.type === 'source') {
+  } else if (plugin.type === 'source' || plugin.type === 'loader') {
     plugin.initialize();
   }
 }

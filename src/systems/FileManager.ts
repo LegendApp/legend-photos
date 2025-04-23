@@ -1,7 +1,16 @@
 import { type ReadDirResItemT, readDir } from '@dr.pogodin/react-native-fs';
+import { observable } from '@legendapp/state';
 
 // Supported photo file extensions
-const PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
+const DEFAULT_PHOTO_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.heic', '.webp'];
+
+// Observable state for dynamically added extensions from loader plugins
+export const additionalExtensions$ = observable<string[]>([]);
+
+// Function to get all supported photo extensions (default + from plugins)
+export function getAllPhotoExtensions(): string[] {
+  return [...DEFAULT_PHOTO_EXTENSIONS, ...additionalExtensions$.get()];
+}
 
 export interface PhotoInfo extends ReadDirResItemT {
   id: string;
@@ -26,7 +35,7 @@ export function getFolderName(path: string): string {
  * @returns boolean indicating if the string is a photo file
  */
 function isPhotoFile(str: string): boolean {
-  return PHOTO_EXTENSIONS.some((ext) => str.toLowerCase().endsWith(ext.toLowerCase()));
+  return getAllPhotoExtensions().some((ext) => str.toLowerCase().endsWith(ext.toLowerCase()));
 }
 
 function sortFilesByName(a: ReadDirResItemT, b: ReadDirResItemT) {

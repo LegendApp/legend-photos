@@ -6,7 +6,7 @@ import type { ViewStyle } from 'react-native';
 export type PluginLocation = 'root' | 'photosGrid' | 'photo' | 'photoFullscreen' | 'metadata';
 
 // Define types of plugins
-export type PluginType = 'display' | 'source';
+export type PluginType = 'display' | 'source' | 'loader';
 
 // Plugin settings interface
 export interface PluginSettings {
@@ -65,6 +65,15 @@ export interface SourcePlugin extends Plugin {
   getSidebarGroups: () => SidebarGroup[];
   // Get photos in a specific folder
   getPhotos: (folderPath: string) => Promise<PhotoInfo[]>;
+}
+
+// Loader plugin interface for extending file support
+export interface LoaderPlugin extends Plugin {
+  type: 'loader';
+  // File extensions this loader supports (without dots)
+  supportedExtensions: string[];
+  // Initialize the plugin
+  initialize: () => Promise<void>;
 }
 
 // Plugin registry
