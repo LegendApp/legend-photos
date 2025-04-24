@@ -1,4 +1,5 @@
 import { ExifTool } from '@/native-modules/ExifTool';
+import { FileSystem } from '@/native-modules/FileSystem';
 import type { LoaderPlugin } from '@/plugin-system/PluginTypes';
 import { additionalExtensions$ } from '@/systems/FileManager';
 import {
@@ -60,20 +61,16 @@ async function checkDependencies(): Promise<void> {
 
     console.log('ExifTool downloaded successfully, extracting...');
 
-    // Extract the zip file using native commands via NativeModules
-    // For this we would need to implement a native module method that handles unzipping
-    // Alternatively, use a command execution module to run 'unzip' command
-
-    // For now, we'll assume a hypothetical unzip function
-    await unzipFile(EXIFTOOL_ZIP_PATH, EXIFTOOL_BIN_DIR);
+    // Extract the zip file using our native module
+    await FileSystem.unzipFile(EXIFTOOL_ZIP_PATH, EXIFTOOL_BIN_DIR);
 
     // Clean up the zip file
     await unlink(EXIFTOOL_ZIP_PATH);
 
     console.log('ExifTool installed successfully at:', EXIFTOOL_PATH);
 
-    // Make sure the binary is executable
-    await makeExecutable(EXIFTOOL_PATH);
+    // Make sure the binary is executable using our native module
+    await FileSystem.makeExecutable(EXIFTOOL_PATH);
   } catch (error) {
     console.error('Error installing ExifTool:', error);
   }
@@ -109,21 +106,3 @@ export const PluginRawFiles: LoaderPlugin = {
     }
   },
 };
-
-// Helper function for unzipping (would need to be implemented as a native module)
-async function unzipFile(zipPath: string, destPath: string): Promise<void> {
-  // This should be implemented using a native module
-  // For now, it's a placeholder
-  console.log(`Unzipping ${zipPath} to ${destPath}`);
-  // Implementation would go here
-  throw new Error('Unzip functionality not implemented');
-}
-
-// Helper function to make a file executable (would need to be implemented as a native module)
-async function makeExecutable(filePath: string): Promise<void> {
-  // This should be implemented using a native module
-  // For now, it's a placeholder
-  console.log(`Making ${filePath} executable`);
-  // Implementation would go here
-  throw new Error('Make executable functionality not implemented');
-}

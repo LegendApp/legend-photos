@@ -28,6 +28,8 @@
 		697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */; };
 		6982A6552DB37F5F00040276 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6982A6522DB37F5F00040276 /* ColorPicker.swift */; };
 		6982A6562DB37F5F00040276 /* ColorPickerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6982A6532DB37F5F00040276 /* ColorPickerBridge.m */; };
+		6998CBB32DB9FCA2001EEB78 /* FileSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6998CBB02DB9FCA2001EEB78 /* FileSystem.m */; };
+		6998CBB42DB9FCA2001EEB78 /* FileSystemBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 6998CBB12DB9FCA2001EEB78 /* FileSystemBridge.m */; };
 		6999B4DC2DA0390C0094A257 /* AppLifecycleModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 6999B4DA2DA0390C0094A257 /* AppLifecycleModule.m */; };
 		699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */; };
 		699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */; };
@@ -71,6 +73,9 @@
 		697CF3212D8D804300833BFA /* FileSystemWatcherBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemWatcherBridge.m; sourceTree = "<group>"; };
 		6982A6522DB37F5F00040276 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		6982A6532DB37F5F00040276 /* ColorPickerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorPickerBridge.m; sourceTree = "<group>"; };
+		6998CBAF2DB9FCA2001EEB78 /* FileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		6998CBB02DB9FCA2001EEB78 /* FileSystem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystem.m; sourceTree = "<group>"; };
+		6998CBB12DB9FCA2001EEB78 /* FileSystemBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileSystemBridge.m; sourceTree = "<group>"; };
 		6999B4DA2DA0390C0094A257 /* AppLifecycleModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppLifecycleModule.m; sourceTree = "<group>"; };
 		699BFD7F2D8592E2000F2A33 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		699BFD802D8592E2000F2A33 /* KeyboardManagerBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardManagerBridge.m; sourceTree = "<group>"; };
@@ -131,6 +136,7 @@
 				6982A6542DB37F5F00040276 /* ColorPicker */,
 				6972A7F72DB939C90001B528 /* ExifTool */,
 				696C10862D894A97007D2C65 /* FilePicker */,
+				6998CBB22DB9FCA2001EEB78 /* FileSystem */,
 				697CF3222D8D804300833BFA /* FileSystemWatcher */,
 				514201562437B4B40078DB4F /* Info.plist */,
 				699BFD832D8592E2000F2A33 /* KeyboardManager */,
@@ -219,6 +225,16 @@
 				6982A6532DB37F5F00040276 /* ColorPickerBridge.m */,
 			);
 			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		6998CBB22DB9FCA2001EEB78 /* FileSystem */ = {
+			isa = PBXGroup;
+			children = (
+				6998CBAF2DB9FCA2001EEB78 /* FileSystem.h */,
+				6998CBB02DB9FCA2001EEB78 /* FileSystem.m */,
+				6998CBB12DB9FCA2001EEB78 /* FileSystemBridge.m */,
+			);
+			path = FileSystem;
 			sourceTree = "<group>";
 		};
 		6999B4DB2DA0390C0094A257 /* AppLifecycle */ = {
@@ -543,6 +559,8 @@
 				696C10872D894A97007D2C65 /* FilePickerBridge.m in Sources */,
 				697CF3232D8D804300833BFA /* FileSystemWatcher.swift in Sources */,
 				697CF3242D8D804300833BFA /* FileSystemWatcherBridge.m in Sources */,
+				6998CBB32DB9FCA2001EEB78 /* FileSystem.m in Sources */,
+				6998CBB42DB9FCA2001EEB78 /* FileSystemBridge.m in Sources */,
 				696C10882D894A97007D2C65 /* FilePicker.swift in Sources */,
 				699BFD872D8592E2000F2A33 /* KeyboardManager.swift in Sources */,
 				699BFD882D8592E2000F2A33 /* KeyboardManagerBridge.m in Sources */,
