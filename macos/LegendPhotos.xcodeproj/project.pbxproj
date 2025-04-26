@@ -12,7 +12,7 @@
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		514201582437B4B40078DB4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 514201572437B4B40078DB4F /* main.m */; };
-		5EB78D7BEB2BA57902B88DF3 /* libPods-LegendPhotos-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */; };
+		53DE364B08DFD2256184CD4D /* libPods-LegendPhotos-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 190D839E737CD076B4AD838B /* libPods-LegendPhotos-macOS.a */; };
 		691BAF192D9842DA000EB46F /* MenuEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 691BAF172D9842DA000EB46F /* MenuEvents.m */; };
 		691ECB372D881B49001CE76E /* RNSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB342D881B49001CE76E /* RNSegmentedControl.swift */; };
 		691ECB382D881B49001CE76E /* SegmentedControlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 691ECB352D881B49001CE76E /* SegmentedControlBridge.m */; };
@@ -42,8 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LegendPhotos-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Legend Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Legend Photos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		190D839E737CD076B4AD838B /* libPods-LegendPhotos-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LegendPhotos-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F8EEDA247044CE1FAE37B40 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		514201492437B4B30078DB4F /* Legend Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Legend Photos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5142014B2437B4B30078DB4F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -52,7 +52,7 @@
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201572437B4B40078DB4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		5888FDF9EAEF4A5A3ADDD834 /* Pods-LegendPhotos-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		691BAF162D9842DA000EB46F /* MenuEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuEvents.h; sourceTree = "<group>"; };
 		691BAF172D9842DA000EB46F /* MenuEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuEvents.m; sourceTree = "<group>"; };
 		691ECB342D881B49001CE76E /* RNSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNSegmentedControl.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		69C50A7D2D8BA76F0029BC4C /* NativeImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeImage.h; sourceTree = "<group>"; };
 		69C50A7E2D8BA76F0029BC4C /* NativeImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeImage.m; sourceTree = "<group>"; };
 		69C85E282D9176EE00B1690E /* LegendPhotos-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LegendPhotos-macOS.entitlements"; sourceTree = "<group>"; };
-		6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.debug.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8A0B6873A423E7F97FBBABD5 /* Pods-LegendPhotos-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegendPhotos-macOS.release.xcconfig"; path = "Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -100,7 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6948E1692D901337000F322F /* Photos.framework in Frameworks */,
-				5EB78D7BEB2BA57902B88DF3 /* libPods-LegendPhotos-macOS.a in Frameworks */,
+				53DE364B08DFD2256184CD4D /* libPods-LegendPhotos-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +112,7 @@
 			children = (
 				6948E1682D901337000F322F /* Photos.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				0518C4428D1D611D7CD74EC1 /* libPods-LegendPhotos-macOS.a */,
+				190D839E737CD076B4AD838B /* libPods-LegendPhotos-macOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -305,8 +305,8 @@
 		D0C3DE715E8130417AF7F33F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */,
-				6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */,
+				5888FDF9EAEF4A5A3ADDD834 /* Pods-LegendPhotos-macOS.debug.xcconfig */,
+				8A0B6873A423E7F97FBBABD5 /* Pods-LegendPhotos-macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -336,13 +336,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "LegendPhotos-macOS" */;
 			buildPhases = (
-				1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */,
+				F88CFF982C6CBF9E9102DDBF /* [CP] Check Pods Manifest.lock */,
 				514201452437B4B30078DB4F /* Sources */,
 				514201462437B4B30078DB4F /* Frameworks */,
 				514201472437B4B30078DB4F /* Resources */,
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
-				12678002D56ABA06316C1A67 /* [CP] Copy Pods Resources */,
-				29BD3D1DEBFE2F80DEAAD548 /* [CP] Embed Pods Frameworks */,
+				012945CF9AEC1F9E5D790735 /* [CP] Embed Pods Frameworks */,
+				95150FF96E65DE1C1FD64C91 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -425,57 +425,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
 		};
-		12678002D56ABA06316C1A67 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/dr-pogodin-react-native-fs/RNFS_PrivacyInfo.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNFS_PrivacyInfo.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LegendPhotos-macOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		29BD3D1DEBFE2F80DEAAD548 /* [CP] Embed Pods Frameworks */ = {
+		012945CF9AEC1F9E5D790735 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -512,6 +462,56 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
+		};
+		95150FF96E65DE1C1FD64C91 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/dr-pogodin-react-native-fs/RNFS_PrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNFS_PrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LegendPhotos-macOS/Pods-LegendPhotos-macOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F88CFF982C6CBF9E9102DDBF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LegendPhotos-macOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -615,7 +615,7 @@
 		};
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E3A4903C70CA590711C8752 /* Pods-LegendPhotos-macOS.debug.xcconfig */;
+			baseConfigurationReference = 5888FDF9EAEF4A5A3ADDD834 /* Pods-LegendPhotos-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -642,7 +642,7 @@
 		};
 		5142015C2437B4B40078DB4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6706840D8B16C60F2EF973CA /* Pods-LegendPhotos-macOS.release.xcconfig */;
+			baseConfigurationReference = 8A0B6873A423E7F97FBBABD5 /* Pods-LegendPhotos-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR = none;
@@ -733,7 +733,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -794,7 +797,10 @@
 				);
 				LLVM_LTO = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = YES;
