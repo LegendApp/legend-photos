@@ -83,7 +83,12 @@ This project uses [Bun](https://bun.sh) as the package manager and [Biome](https
    bun install
    ```
 
-2. Run the app:
+2. Install Pods:
+   ```bash
+   bunx pod-install
+   ```
+
+3. Run the app:
    ```bash
    bun run mac
    ```
